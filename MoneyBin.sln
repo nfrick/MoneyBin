@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyBin", "MoneyBin\MoneyBin.csproj", "{BC4D7075-FA38-462F-A615-B69B333DE746}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataClasses", "DataClasses\DataClasses\DataClasses.csproj", "{14B084A3-F098-40E7-A4D8-89F7034B2FC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControls", "CustomControls\CustomControls.csproj", "{EEAC5DD7-42AA-4A02-AA7B-364249CA8907}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyBinAlarm", "MoneyBinAlarm\MoneyBinAlarm.csproj", "{266EBD7D-C6E9-4949-ADD2-B057937057B5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC4D7075-FA38-462F-A615-B69B333DE746}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC4D7075-FA38-462F-A615-B69B333DE746}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC4D7075-FA38-462F-A615-B69B333DE746}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC4D7075-FA38-462F-A615-B69B333DE746}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14B084A3-F098-40E7-A4D8-89F7034B2FC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14B084A3-F098-40E7-A4D8-89F7034B2FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14B084A3-F098-40E7-A4D8-89F7034B2FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14B084A3-F098-40E7-A4D8-89F7034B2FC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEAC5DD7-42AA-4A02-AA7B-364249CA8907}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEAC5DD7-42AA-4A02-AA7B-364249CA8907}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEAC5DD7-42AA-4A02-AA7B-364249CA8907}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEAC5DD7-42AA-4A02-AA7B-364249CA8907}.Release|Any CPU.Build.0 = Release|Any CPU
+		{266EBD7D-C6E9-4949-ADD2-B057937057B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{266EBD7D-C6E9-4949-ADD2-B057937057B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{266EBD7D-C6E9-4949-ADD2-B057937057B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{266EBD7D-C6E9-4949-ADD2-B057937057B5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
