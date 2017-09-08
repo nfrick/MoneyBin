@@ -26,7 +26,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmRules));
             this.dataGridViewRules = new System.Windows.Forms.DataGridView();
-            this.RuleBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.isNewDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.bancoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -40,6 +39,7 @@
             this.descricaoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ocorrenciasDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.updatedDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.RuleBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRules)).BeginInit();
@@ -52,9 +52,9 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGridViewRules);
-            this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(5);
             this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1404, 711);
-            this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(5);
             this.toolStripContainer1.Size = new System.Drawing.Size(1404, 711);
             // 
             // dataGridViewRules
@@ -79,7 +79,7 @@
             this.dataGridViewRules.DataSource = this.RuleBindingSource;
             this.dataGridViewRules.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewRules.Location = new System.Drawing.Point(0, 0);
-            this.dataGridViewRules.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridViewRules.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridViewRules.Name = "dataGridViewRules";
             this.dataGridViewRules.RowTemplate.Height = 26;
             this.dataGridViewRules.Size = new System.Drawing.Size(1404, 711);
@@ -91,10 +91,6 @@
             this.dataGridViewRules.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridViewRules_UserAddedRow);
             this.dataGridViewRules.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridViewRules_UserDeletedRow);
             this.dataGridViewRules.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dataGridViewRules_UserDeletingRow);
-            // 
-            // RuleBindingSource
-            // 
-            this.RuleBindingSource.DataSource = typeof(DataClasses.Rule);
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -191,14 +187,19 @@
             this.updatedDataGridViewCheckBoxColumn.Name = "updatedDataGridViewCheckBoxColumn";
             this.updatedDataGridViewCheckBoxColumn.Visible = false;
             // 
+            // RuleBindingSource
+            // 
+            this.RuleBindingSource.DataSource = typeof(DataClasses.Rule);
+            // 
             // frmRules
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1404, 711);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "frmRules";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Rules";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmRules_FormClosing);
             this.Load += new System.EventHandler(this.frmRules_Load);

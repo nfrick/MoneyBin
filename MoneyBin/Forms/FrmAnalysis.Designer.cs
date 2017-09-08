@@ -333,6 +333,7 @@
             this.ClientSize = new System.Drawing.Size(1805, 885);
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "frmAnalysis";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Analysis";
             this.Load += new System.EventHandler(this.frmAnalysis_Load);
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);

@@ -27,17 +27,17 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvPayments = new System.Windows.Forms.DataGridView();
-            this.daysLateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dayDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.groupDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nextPaymentBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.labelNumDays = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.daysLateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dayDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPayments)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nextPaymentBindingSource)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -84,49 +84,6 @@
             this.dgvPayments.Size = new System.Drawing.Size(616, 406);
             this.dgvPayments.TabIndex = 1;
             this.dgvPayments.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
-            // 
-            // daysLateDataGridViewTextBoxColumn
-            // 
-            this.daysLateDataGridViewTextBoxColumn.DataPropertyName = "DaysLate";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.Format = "00";
-            this.daysLateDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
-            this.daysLateDataGridViewTextBoxColumn.HeaderText = "DaysLate";
-            this.daysLateDataGridViewTextBoxColumn.Name = "daysLateDataGridViewTextBoxColumn";
-            this.daysLateDataGridViewTextBoxColumn.ReadOnly = true;
-            this.daysLateDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // dateDataGridViewTextBoxColumn
-            // 
-            this.dateDataGridViewTextBoxColumn.DataPropertyName = "Date";
-            this.dateDataGridViewTextBoxColumn.HeaderText = "Date";
-            this.dateDataGridViewTextBoxColumn.Name = "dateDataGridViewTextBoxColumn";
-            this.dateDataGridViewTextBoxColumn.ReadOnly = true;
-            this.dateDataGridViewTextBoxColumn.Width = 120;
-            // 
-            // dayDataGridViewTextBoxColumn
-            // 
-            this.dayDataGridViewTextBoxColumn.DataPropertyName = "Day";
-            this.dayDataGridViewTextBoxColumn.HeaderText = "Day";
-            this.dayDataGridViewTextBoxColumn.Name = "dayDataGridViewTextBoxColumn";
-            this.dayDataGridViewTextBoxColumn.ReadOnly = true;
-            this.dayDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // groupDataGridViewTextBoxColumn
-            // 
-            this.groupDataGridViewTextBoxColumn.DataPropertyName = "Group";
-            this.groupDataGridViewTextBoxColumn.HeaderText = "Group";
-            this.groupDataGridViewTextBoxColumn.Name = "groupDataGridViewTextBoxColumn";
-            this.groupDataGridViewTextBoxColumn.ReadOnly = true;
-            this.groupDataGridViewTextBoxColumn.Width = 120;
-            // 
-            // descriptionDataGridViewTextBoxColumn
-            // 
-            this.descriptionDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
-            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
-            this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // nextPaymentBindingSource
             // 
@@ -208,6 +165,49 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "IN";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // daysLateDataGridViewTextBoxColumn
+            // 
+            this.daysLateDataGridViewTextBoxColumn.DataPropertyName = "DaysLate";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.Format = "00";
+            this.daysLateDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            this.daysLateDataGridViewTextBoxColumn.HeaderText = "DaysLate";
+            this.daysLateDataGridViewTextBoxColumn.Name = "daysLateDataGridViewTextBoxColumn";
+            this.daysLateDataGridViewTextBoxColumn.ReadOnly = true;
+            this.daysLateDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // dateDataGridViewTextBoxColumn
+            // 
+            this.dateDataGridViewTextBoxColumn.DataPropertyName = "Date";
+            this.dateDataGridViewTextBoxColumn.HeaderText = "Date";
+            this.dateDataGridViewTextBoxColumn.Name = "dateDataGridViewTextBoxColumn";
+            this.dateDataGridViewTextBoxColumn.ReadOnly = true;
+            this.dateDataGridViewTextBoxColumn.Width = 120;
+            // 
+            // dayDataGridViewTextBoxColumn
+            // 
+            this.dayDataGridViewTextBoxColumn.DataPropertyName = "Day";
+            this.dayDataGridViewTextBoxColumn.HeaderText = "Day";
+            this.dayDataGridViewTextBoxColumn.Name = "dayDataGridViewTextBoxColumn";
+            this.dayDataGridViewTextBoxColumn.ReadOnly = true;
+            this.dayDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // groupDataGridViewTextBoxColumn
+            // 
+            this.groupDataGridViewTextBoxColumn.DataPropertyName = "Group";
+            this.groupDataGridViewTextBoxColumn.HeaderText = "Group";
+            this.groupDataGridViewTextBoxColumn.Name = "groupDataGridViewTextBoxColumn";
+            this.groupDataGridViewTextBoxColumn.ReadOnly = true;
+            this.groupDataGridViewTextBoxColumn.Width = 120;
+            // 
+            // descriptionDataGridViewTextBoxColumn
+            // 
+            this.descriptionDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
+            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
+            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
+            this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // frmMain
             // 

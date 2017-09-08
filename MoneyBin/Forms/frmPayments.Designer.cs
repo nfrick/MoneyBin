@@ -61,8 +61,10 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGridViewPayments);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1093, 582);
-            this.toolStripContainer1.Size = new System.Drawing.Size(1093, 582);
+            this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1457, 716);
+            this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.toolStripContainer1.Size = new System.Drawing.Size(1457, 716);
             // 
             // paymentBindingSource
             // 
@@ -105,9 +107,10 @@
             this.dataGridViewPayments.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewPayments.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewPayments.Location = new System.Drawing.Point(0, 0);
+            this.dataGridViewPayments.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dataGridViewPayments.Name = "dataGridViewPayments";
             this.dataGridViewPayments.RowTemplate.Height = 26;
-            this.dataGridViewPayments.Size = new System.Drawing.Size(1093, 582);
+            this.dataGridViewPayments.Size = new System.Drawing.Size(1457, 716);
             this.dataGridViewPayments.TabIndex = 1;
             this.dataGridViewPayments.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.PaymentsdataGridView_CellFormatting);
             this.dataGridViewPayments.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPayments_CellValueChanged);
@@ -266,11 +269,13 @@
             // 
             // frmPayments
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1093, 582);
+            this.ClientSize = new System.Drawing.Size(1457, 716);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.Name = "frmPayments";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Payments";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmPayments_FormClosing);
             this.Load += new System.EventHandler(this.frmPayments_Load);

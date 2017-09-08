@@ -136,7 +136,7 @@ namespace DataClasses {
         /// <param name="termino"></param>
         /// <param name="grupoCategoria"></param>
         /// <returns></returns>
-        public static List<BalanceItem> GetBalanceItems(string banco, DateTime inicio, DateTime termino, string grupoCategoria) {
+        public static List<BalanceItem> GetBalanceItems(string banco, DateTime inicio, DateTime termino, string grupoCategoria = "") {
             try {
                 var items = new List<BalanceItem>();
 
@@ -189,13 +189,25 @@ namespace DataClasses {
         /// </summary>
         /// <returns></returns>
         public static List<BalanceItem> GetBalanceItems() {
+            return GetItems("sp_BalanceItems");
+        }
+
+        /// <summary>
+        /// Returns a list of BalanceItems pending adjustment
+        /// </summary>
+        /// <returns></returns>
+        public static List<BalanceItem> GetAcertoItems() {
+            return GetItems("sp_AcertosPendentes");
+        }
+
+        private static List<BalanceItem> GetItems(string procedure) {
             try {
                 var items = new List<BalanceItem>();
 
                 using (var conn = GetConnection()) {
                     var cmd = new SqlCommand {
                         Connection = conn,
-                        CommandText = "sp_BalanceItems",
+                        CommandText = procedure,
                         CommandType = System.Data.CommandType.StoredProcedure
                     };
                     var reader = cmd.ExecuteReader();
@@ -211,6 +223,7 @@ namespace DataClasses {
                 return null;
             }
         }
+        
 
         /// <summary>
         /// Insert or Update edited BalanceItems

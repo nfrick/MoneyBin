@@ -49,14 +49,14 @@ namespace MoneyBin {
                     }
                 }
 
-                var existing = MoneyBinDB.GetBalanceItems(banco.Banco, banco.MinData, banco.MaxData, "");
+                var existing = MoneyBinDB.GetBalanceItems(banco.Banco, banco.MinData, banco.MaxData);   //, "");
                 //var repetidos = _newBalanceItems.Where(r => r.Grupo != "S" && existing.Any(d => d.Equals(r)));
                 var repetidos = _newBalanceItems.Where(r => r.Grupo != "S" && existing.Any(d => d.Similar(r)));
                 foreach (var rep in repetidos)
                     rep.Updated = false;
 
                 var grupos = new[] { "N", "O", "E", "B" };
-                var aCompensar = MoneyBinDB.GetBalanceItems(banco.Banco, banco.MinData.AddDays(-45), banco.MaxData, "")
+                var aCompensar = MoneyBinDB.GetBalanceItems(banco.Banco, banco.MinData.AddDays(-45), banco.MaxData) //  , "")
                     .Where(bi => grupos.Contains(bi.Grupo)).ToList();
                 var compensacoes = _newBalanceItems.Where(bi => bi.Historico.StartsWith("Transferência on line") &&
                 bi.Historico.EndsWith("AYRTON FRICK") && bi.Valor > 0 && bi.Updated);

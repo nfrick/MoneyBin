@@ -93,6 +93,7 @@
             this.dgvCalendar.Margin = new System.Windows.Forms.Padding(4);
             this.dgvCalendar.Name = "dgvCalendar";
             this.dgvCalendar.RowTemplate.Height = 26;
+            this.dgvCalendar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvCalendar.Size = new System.Drawing.Size(487, 294);
             this.dgvCalendar.TabIndex = 1;
             this.dgvCalendar.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridViewCalendar_CellFormatting);
@@ -103,6 +104,7 @@
             this.paymentIDDataGridViewTextBoxColumn.DataPropertyName = "PaymentID";
             this.paymentIDDataGridViewTextBoxColumn.HeaderText = "PaymentID";
             this.paymentIDDataGridViewTextBoxColumn.Name = "paymentIDDataGridViewTextBoxColumn";
+            this.paymentIDDataGridViewTextBoxColumn.ReadOnly = true;
             this.paymentIDDataGridViewTextBoxColumn.Visible = false;
             // 
             // dayDataGridViewTextBoxColumn
@@ -118,6 +120,7 @@
             this.groupDataGridViewTextBoxColumn.DataPropertyName = "Group";
             this.groupDataGridViewTextBoxColumn.HeaderText = "Group";
             this.groupDataGridViewTextBoxColumn.Name = "groupDataGridViewTextBoxColumn";
+            this.groupDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // descriptionDataGridViewTextBoxColumn
             // 
@@ -125,6 +128,7 @@
             this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
             this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
             this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
+            this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // paidDataGridViewCheckBoxColumn
             // 
@@ -177,6 +181,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "frmCalendar";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Calendar";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmCalendar_FormClosing);
             this.Load += new System.EventHandler(this.frmCalendar_Load);

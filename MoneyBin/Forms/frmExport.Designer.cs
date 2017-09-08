@@ -24,69 +24,47 @@
         /// </summary>
         private void InitializeComponent() {
             this.textBoxSaveAs = new System.Windows.Forms.TextBox();
-            this.radioButtonCSV = new System.Windows.Forms.RadioButton();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.radioButtonXML = new System.Windows.Forms.RadioButton();
             this.buttonExport = new System.Windows.Forms.Button();
             this.labelMin = new System.Windows.Forms.Label();
             this.labelMid = new System.Windows.Forms.Label();
             this.labelMax = new System.Windows.Forms.Label();
-            this.buttonSaveAs = new System.Windows.Forms.Button();
+            this.buttonPickFile = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioButtonAcertos = new System.Windows.Forms.RadioButton();
+            this.radioButtonExcel = new System.Windows.Forms.RadioButton();
+            this.radioButtonXML = new System.Windows.Forms.RadioButton();
+            this.radioButtonCSV = new System.Windows.Forms.RadioButton();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBoxSaveAs
             // 
             this.textBoxSaveAs.Enabled = false;
-            this.textBoxSaveAs.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSaveAs.Location = new System.Drawing.Point(95, 76);
-            this.textBoxSaveAs.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxSaveAs.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxSaveAs.Location = new System.Drawing.Point(19, 130);
+            this.textBoxSaveAs.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.textBoxSaveAs.Name = "textBoxSaveAs";
-            this.textBoxSaveAs.Size = new System.Drawing.Size(479, 26);
+            this.textBoxSaveAs.Size = new System.Drawing.Size(676, 30);
             this.textBoxSaveAs.TabIndex = 0;
-            // 
-            // radioButtonCSV
-            // 
-            this.radioButtonCSV.AutoSize = true;
-            this.radioButtonCSV.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonCSV.Location = new System.Drawing.Point(16, 15);
-            this.radioButtonCSV.Margin = new System.Windows.Forms.Padding(4);
-            this.radioButtonCSV.Name = "radioButtonCSV";
-            this.radioButtonCSV.Size = new System.Drawing.Size(55, 23);
-            this.radioButtonCSV.TabIndex = 2;
-            this.radioButtonCSV.TabStop = true;
-            this.radioButtonCSV.Text = "CSV";
-            this.radioButtonCSV.UseVisualStyleBackColor = true;
-            this.radioButtonCSV.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(17, 139);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(4);
+            this.progressBar1.Location = new System.Drawing.Point(19, 194);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(640, 28);
+            this.progressBar1.Size = new System.Drawing.Size(720, 40);
             this.progressBar1.TabIndex = 3;
-            // 
-            // radioButtonXML
-            // 
-            this.radioButtonXML.AutoSize = true;
-            this.radioButtonXML.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonXML.Location = new System.Drawing.Point(16, 43);
-            this.radioButtonXML.Margin = new System.Windows.Forms.Padding(4);
-            this.radioButtonXML.Name = "radioButtonXML";
-            this.radioButtonXML.Size = new System.Drawing.Size(58, 23);
-            this.radioButtonXML.TabIndex = 4;
-            this.radioButtonXML.TabStop = true;
-            this.radioButtonXML.Text = "XML";
-            this.radioButtonXML.UseVisualStyleBackColor = true;
-            this.radioButtonXML.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
+            this.progressBar1.Visible = false;
             // 
             // buttonExport
             // 
-            this.buttonExport.Location = new System.Drawing.Point(583, 15);
-            this.buttonExport.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonExport.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonExport.Location = new System.Drawing.Point(626, 14);
+            this.buttonExport.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.buttonExport.Name = "buttonExport";
-            this.buttonExport.Size = new System.Drawing.Size(75, 64);
+            this.buttonExport.Size = new System.Drawing.Size(113, 54);
             this.buttonExport.TabIndex = 5;
             this.buttonExport.Text = "Export";
             this.buttonExport.UseVisualStyleBackColor = true;
@@ -95,72 +73,151 @@
             // labelMin
             // 
             this.labelMin.AutoSize = true;
-            this.labelMin.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMin.Location = new System.Drawing.Point(16, 119);
+            this.labelMin.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelMin.Location = new System.Drawing.Point(18, 173);
             this.labelMin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelMin.Name = "labelMin";
             this.labelMin.Size = new System.Drawing.Size(17, 19);
             this.labelMin.TabIndex = 6;
             this.labelMin.Text = "0";
+            this.labelMin.Visible = false;
             // 
             // labelMid
             // 
             this.labelMid.AutoSize = true;
-            this.labelMid.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMid.Location = new System.Drawing.Point(317, 119);
+            this.labelMid.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelMid.Location = new System.Drawing.Point(357, 173);
             this.labelMid.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelMid.Name = "labelMid";
-            this.labelMid.Size = new System.Drawing.Size(61, 19);
+            this.labelMid.Size = new System.Drawing.Size(33, 19);
             this.labelMid.TabIndex = 7;
-            this.labelMid.Text = "labelMid";
+            this.labelMid.Text = "Mid";
             this.labelMid.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.labelMid.Visible = false;
             // 
             // labelMax
             // 
             this.labelMax.AutoSize = true;
-            this.labelMax.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMax.Location = new System.Drawing.Point(619, 119);
+            this.labelMax.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelMax.Location = new System.Drawing.Point(707, 173);
             this.labelMax.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelMax.Name = "labelMax";
-            this.labelMax.Size = new System.Drawing.Size(63, 19);
+            this.labelMax.Size = new System.Drawing.Size(35, 19);
             this.labelMax.TabIndex = 8;
-            this.labelMax.Text = "labelMax";
+            this.labelMax.Text = "Max";
             this.labelMax.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.labelMax.Visible = false;
             // 
-            // buttonSaveAs
+            // buttonPickFile
             // 
-            this.buttonSaveAs.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonSaveAs.Location = new System.Drawing.Point(16, 76);
-            this.buttonSaveAs.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonSaveAs.Name = "buttonSaveAs";
-            this.buttonSaveAs.Size = new System.Drawing.Size(71, 27);
-            this.buttonSaveAs.TabIndex = 9;
-            this.buttonSaveAs.Text = "Save as";
-            this.buttonSaveAs.UseVisualStyleBackColor = true;
-            this.buttonSaveAs.Click += new System.EventHandler(this.buttonSaveAs_Click);
+            this.buttonPickFile.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonPickFile.Location = new System.Drawing.Point(703, 130);
+            this.buttonPickFile.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.buttonPickFile.Name = "buttonPickFile";
+            this.buttonPickFile.Size = new System.Drawing.Size(36, 30);
+            this.buttonPickFile.TabIndex = 9;
+            this.buttonPickFile.Text = "...";
+            this.buttonPickFile.UseVisualStyleBackColor = true;
+            this.buttonPickFile.Click += new System.EventHandler(this.buttonPickFile_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.radioButtonAcertos);
+            this.groupBox1.Controls.Add(this.radioButtonExcel);
+            this.groupBox1.Controls.Add(this.radioButtonXML);
+            this.groupBox1.Controls.Add(this.radioButtonCSV);
+            this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(19, 14);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox1.Size = new System.Drawing.Size(356, 101);
+            this.groupBox1.TabIndex = 14;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Format";
+            // 
+            // radioButtonAcertos
+            // 
+            this.radioButtonAcertos.AutoSize = true;
+            this.radioButtonAcertos.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonAcertos.Location = new System.Drawing.Point(167, 58);
+            this.radioButtonAcertos.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.radioButtonAcertos.Name = "radioButtonAcertos";
+            this.radioButtonAcertos.Size = new System.Drawing.Size(172, 27);
+            this.radioButtonAcertos.TabIndex = 17;
+            this.radioButtonAcertos.TabStop = true;
+            this.radioButtonAcertos.Text = "Acertos Pendentes";
+            this.radioButtonAcertos.UseVisualStyleBackColor = true;
+            this.radioButtonAcertos.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
+            // 
+            // radioButtonExcel
+            // 
+            this.radioButtonExcel.AutoSize = true;
+            this.radioButtonExcel.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonExcel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.radioButtonExcel.Location = new System.Drawing.Point(167, 27);
+            this.radioButtonExcel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.radioButtonExcel.Name = "radioButtonExcel";
+            this.radioButtonExcel.Size = new System.Drawing.Size(69, 27);
+            this.radioButtonExcel.TabIndex = 16;
+            this.radioButtonExcel.TabStop = true;
+            this.radioButtonExcel.Text = "Excel";
+            this.radioButtonExcel.UseVisualStyleBackColor = true;
+            this.radioButtonExcel.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
+            // 
+            // radioButtonXML
+            // 
+            this.radioButtonXML.AutoSize = true;
+            this.radioButtonXML.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonXML.Location = new System.Drawing.Point(24, 58);
+            this.radioButtonXML.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.radioButtonXML.Name = "radioButtonXML";
+            this.radioButtonXML.Size = new System.Drawing.Size(64, 27);
+            this.radioButtonXML.TabIndex = 15;
+            this.radioButtonXML.TabStop = true;
+            this.radioButtonXML.Text = "XML";
+            this.radioButtonXML.UseVisualStyleBackColor = true;
+            this.radioButtonXML.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
+            // 
+            // radioButtonCSV
+            // 
+            this.radioButtonCSV.AutoSize = true;
+            this.radioButtonCSV.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonCSV.Location = new System.Drawing.Point(24, 27);
+            this.radioButtonCSV.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.radioButtonCSV.Name = "radioButtonCSV";
+            this.radioButtonCSV.Size = new System.Drawing.Size(62, 27);
+            this.radioButtonCSV.TabIndex = 14;
+            this.radioButtonCSV.TabStop = true;
+            this.radioButtonCSV.Text = "CSV";
+            this.radioButtonCSV.UseVisualStyleBackColor = true;
+            this.radioButtonCSV.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
             // 
             // frmExport
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(673, 175);
-            this.Controls.Add(this.buttonSaveAs);
+            this.ClientSize = new System.Drawing.Size(757, 250);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.buttonPickFile);
             this.Controls.Add(this.labelMax);
             this.Controls.Add(this.labelMid);
             this.Controls.Add(this.labelMin);
             this.Controls.Add(this.buttonExport);
-            this.Controls.Add(this.radioButtonXML);
             this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.radioButtonCSV);
             this.Controls.Add(this.textBoxSaveAs);
+            this.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmExport";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Export";
             this.Load += new System.EventHandler(this.frmExport_Load);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -169,14 +226,17 @@
         #endregion
 
         private System.Windows.Forms.TextBox textBoxSaveAs;
-        private System.Windows.Forms.RadioButton radioButtonCSV;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.RadioButton radioButtonXML;
         private System.Windows.Forms.Button buttonExport;
         private System.Windows.Forms.Label labelMin;
         private System.Windows.Forms.Label labelMid;
         private System.Windows.Forms.Label labelMax;
-        private System.Windows.Forms.Button buttonSaveAs;
+        private System.Windows.Forms.Button buttonPickFile;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton radioButtonAcertos;
+        private System.Windows.Forms.RadioButton radioButtonExcel;
+        private System.Windows.Forms.RadioButton radioButtonXML;
+        private System.Windows.Forms.RadioButton radioButtonCSV;
     }
 }

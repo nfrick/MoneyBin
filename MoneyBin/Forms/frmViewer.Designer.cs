@@ -34,6 +34,7 @@ namespace MoneyBin {
             this.panelCollapse = new System.Windows.Forms.Panel();
             this.buttonCollapse = new System.Windows.Forms.Button();
             this.panelBanco = new System.Windows.Forms.Panel();
+            this.buttonExport = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBoxBanco = new System.Windows.Forms.ComboBox();
             this.panelDatas = new System.Windows.Forms.Panel();
@@ -159,6 +160,7 @@ namespace MoneyBin {
             // 
             // panelBanco
             // 
+            this.panelBanco.Controls.Add(this.buttonExport);
             this.panelBanco.Controls.Add(this.label1);
             this.panelBanco.Controls.Add(this.comboBoxBanco);
             this.panelBanco.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -167,6 +169,16 @@ namespace MoneyBin {
             this.panelBanco.Name = "panelBanco";
             this.panelBanco.Size = new System.Drawing.Size(172, 64);
             this.panelBanco.TabIndex = 32;
+            // 
+            // buttonExport
+            // 
+            this.buttonExport.Location = new System.Drawing.Point(123, 31);
+            this.buttonExport.Name = "buttonExport";
+            this.buttonExport.Size = new System.Drawing.Size(31, 29);
+            this.buttonExport.TabIndex = 13;
+            this.buttonExport.Text = "E";
+            this.buttonExport.UseVisualStyleBackColor = true;
+            this.buttonExport.Click += new System.EventHandler(this.buttonExport_Click);
             // 
             // label1
             // 
@@ -227,6 +239,7 @@ namespace MoneyBin {
             this.labelTermino.Size = new System.Drawing.Size(71, 23);
             this.labelTermino.TabIndex = 12;
             this.labelTermino.Text = "Término";
+            this.labelTermino.Click += new System.EventHandler(this.labelTermino_Click);
             // 
             // labelInicio
             // 
@@ -238,6 +251,7 @@ namespace MoneyBin {
             this.labelInicio.Size = new System.Drawing.Size(51, 23);
             this.labelInicio.TabIndex = 11;
             this.labelInicio.Text = "Início";
+            this.labelInicio.Click += new System.EventHandler(this.labelInicio_Click);
             // 
             // dateTimePickerInicio
             // 
@@ -256,6 +270,7 @@ namespace MoneyBin {
             this.ClientSize = new System.Drawing.Size(1341, 562);
             this.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "frmViewer";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Viewer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmViewer_FormClosing);
             this.Load += new System.EventHandler(this.frmViewer_Load);
@@ -290,5 +305,6 @@ namespace MoneyBin {
         private System.Windows.Forms.Label labelTermino;
         private System.Windows.Forms.Label labelInicio;
         private System.Windows.Forms.DateTimePicker dateTimePickerInicio;
+        private System.Windows.Forms.Button buttonExport;
     }
 }

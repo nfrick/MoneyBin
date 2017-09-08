@@ -56,6 +56,7 @@
             this.ClientSize = new System.Drawing.Size(1403, 555);
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "frmReader";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Reader";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmReader_FormClosing);
             this.Load += new System.EventHandler(this.frmReader_Load);

@@ -28,7 +28,7 @@ namespace MoneyBin {
             reportEngine.DataSources.Clear();
             var rep = ((ToolStripButton)sender).Tag;
             reportEngine.ReportPath = string.Format(_rptPath, rep);
-            reportEngine.DataSources.Add(new ReportDataSource($@"DataSet{rep}", MoneyBinDB.GetBalanceItems(dlg.Banco, dlg.Inicio, dlg.Termino, "")));
+            reportEngine.DataSources.Add(new ReportDataSource($@"DataSet{rep}", MoneyBinDB.GetBalanceItems(dlg.Banco, dlg.Inicio, dlg.Termino)));  //, "")));
             reportViewer1.RefreshReport();
         }
     }

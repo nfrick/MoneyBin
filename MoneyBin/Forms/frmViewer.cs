@@ -1,7 +1,6 @@
-﻿using DataClasses;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Windows.Forms;
+using DataClasses;
 
 namespace MoneyBin {
     public partial class frmViewer : CustomControls.frmBase {
@@ -115,6 +114,11 @@ namespace MoneyBin {
 
         private void frmViewer_FormClosing(object sender, FormClosingEventArgs e) {
             e.Cancel = !balanceGrid1.SaveChanges(true);
+        }
+
+        private void buttonExport_Click(object sender, EventArgs e) {
+            var frm = new frmExport() { Items = balanceGrid1.BalanceItems };
+            frm.ShowDialog();
         }
     }
 }

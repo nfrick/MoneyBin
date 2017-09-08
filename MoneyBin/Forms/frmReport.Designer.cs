@@ -121,6 +121,7 @@
             this.Controls.Add(this.toolStripContainer1);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmReport";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Report";
             this.Load += new System.EventHandler(this.Form_Load);
             ((System.ComponentModel.ISupportInitialize)(this.AnalysisItemAnoMesGrupoCategoriaBindingSource)).EndInit();
