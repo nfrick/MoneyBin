@@ -93,6 +93,12 @@
     <Compile Include="Forms\frmCalendar.Designer.cs">
       <DependentUpon>frmCalendar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmProgressBar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmProgressBar.designer.cs">
+      <DependentUpon>frmProgressBar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmRules.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCalendar.resx">
       <DependentUpon>frmCalendar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmProgressBar.resx">
+      <DependentUpon>frmProgressBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmRules.resx">
       <DependentUpon>frmRules.cs</DependentUpon>

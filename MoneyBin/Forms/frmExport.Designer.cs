@@ -24,11 +24,7 @@
         /// </summary>
         private void InitializeComponent() {
             this.textBoxSaveAs = new System.Windows.Forms.TextBox();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.buttonExport = new System.Windows.Forms.Button();
-            this.labelMin = new System.Windows.Forms.Label();
-            this.labelMid = new System.Windows.Forms.Label();
-            this.labelMax = new System.Windows.Forms.Label();
             this.buttonPickFile = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -49,15 +45,6 @@
             this.textBoxSaveAs.Size = new System.Drawing.Size(676, 30);
             this.textBoxSaveAs.TabIndex = 0;
             // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(19, 194);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(720, 40);
-            this.progressBar1.TabIndex = 3;
-            this.progressBar1.Visible = false;
-            // 
             // buttonExport
             // 
             this.buttonExport.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -70,47 +57,6 @@
             this.buttonExport.Text = "Export";
             this.buttonExport.UseVisualStyleBackColor = true;
             this.buttonExport.Click += new System.EventHandler(this.buttonExport_Click);
-            // 
-            // labelMin
-            // 
-            this.labelMin.AutoSize = true;
-            this.labelMin.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMin.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.labelMin.Location = new System.Drawing.Point(18, 173);
-            this.labelMin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelMin.Name = "labelMin";
-            this.labelMin.Size = new System.Drawing.Size(17, 19);
-            this.labelMin.TabIndex = 6;
-            this.labelMin.Text = "0";
-            this.labelMin.Visible = false;
-            // 
-            // labelMid
-            // 
-            this.labelMid.AutoSize = true;
-            this.labelMid.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMid.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.labelMid.Location = new System.Drawing.Point(357, 173);
-            this.labelMid.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelMid.Name = "labelMid";
-            this.labelMid.Size = new System.Drawing.Size(33, 19);
-            this.labelMid.TabIndex = 7;
-            this.labelMid.Text = "Mid";
-            this.labelMid.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.labelMid.Visible = false;
-            // 
-            // labelMax
-            // 
-            this.labelMax.AutoSize = true;
-            this.labelMax.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMax.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.labelMax.Location = new System.Drawing.Point(707, 173);
-            this.labelMax.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelMax.Name = "labelMax";
-            this.labelMax.Size = new System.Drawing.Size(35, 19);
-            this.labelMax.TabIndex = 8;
-            this.labelMax.Text = "Max";
-            this.labelMax.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.labelMax.Visible = false;
             // 
             // buttonPickFile
             // 
@@ -205,14 +151,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(757, 250);
+            this.ClientSize = new System.Drawing.Size(757, 174);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonPickFile);
-            this.Controls.Add(this.labelMax);
-            this.Controls.Add(this.labelMid);
-            this.Controls.Add(this.labelMin);
             this.Controls.Add(this.buttonExport);
-            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.textBoxSaveAs);
             this.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -233,11 +175,7 @@
         #endregion
 
         private System.Windows.Forms.TextBox textBoxSaveAs;
-        private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Button buttonExport;
-        private System.Windows.Forms.Label labelMin;
-        private System.Windows.Forms.Label labelMid;
-        private System.Windows.Forms.Label labelMax;
         private System.Windows.Forms.Button buttonPickFile;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.GroupBox groupBox1;

@@ -8,7 +8,6 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using OfficeOpenXml;
-using OfficeOpenXml.Style;
 
 namespace MoneyBin {
     public partial class frmExport : Form {
@@ -70,44 +69,30 @@ namespace MoneyBin {
 
         private void buttonExport_Click(object sender, EventArgs e) {
             _exporter();
-            progressBar1.Visible = false;
-            labelMid.Visible = false;
-            labelMax.Visible = false;
-        }
-
-        private void SetProgressBar(int count) {
-            progressBar1.Maximum = count;
-            progressBar1.Visible = true;
-            labelMid.Text = (count / 2).ToString();
-            labelMid.Visible = true;
-            labelMax.Text = count.ToString();
-            labelMax.Visible = true;
         }
 
         private void ExportToCSV() {
-            SetProgressBar(Items.Count);
+            var progressDialog = new frmProgressBar();
             var backgroundThread = new Thread(
                 () => {
+                    progressDialog.Maximum = Items.Count();
+                    progressDialog.UpdateProgress("Exporting \u2026");
                     var sw = new StreamWriter(textBoxSaveAs.Text, false, Encoding.Default);
                     sw.WriteLine(BalanceItem.CSVHeader());
+
                     foreach (var item in Items) {
+                        progressDialog.UpdateProgress();
                         sw.WriteLine(item.ToCSV());
-                        progressBar1.BeginInvoke(
-                            new Action(() => {
-                                progressBar1.Increment(1);
-                            }
-                            ));
                     }
                     sw.Flush();
                     sw.Close();
-                    MessageBox.Show(@"Data exported.", @"Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    progressBar1.BeginInvoke(
-                        new Action(() => {
-                            progressBar1.Value = 0;
-                        }
-                        ));
-                });
+
+                    progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
+                }
+            );
             backgroundThread.Start();
+            progressDialog.ShowDialog();
+            MessageBox.Show(@"Data exported.", @"Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void ExportToXML() {
@@ -124,11 +109,12 @@ namespace MoneyBin {
         private void ExportToExcel() {
             ToExcel(Items);
         }
+        
+        private void ExportToAcertos() {
+            ToExcel(MoneyBinDB.GetAcertoItems());
+        }
 
         private void ToExcel(ICollection<BalanceItem> mItems) {
-            SetProgressBar(Items.Count);
-            var backgroundThread = new Thread(
-                () => {
                     var pck = new ExcelPackage(new FileInfo(textBoxSaveAs.Text));
                     var ws = pck.Workbook.Worksheets.Add("Balance");
                     ws.View.ShowGridLines = false;
@@ -160,11 +146,6 @@ namespace MoneyBin {
                         ws.Cells[row, col++].Value = item.Categoria;
                         ws.Cells[row, col++].Value = item.SubCategoria;
                         ws.Cells[row++, col++].Value = item.Descricao;
-                        progressBar1.BeginInvoke(
-                            new Action(() => {
-                                progressBar1.Increment(1);
-                            }
-                            ));
                     }
 
                     row--;
@@ -175,17 +156,6 @@ namespace MoneyBin {
                     ws.Cells.AutoFitColumns(0);
                     pck.Save();
                     MessageBox.Show(@"Data exported.", @"Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    progressBar1.BeginInvoke(
-                        new Action(() => {
-                            progressBar1.Value = 0;
-                        }
-                        ));
-                });
-            backgroundThread.Start();
-        }
-
-        private void ExportToAcertos() {
-            ToExcel(MoneyBinDB.GetAcertoItems());
         }
     }
 }
