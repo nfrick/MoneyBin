@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 namespace MoneyBin {
     public partial class frmExport : Form {
@@ -22,7 +23,7 @@ namespace MoneyBin {
 
         private void frmExport_Load(object sender, EventArgs e) {
             Items = Items ?? MoneyBinDB.GetBalanceItems();
-            textBoxSaveAs.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\\Money Bin Export.csv";
+            textBoxSaveAs.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Money Bin Export.csv";
             radioButtonCSV.Checked = true;
         }
 
@@ -124,42 +125,63 @@ namespace MoneyBin {
             ToExcel(Items);
         }
 
-        private void ToExcel(IEnumerable<BalanceItem> mItems) {
+        private void ToExcel(ICollection<BalanceItem> mItems) {
             SetProgressBar(Items.Count);
-            var pck = new ExcelPackage(new FileInfo(textBoxSaveAs.Text));
-            var ws = pck.Workbook.Worksheets.Add("Balance");
-            ws.View.ShowGridLines = false;
-            ws.Cells["A1"].Value = "Banco";
-            ws.Cells["B1"].Value = "Data";
-            ws.Cells["C1"].Value = "Historico";
-            ws.Cells["D1"].Value = "Documento";
-            ws.Cells["E1"].Value = "Valor";
-            ws.Cells["F1"].Value = "AfetaSaldo";
-            ws.Cells["G1"].Value = "Saldo";
-            ws.Cells["H1"].Value = "Grupo";
-            ws.Cells["I1"].Value = "Categoria";
-            ws.Cells["J1"].Value = "SubCategoria";
-            ws.Cells["K1"].Value = "Descricao";
+            var backgroundThread = new Thread(
+                () => {
+                    var pck = new ExcelPackage(new FileInfo(textBoxSaveAs.Text));
+                    var ws = pck.Workbook.Worksheets.Add("Balance");
+                    ws.View.ShowGridLines = false;
 
-            var row = 2;
-            foreach (var item in mItems) {
-                var col = 1;
-                progressBar1.Value = row - 1;
-                ws.Cells[row, col++].Value = item.Banco;
-                ws.Cells[row, col++].Value = item.Data;
-                ws.Cells[row, col++].Value = item.Historico;
-                ws.Cells[row, col++].Value = item.Documento;
-                ws.Cells[row, col++].Value = item.Valor;
-                ws.Cells[row, col++].Value = item.AfetaSaldo;
-                ws.Cells[row, col++].Value = item.Saldo;
-                ws.Cells[row, col++].Value = item.Grupo;
-                ws.Cells[row, col++].Value = item.Categoria;
-                ws.Cells[row, col++].Value = item.SubCategoria;
-                ws.Cells[row++, col++].Value = item.Descricao;
-            }
-            ws.Cells.AutoFitColumns(0);
-            pck.Save();
-            MessageBox.Show(@"Data exported.", @"Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    var col = 1;
+                    ws.Cells[1, col++].Value = "Banco";
+                    ws.Cells[1, col++].Value = "Data";
+                    ws.Cells[1, col++].Value = "Histórico";
+                    ws.Cells[1, col++].Value = "Documento";
+                    ws.Cells[1, col++].Value = "Valor";
+                    ws.Cells[1, col++].Value = "Afeta Saldo";
+                    // ws.Cells[1, col++].Value = "Saldo";
+                    ws.Cells[1, col++].Value = "Grupo";
+                    ws.Cells[1, col++].Value = "Categoria";
+                    ws.Cells[1, col++].Value = "SubCategoria";
+                    ws.Cells[1, col++].Value = "Descrição";
+
+                    var row = 2;
+                    foreach (var item in Items) {
+                        col = 1;
+                        ws.Cells[row, col++].Value = item.Banco;
+                        ws.Cells[row, col++].Value = item.Data;
+                        ws.Cells[row, col++].Value = item.Historico;
+                        ws.Cells[row, col++].Value = item.Documento;
+                        ws.Cells[row, col++].Value = item.Valor;
+                        ws.Cells[row, col++].Value = item.AfetaSaldo;
+                        // ws.Cells[row, col++].Value = item.Saldo;
+                        ws.Cells[row, col++].Value = item.Grupo;
+                        ws.Cells[row, col++].Value = item.Categoria;
+                        ws.Cells[row, col++].Value = item.SubCategoria;
+                        ws.Cells[row++, col++].Value = item.Descricao;
+                        progressBar1.BeginInvoke(
+                            new Action(() => {
+                                progressBar1.Increment(1);
+                            }
+                            ));
+                    }
+
+                    row--;
+                    ws.Cells[$"B2:B{row}"].Style.Numberformat.Format = "dd-MM-yyyy";
+                    ws.Cells[$"D2:D{row}"].Style.Numberformat.Format = "@";
+                    ws.Cells[$"E2:E{row}"].Style.Numberformat.Format = "#,##0.00";
+                    // ws.Cells[$"G2:G{row}"].Style.Numberformat.Format = "#,##0.00";
+                    ws.Cells.AutoFitColumns(0);
+                    pck.Save();
+                    MessageBox.Show(@"Data exported.", @"Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    progressBar1.BeginInvoke(
+                        new Action(() => {
+                            progressBar1.Value = 0;
+                        }
+                        ));
+                });
+            backgroundThread.Start();
         }
 
         private void ExportToAcertos() {

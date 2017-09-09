@@ -61,6 +61,7 @@
             // buttonExport
             // 
             this.buttonExport.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonExport.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.buttonExport.Location = new System.Drawing.Point(626, 14);
             this.buttonExport.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.buttonExport.Name = "buttonExport";
@@ -74,6 +75,7 @@
             // 
             this.labelMin.AutoSize = true;
             this.labelMin.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelMin.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.labelMin.Location = new System.Drawing.Point(18, 173);
             this.labelMin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelMin.Name = "labelMin";
@@ -86,6 +88,7 @@
             // 
             this.labelMid.AutoSize = true;
             this.labelMid.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelMid.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.labelMid.Location = new System.Drawing.Point(357, 173);
             this.labelMid.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelMid.Name = "labelMid";
@@ -99,6 +102,7 @@
             // 
             this.labelMax.AutoSize = true;
             this.labelMax.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelMax.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.labelMax.Location = new System.Drawing.Point(707, 173);
             this.labelMax.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelMax.Name = "labelMax";
@@ -140,6 +144,7 @@
             // 
             this.radioButtonAcertos.AutoSize = true;
             this.radioButtonAcertos.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonAcertos.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.radioButtonAcertos.Location = new System.Drawing.Point(167, 58);
             this.radioButtonAcertos.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.radioButtonAcertos.Name = "radioButtonAcertos";
@@ -154,7 +159,7 @@
             // 
             this.radioButtonExcel.AutoSize = true;
             this.radioButtonExcel.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonExcel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.radioButtonExcel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.radioButtonExcel.Location = new System.Drawing.Point(167, 27);
             this.radioButtonExcel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.radioButtonExcel.Name = "radioButtonExcel";
@@ -169,6 +174,7 @@
             // 
             this.radioButtonXML.AutoSize = true;
             this.radioButtonXML.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonXML.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.radioButtonXML.Location = new System.Drawing.Point(24, 58);
             this.radioButtonXML.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.radioButtonXML.Name = "radioButtonXML";
@@ -183,6 +189,7 @@
             // 
             this.radioButtonCSV.AutoSize = true;
             this.radioButtonCSV.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonCSV.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.radioButtonCSV.Location = new System.Drawing.Point(24, 27);
             this.radioButtonCSV.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.radioButtonCSV.Name = "radioButtonCSV";
