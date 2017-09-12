@@ -32,10 +32,10 @@ namespace MoneyBin {
             toolStripButtonCategorize.Visible = false;
             SetSource();
 
-            GridStyles.FormatGrid(dataGridViewRules);
+            GridStyles.FormatGrid(dgvRules);
             ocorrenciasDataGridViewTextBoxColumn.DefaultCellStyle = GridStyles.StyleInteger;
 
-            var newHeight = 160 + Rules.Count * dataGridViewRules.RowTemplate.Height;
+            var newHeight = 160 + Rules.Count * dgvRules.RowTemplate.Height;
             this.Height = newHeight < this.Height ? newHeight : this.Height;
         }
 
@@ -43,7 +43,7 @@ namespace MoneyBin {
             if (!SaveChanges(true)) return;
             Rules = MoneyBinDB.GetRules();
             _source = new BindingSource {DataSource = Rules};
-            dataGridViewRules.DataSource = _source;
+            dgvRules.DataSource = _source;
             DeletedItems.Clear();
             RaiseRecords();
             RaiseAdded();
@@ -100,7 +100,7 @@ namespace MoneyBin {
                 return;
             var item = Rules[e.RowIndex];
             if (item.Updated)
-                e.CellStyle.BackColor = Color.Bisque;
+                e.CellStyle.ForeColor = Color.Yellow;
         }
 
         private void dataGridViewRules_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
@@ -151,10 +151,10 @@ namespace MoneyBin {
 
         private void dataGridViewRules_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e) {
             if (e.Control == null) return;
-            var col = dataGridViewRules.CurrentCell.ColumnIndex;
+            var col = dgvRules.CurrentCell.ColumnIndex;
             var source = new AutoCompleteStringCollection();
             var txt = e.Control as TextBox;
-            switch (dataGridViewRules.Columns[col].Name) {
+            switch (dgvRules.Columns[col].Name) {
                 case "bancoDataGridViewTextBoxColumn":
                     source.AddRange(Rules.Select(c => c.Banco).Distinct().ToArray());
                     txt.AutoCompleteCustomSource = source;

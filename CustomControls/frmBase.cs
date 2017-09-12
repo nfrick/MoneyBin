@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -50,22 +52,20 @@ namespace CustomControls {
         }
 
         public static string CreateSavePrompt(int NewItems, int UpdatedItems, int DeletedItems) {
+            var list = new List<string>();
+            const string item = "item";
+            const string items = "items";
             var sb = new StringBuilder("There ").Append(NewItems + UpdatedItems + DeletedItems == 1 ? "is" : "are");
             if (NewItems > 0)
-                sb.AppendFormat(" {0} new items", NewItems);
-            if (UpdatedItems > 0) {
-                if (NewItems > 0 && DeletedItems > 0)
-                    sb.Append(",");
-                else if (NewItems > 0)
-                    sb.Append(" and");
-                sb.AppendFormat(" {0} updated items", UpdatedItems);
-            }
-            if (DeletedItems > 0) {
-                if (NewItems > 0 || UpdatedItems > 0)
-                    sb.Append(" and");
-                sb.AppendFormat(" {0} deleted items", DeletedItems);
-            }
-            return sb.Append(". Save changes?").ToString();
+                list.Add($" {NewItems} new {(NewItems == 1 ? item : items)}");
+            if (UpdatedItems > 0)
+                list.Add($" {UpdatedItems} updated {(UpdatedItems == 1 ? item : items)}");
+            if (DeletedItems > 0)
+                list.Add($" {DeletedItems} deleted {(DeletedItems == 1 ? item : items)}");
+            
+            sb.Append(list.Count > 1 ? string.Join(", ", list.Take(list.Count - 1)) + " and " + list.Last() : list.FirstOrDefault()).Append(". Save changes?");
+
+            return sb.ToString();
         }
 
         public virtual void toolStripButtonLoad_Click(object sender, EventArgs e) {

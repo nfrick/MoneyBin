@@ -25,7 +25,7 @@
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmRules));
-            this.dataGridViewRules = new System.Windows.Forms.DataGridView();
+            this.dgvRules = new System.Windows.Forms.DataGridView();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.isNewDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.bancoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -42,7 +42,7 @@
             this.RuleBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRules)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRules)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RuleBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,18 +51,18 @@
             // 
             // toolStripContainer1.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.dataGridViewRules);
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.dgvRules);
             this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(5);
             this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1404, 711);
             this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(5);
             this.toolStripContainer1.Size = new System.Drawing.Size(1404, 711);
             // 
-            // dataGridViewRules
+            // dgvRules
             // 
-            this.dataGridViewRules.AllowUserToOrderColumns = true;
-            this.dataGridViewRules.AutoGenerateColumns = false;
-            this.dataGridViewRules.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewRules.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvRules.AllowUserToOrderColumns = true;
+            this.dgvRules.AutoGenerateColumns = false;
+            this.dgvRules.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRules.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.iDDataGridViewTextBoxColumn,
             this.isNewDataGridViewCheckBoxColumn,
             this.bancoDataGridViewTextBoxColumn,
@@ -76,21 +76,21 @@
             this.descricaoDataGridViewTextBoxColumn,
             this.ocorrenciasDataGridViewTextBoxColumn,
             this.updatedDataGridViewCheckBoxColumn});
-            this.dataGridViewRules.DataSource = this.RuleBindingSource;
-            this.dataGridViewRules.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewRules.Location = new System.Drawing.Point(0, 0);
-            this.dataGridViewRules.Margin = new System.Windows.Forms.Padding(4);
-            this.dataGridViewRules.Name = "dataGridViewRules";
-            this.dataGridViewRules.RowTemplate.Height = 26;
-            this.dataGridViewRules.Size = new System.Drawing.Size(1404, 711);
-            this.dataGridViewRules.TabIndex = 2;
-            this.dataGridViewRules.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.RulesdataGridView_CellFormatting);
-            this.dataGridViewRules.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewRules_CellValueChanged);
-            this.dataGridViewRules.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.RulesdataGridView_DataError);
-            this.dataGridViewRules.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridViewRules_EditingControlShowing);
-            this.dataGridViewRules.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridViewRules_UserAddedRow);
-            this.dataGridViewRules.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridViewRules_UserDeletedRow);
-            this.dataGridViewRules.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dataGridViewRules_UserDeletingRow);
+            this.dgvRules.DataSource = this.RuleBindingSource;
+            this.dgvRules.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvRules.Location = new System.Drawing.Point(0, 0);
+            this.dgvRules.Margin = new System.Windows.Forms.Padding(4);
+            this.dgvRules.Name = "dgvRules";
+            this.dgvRules.RowTemplate.Height = 26;
+            this.dgvRules.Size = new System.Drawing.Size(1404, 711);
+            this.dgvRules.TabIndex = 2;
+            this.dgvRules.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.RulesdataGridView_CellFormatting);
+            this.dgvRules.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewRules_CellValueChanged);
+            this.dgvRules.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.RulesdataGridView_DataError);
+            this.dgvRules.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridViewRules_EditingControlShowing);
+            this.dgvRules.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridViewRules_UserAddedRow);
+            this.dgvRules.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridViewRules_UserDeletedRow);
+            this.dgvRules.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dataGridViewRules_UserDeletingRow);
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -206,7 +206,7 @@
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRules)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRules)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RuleBindingSource)).EndInit();
             this.ResumeLayout(false);
 
@@ -214,7 +214,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridViewRules;
+        private System.Windows.Forms.DataGridView dgvRules;
         private System.Windows.Forms.BindingSource RuleBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn isNewDataGridViewCheckBoxColumn;
