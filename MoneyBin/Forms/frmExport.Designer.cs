@@ -32,6 +32,7 @@
             this.radioButtonExcel = new System.Windows.Forms.RadioButton();
             this.radioButtonXML = new System.Windows.Forms.RadioButton();
             this.radioButtonCSV = new System.Windows.Forms.RadioButton();
+            this.radioButtonExtrato = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,6 +73,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.radioButtonExtrato);
             this.groupBox1.Controls.Add(this.radioButtonAcertos);
             this.groupBox1.Controls.Add(this.radioButtonExcel);
             this.groupBox1.Controls.Add(this.radioButtonXML);
@@ -81,7 +83,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox1.Size = new System.Drawing.Size(356, 101);
+            this.groupBox1.Size = new System.Drawing.Size(542, 101);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Format";
@@ -146,6 +148,21 @@
             this.radioButtonCSV.UseVisualStyleBackColor = true;
             this.radioButtonCSV.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
             // 
+            // radioButtonExtrato
+            // 
+            this.radioButtonExtrato.AutoSize = true;
+            this.radioButtonExtrato.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonExtrato.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.radioButtonExtrato.Location = new System.Drawing.Point(376, 27);
+            this.radioButtonExtrato.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.radioButtonExtrato.Name = "radioButtonExtrato";
+            this.radioButtonExtrato.Size = new System.Drawing.Size(150, 27);
+            this.radioButtonExtrato.TabIndex = 18;
+            this.radioButtonExtrato.TabStop = true;
+            this.radioButtonExtrato.Text = "Extrato (Access)";
+            this.radioButtonExtrato.UseVisualStyleBackColor = true;
+            this.radioButtonExtrato.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
+            // 
             // frmExport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
@@ -183,5 +200,6 @@
         private System.Windows.Forms.RadioButton radioButtonExcel;
         private System.Windows.Forms.RadioButton radioButtonXML;
         private System.Windows.Forms.RadioButton radioButtonCSV;
+        private System.Windows.Forms.RadioButton radioButtonExtrato;
     }
 }

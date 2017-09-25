@@ -359,6 +359,21 @@ namespace DataClasses {
             }
         }
 
+        public static void ExportToExtrato(string accessDB) {
+            try {
+                using (var conn = GetConnection()) {
+                    var cmd = new SqlCommand("sp_ExportToExtrato", conn) {
+                        CommandType = System.Data.CommandType.StoredProcedure
+                };
+                    cmd.Parameters.Add(new SqlParameter("@AccessDB", accessDB));
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex) {
+                ShowError("@MoneyBin.ExportToExtrato()\nString: " + ConnectionString + "\n", ex);
+            }
+        }
+
         private static string WhereClause(string anoMes, string grupoCategoria) {
             var sb = new StringBuilder();
             if (anoMes.Equals("") && grupoCategoria.Equals(""))

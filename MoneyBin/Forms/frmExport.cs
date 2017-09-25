@@ -9,10 +9,11 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
+using Form = System.Windows.Forms.Form;
 
 namespace MoneyBin {
     public partial class frmExport : Form {
-        private delegate void Exporter();
+        private delegate bool Exporter();
 
         public List<BalanceItem> Items { get; set; }
         private Exporter _exporter;
@@ -45,17 +46,29 @@ namespace MoneyBin {
                 _exporter = ExportToExcel;
             }
 
-            else {
+            else if (radioButtonAcertos.Checked) {
                 SetSaveDialog("xlsx", @"Excel Files|*.xlsx");
                 _exporter = ExportToAcertos;
             }
 
+            else if (radioButtonExtrato.Checked) {
+                SetSaveDialog("accdb", @"Access Files|*.accdb");
+                _exporter = ExportToExtrato;
+            }
         }
 
         private void SetSaveDialog(string extension, string filter) {
             saveFileDialog1.DefaultExt = extension;
             saveFileDialog1.Filter = filter;
-            if (textBoxSaveAs.Text != string.Empty)
+            if (extension == "accdb") {
+                var oneDrivePath = Environment.GetEnvironmentVariable("ONEDRIVE");
+                var filepath = oneDrivePath + @"\Documents\Financeiro\Extratos\ExtratosData.accdb";
+                while (!File.Exists(filepath)) {
+                    filepath = PickFile(oneDrivePath, "ExtratosData.accdb");
+                }
+                textBoxSaveAs.Text = filepath;
+            }
+            else if (textBoxSaveAs.Text != string.Empty)
                 textBoxSaveAs.Text = Path.ChangeExtension(textBoxSaveAs.Text, extension);
         }
 
@@ -63,20 +76,29 @@ namespace MoneyBin {
             var fInfo = new FileInfo(textBoxSaveAs.Text);
             saveFileDialog1.InitialDirectory = fInfo.DirectoryName;
             saveFileDialog1.FileName = fInfo.Name;
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK) {
-                textBoxSaveAs.Text = saveFileDialog1.FileName;
-            }
+            textBoxSaveAs.Text = PickFile(fInfo.DirectoryName, fInfo.Name);
+        }
+
+        private string PickFile(string path, string file) {
+            saveFileDialog1.InitialDirectory = path;
+            saveFileDialog1.FileName = file;
+            saveFileDialog1.CheckFileExists = saveFileDialog1.DefaultExt == "accdb";
+            saveFileDialog1.OverwritePrompt = saveFileDialog1.DefaultExt != "accdb";
+            return saveFileDialog1.ShowDialog() == DialogResult.OK ? saveFileDialog1.FileName : file;
         }
 
         private void buttonExport_Click(object sender, EventArgs e) {
-            _exporter();
+            Cursor.Current = Cursors.WaitCursor;
+            if (_exporter())
+                MessageBox.Show(@"Data exported.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Cursor.Current = Cursors.Default;
         }
 
-        private void ExportToCSV() {
+        private bool ExportToCSV() {
             var progressDialog = new frmProgressBar();
             var backgroundThread = new Thread(
                 () => {
-                    progressDialog.Maximum = Items.Count();
+                    progressDialog.Maximum = Items.Count;
                     progressDialog.UpdateProgress("Exporting \u2026");
                     var sw = new StreamWriter(textBoxSaveAs.Text, false, Encoding.Default);
                     sw.WriteLine(BalanceItem.CSVHeader());
@@ -93,29 +115,30 @@ namespace MoneyBin {
             );
             backgroundThread.Start();
             progressDialog.ShowDialog();
-            MessageBox.Show(@"Data exported.", @"Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return true;
         }
 
-        private void ExportToXML() {
+        private bool ExportToXML() {
             try {
                 var xEle = new XElement("Balance", Items.Select(b => b.toXML()));
                 xEle.Save(textBoxSaveAs.Text);
-                MessageBox.Show(@"Data exported.", @"Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return true;
             }
             catch (Exception ex) {
                 MessageBox.Show(ex.Message, @"Export", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
             }
         }
 
-        private void ExportToExcel() {
-            ToExcel(Items);
+        private bool ExportToExcel() {
+            return ToExcel(Items);
         }
 
-        private void ExportToAcertos() {
-            ToExcel(MoneyBinDB.GetAcertoItems());
+        private bool ExportToAcertos() {
+            return ToExcel(MoneyBinDB.GetAcertoItems());
         }
 
-        private void ToExcel(ICollection<BalanceItem> mItems) {
+        private bool ToExcel(ICollection<BalanceItem> mItems) {
             var pck = new ExcelPackage(new FileInfo(textBoxSaveAs.Text));
             var ws = pck.Workbook.Worksheets.Add("Balance");
             ws.View.ShowGridLines = false;
@@ -164,7 +187,24 @@ namespace MoneyBin {
             ws.View.FreezePanes(2, 1);
 
             pck.Save();
-            MessageBox.Show(@"Data exported.", @"Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return true;
+        }
+
+        private bool ExportToExtrato() {
+            MoneyBinDB.ExportToExtrato(textBoxSaveAs.Text);
+
+            var accessDB = textBoxSaveAs.Text;
+            var tempFile = Path.Combine(Path.GetDirectoryName(accessDB),
+                Path.GetRandomFileName() + Path.GetExtension(accessDB));
+
+            var app = new Microsoft.Office.Interop.Access.Application {Visible = false};
+            app.CompactRepair(accessDB, tempFile, false);
+            app.Quit();
+
+            var temp = new FileInfo(tempFile);
+            temp.CopyTo(accessDB, true);
+            temp.Delete();
+            return true;
         }
     }
 }
