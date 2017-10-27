@@ -33,6 +33,10 @@ namespace DataClasses {
         public int Ocorrencias { get; set; }
         public bool Updated { get; set; }
 
+        public string NovoGrupo { get; set; }
+        public string NovaCategoria { get; set; }
+        public string NovaSubCategoria { get; set; }
+
         public Rule() {
             _ID = 0;
             Banco = string.Empty;
@@ -46,6 +50,10 @@ namespace DataClasses {
             Descricao = string.Empty;
             Ocorrencias = 0;
             Updated = false;
+
+            NovoGrupo = string.Empty;
+            NovaCategoria = string.Empty;
+            NovaSubCategoria = string.Empty;
         }
 
         public Rule(SqlDataReader r) {
@@ -61,6 +69,10 @@ namespace DataClasses {
             Descricao = r["Descricao"].ToString();
             Ocorrencias = (int)r["Ocorrencias"];
             Updated = false;
+
+            NovoGrupo = r["NovoGrupo"].ToString();
+            NovaCategoria = r["NovaCategoria"].ToString();
+            NovaSubCategoria = r["NovaSubCategoria"].ToString();
         }
 
         public Comparacoes ComparacaoInt() {

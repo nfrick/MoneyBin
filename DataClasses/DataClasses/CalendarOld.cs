@@ -15,12 +15,12 @@ namespace DataClasses {
         }
     }
 
-    public class Calendar : CalendarBase {
+    public class CalendarOld : CalendarBase {
         public int PaymentID { get; set; }
         public bool Paid { get; set; }
         public bool Updated { get; set; }
 
-        public Calendar(SqlDataReader r) : base(r) {
+        public CalendarOld(SqlDataReader r) : base(r) {
             PaymentID = (int)r["PaymentID"];
             Paid = (bool)r["Paid"]; ;
             Updated = false;

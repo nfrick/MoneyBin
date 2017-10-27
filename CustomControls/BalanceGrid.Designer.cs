@@ -195,7 +195,7 @@
             // 
             // balanceItemBindingSource
             // 
-            this.balanceItemBindingSource.DataSource = typeof(DataClasses.BalanceItem);
+            this.balanceItemBindingSource.DataSource = typeof(DataClasses.BalanceItemOld);
             // 
             // BalanceGrid
             // 

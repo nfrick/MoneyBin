@@ -136,9 +136,9 @@ namespace DataClasses {
         /// <param name="termino"></param>
         /// <param name="grupoCategoria"></param>
         /// <returns></returns>
-        public static List<BalanceItem> GetBalanceItems(string banco, DateTime inicio, DateTime termino, string grupoCategoria = "") {
+        public static List<BalanceItemOld> GetBalanceItems(string banco, DateTime inicio, DateTime termino, string grupoCategoria = "") {
             try {
-                var items = new List<BalanceItem>();
+                var items = new List<BalanceItemOld>();
 
                 using (var conn = GetConnection()) {
                     var cmd = new SqlCommand { Connection = conn };
@@ -169,10 +169,10 @@ namespace DataClasses {
                             ORDER BY Data DESC, Valor ASC";
                         cmd.CommandType = System.Data.CommandType.Text;
                     }
-                    BalanceItem.SaldoFinal = (decimal)cmdSaldo.ExecuteScalar();
+                    BalanceItemOld.SaldoFinal = (decimal)cmdSaldo.ExecuteScalar();
                     var reader = cmd.ExecuteReader();
                     while (reader.Read()) {
-                        items.Add(new BalanceItemComGrupo(reader));
+                        items.Add(new BalanceItemOldComGrupo(reader));
                     }
                     reader.Close();
                     return items;
@@ -188,7 +188,7 @@ namespace DataClasses {
         /// Returns a list of all BalanceItems
         /// </summary>
         /// <returns></returns>
-        public static List<BalanceItem> GetBalanceItems() {
+        public static List<BalanceItemOld> GetBalanceItems() {
             return GetItems("sp_BalanceItems");
         }
 
@@ -196,13 +196,13 @@ namespace DataClasses {
         /// Returns a list of BalanceItems pending adjustment
         /// </summary>
         /// <returns></returns>
-        public static List<BalanceItem> GetAcertoItems() {
+        public static List<BalanceItemOld> GetAcertoItems() {
             return GetItems("sp_AcertosPendentes");
         }
 
-        private static List<BalanceItem> GetItems(string procedure) {
+        private static List<BalanceItemOld> GetItems(string procedure) {
             try {
-                var items = new List<BalanceItem>();
+                var items = new List<BalanceItemOld>();
 
                 using (var conn = GetConnection()) {
                     var cmd = new SqlCommand {
@@ -212,7 +212,7 @@ namespace DataClasses {
                     };
                     var reader = cmd.ExecuteReader();
                     while (reader.Read()) {
-                        items.Add(new BalanceItem(reader));
+                        items.Add(new BalanceItemOld(reader));
                     }
                     reader.Close();
                     return items;
@@ -230,7 +230,7 @@ namespace DataClasses {
         /// </summary>
         /// <param name="items">List of BalanceItems</param>
         /// <returns>true if sucessful</returns>
-        public static bool UpdateBalanceItems(List<BalanceItem> items) {
+        public static bool UpdateBalanceItems(List<BalanceItemOld> items) {
             try {
                 using (var conn = GetConnection()) {
                     var cmd = new SqlCommand("to be defined", conn) {
@@ -272,7 +272,7 @@ namespace DataClasses {
         /// </summary>
         /// <param name="items"></param>
         /// <returns></returns>
-        public static bool DeleteBalanceItems(List<BalanceItem> items) {
+        public static bool DeleteBalanceItems(List<BalanceItemOld> items) {
             try {
                 using (var conn = GetConnection()) {
                     var cmd = new SqlCommand("sp_BalanceItemDelete", conn) {
@@ -293,7 +293,7 @@ namespace DataClasses {
         }
 
         /// <summary>
-        /// Return the most recent BalanceItem's date for a given Bank 
+        /// Return the most recent BalanceItemOld's date for a given Bank 
         /// </summary>
         /// <param name="banco"></param>
         /// <returns></returns>
@@ -302,7 +302,7 @@ namespace DataClasses {
         }
 
         /// <summary>
-        /// Return the oldest BalanceItem's date for a given Bank 
+        /// Return the oldest BalanceItemOld's date for a given Bank 
         /// </summary>
         /// <param name="banco"></param>
         /// <returns></returns>
@@ -448,7 +448,7 @@ namespace DataClasses {
             }
         }
 
-        public static bool IncrementRules(List<BalanceItem> balanceItems) {
+        public static bool IncrementRules(List<BalanceItemOld> balanceItems) {
             try {
                 var updatedRules =
                     from bi in balanceItems
@@ -581,9 +581,9 @@ namespace DataClasses {
             }
         }
 
-        public static SortableBindingList<Calendar> GetCalendar(DateTime m) {
+        public static SortableBindingList<CalendarOld> GetCalendar(DateTime m) {
             try {
-                var cal = new SortableBindingList<Calendar>();
+                var cal = new SortableBindingList<CalendarOld>();
 
                 using (var conn = GetConnection()) {
                     var cmd = new SqlCommand("sp_Calendar", conn) {
@@ -592,8 +592,8 @@ namespace DataClasses {
                     cmd.Parameters.Add(new SqlParameter("@Year", (short)m.Year));
                     cmd.Parameters.Add(new SqlParameter("@Month", (short)(1 << (m.Month - 1))));
                     if (cmd.ExecuteScalar() == null) {
-                        if (MessageBox.Show($"Calendar for month {m.Month}-{m.Year} does not exist. Create?",
-                             "Get Calendar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                        if (MessageBox.Show($"CalendarOld for month {m.Month}-{m.Year} does not exist. Create?",
+                             "Get CalendarOld", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                             return cal;
                         cmd.CommandText = @"sp_CalendarInsert";
                         cmd.ExecuteNonQuery();
@@ -607,7 +607,7 @@ namespace DataClasses {
                     cmd.CommandText = @"sp_Calendar";
                     var reader = cmd.ExecuteReader();
                     while (reader.Read()) {
-                        cal.Add(new Calendar(reader));
+                        cal.Add(new CalendarOld(reader));
                     }
                     reader.Close();
                     return cal;
@@ -619,7 +619,7 @@ namespace DataClasses {
             }
         }
 
-        public static bool UpdateCalendar(List<Calendar> calendarItems, DateTime mes) {
+        public static bool UpdateCalendar(List<CalendarOld> calendarItems, DateTime mes) {
             try {
                 using (var conn = GetConnection()) {
                     var cmd = new SqlCommand {

@@ -1,0 +1,423 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MoneyBinModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblBalance">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Banco" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="Data" Type="date" Nullable="false" />
+          <Property Name="Historico" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Documento" Type="nvarchar" MaxLength="50" />
+          <Property Name="Valor" Type="money" Nullable="false" />
+          <Property Name="AfetaSaldo" Type="bit" Nullable="false" />
+          <Property Name="Grupo" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="Categoria" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="SubCategoria" Type="nvarchar" MaxLength="30" />
+          <Property Name="Descricao" Type="nvarchar" MaxLength="200" />
+          <Property Name="NovoGrupo" Type="nvarchar" MaxLength="15" />
+          <Property Name="NovaCategoria" Type="nvarchar" MaxLength="20" />
+          <Property Name="NovaSubCategoria" Type="nvarchar" MaxLength="30" />
+          <Property Name="GrupoId" Type="int" />
+        </EntityType>
+        <EntityType Name="tblCalendar">
+          <Key>
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="Month" />
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="Year" Type="smallint" Nullable="false" />
+          <Property Name="Month" Type="smallint" Nullable="false" />
+          <Property Name="PaymentID" Type="int" Nullable="false" />
+          <Property Name="Paid" Type="bit" />
+        </EntityType>
+        <EntityType Name="tblPayments">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Group" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Day" Type="tinyint" Nullable="false" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
+          <Property Name="Months" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblRules">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Banco" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="Historico" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Comparacao" Type="int" Nullable="false" />
+          <Property Name="AfetaSaldo" Type="bit" />
+          <Property Name="Grupo" Type="nchar" MaxLength="1" />
+          <Property Name="Categoria" Type="nvarchar" MaxLength="20" />
+          <Property Name="SubCategoria" Type="nvarchar" MaxLength="30" />
+          <Property Name="Descricao" Type="nvarchar" MaxLength="30" />
+          <Property Name="Ocorrencias" Type="int" />
+          <Property Name="NovoGrupo" Type="nvarchar" MaxLength="15" />
+          <Property Name="NovaCategoria" Type="nvarchar" MaxLength="20" />
+          <Property Name="NovaSubCategoria" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MoneyBin.dbo.vw_Balance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_Balance">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Banco" />
+            <PropertyRef Name="Data" />
+            <PropertyRef Name="Historico" />
+            <PropertyRef Name="Valor" />
+            <PropertyRef Name="AfetaSaldo" />
+            <PropertyRef Name="Grupo" />
+            <PropertyRef Name="Categoria" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Banco" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="Data" Type="date" Nullable="false" />
+          <Property Name="Historico" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Documento" Type="nvarchar" MaxLength="50" />
+          <Property Name="Valor" Type="money" Nullable="false" />
+          <Property Name="AfetaSaldo" Type="bit" Nullable="false" />
+          <Property Name="Grupo" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="Categoria" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="SubCategoria" Type="nvarchar" MaxLength="30" />
+          <Property Name="Descricao" Type="nvarchar" MaxLength="200" />
+          <Property Name="NovoGrupo" Type="nvarchar" MaxLength="15" />
+          <Property Name="NovaCategoria" Type="nvarchar" MaxLength="20" />
+          <Property Name="NovaSubCategoria" Type="nvarchar" MaxLength="30" />
+          <Property Name="Saldo" Type="money" />
+        </EntityType>
+        <Function Name="sp_BalanceItemDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_BalanceItemInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Banco" Type="nvarchar" Mode="In" />
+          <Parameter Name="Data" Type="date" Mode="In" />
+          <Parameter Name="Historico" Type="nvarchar" Mode="In" />
+          <Parameter Name="Documento" Type="nvarchar" Mode="In" />
+          <Parameter Name="Valor" Type="money" Mode="In" />
+          <Parameter Name="AfetaSaldo" Type="bit" Mode="In" />
+          <Parameter Name="Grupo" Type="nchar" Mode="In" />
+          <Parameter Name="Categoria" Type="nvarchar" Mode="In" />
+          <Parameter Name="SubCategoria" Type="nvarchar" Mode="In" />
+          <Parameter Name="Descricao" Type="nvarchar" Mode="In" />
+          <Parameter Name="NovoGrupo" Type="nvarchar" Mode="In" />
+          <Parameter Name="NovaCategoria" Type="nvarchar" Mode="In" />
+          <Parameter Name="NovaSubCategoria" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_BalanceItemUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="AfetaSaldo" Type="bit" Mode="In" />
+          <Parameter Name="Grupo" Type="nchar" Mode="In" />
+          <Parameter Name="Categoria" Type="nvarchar" Mode="In" />
+          <Parameter Name="SubCategoria" Type="nvarchar" Mode="In" />
+          <Parameter Name="Descricao" Type="nvarchar" Mode="In" />
+          <Parameter Name="NovoGrupo" Type="nvarchar" Mode="In" />
+          <Parameter Name="NovaCategoria" Type="nvarchar" Mode="In" />
+          <Parameter Name="NovaSubCategoria" Type="nvarchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="MoneyBinModelStoreContainer">
+          <EntitySet Name="tblBalance" EntityType="Self.tblBalance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCalendar" EntityType="Self.tblCalendar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPayments" EntityType="Self.tblPayments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRules" EntityType="Self.tblRules" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vw_Balance" EntityType="Self.vw_Balance" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_Balance].[ID] AS [ID], 
+    [vw_Balance].[Banco] AS [Banco], 
+    [vw_Balance].[Data] AS [Data], 
+    [vw_Balance].[Historico] AS [Historico], 
+    [vw_Balance].[Documento] AS [Documento], 
+    [vw_Balance].[Valor] AS [Valor], 
+    [vw_Balance].[AfetaSaldo] AS [AfetaSaldo], 
+    [vw_Balance].[Grupo] AS [Grupo], 
+    [vw_Balance].[Categoria] AS [Categoria], 
+    [vw_Balance].[SubCategoria] AS [SubCategoria], 
+    [vw_Balance].[Descricao] AS [Descricao], 
+    [vw_Balance].[NovoGrupo] AS [NovoGrupo], 
+    [vw_Balance].[NovaCategoria] AS [NovaCategoria], 
+    [vw_Balance].[NovaSubCategoria] AS [NovaSubCategoria], 
+    [vw_Balance].[Saldo] AS [Saldo]
+    FROM [dbo].[vw_Balance] AS [vw_Balance]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MoneyBinModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CalendarItem">
+          <Key>
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="Month" />
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="Year" Type="Int16" Nullable="false" />
+          <Property Name="Month" Type="Int16" Nullable="false" />
+          <Property Name="PaymentID" Type="Int32" Nullable="false" />
+          <Property Name="Paid" Type="Boolean" />
+          <NavigationProperty Name="Payment" Relationship="MoneyBinModel.tblPaymenttblCalendar" FromRole="tblCalendar" ToRole="tblPayment" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Group" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Day" Type="Byte" Nullable="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="Months" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="CalendarItems" Relationship="MoneyBinModel.tblPaymenttblCalendar" FromRole="tblPayment" ToRole="tblCalendar" />
+        </EntityType>
+        <EntityType Name="Rule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Banco" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Historico" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Comparacao" Type="Int32" Nullable="false" />
+          <Property Name="AfetaSaldo" Type="Boolean" />
+          <Property Name="Grupo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Categoria" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="SubCategoria" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Descricao" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Ocorrencias" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="MoneyBinEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Calendar" EntityType="MoneyBinModel.CalendarItem" />
+          <EntitySet Name="Payments" EntityType="MoneyBinModel.Payment" />
+          <EntitySet Name="Rules" EntityType="MoneyBinModel.Rule" />
+          <AssociationSet Name="tblPaymenttblCalendar" Association="MoneyBinModel.tblPaymenttblCalendar">
+            <End Role="tblPayment" EntitySet="Payments" />
+            <End Role="tblCalendar" EntitySet="Calendar" />
+          </AssociationSet>
+          <FunctionImport Name="sp_BalanceItemDelete">
+          <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_BalanceItemInsert">
+            <Parameter Name="Banco" Mode="In" Type="String" />
+            <Parameter Name="Data" Mode="In" Type="DateTime" />
+            <Parameter Name="Historico" Mode="In" Type="String" />
+            <Parameter Name="Documento" Mode="In" Type="String" />
+            <Parameter Name="Valor" Mode="In" Type="Decimal" />
+            <Parameter Name="AfetaSaldo" Mode="In" Type="Boolean" />
+            <Parameter Name="Grupo" Mode="In" Type="String" />
+            <Parameter Name="Categoria" Mode="In" Type="String" />
+            <Parameter Name="SubCategoria" Mode="In" Type="String" />
+            <Parameter Name="Descricao" Mode="In" Type="String" />
+            <Parameter Name="NovoGrupo" Mode="In" Type="String" />
+            <Parameter Name="NovaCategoria" Mode="In" Type="String" />
+            <Parameter Name="NovaSubCategoria" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_BalanceItemUpdate">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="AfetaSaldo" Mode="In" Type="Boolean" />
+            <Parameter Name="Grupo" Mode="In" Type="String" />
+            <Parameter Name="Categoria" Mode="In" Type="String" />
+            <Parameter Name="SubCategoria" Mode="In" Type="String" />
+            <Parameter Name="Descricao" Mode="In" Type="String" />
+            <Parameter Name="NovoGrupo" Mode="In" Type="String" />
+            <Parameter Name="NovaCategoria" Mode="In" Type="String" />
+            <Parameter Name="NovaSubCategoria" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Balance" EntityType="MoneyBinModel.BalanceItem" />
+          <EntitySet Name="BalanceComSaldo" EntityType="MoneyBinModel.BalanceItemComSaldo" />
+        </EntityContainer>
+        <Association Name="tblPaymenttblCalendar">
+          <End Type="MoneyBinModel.Payment" Role="tblPayment" Multiplicity="1" />
+          <End Type="MoneyBinModel.CalendarItem" Role="tblCalendar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPayment">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblCalendar">
+              <PropertyRef Name="PaymentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BalanceItem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Banco" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Historico" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Documento" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Valor" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="AfetaSaldo" Type="Boolean" Nullable="false" />
+          <Property Name="Grupo" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="Categoria" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="SubCategoria" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Descricao" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="NovoGrupo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="NovaCategoria" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="NovaSubCategoria" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="GrupoId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="BalanceItemComSaldo">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Banco" />
+            <PropertyRef Name="Data" />
+            <PropertyRef Name="Historico" />
+            <PropertyRef Name="Valor" />
+            <PropertyRef Name="AfetaSaldo" />
+            <PropertyRef Name="Grupo" />
+            <PropertyRef Name="Categoria" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Banco" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Historico" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Documento" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Valor" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="AfetaSaldo" Type="Boolean" Nullable="false" />
+          <Property Name="Grupo" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="Categoria" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="SubCategoria" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Descricao" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="NovoGrupo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="NovaCategoria" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="NovaSubCategoria" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Saldo" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MoneyBinModelStoreContainer" CdmEntityContainer="MoneyBinEntities">
+          <EntitySetMapping Name="Calendar">
+            <EntityTypeMapping TypeName="MoneyBinModel.CalendarItem">
+              <MappingFragment StoreEntitySet="tblCalendar">
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+                <ScalarProperty Name="Paid" ColumnName="Paid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="MoneyBinModel.Payment">
+              <MappingFragment StoreEntitySet="tblPayments">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="Months" ColumnName="Months" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rules">
+            <EntityTypeMapping TypeName="MoneyBinModel.Rule">
+              <MappingFragment StoreEntitySet="tblRules">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Banco" ColumnName="Banco" />
+                <ScalarProperty Name="Historico" ColumnName="Historico" />
+                <ScalarProperty Name="Comparacao" ColumnName="Comparacao" />
+                <ScalarProperty Name="AfetaSaldo" ColumnName="AfetaSaldo" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="Ocorrencias" ColumnName="Ocorrencias" />
+                <ScalarProperty Name="Grupo" ColumnName="NovoGrupo" />
+                <ScalarProperty Name="Categoria" ColumnName="NovaCategoria" />
+                <ScalarProperty Name="SubCategoria" ColumnName="NovaSubCategoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_BalanceItemDelete" FunctionName="MoneyBinModel.Store.sp_BalanceItemDelete" />
+          <FunctionImportMapping FunctionImportName="sp_BalanceItemInsert" FunctionName="MoneyBinModel.Store.sp_BalanceItemInsert" />
+          <FunctionImportMapping FunctionImportName="sp_BalanceItemUpdate" FunctionName="MoneyBinModel.Store.sp_BalanceItemUpdate" />
+          <EntitySetMapping Name="Balance">
+            <EntityTypeMapping TypeName="MoneyBinModel.BalanceItem">
+              <MappingFragment StoreEntitySet="tblBalance">
+                <ScalarProperty Name="GrupoId" ColumnName="GrupoId" />
+                <ScalarProperty Name="NovaSubCategoria" ColumnName="NovaSubCategoria" />
+                <ScalarProperty Name="NovaCategoria" ColumnName="NovaCategoria" />
+                <ScalarProperty Name="NovoGrupo" ColumnName="NovoGrupo" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="SubCategoria" ColumnName="SubCategoria" />
+                <ScalarProperty Name="Categoria" ColumnName="Categoria" />
+                <ScalarProperty Name="Grupo" ColumnName="Grupo" />
+                <ScalarProperty Name="AfetaSaldo" ColumnName="AfetaSaldo" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="Documento" ColumnName="Documento" />
+                <ScalarProperty Name="Historico" ColumnName="Historico" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Banco" ColumnName="Banco" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BalanceComSaldo">
+            <EntityTypeMapping TypeName="MoneyBinModel.BalanceItemComSaldo">
+              <MappingFragment StoreEntitySet="vw_Balance">
+                <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+                <ScalarProperty Name="NovaSubCategoria" ColumnName="NovaSubCategoria" />
+                <ScalarProperty Name="NovaCategoria" ColumnName="NovaCategoria" />
+                <ScalarProperty Name="NovoGrupo" ColumnName="NovoGrupo" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="SubCategoria" ColumnName="SubCategoria" />
+                <ScalarProperty Name="Categoria" ColumnName="Categoria" />
+                <ScalarProperty Name="Grupo" ColumnName="Grupo" />
+                <ScalarProperty Name="AfetaSaldo" ColumnName="AfetaSaldo" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="Documento" ColumnName="Documento" />
+                <ScalarProperty Name="Historico" ColumnName="Historico" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Banco" ColumnName="Banco" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="MoneyBinModel.BalanceItemComSaldo">
+              <ModificationFunctionMapping>
+                <UpdateFunction FunctionName="MoneyBinModel.Store.sp_BalanceItemUpdate">
+                  <ScalarProperty Name="NovaSubCategoria" ParameterName="NovaSubCategoria" Version="Current" />
+                  <ScalarProperty Name="NovaCategoria" ParameterName="NovaCategoria" Version="Current" />
+                  <ScalarProperty Name="NovoGrupo" ParameterName="NovoGrupo" Version="Current" />
+                  <ScalarProperty Name="Descricao" ParameterName="Descricao" Version="Current" />
+                  <ScalarProperty Name="SubCategoria" ParameterName="SubCategoria" Version="Current" />
+                  <ScalarProperty Name="Categoria" ParameterName="Categoria" Version="Current" />
+                  <ScalarProperty Name="Grupo" ParameterName="Grupo" Version="Current" />
+                  <ScalarProperty Name="AfetaSaldo" ParameterName="AfetaSaldo" Version="Current" />
+                  <ScalarProperty Name="ID" ParameterName="ID" Version="Current" />
+                </UpdateFunction>
+                <DeleteFunction FunctionName="MoneyBinModel.Store.sp_BalanceItemDelete">
+                  <ScalarProperty Name="ID" ParameterName="ID" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

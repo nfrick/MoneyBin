@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using MoneyBin.Forms;
 
 namespace MoneyBin {
     public partial class frmMain : Form {
@@ -26,7 +27,7 @@ namespace MoneyBin {
         }
 
         private void toolStripButtonNewViewer_Click(object sender, EventArgs e) {
-            var frm = new frmViewer { MdiParent = this };
+            var frm = new frmBalance { MdiParent = this };
             frm.Show();
         }
 

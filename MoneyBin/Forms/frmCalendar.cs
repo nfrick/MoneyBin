@@ -8,7 +8,7 @@ using GridAndChartStyleLibrary;
 
 namespace MoneyBin {
     public partial class frmCalendar : CustomControls.frmBase {
-        public SortableBindingList<Calendar> CalendarItems;
+        public SortableBindingList<CalendarOld> CalendarItems;
         private BindingSource _source = null;
 
         public event EventHandler OnCalendarGridRecordsChanged;

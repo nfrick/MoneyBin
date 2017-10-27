@@ -15,8 +15,8 @@ namespace CustomControls {
 
     public partial class BalanceGrid : UserControl {
         ContextMenuStrip contextMenuStripColunas;
-        public List<BalanceItem> BalanceItems = null;
-        public List<BalanceItem> DeletedItems = new List<BalanceItem>();
+        public List<BalanceItemOld> BalanceItems = null;
+        public List<BalanceItemOld> DeletedItems = new List<BalanceItemOld>();
         private BindingSource source = null;
         private GridMode Mode;
         private int StartRow;  // para calculo de saldos
@@ -69,7 +69,7 @@ namespace CustomControls {
             PanelSize = size;
         }
 
-        public void SetSource(List<BalanceItem> items, bool exibeSaldo) {
+        public void SetSource(List<BalanceItemOld> items, bool exibeSaldo) {
             if (SaveChanges(true)) {
                 BalanceItems = items;
                 ToolStripMenuItem item = (ToolStripMenuItem)contextMenuStripColunas.Items["saldoDataGridViewTextBoxColumn"];
@@ -140,7 +140,7 @@ namespace CustomControls {
         private void balanceItemDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex == -1)
                 return;
-            BalanceItem bi = BalanceItems[e.RowIndex];
+            BalanceItemOld bi = BalanceItems[e.RowIndex];
             if (Mode == GridMode.EditExisting)
                 bi.Updated = true;
             string x = balanceItemDataGridView.Columns[e.ColumnIndex].Name;
@@ -175,7 +175,7 @@ namespace CustomControls {
                 return;
             }
             frmCategorizer frm = new frmCategorizer();
-            frm.SelectedItems = new List<BalanceItem>();
+            frm.SelectedItems = new List<BalanceItemOld>();
             foreach (DataGridViewRow r in SelectedRows)
                 frm.SelectedItems.Add(BalanceItems[r.Index]);
             frm.ShowDialog();
@@ -233,7 +233,7 @@ namespace CustomControls {
         private void balanceItemDataGridView_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e) {
             int col = balanceItemDataGridView.CurrentCell.ColumnIndex;
             int row = balanceItemDataGridView.CurrentCell.RowIndex;
-            BalanceItem bi = BalanceItems[row];
+            BalanceItemOld bi = BalanceItems[row];
             TextBox txt = e.Control as TextBox;
             if (balanceItemDataGridView.Columns[col].HeaderText == "Categoria") {
                 txt.AutoCompleteCustomSource = mClass.Categorias(bi);

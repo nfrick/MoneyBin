@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace MoneyBin {
     public partial class frmReader : CustomControls.frmBase {
-        private readonly List<BalanceItem> _newBalanceItems;
+        private readonly List<BalanceItemOld> _newBalanceItems;
         public bool HasData;
 
         public frmReader() {

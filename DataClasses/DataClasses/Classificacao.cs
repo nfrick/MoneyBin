@@ -23,7 +23,7 @@ namespace DataClasses {
             return CreateCollection(array);
         }
 
-        public AutoCompleteStringCollection Categorias(BalanceItem bi) {
+        public AutoCompleteStringCollection Categorias(BalanceItemOld bi) {
             var array = (from p in GCSs
                               where p.Grupo == bi.Grupo
                               select p.Categoria).ToArray();
@@ -31,14 +31,14 @@ namespace DataClasses {
         }
 
 
-        public AutoCompleteStringCollection SubCategorias(BalanceItem bi) {
+        public AutoCompleteStringCollection SubCategorias(BalanceItemOld bi) {
             var array = (from p in GCSs
                             where p.Grupo == bi.Grupo && p.Categoria == bi.Categoria
                             select p.SubCategoria).ToArray();
             return CreateCollection(array);
         }
 
-        public AutoCompleteStringCollection Descricoes(BalanceItem bi) {
+        public AutoCompleteStringCollection Descricoes(BalanceItemOld bi) {
             var array = (from p in GCSs
                               where p.Grupo == bi.Grupo && 
                                     p.Categoria == bi.Categoria && 

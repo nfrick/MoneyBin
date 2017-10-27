@@ -4,11 +4,10 @@ using CsvHelper.Configuration;
 
 namespace DataClasses {
  
-    public sealed class ExtratoCEFMap : CsvClassMap<BalanceItem> {
+    public sealed class ExtratoCEFMap : ClassMap<BalanceItemOld> {
         //"Conta";"Data_Mov";"Nr_Doc";"Historico";"Valor";"Deb_Cred"
-
         public ExtratoCEFMap() {
-            Map(m => m.Banco).ConvertUsing(row => "CEF");
+            Map(m => m.Banco).Constant("CEF");
             Map(m => m.Data).Index(1).ConvertUsing(row => DateTime.ParseExact(row.GetField<string>(1),
                 "yyyyMMdd", CultureInfo.InvariantCulture));
             Map(m => m.Documento).Index(2);
@@ -19,10 +18,10 @@ namespace DataClasses {
         }
     }
 
-    public sealed class ExtratoBBMap : CsvClassMap<BalanceItem> {
+    public sealed class ExtratoBBMap : ClassMap<BalanceItemOld> {
         //"Data","Dependencia Origem","Histórico","Data do Balancete","Número do documento","Valor",
         public ExtratoBBMap() {
-            Map(m => m.Banco).ConvertUsing(row => "BB");
+            Map(m => m.Banco).Constant("BB");
             Map(m => m.Data).Index(0).ConvertUsing(row => DateTime.ParseExact(row.GetField<string>(0),
                 "MM/dd/yyyy",
                 CultureInfo.CurrentUICulture));

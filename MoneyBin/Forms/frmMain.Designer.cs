@@ -138,7 +138,7 @@
             this.toolStripButtonCalendar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonCalendar.Name = "toolStripButtonCalendar";
             this.toolStripButtonCalendar.Size = new System.Drawing.Size(72, 56);
-            this.toolStripButtonCalendar.Text = "Calendar";
+            this.toolStripButtonCalendar.Text = "CalendarOld";
             this.toolStripButtonCalendar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButtonCalendar.Click += new System.EventHandler(this.toolStripButtonCalendar_Click);
             // 

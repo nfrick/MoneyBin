@@ -15,7 +15,7 @@ namespace MoneyBin {
     public partial class frmExport : Form {
         private delegate bool Exporter();
 
-        public List<BalanceItem> Items { get; set; }
+        public List<BalanceItemOld> Items { get; set; }
         private Exporter _exporter;
 
         public frmExport() {
@@ -101,7 +101,7 @@ namespace MoneyBin {
                     progressDialog.Maximum = Items.Count;
                     progressDialog.UpdateProgress("Exporting \u2026");
                     var sw = new StreamWriter(textBoxSaveAs.Text, false, Encoding.Default);
-                    sw.WriteLine(BalanceItem.CSVHeader());
+                    sw.WriteLine(BalanceItemOld.CSVHeader());
 
                     foreach (var item in Items) {
                         progressDialog.UpdateProgress();
@@ -138,7 +138,7 @@ namespace MoneyBin {
             return ToExcel(MoneyBinDB.GetAcertoItems());
         }
 
-        private bool ToExcel(ICollection<BalanceItem> mItems) {
+        private bool ToExcel(ICollection<BalanceItemOld> mItems) {
             var pck = new ExcelPackage(new FileInfo(textBoxSaveAs.Text));
             var ws = pck.Workbook.Worksheets.Add("Balance");
             ws.View.ShowGridLines = false;

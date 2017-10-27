@@ -26,6 +26,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmRules));
             this.dgvRules = new System.Windows.Forms.DataGridView();
+            this.RuleBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.isNewDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.bancoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -37,9 +38,11 @@
             this.categoriaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.subCategoriaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descricaoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NovoGrupo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NovaCategoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NovaSubCategoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ocorrenciasDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.updatedDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.RuleBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRules)).BeginInit();
@@ -74,6 +77,9 @@
             this.categoriaDataGridViewTextBoxColumn,
             this.subCategoriaDataGridViewTextBoxColumn,
             this.descricaoDataGridViewTextBoxColumn,
+            this.NovoGrupo,
+            this.NovaCategoria,
+            this.NovaSubCategoria,
             this.ocorrenciasDataGridViewTextBoxColumn,
             this.updatedDataGridViewCheckBoxColumn});
             this.dgvRules.DataSource = this.RuleBindingSource;
@@ -91,6 +97,10 @@
             this.dgvRules.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridViewRules_UserAddedRow);
             this.dgvRules.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridViewRules_UserDeletedRow);
             this.dgvRules.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dataGridViewRules_UserDeletingRow);
+            // 
+            // RuleBindingSource
+            // 
+            this.RuleBindingSource.DataSource = typeof(DataClasses.Rule);
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -173,6 +183,24 @@
             this.descricaoDataGridViewTextBoxColumn.HeaderText = "Descrição";
             this.descricaoDataGridViewTextBoxColumn.Name = "descricaoDataGridViewTextBoxColumn";
             // 
+            // NovoGrupo
+            // 
+            this.NovoGrupo.DataPropertyName = "NovoGrupo";
+            this.NovoGrupo.HeaderText = "NovoGrupo";
+            this.NovoGrupo.Name = "NovoGrupo";
+            // 
+            // NovaCategoria
+            // 
+            this.NovaCategoria.DataPropertyName = "NovaCategoria";
+            this.NovaCategoria.HeaderText = "NovaCategoria";
+            this.NovaCategoria.Name = "NovaCategoria";
+            // 
+            // NovaSubCategoria
+            // 
+            this.NovaSubCategoria.DataPropertyName = "NovaSubCategoria";
+            this.NovaSubCategoria.HeaderText = "NovaSubCategoria";
+            this.NovaSubCategoria.Name = "NovaSubCategoria";
+            // 
             // ocorrenciasDataGridViewTextBoxColumn
             // 
             this.ocorrenciasDataGridViewTextBoxColumn.DataPropertyName = "Ocorrencias";
@@ -186,10 +214,6 @@
             this.updatedDataGridViewCheckBoxColumn.HeaderText = "Updated";
             this.updatedDataGridViewCheckBoxColumn.Name = "updatedDataGridViewCheckBoxColumn";
             this.updatedDataGridViewCheckBoxColumn.Visible = false;
-            // 
-            // RuleBindingSource
-            // 
-            this.RuleBindingSource.DataSource = typeof(DataClasses.Rule);
             // 
             // frmRules
             // 
@@ -227,6 +251,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn categoriaDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn subCategoriaDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn descricaoDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NovoGrupo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NovaCategoria;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NovaSubCategoria;
         private System.Windows.Forms.DataGridViewTextBoxColumn ocorrenciasDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn updatedDataGridViewCheckBoxColumn;
     }

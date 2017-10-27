@@ -9,12 +9,12 @@ namespace CustomControls {
             InitializeComponent();
         }
 
-        public List<BalanceItem> SelectedItems;
+        public List<BalanceItemOld> SelectedItems;
 
         private void buttonPreencher_Click(object sender, EventArgs e) {
             progressBar1.Maximum = SelectedItems.Count;
             progressBar1.Value = 0;
-            foreach (BalanceItem bi in SelectedItems) {
+            foreach (BalanceItemOld bi in SelectedItems) {
                 progressBar1.Value++;
                 if (checkBoxGrupo.Checked)
                     bi.Grupo = textBoxGrupo.Text.Length == 0 ? null : textBoxGrupo.Text;

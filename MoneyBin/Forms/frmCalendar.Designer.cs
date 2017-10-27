@@ -146,7 +146,7 @@
             // 
             // calendarBindingSource
             // 
-            this.calendarBindingSource.DataSource = typeof(DataClasses.Calendar);
+            this.calendarBindingSource.DataSource = typeof(DataClasses.CalendarOld);
             // 
             // panel1
             // 
@@ -182,7 +182,7 @@
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "frmCalendar";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Calendar";
+            this.Text = "CalendarOld";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmCalendar_FormClosing);
             this.Load += new System.EventHandler(this.frmCalendar_Load);
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);

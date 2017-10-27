@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1a20bec3e2934767a7a9af94d0303b6b" Name="Diagram1" ZoomLevel="100">
+        <EntityTypeShape EntityType="MoneyBinModel.BalanceItem" Width="1.875" PointX="1.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MoneyBinModel.Group" Width="1.5" PointX="4.375" PointY="0.75" />
+        <AssociationConnector Association="MoneyBinModel.FK_tblBalance_tblNovosGrupos" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

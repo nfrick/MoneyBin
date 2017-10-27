@@ -8,7 +8,7 @@ using System.Xml;
 using System.Xml.Linq;
 
 namespace DataClasses {
-    public class BalanceItem : IEquatable<BalanceItem> {
+    public class BalanceItemOld : IEquatable<BalanceItemOld> {
         public int ID { get; }
         public bool IsNew => (ID == 0);
         public string Banco { get; set; }
@@ -43,7 +43,7 @@ namespace DataClasses {
 
 
         public XElement toXML() {
-            return new XElement("BalanceItem",
+            return new XElement("BalanceItemOld",
                 new XAttribute("ID", ID),
                 new XElement("Banco", Banco),
                 new XElement("Data", Data.ToString("MM/dd/yyyy")),
@@ -59,17 +59,17 @@ namespace DataClasses {
         }
 
         /// <summary>
-        /// Creates a new BalanceItem
+        /// Creates a new BalanceItemOld
         /// </summary>
-        public BalanceItem() {
+        public BalanceItemOld() {
             Updated = true;
         }
 
         /// <summary>
-        /// Creates a BalanceItem from SQL Server database record
+        /// Creates a BalanceItemOld from SQL Server database record
         /// </summary>
         /// <param name="r"></param>
-        public BalanceItem(SqlDataReader r) {
+        public BalanceItemOld(SqlDataReader r) {
             ID = (int)r["ID"];
             Banco = r["Banco"].ToString();
             Data = (DateTime)r["Data"];
@@ -89,11 +89,11 @@ namespace DataClasses {
 
 
         /// <summary>
-        /// Creates a BalanceItem from a XML node
+        /// Creates a BalanceItemOld from a XML node
         /// </summary>
         /// <param name="xTRNode">XML node</param>
         /// <param name="banco">Bank code</param>
-        public BalanceItem(XmlNode xTDNode, string banco) {
+        public BalanceItemOld(XmlNode xTDNode, string banco) {
             Banco = banco;
             AfetaSaldo = true;
             Grupo = "";
@@ -131,12 +131,12 @@ namespace DataClasses {
         ///// <param name="bi"></param>
         ///// <returns></returns>
         public override bool Equals(object obj) {
-            if (!(obj is BalanceItem)) throw new ArgumentException("Object is not a BalanceItem");
-            var other = (BalanceItem)obj;
+            if (!(obj is BalanceItemOld)) throw new ArgumentException("Object is not a BalanceItemOld");
+            var other = (BalanceItemOld)obj;
             return this.Equals(other);
         }
 
-        public bool Equals(BalanceItem other) {
+        public bool Equals(BalanceItemOld other) {
             if (other == null)
                 return false;
             return this.Data.Equals(other.Data) &&
@@ -146,7 +146,7 @@ namespace DataClasses {
             (other.Documento == null ? (this.Documento == null || this.Documento.Equals("")) : this.Documento.Equals(other.Documento));
         }
 
-        public bool Similar(BalanceItem other) {
+        public bool Similar(BalanceItemOld other) {
             if (other == null)
                 return false;
             return this.Data.Equals(other.Data) &&
@@ -161,14 +161,14 @@ namespace DataClasses {
         }
 
 
-        public static bool operator ==(BalanceItem bi1, BalanceItem bi2) {
+        public static bool operator ==(BalanceItemOld bi1, BalanceItemOld bi2) {
             if (object.ReferenceEquals(bi1, bi2)) return true;
             if (object.ReferenceEquals(bi1, null)) return false;
             return !object.ReferenceEquals(bi2, null) && bi1.Equals(bi2);
         }
 
 
-        public static bool operator !=(BalanceItem bi1, BalanceItem bi2) {
+        public static bool operator !=(BalanceItemOld bi1, BalanceItemOld bi2) {
             if (object.ReferenceEquals(bi1, bi2)) return false;
             if (object.ReferenceEquals(bi1, null)) return true;
             if (object.ReferenceEquals(bi2, null)) return true;
@@ -225,10 +225,10 @@ namespace DataClasses {
         }
     }
 
-    public class BalanceItemComGrupo : BalanceItem {
+    public class BalanceItemOldComGrupo : BalanceItemOld {
         public string GrupoNome { get; set; }
 
-        public BalanceItemComGrupo(SqlDataReader r) : base(r) {
+        public BalanceItemOldComGrupo(SqlDataReader r) : base(r) {
             GrupoNome = r["GrupoNome"].ToString();
         }
     }

@@ -9,8 +9,8 @@ using CsvHelper;
 
 namespace DataClasses {
     public static class BalanceFileReader {
-        public static List<BalanceItem> Read() {
-            var NewItems = new List<BalanceItem>();
+        public static List<BalanceItemOld> Read() {
+            var NewItems = new List<BalanceItemOld>();
             var dlg = new OpenFileDialog {
                 Filter = @"Balance Files|*.csv;*.txt;*.xls|All Files|*.*",
                 Multiselect = true,
@@ -32,12 +32,12 @@ namespace DataClasses {
     }
 
     public class Extrato {
-        private List<BalanceItem> _extratoItems; // = new List<BalanceItem>();
+        private List<BalanceItemOld> _extratoItems; // = new List<BalanceItemOld>();
 
         public string Banco { get; }
 
         /// <summary>
-        /// Populates the BalanceItem list with entries from a file
+        /// Populates the BalanceItemOld list with entries from a file
         /// </summary>
         /// <param name="filepath">Path of the import file</param>
         public Extrato(string filepath) {
@@ -70,12 +70,12 @@ namespace DataClasses {
                     csv.Configuration.RegisterClassMap<ExtratoCEFMap>();
                 }
 
-                _extratoItems = csv.GetRecords<BalanceItem>().ToList();
+                _extratoItems = csv.GetRecords<BalanceItemOld>().ToList();
             }
         }
 
         private void ExtratoFromXML(string filepath) {
-            _extratoItems = new List<BalanceItem>();
+            _extratoItems = new List<BalanceItemOld>();
 
             var htmlContent = File.ReadAllText(filepath).Replace("Saldo<td>", "Saldo</td>");
             var xmlDoc = new XmlDocument();
@@ -92,15 +92,15 @@ namespace DataClasses {
             var rows = xTableNode.SelectNodes("tr");
             for (var i = 1; i < rows.Count; i++) {
                 var xTDNode = rows[i].SelectNodes("td")[0];
-                _extratoItems.Add(new BalanceItem(xTDNode, Banco));
+                _extratoItems.Add(new BalanceItemOld(xTDNode, Banco));
             }
         }
 
         /// <summary>
         /// Returns list of entries in Extrato
         /// </summary>
-        /// <returns>List<BalanceItem></returns>
-        public List<BalanceItem> GetEntries(bool getAll) {
+        /// <returns>List<BalanceItemOld></returns>
+        public List<BalanceItemOld> GetEntries(bool getAll) {
             return getAll ? 
                 _extratoItems : 
                 _extratoItems.Where(n => n.Data.CompareTo(MoneyBinDB.GetDataMax(Banco)) >= 0).ToList();
