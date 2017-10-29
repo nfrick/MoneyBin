@@ -11,7 +11,9 @@ using System.Windows.Forms;
 namespace MoneyBin.Forms {
     public partial class frmBalance : Form {
         private MoneyBinEntities _ctx;
+        private AutoCompleteStringCollection _grupoPicklist;
 
+        #region FORM
         public frmBalance() {
             InitializeComponent();
         }
@@ -36,6 +38,31 @@ namespace MoneyBin.Forms {
             toolStripComboBoxBanco.ComboBox.SelectedIndex = 0;
         }
 
+        private void frmBalance_FormClosing(object sender, FormClosingEventArgs e) {
+            if (!_ctx.ChangeTracker.HasChanges()) return;
+            switch (PerguntaSeSalva()) {
+                case DialogResult.Yes:
+                    _ctx.SaveChanges();
+                    break;
+                case DialogResult.Cancel:
+                    e.Cancel = true;
+                    break;
+            }
+        }
+
+        private DialogResult PerguntaSeSalva() {
+            return MessageBox.Show(Alteracoes() + @"?", Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+        }
+
+        private string Alteracoes() {
+            var alts = _ctx.ChangeTracker.Entries().Count(entry => entry.State == EntityState.Added ||
+                                                                   entry.State == EntityState.Deleted ||
+                                                                   entry.State == EntityState.Modified);
+            return $" Salvar {alts} alteraç" + (alts == 1 ? "ão" : "ões");
+        }
+        #endregion FORM
+
+        #region TOOLBAR
         private void toolStripComboBoxBanco_SelectedIndexChanged(object sender, EventArgs e) {
             BalanceBindingSource.DataSource = _ctx.BalanceComSaldo
                 .Where(b => b.Banco == (string)toolStripComboBoxBanco.SelectedItem)
@@ -60,39 +87,9 @@ namespace MoneyBin.Forms {
                     .OrderByDescending(b => b.Data).ThenByDescending(b => b.ID).ToList();
         }
 
-        private void dgvBalance_CellEndEdit(object sender, DataGridViewCellEventArgs e) {
-            var tracker = _ctx.ChangeTracker;
-            toolStripButtonSalvar.Visible = toolStripSeparatorSalvar.Visible =
-                toolStripButtonDesfazer.Visible = tracker.HasChanges();
-            toolStripButtonSalvar.Text = Alteracoes();
-        }
-
         private void toolStripButtonSalvar_Click(object sender, EventArgs e) {
             _ctx.SaveChanges();
             toolStripButtonSalvar.Visible = false;
-        }
-
-        private void frmBalance_FormClosing(object sender, FormClosingEventArgs e) {
-            if (!_ctx.ChangeTracker.HasChanges()) return;
-            switch (PerguntaSeSalva()) {
-                case DialogResult.Yes:
-                    _ctx.SaveChanges();
-                    break;
-                case DialogResult.Cancel:
-                    e.Cancel = true;
-                    break;
-            }
-        }
-
-        private DialogResult PerguntaSeSalva() {
-            return MessageBox.Show(Alteracoes() + @"?", Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-        }
-
-        private string Alteracoes() {
-            var alts = _ctx.ChangeTracker.Entries().Count(entry => entry.State == EntityState.Added ||
-                                                                   entry.State == EntityState.Deleted ||
-                                                                   entry.State == EntityState.Modified);
-            return $" Salvar {alts} alteraç" + (alts == 1 ? "ão" : "ões");
         }
 
         private void toolStripButtonProcurar_Click(object sender, EventArgs e) {
@@ -131,14 +128,21 @@ namespace MoneyBin.Forms {
                 toolStripButtonDesfazer.Visible = false;
             dgvBalance.Refresh();
         }
+        #endregion TOOLBAR
 
+        #region DATAGRIDVIEW
+        private void dgvBalance_CellEndEdit(object sender, DataGridViewCellEventArgs e) {
+            var tracker = _ctx.ChangeTracker;
+            toolStripButtonSalvar.Visible = toolStripSeparatorSalvar.Visible =
+                toolStripButtonDesfazer.Visible = tracker.HasChanges();
+            toolStripButtonSalvar.Text = Alteracoes();
+        }
         private void dgvBalance_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             if ((e.ColumnIndex != 6 && e.ColumnIndex != 7) || (decimal)e.Value > 0) return;
             e.CellStyle.ForeColor = Color.DarkOrange;
         }
 
-        private void CalculaSaldos(int start)
-        {
+        private void CalculaSaldos(int start) {
             var _BalanceItems = (List<BalanceItemComSaldo>)BalanceBindingSource.DataSource;
             var saldo = start == _BalanceItems.Count - 1 ? 0.0m : _BalanceItems.ElementAt(start + 1).Saldo;
             for (var i = start; i >= 0; i--) {
@@ -148,11 +152,58 @@ namespace MoneyBin.Forms {
             }
             dgvBalance.Refresh();
         }
-
+        
         private void dgvBalance_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex == -1 || dgvBalance.Columns[e.ColumnIndex].Name !=
                 "afetaSaldoDataGridViewCheckBoxColumn") return;
             CalculaSaldos(e.RowIndex);
         }
+        private void dgvBalance_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e) {
+            var dgv = (DataGridView)sender;
+            var row = dgv.CurrentCell.RowIndex;
+            var col = dgv.CurrentCell.ColumnIndex;
+            var bi = (BalanceItemComSaldo) dgv.Rows[row].DataBoundItem;
+            var txt = e.Control as TextBox;
+            using (var ctx = new MoneyBinEntities()) {
+                switch (dgv.Columns[col].HeaderText) {
+                    case "Novo Grupo":
+                        if (_grupoPicklist == null)
+                            _grupoPicklist = CreateCollection(ctx.BalanceComSaldo.Select(b => b.NovoGrupo).Distinct().ToArray());
+                        txt.AutoCompleteCustomSource = _grupoPicklist;
+                        txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                        txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        break;
+                    case "Nova Categoria":
+                        txt.AutoCompleteCustomSource =
+                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovoGrupo == bi.NovoGrupo).Select(b => b.NovaCategoria).Distinct().ToArray());
+                        txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                        txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        break;
+                    case "Nova SubCategoria":
+                        txt.AutoCompleteCustomSource =
+                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovaCategoria == bi.NovaCategoria).Select(b => b.NovaSubCategoria).Distinct().ToArray());
+                        txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                        txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        break;
+                    case "Descrição":
+                        txt.AutoCompleteCustomSource =
+                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovaSubCategoria == bi.NovaSubCategoria).Select(b => b.Descricao).Distinct().ToArray());
+                        txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                        txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        break;
+                    default:
+                        txt.AutoCompleteMode = AutoCompleteMode.None;
+                        break;
+                }
+            }
+        }
+
+        private AutoCompleteStringCollection CreateCollection(string[] array) {
+            var source = new AutoCompleteStringCollection();
+            source.AddRange(array);
+            return source;
+        }
+
+        #endregion DATAGRIDVIEW
     }
 }

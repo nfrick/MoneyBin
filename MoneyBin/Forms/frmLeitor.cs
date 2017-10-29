@@ -10,7 +10,10 @@ using System.Windows.Forms;
 namespace MoneyBin.Forms {
     public partial class frmLeitor : Form {
         private List<BalanceItemComSaldo> _BalanceItems;
+        private AutoCompleteStringCollection _grupoPicklist;
         public bool HasData;
+
+        #region FORM
         public frmLeitor() {
             InitializeComponent();
 
@@ -32,53 +35,31 @@ namespace MoneyBin.Forms {
             this.Width = 150 + dgvBalance.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
 
             dgvBalance.DataSource = _BalanceItems;
-            AtualizaBotoes();
+            AtualizarBotoes();
         }
 
-        private void dgvBalance_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (dgvBalance.RowCount == 0) return;
-            var lastCol = dgvBalance.ColumnCount - 1;
-            if ((bool)dgvBalance.Rows[e.RowIndex].Cells[lastCol].Value) return;
-            e.CellStyle.ForeColor = Color.DarkGray;
-        }
-
-        private void dgvBalance_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) {
-            var lastCol = dgvBalance.ColumnCount - 1;
-            var novoValor = !(bool)dgvBalance.Rows[e.RowIndex].Cells[lastCol].Value;
-            dgvBalance.Rows[e.RowIndex].Cells[lastCol].Value = novoValor;
-            dgvBalance.Refresh();
-            AtualizaBotoes();
-        }
-
-        private void AtualizaBotoes() {
-            toolStripButtonSalvar.Visible = toolStripButtonLimpar.Visible =
-                _BalanceItems.Any(bi => bi.AddToDatabase);
-            if (!toolStripButtonSalvar.Visible) return;
-            toolStripButtonSalvar.Text = $@"Salvar {_BalanceItems.Count(bi => bi.AddToDatabase)} novos itens";
-        }
-
-        private void CalculaSaldos(int start) {
-            var saldo = start == _BalanceItems.Count - 1 ? 0.0m : _BalanceItems.ElementAt(start + 1).Saldo;
-            for (var i = start; i >= 0; i--) {
-                var bi = _BalanceItems.ElementAt(i);
-                saldo += bi.ValorParaSaldo;
-                bi.Saldo = saldo;
+        private void frmLeitor_FormClosing(object sender, FormClosingEventArgs e) {
+            if (!_BalanceItems.Any(bi => bi.AddToDatabase)) return;
+            switch (MessageBox.Show(@"Salvar alterações pendentes?", Text, MessageBoxButtons.YesNoCancel,
+                MessageBoxIcon.Question)) {
+                case DialogResult.Cancel:
+                    e.Cancel = true;
+                    break;
+                case DialogResult.Yes:
+                    Salvar();
+                    break;
+                case DialogResult.No:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            dgvBalance.Refresh();
         }
-
-        private void dgvBalance_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
-            if (e.RowIndex == -1 || dgvBalance.Columns[e.ColumnIndex].Name !=
-                "afetaSaldoDataGridViewCheckBoxColumn") return;
-            CalculaSaldos(e.RowIndex);
-        }
-
-        private void toolStripButtonSalvar_Click(object sender, EventArgs e) {
-            int count;
+        
+        private int Salvar() {
             using (var ctx = new MoneyBinEntities()) {
                 ctx.BalanceComSaldo.AddRange(_BalanceItems.Where(bi => bi.AddToDatabase).ToList());
                 try {
-                    count = ctx.SaveChanges();
+                    return ctx.SaveChanges();
                 }
                 catch (DbEntityValidationException ex) {
                     foreach (var eve in ex.EntityValidationErrors) {
@@ -92,6 +73,118 @@ namespace MoneyBin.Forms {
                     throw;
                 }
             }
+        }
+
+        private void Limpar() {
+            dgvBalance.DataSource = null;
+            _BalanceItems.Clear();
+            dgvBalance.DataSource = _BalanceItems;
+            AtualizarBotoes();
+        }
+
+        private void LerArquivo() {
+            dgvBalance.DataSource = null;
+            _BalanceItems = _BalanceItems.Concat(BalanceFileReader.Read()).Distinct().ToList();
+            dgvBalance.DataSource = _BalanceItems;
+            AtualizarBotoes();
+        }
+        #endregion
+
+        #region GRID
+        private void dgvBalance_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
+            if (dgvBalance.RowCount == 0) return;
+            var lastCol = dgvBalance.ColumnCount - 1;
+            if ((bool)dgvBalance.Rows[e.RowIndex].Cells[lastCol].Value) return;
+            e.CellStyle.ForeColor = Color.DarkGray;
+        }
+
+        private void dgvBalance_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) {
+            var lastCol = dgvBalance.ColumnCount - 1;
+            if (_BalanceItems.ElementAt(e.RowIndex).Grupo == "Saldo") return;
+            var novoValor = !(bool)dgvBalance.Rows[e.RowIndex].Cells[lastCol].Value;
+            dgvBalance.Rows[e.RowIndex].Cells[lastCol].Value = novoValor;
+            dgvBalance.Refresh();
+            AtualizarBotoes();
+        }
+
+        private void dgvBalance_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
+            if (e.RowIndex == -1 || dgvBalance.Columns[e.ColumnIndex].Name !=
+                "afetaSaldoDataGridViewCheckBoxColumn") return;
+            CalculaSaldos(e.RowIndex);
+        }
+
+        private void CalculaSaldos(int start) {
+            var saldo = start == _BalanceItems.Count - 1 ? 0.0m : _BalanceItems.ElementAt(start + 1).Saldo;
+            for (var i = start; i >= 0; i--) {
+                var bi = _BalanceItems.ElementAt(i);
+                saldo += bi.ValorParaSaldo;
+                bi.Saldo = saldo;
+            }
+            dgvBalance.Refresh();
+        }
+
+        private void dgvBalance_DataError(object sender, DataGridViewDataErrorEventArgs e) {
+            MessageBox.Show($"Row: {e.RowIndex}\nColumn: {e.ColumnIndex}\n\nError: {e.Exception}", Text,
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void dgvBalance_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e) {
+            var dgv = (DataGridView)sender;
+            var row = dgv.CurrentCell.RowIndex;
+            var col = dgv.CurrentCell.ColumnIndex;
+            var bi = _BalanceItems[row];
+            var txt = e.Control as TextBox;
+            using (var ctx = new MoneyBinEntities()) {
+                switch (dgv.Columns[col].HeaderText) {
+                    case "Novo Grupo":
+                        if (_grupoPicklist == null)
+                            _grupoPicklist = CreateCollection(ctx.BalanceComSaldo.Select(b => b.NovoGrupo).Distinct().ToArray());
+                        txt.AutoCompleteCustomSource = _grupoPicklist;
+                        txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                        txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        break;
+                    case "Nova Categoria":
+                        txt.AutoCompleteCustomSource =
+                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovoGrupo == bi.NovoGrupo).Select(b => b.NovaCategoria).Distinct().ToArray());
+                        txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                        txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        break;
+                    case "Nova SubCategoria":
+                        txt.AutoCompleteCustomSource =
+                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovaCategoria == bi.NovaCategoria).Select(b => b.NovaSubCategoria).Distinct().ToArray());
+                        txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                        txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        break;
+                    case "Descrição":
+                        txt.AutoCompleteCustomSource =
+                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovaSubCategoria == bi.NovaSubCategoria).Select(b => b.Descricao).Distinct().ToArray());
+                        txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                        txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        break;
+                    default:
+                        txt.AutoCompleteMode = AutoCompleteMode.None;
+                        break;
+                }
+            }
+        }
+
+        private AutoCompleteStringCollection CreateCollection(string[] array) {
+            var source = new AutoCompleteStringCollection();
+            source.AddRange(array);
+            return source;
+        }
+        #endregion
+
+        #region TOOLBAR
+        private void AtualizarBotoes() {
+            toolStripButtonSalvar.Visible = toolStripButtonLimpar.Visible =
+                _BalanceItems.Any(bi => bi.AddToDatabase);
+            if (!toolStripButtonSalvar.Visible) return;
+            toolStripButtonSalvar.Text = $@"Salvar {_BalanceItems.Count(bi => bi.AddToDatabase)} novos itens";
+        }
+
+        private void toolStripButtonSalvar_Click(object sender, EventArgs e) {
+            var count = Salvar();
             Limpar();
             if (MessageBox.Show($"{count} registros salvos. Ler outro arquivo?", Text, MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.No)
@@ -105,27 +198,9 @@ namespace MoneyBin.Forms {
             Limpar();
         }
 
-        private void Limpar() {
-            dgvBalance.DataSource = null;
-            _BalanceItems.Clear();
-            dgvBalance.DataSource = _BalanceItems;
-            AtualizaBotoes();
-        }
-
         private void toolStripButtonLerArquivo_Click(object sender, EventArgs e) {
             LerArquivo();
         }
-
-        private void LerArquivo() {
-            dgvBalance.DataSource = null;
-            _BalanceItems = _BalanceItems.Concat(BalanceFileReader.Read()).Distinct().ToList();
-            dgvBalance.DataSource = _BalanceItems;
-            AtualizaBotoes();
-        }
-
-        private void dgvBalance_DataError(object sender, DataGridViewDataErrorEventArgs e) {
-            MessageBox.Show($"Row: {e.RowIndex}\nColumn: {e.ColumnIndex}\n\nError: {e.Exception}", Text,
-                MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
+        #endregion
     }
 }
