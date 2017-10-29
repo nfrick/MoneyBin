@@ -12,21 +12,11 @@ namespace DataLayer
     using System;
     using System.Collections.Generic;
     
-    public partial class Rule
+    public partial class DataMaxMin
     {
-        public int ID { get; set; }
         public string Banco { get; set; }
-        public string Historico { get; set; }
-        public int Comparacao { get; set; }
-        public bool AfetaSaldo { get; set; }
-        public string Grupo { get; set; }
-        public string Categoria { get; set; }
-        public string SubCategoria { get; set; }
-        public string Descricao { get; set; }
-        public Nullable<int> Ocorrencias { get; set; }
-        public string NovoGrupo { get; set; }
-        public string NovaCategoria { get; set; }
-        public string NovaSubCategoria { get; set; }
+        public Nullable<System.DateTime> DataMin { get; set; }
+        public Nullable<System.DateTime> DataMax { get; set; }
     
         public virtual Bank Bank { get; set; }
     }

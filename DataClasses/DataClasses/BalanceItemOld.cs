@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Text;
-using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -125,11 +123,11 @@ namespace DataClasses {
         }
 
 
-        ///// <summary>
-        ///// Compares two BalanceItems
-        ///// </summary>
-        ///// <param name="bi"></param>
-        ///// <returns></returns>
+        /// <summary>
+        /// Compares two BalanceItems
+        /// </summary>
+        /// <param name="bi"></param>
+        /// <returns></returns>
         public override bool Equals(object obj) {
             if (!(obj is BalanceItemOld)) throw new ArgumentException("Object is not a BalanceItemOld");
             var other = (BalanceItemOld)obj;

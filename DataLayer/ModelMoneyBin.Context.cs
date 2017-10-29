@@ -29,9 +29,10 @@ namespace DataLayer
     
         public virtual DbSet<CalendarItem> Calendar { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
-        public virtual DbSet<Rule> Rules { get; set; }
-        public virtual DbSet<BalanceItem> Balance { get; set; }
         public virtual DbSet<BalanceItemComSaldo> BalanceComSaldo { get; set; }
+        public virtual DbSet<Bank> Banks { get; set; }
+        public virtual DbSet<Rule> Rules { get; set; }
+        public virtual DbSet<DataMaxMin> DataMaxsMins { get; set; }
     
         public virtual int sp_BalanceItemDelete(Nullable<int> iD)
         {

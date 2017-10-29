@@ -1,7 +1,7 @@
 ﻿using DataLayer;
 using GridAndChartStyleLibrary;
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Drawing;
 using System.Linq;
@@ -135,6 +135,24 @@ namespace MoneyBin.Forms {
         private void dgvBalance_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             if ((e.ColumnIndex != 6 && e.ColumnIndex != 7) || (decimal)e.Value > 0) return;
             e.CellStyle.ForeColor = Color.DarkOrange;
+        }
+
+        private void CalculaSaldos(int start)
+        {
+            var _BalanceItems = (List<BalanceItemComSaldo>)BalanceBindingSource.DataSource;
+            var saldo = start == _BalanceItems.Count - 1 ? 0.0m : _BalanceItems.ElementAt(start + 1).Saldo;
+            for (var i = start; i >= 0; i--) {
+                var bi = _BalanceItems.ElementAt(i);
+                saldo += bi.ValorParaSaldo;
+                bi.Saldo = saldo;
+            }
+            dgvBalance.Refresh();
+        }
+
+        private void dgvBalance_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
+            if (e.RowIndex == -1 || dgvBalance.Columns[e.ColumnIndex].Name !=
+                "afetaSaldoDataGridViewCheckBoxColumn") return;
+            CalculaSaldos(e.RowIndex);
         }
     }
 }

@@ -32,7 +32,7 @@ namespace MoneyBin {
         }
 
         private void toolStripButtonNewReader_Click(object sender, EventArgs e) {
-            var frm = new frmReader { MdiParent = this };
+            var frm = new frmLeitor { MdiParent = this };
             if (!frm.HasData) return;
             frm.Show();
         }

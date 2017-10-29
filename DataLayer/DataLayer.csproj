@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsvHelper, Version=4.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.4.0.3\lib\net45\CsvHelper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -41,6 +44,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,15 +53,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BalanceItem.cs">
+    <Compile Include="BalanceItemComSaldo.cs">
       <DependentUpon>ModelMoneyBin.tt</DependentUpon>
     </Compile>
-    <Compile Include="BalanceItemComSaldo.cs">
+    <Compile Include="Bank.cs">
       <DependentUpon>ModelMoneyBin.tt</DependentUpon>
     </Compile>
     <Compile Include="CalendarItem.cs">
       <DependentUpon>ModelMoneyBin.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataMaxMin.cs">
+      <DependentUpon>ModelMoneyBin.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ImportMaps.cs" />
     <Compile Include="ModelMoneyBin.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -73,10 +81,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelMoneyBin.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Partial Classes\BalanceItemComSaldo.cs" />
+    <Compile Include="Partial Classes\Rule.cs" />
     <Compile Include="Payment.cs">
       <DependentUpon>ModelMoneyBin.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Readers.cs" />
     <Compile Include="Rule.cs">
       <DependentUpon>ModelMoneyBin.tt</DependentUpon>
     </Compile>

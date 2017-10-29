@@ -5,25 +5,12 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="MoneyBinModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="tblBalance">
+        <EntityType Name="tblBanks">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="Banco" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Banco" Type="nvarchar" MaxLength="3" Nullable="false" />
-          <Property Name="Data" Type="date" Nullable="false" />
-          <Property Name="Historico" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="Documento" Type="nvarchar" MaxLength="50" />
-          <Property Name="Valor" Type="money" Nullable="false" />
-          <Property Name="AfetaSaldo" Type="bit" Nullable="false" />
-          <Property Name="Grupo" Type="nchar" MaxLength="1" Nullable="false" />
-          <Property Name="Categoria" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="SubCategoria" Type="nvarchar" MaxLength="30" />
-          <Property Name="Descricao" Type="nvarchar" MaxLength="200" />
-          <Property Name="NovoGrupo" Type="nvarchar" MaxLength="15" />
-          <Property Name="NovaCategoria" Type="nvarchar" MaxLength="20" />
-          <Property Name="NovaSubCategoria" Type="nvarchar" MaxLength="30" />
-          <Property Name="GrupoId" Type="int" />
+          <Property Name="Banco" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="Extensao" Type="varchar" MaxLength="4" Nullable="false" />
         </EntityType>
         <EntityType Name="tblCalendar">
           <Key>
@@ -52,7 +39,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Banco" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="Banco" Type="varchar" MaxLength="3" Nullable="false" />
           <Property Name="Historico" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Comparacao" Type="int" Nullable="false" />
           <Property Name="AfetaSaldo" Type="bit" />
@@ -70,13 +57,13 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Balance' does not have a primary k
         <EntityType Name="vw_Balance">
           <Key>
             <PropertyRef Name="ID" />
-            <PropertyRef Name="Banco" />
-            <PropertyRef Name="Data" />
-            <PropertyRef Name="Historico" />
-            <PropertyRef Name="Valor" />
-            <PropertyRef Name="AfetaSaldo" />
-            <PropertyRef Name="Grupo" />
-            <PropertyRef Name="Categoria" />
+            
+            
+            
+            
+            
+            
+            
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Banco" Type="nvarchar" MaxLength="3" Nullable="false" />
@@ -94,11 +81,33 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Balance' does not have a primary k
           <Property Name="NovaSubCategoria" Type="nvarchar" MaxLength="30" />
           <Property Name="Saldo" Type="money" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwDataMaxMin">
+          <Key>
+            <PropertyRef Name="Banco" />
+          </Key>
+          <Property Name="Banco" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="DataMin" Type="date" />
+          <Property Name="DataMax" Type="date" />
+        </EntityType>
+        <Association Name="FK_tblRules_tblBanks">
+          <End Role="tblBanks" Type="Self.tblBanks" Multiplicity="1" />
+          <End Role="tblRules" Type="Self.tblRules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBanks">
+              <PropertyRef Name="Banco" />
+            </Principal>
+            <Dependent Role="tblRules">
+              <PropertyRef Name="Banco" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="sp_BalanceItemDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_BalanceItemInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Banco" Type="nvarchar" Mode="In" />
+          <Parameter Name="Banco" Type="varchar" Mode="In" />
           <Parameter Name="Data" Type="date" Mode="In" />
           <Parameter Name="Historico" Type="nvarchar" Mode="In" />
           <Parameter Name="Documento" Type="nvarchar" Mode="In" />
@@ -124,7 +133,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Balance' does not have a primary k
           <Parameter Name="NovaSubCategoria" Type="nvarchar" Mode="In" />
         </Function>
         <EntityContainer Name="MoneyBinModelStoreContainer">
-          <EntitySet Name="tblBalance" EntityType="Self.tblBalance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblBanks" EntityType="Self.tblBanks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCalendar" EntityType="Self.tblCalendar" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPayments" EntityType="Self.tblPayments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblRules" EntityType="Self.tblRules" Schema="dbo" store:Type="Tables" />
@@ -147,6 +156,17 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Balance' does not have a primary k
     [vw_Balance].[Saldo] AS [Saldo]
     FROM [dbo].[vw_Balance] AS [vw_Balance]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vwDataMaxMin" EntityType="Self.vwDataMaxMin" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwDataMaxMin].[Banco] AS [Banco], 
+    [vwDataMaxMin].[DataMin] AS [DataMin], 
+    [vwDataMaxMin].[DataMax] AS [DataMax]
+    FROM [dbo].[vwDataMaxMin] AS [vwDataMaxMin]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_tblRules_tblBanks" Association="Self.FK_tblRules_tblBanks">
+            <End Role="tblBanks" EntitySet="tblBanks" />
+            <End Role="tblRules" EntitySet="tblRules" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -176,25 +196,9 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Balance' does not have a primary k
           <Property Name="Months" Type="Int16" Nullable="false" />
           <NavigationProperty Name="CalendarItems" Relationship="MoneyBinModel.tblPaymenttblCalendar" FromRole="tblPayment" ToRole="tblCalendar" />
         </EntityType>
-        <EntityType Name="Rule">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Banco" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Historico" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Comparacao" Type="Int32" Nullable="false" />
-          <Property Name="AfetaSaldo" Type="Boolean" />
-          <Property Name="Grupo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="Categoria" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="SubCategoria" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="Descricao" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="Ocorrencias" Type="Int32" />
-        </EntityType>
         <EntityContainer Name="MoneyBinEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Calendar" EntityType="MoneyBinModel.CalendarItem" />
           <EntitySet Name="Payments" EntityType="MoneyBinModel.Payment" />
-          <EntitySet Name="Rules" EntityType="MoneyBinModel.Rule" />
           <AssociationSet Name="tblPaymenttblCalendar" Association="MoneyBinModel.tblPaymenttblCalendar">
             <End Role="tblPayment" EntitySet="Payments" />
             <End Role="tblCalendar" EntitySet="Calendar" />
@@ -228,8 +232,22 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Balance' does not have a primary k
             <Parameter Name="NovaCategoria" Mode="In" Type="String" />
             <Parameter Name="NovaSubCategoria" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="Balance" EntityType="MoneyBinModel.BalanceItem" />
           <EntitySet Name="BalanceComSaldo" EntityType="MoneyBinModel.BalanceItemComSaldo" />
+          <EntitySet Name="Banks" EntityType="MoneyBinModel.Bank" />
+          <EntitySet Name="Rules" EntityType="MoneyBinModel.Rule" />
+          <AssociationSet Name="FK_tblRules_tblBanks" Association="MoneyBinModel.FK_tblRules_tblBanks">
+            <End Role="Bank" EntitySet="Banks" />
+            <End Role="tblRule" EntitySet="Rules" />
+          </AssociationSet>
+          <EntitySet Name="DataMaxsMins" EntityType="MoneyBinModel.DataMaxMin" />
+          <AssociationSet Name="BankDataMaxMin" Association="MoneyBinModel.BankDataMaxMin">
+            <End Role="Bank" EntitySet="Banks" />
+            <End Role="DataMaxMin" EntitySet="DataMaxsMins" />
+          </AssociationSet>
+          <AssociationSet Name="BankBalanceItemComSaldo" Association="MoneyBinModel.BankBalanceItemComSaldo">
+            <End Role="Bank" EntitySet="Banks" />
+            <End Role="BalanceItemComSaldo" EntitySet="BalanceComSaldo" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="tblPaymenttblCalendar">
           <End Type="MoneyBinModel.Payment" Role="tblPayment" Multiplicity="1" />
@@ -243,36 +261,9 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Balance' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="BalanceItem">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Banco" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="true" />
-          <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Historico" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Documento" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Valor" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="AfetaSaldo" Type="Boolean" Nullable="false" />
-          <Property Name="Grupo" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="Categoria" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="SubCategoria" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="Descricao" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="NovoGrupo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="NovaCategoria" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="NovaSubCategoria" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="GrupoId" Type="Int32" />
-        </EntityType>
         <EntityType Name="BalanceItemComSaldo">
           <Key>
             <PropertyRef Name="ID" />
-            <PropertyRef Name="Banco" />
-            <PropertyRef Name="Data" />
-            <PropertyRef Name="Historico" />
-            <PropertyRef Name="Valor" />
-            <PropertyRef Name="AfetaSaldo" />
-            <PropertyRef Name="Grupo" />
-            <PropertyRef Name="Categoria" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Banco" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="true" />
@@ -289,7 +280,82 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Balance' does not have a primary k
           <Property Name="NovaCategoria" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="NovaSubCategoria" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="Saldo" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Bank" Relationship="MoneyBinModel.BankBalanceItemComSaldo" FromRole="BalanceItemComSaldo" ToRole="Bank" />
         </EntityType>
+        <EntityType Name="Bank">
+          <Key>
+            <PropertyRef Name="Banco" />
+          </Key>
+          <Property Name="Banco" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Extensao" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Rules" Relationship="MoneyBinModel.FK_tblRules_tblBanks" FromRole="Bank" ToRole="tblRule" />
+          <NavigationProperty Name="DataMaxMins" Relationship="MoneyBinModel.BankDataMaxMin" FromRole="Bank" ToRole="DataMaxMin" />
+          <NavigationProperty Name="BalanceItemsComSaldo" Relationship="MoneyBinModel.BankBalanceItemComSaldo" FromRole="Bank" ToRole="BalanceItemComSaldo" />
+        </EntityType>
+        <EntityType Name="Rule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Banco" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Historico" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Comparacao" Type="Int32" Nullable="false" />
+          <Property Name="AfetaSaldo" Type="Boolean" Nullable="false" />
+          <Property Name="Grupo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="Categoria" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="SubCategoria" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Descricao" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Ocorrencias" Type="Int32" />
+          <Property Name="NovoGrupo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="NovaCategoria" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="NovaSubCategoria" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Bank" Relationship="MoneyBinModel.FK_tblRules_tblBanks" FromRole="tblRule" ToRole="Bank" />
+        </EntityType>
+        <Association Name="FK_tblRules_tblBanks">
+          <End Type="MoneyBinModel.Bank" Role="Bank" Multiplicity="1" />
+          <End Type="MoneyBinModel.Rule" Role="tblRule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="Banco" />
+            </Principal>
+            <Dependent Role="tblRule">
+              <PropertyRef Name="Banco" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DataMaxMin">
+          <Key>
+            <PropertyRef Name="Banco" />
+          </Key>
+          <Property Name="Banco" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="DataMin" Type="DateTime" Precision="0" />
+          <Property Name="DataMax" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Bank" Relationship="MoneyBinModel.BankDataMaxMin" FromRole="DataMaxMin" ToRole="Bank" />
+        </EntityType>
+        <Association Name="BankDataMaxMin">
+          <End Type="MoneyBinModel.Bank" Role="Bank" Multiplicity="1" />
+          <End Type="MoneyBinModel.DataMaxMin" Role="DataMaxMin" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="Banco" />
+            </Principal>
+            <Dependent Role="DataMaxMin">
+              <PropertyRef Name="Banco" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="BankBalanceItemComSaldo">
+          <End Type="MoneyBinModel.Bank" Role="Bank" Multiplicity="1" />
+          <End Type="MoneyBinModel.BalanceItemComSaldo" Role="BalanceItemComSaldo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="Banco" />
+            </Principal>
+            <Dependent Role="BalanceItemComSaldo">
+              <PropertyRef Name="Banco" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -318,46 +384,9 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Balance' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Rules">
-            <EntityTypeMapping TypeName="MoneyBinModel.Rule">
-              <MappingFragment StoreEntitySet="tblRules">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Banco" ColumnName="Banco" />
-                <ScalarProperty Name="Historico" ColumnName="Historico" />
-                <ScalarProperty Name="Comparacao" ColumnName="Comparacao" />
-                <ScalarProperty Name="AfetaSaldo" ColumnName="AfetaSaldo" />
-                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
-                <ScalarProperty Name="Ocorrencias" ColumnName="Ocorrencias" />
-                <ScalarProperty Name="Grupo" ColumnName="NovoGrupo" />
-                <ScalarProperty Name="Categoria" ColumnName="NovaCategoria" />
-                <ScalarProperty Name="SubCategoria" ColumnName="NovaSubCategoria" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_BalanceItemDelete" FunctionName="MoneyBinModel.Store.sp_BalanceItemDelete" />
           <FunctionImportMapping FunctionImportName="sp_BalanceItemInsert" FunctionName="MoneyBinModel.Store.sp_BalanceItemInsert" />
           <FunctionImportMapping FunctionImportName="sp_BalanceItemUpdate" FunctionName="MoneyBinModel.Store.sp_BalanceItemUpdate" />
-          <EntitySetMapping Name="Balance">
-            <EntityTypeMapping TypeName="MoneyBinModel.BalanceItem">
-              <MappingFragment StoreEntitySet="tblBalance">
-                <ScalarProperty Name="GrupoId" ColumnName="GrupoId" />
-                <ScalarProperty Name="NovaSubCategoria" ColumnName="NovaSubCategoria" />
-                <ScalarProperty Name="NovaCategoria" ColumnName="NovaCategoria" />
-                <ScalarProperty Name="NovoGrupo" ColumnName="NovoGrupo" />
-                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
-                <ScalarProperty Name="SubCategoria" ColumnName="SubCategoria" />
-                <ScalarProperty Name="Categoria" ColumnName="Categoria" />
-                <ScalarProperty Name="Grupo" ColumnName="Grupo" />
-                <ScalarProperty Name="AfetaSaldo" ColumnName="AfetaSaldo" />
-                <ScalarProperty Name="Valor" ColumnName="Valor" />
-                <ScalarProperty Name="Documento" ColumnName="Documento" />
-                <ScalarProperty Name="Historico" ColumnName="Historico" />
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="Banco" ColumnName="Banco" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="BalanceComSaldo">
             <EntityTypeMapping TypeName="MoneyBinModel.BalanceItemComSaldo">
               <MappingFragment StoreEntitySet="vw_Balance">
@@ -394,7 +423,58 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Balance' does not have a primary k
                 <DeleteFunction FunctionName="MoneyBinModel.Store.sp_BalanceItemDelete">
                   <ScalarProperty Name="ID" ParameterName="ID" />
                 </DeleteFunction>
+                <InsertFunction FunctionName="MoneyBinModel.Store.sp_BalanceItemInsert">
+                  <ScalarProperty Name="NovaSubCategoria" ParameterName="NovaSubCategoria" />
+                  <ScalarProperty Name="NovaCategoria" ParameterName="NovaCategoria" />
+                  <ScalarProperty Name="NovoGrupo" ParameterName="NovoGrupo" />
+                  <ScalarProperty Name="Descricao" ParameterName="Descricao" />
+                  <ScalarProperty Name="SubCategoria" ParameterName="SubCategoria" />
+                  <ScalarProperty Name="Categoria" ParameterName="Categoria" />
+                  <ScalarProperty Name="Grupo" ParameterName="Grupo" />
+                  <ScalarProperty Name="AfetaSaldo" ParameterName="AfetaSaldo" />
+                  <ScalarProperty Name="Valor" ParameterName="Valor" />
+                  <ScalarProperty Name="Documento" ParameterName="Documento" />
+                  <ScalarProperty Name="Historico" ParameterName="Historico" />
+                  <ScalarProperty Name="Data" ParameterName="Data" />
+                  <ScalarProperty Name="Banco" ParameterName="Banco" />
+                </InsertFunction>
               </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Banks">
+            <EntityTypeMapping TypeName="MoneyBinModel.Bank">
+              <MappingFragment StoreEntitySet="tblBanks">
+                <ScalarProperty Name="Extensao" ColumnName="Extensao" />
+                <ScalarProperty Name="Banco" ColumnName="Banco" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rules">
+            <EntityTypeMapping TypeName="MoneyBinModel.Rule">
+              <MappingFragment StoreEntitySet="tblRules">
+                <ScalarProperty Name="NovaSubCategoria" ColumnName="NovaSubCategoria" />
+                <ScalarProperty Name="NovaCategoria" ColumnName="NovaCategoria" />
+                <ScalarProperty Name="NovoGrupo" ColumnName="NovoGrupo" />
+                <ScalarProperty Name="Ocorrencias" ColumnName="Ocorrencias" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="SubCategoria" ColumnName="SubCategoria" />
+                <ScalarProperty Name="Categoria" ColumnName="Categoria" />
+                <ScalarProperty Name="Grupo" ColumnName="Grupo" />
+                <ScalarProperty Name="AfetaSaldo" ColumnName="AfetaSaldo" />
+                <ScalarProperty Name="Comparacao" ColumnName="Comparacao" />
+                <ScalarProperty Name="Historico" ColumnName="Historico" />
+                <ScalarProperty Name="Banco" ColumnName="Banco" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataMaxsMins">
+            <EntityTypeMapping TypeName="MoneyBinModel.DataMaxMin">
+              <MappingFragment StoreEntitySet="vwDataMaxMin">
+                <ScalarProperty Name="DataMax" ColumnName="DataMax" />
+                <ScalarProperty Name="DataMin" ColumnName="DataMin" />
+                <ScalarProperty Name="Banco" ColumnName="Banco" />
+              </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
         </EntityContainerMapping>

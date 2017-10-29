@@ -210,8 +210,8 @@
             // 
             // updatedDataGridViewCheckBoxColumn
             // 
-            this.updatedDataGridViewCheckBoxColumn.DataPropertyName = "Updated";
-            this.updatedDataGridViewCheckBoxColumn.HeaderText = "Updated";
+            this.updatedDataGridViewCheckBoxColumn.DataPropertyName = "AddToDatabase";
+            this.updatedDataGridViewCheckBoxColumn.HeaderText = "AddToDatabase";
             this.updatedDataGridViewCheckBoxColumn.Name = "updatedDataGridViewCheckBoxColumn";
             this.updatedDataGridViewCheckBoxColumn.Visible = false;
             // 

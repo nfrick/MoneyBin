@@ -4,13 +4,17 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="cc75ff4df7b5415fb791f018e4b63c64" Name="Diagram1">
-        <EntityTypeShape EntityType="MoneyBinModel.CalendarItem" Width="1.5" PointX="4.75" PointY="0.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="MoneyBinModel.Payment" Width="1.5" PointX="4.75" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MoneyBinModel.Rule" Width="1.5" PointX="6.875" PointY="0.625" IsExpanded="true" />
+      <Diagram DiagramId="cc75ff4df7b5415fb791f018e4b63c64" Name="Diagram1" ZoomLevel="100">
+        <EntityTypeShape EntityType="MoneyBinModel.CalendarItem" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MoneyBinModel.Payment" Width="1.5" PointX="0.5" PointY="3" IsExpanded="true" />
         <AssociationConnector Association="MoneyBinModel.tblPaymenttblCalendar" />
-        <EntityTypeShape EntityType="MoneyBinModel.BalanceItem" Width="1.5" PointX="2.625" PointY="0.625" />
-        <EntityTypeShape EntityType="MoneyBinModel.BalanceItemComSaldo" Width="1.5" PointX="0.5" PointY="0.625" FillColor="255, 224, 192" />
+        <EntityTypeShape EntityType="MoneyBinModel.BalanceItemComSaldo" Width="1.5" PointX="6.875" PointY="0.5" FillColor="255, 224, 192" />
+        <EntityTypeShape EntityType="MoneyBinModel.Bank" Width="1.5" PointX="4.75" PointY="0.5" />
+        <EntityTypeShape EntityType="MoneyBinModel.Rule" Width="1.5" PointX="2.625" PointY="0.5" />
+        <AssociationConnector Association="MoneyBinModel.FK_tblRules_tblBanks" />
+        <EntityTypeShape EntityType="MoneyBinModel.DataMaxMin" Width="1.5" PointX="4.75" PointY="3" FillColor="255, 192, 128" />
+        <AssociationConnector Association="MoneyBinModel.BankDataMaxMin" />
+        <AssociationConnector Association="MoneyBinModel.BankBalanceItemComSaldo" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
