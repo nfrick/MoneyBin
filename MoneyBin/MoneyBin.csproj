@@ -37,6 +37,9 @@
     <StartupObject>MoneyBin.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EFWinforms">
+      <HintPath>..\..\EF6Winforms\EF6WinForms\bin\Debug\EFWinforms.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -123,6 +126,12 @@
     <Compile Include="Forms\frmRules.Designer.cs">
       <DependentUpon>frmRules.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmRulesOld.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmRulesOld.Designer.cs">
+      <DependentUpon>frmRulesOld.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmExport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -205,6 +214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmRules.resx">
       <DependentUpon>frmRules.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmRulesOld.resx">
+      <DependentUpon>frmRulesOld.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmExport.resx">
