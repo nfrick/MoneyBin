@@ -39,6 +39,7 @@ namespace MoneyBin.Forms {
         }
 
         private void frmLeitor_FormClosing(object sender, FormClosingEventArgs e) {
+            dgvBalance.EndEdit();
             if (!_BalanceItems.Any(bi => bi.AddToDatabase)) return;
             switch (MessageBox.Show(@"Salvar alterações pendentes?", Text, MessageBoxButtons.YesNoCancel,
                 MessageBoxIcon.Question)) {
@@ -56,6 +57,7 @@ namespace MoneyBin.Forms {
         }
         
         private int Salvar() {
+            dgvBalance.EndEdit();
             using (var ctx = new MoneyBinEntities()) {
                 ctx.BalanceComSaldo.AddRange(_BalanceItems.Where(bi => bi.AddToDatabase).ToList());
                 try {
@@ -132,7 +134,7 @@ namespace MoneyBin.Forms {
             var dgv = (DataGridView)sender;
             var row = dgv.CurrentCell.RowIndex;
             var col = dgv.CurrentCell.ColumnIndex;
-            var bi = _BalanceItems[row];
+            var bi = (BalanceItemComSaldo)dgv.Rows[row].DataBoundItem;
             var txt = e.Control as TextBox;
             using (var ctx = new MoneyBinEntities()) {
                 switch (dgv.Columns[col].HeaderText) {
@@ -145,19 +147,19 @@ namespace MoneyBin.Forms {
                         break;
                     case "Nova Categoria":
                         txt.AutoCompleteCustomSource =
-                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovoGrupo == bi.NovoGrupo).Select(b => b.NovaCategoria).Distinct().ToArray());
+                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovoGrupo == bi.NovoGrupo).Select(b => b.NovaCategoria));
                         txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                         txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
                         break;
                     case "Nova SubCategoria":
                         txt.AutoCompleteCustomSource =
-                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovaCategoria == bi.NovaCategoria).Select(b => b.NovaSubCategoria).Distinct().ToArray());
+                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovaCategoria == bi.NovaCategoria).Select(b => b.NovaSubCategoria));
                         txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                         txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
                         break;
                     case "Descrição":
                         txt.AutoCompleteCustomSource =
-                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovaSubCategoria == bi.NovaSubCategoria).Select(b => b.Descricao).Distinct().ToArray());
+                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovaSubCategoria == bi.NovaSubCategoria).Select(b => b.Descricao));
                         txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                         txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
                         break;
@@ -168,11 +170,12 @@ namespace MoneyBin.Forms {
             }
         }
 
-        private AutoCompleteStringCollection CreateCollection(string[] array) {
+        private AutoCompleteStringCollection CreateCollection(IEnumerable<string> lista) {
             var source = new AutoCompleteStringCollection();
-            source.AddRange(array);
+            source.AddRange(lista.Distinct().Where(a => !string.IsNullOrEmpty(a)).ToArray());
             return source;
         }
+
         #endregion
 
         #region TOOLBAR

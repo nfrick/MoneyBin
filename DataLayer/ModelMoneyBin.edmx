@@ -32,7 +32,7 @@
           <Property Name="Description" Type="nvarchar" MaxLength="30" Nullable="false" />
           <Property Name="Day" Type="tinyint" Nullable="false" />
           <Property Name="Enabled" Type="bit" Nullable="false" />
-          <Property Name="Months" Type="smallint" Nullable="false" />
+          <Property Name="Months" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="tblRules">
           <Key>
@@ -193,7 +193,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Property Name="Description" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Day" Type="Byte" Nullable="false" />
           <Property Name="Enabled" Type="Boolean" Nullable="false" />
-          <Property Name="Months" Type="Int16" Nullable="false" />
+          <Property Name="Months" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CalendarItems" Relationship="MoneyBinModel.tblPaymenttblCalendar" FromRole="tblPayment" ToRole="tblCalendar" />
         </EntityType>
         <EntityContainer Name="MoneyBinEntities" annotation:LazyLoadingEnabled="true">

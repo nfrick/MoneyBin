@@ -246,7 +246,7 @@
             this.toolStripSeparator1});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(527, 28);
+            this.toolStrip1.Size = new System.Drawing.Size(521, 28);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripLabel1
@@ -282,6 +282,7 @@
             this.toolStripSeparatorSalvar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.toolStripSeparatorSalvar.Name = "toolStripSeparatorSalvar";
             this.toolStripSeparatorSalvar.Size = new System.Drawing.Size(6, 28);
+            this.toolStripSeparatorSalvar.Visible = false;
             // 
             // toolStripButtonSalvar
             // 
@@ -295,6 +296,7 @@
             this.toolStripButtonSalvar.Text = "Salvar";
             this.toolStripButtonSalvar.Visible = false;
             this.toolStripButtonSalvar.Click += new System.EventHandler(this.toolStripButtonSalvar_Click);
+            this.toolStripButtonSalvar.VisibleChanged += new System.EventHandler(this.toolStripButtonSalvar_VisibleChanged);
             // 
             // toolStripButtonProcurar
             // 

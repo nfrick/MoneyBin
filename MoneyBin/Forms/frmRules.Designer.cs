@@ -43,6 +43,7 @@
             this.ocorrenciasDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonSalvar = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonDesfazer = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -202,10 +203,11 @@
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButtonSalvar});
+            this.toolStripButtonSalvar,
+            this.toolStripButtonDesfazer});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(65, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(175, 27);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButtonSalvar
@@ -219,6 +221,18 @@
             this.toolStripButtonSalvar.Size = new System.Drawing.Size(53, 24);
             this.toolStripButtonSalvar.Text = "Salvar";
             this.toolStripButtonSalvar.Click += new System.EventHandler(this.toolStripButtonSalvar_Click);
+            // 
+            // toolStripButtonDesfazer
+            // 
+            this.toolStripButtonDesfazer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.toolStripButtonDesfazer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonDesfazer.ForeColor = System.Drawing.Color.White;
+            this.toolStripButtonDesfazer.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDesfazer.Image")));
+            this.toolStripButtonDesfazer.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonDesfazer.Name = "toolStripButtonDesfazer";
+            this.toolStripButtonDesfazer.Size = new System.Drawing.Size(71, 24);
+            this.toolStripButtonDesfazer.Text = "Desfazer";
+            this.toolStripButtonDesfazer.Click += new System.EventHandler(this.toolStripButtonDesfazer_Click);
             // 
             // frmRules
             // 
@@ -264,5 +278,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ocorrenciasDataGridViewTextBoxColumn;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButtonSalvar;
+        private System.Windows.Forms.ToolStripButton toolStripButtonDesfazer;
     }
 }

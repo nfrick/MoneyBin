@@ -1,31 +1,32 @@
-﻿using DataLayer;
-using GridAndChartStyleLibrary;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Data.Entity;
+using System.Drawing;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MoneyBin.Forms {
-    public partial class frmRules : Form {
-        public frmRules() {
+    public partial class frmPagamentos : Form {
+        public frmPagamentos() {
             InitializeComponent();
-            comparacaoDataGridViewComboBoxColumn.DataSource = Comparacao.Lista();
-            comparacaoDataGridViewComboBoxColumn.DisplayMember = "Descricao";
-            comparacaoDataGridViewComboBoxColumn.ValueMember = "Id";
+            toolStrip1.Visible = false;
         }
 
-        private void frmRules_Load(object sender, EventArgs e) {
-            GridStyles.FormatGrid(dgvRules);
-            dgvRules.Columns[0].Visible = false;
-            dgvRules.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            GridStyles.FormatColumn(dgvRules.Columns[12], GridStyles.StyleInteger, 80);
-
-            this.Width = 150 + dgvRules.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
-            RefreshSalvar();
+        private void frmPagamentos_Load(object sender, EventArgs e) {
+            dgvPagamentos.Columns[0].Visible = false;
+            dgvPagamentos.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgvPagamentos.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.TopRight;
+            for (var col = 3; col < dgvPagamentos.ColumnCount; col++) {
+                dgvPagamentos.Columns[col].Width = 50;
+            }
         }
 
-        private void frmRules_FormClosing(object sender, FormClosingEventArgs e) {
-            dgvRules.EndEdit();
+        private void frmPagamentos_FormClosing(object sender, FormClosingEventArgs e) {
+            dgvPagamentos.EndEdit();
             if (!toolStripButtonSalvar.Visible) return;
             switch (MessageBox.Show(@"Salvar alterações pendentes?", Text, MessageBoxButtons.YesNoCancel,
                 MessageBoxIcon.Question)) {
@@ -42,12 +43,12 @@ namespace MoneyBin.Forms {
             }
         }
 
-        private void dgvRules_CellEndEdit(object sender, DataGridViewCellEventArgs e) {
+        private void dgvPagamentos_CellEndEdit(object sender, DataGridViewCellEventArgs e) {
             RefreshSalvar();
         }
 
         private void toolStripButtonSalvar_Click(object sender, EventArgs e) {
-            dgvRules.EndEdit();
+            dgvPagamentos.EndEdit();
             entityDataSource1.SaveChanges();
             RefreshSalvar();
         }

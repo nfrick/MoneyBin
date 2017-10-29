@@ -82,6 +82,7 @@
       <DependentUpon>ModelMoneyBin.edmx</DependentUpon>
     </Compile>
     <Compile Include="Partial Classes\BalanceItemComSaldo.cs" />
+    <Compile Include="Partial Classes\Payment.cs" />
     <Compile Include="Partial Classes\Rule.cs" />
     <Compile Include="Payment.cs">
       <DependentUpon>ModelMoneyBin.tt</DependentUpon>

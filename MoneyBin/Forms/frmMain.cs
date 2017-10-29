@@ -58,7 +58,7 @@ namespace MoneyBin {
         }
 
         private void toolStripButtonPayments_Click(object sender, EventArgs e) {
-            var frm = new frmPayments { MdiParent = this };
+            var frm = new frmPagamentos { MdiParent = this };
             frm.Show();
         }
 
