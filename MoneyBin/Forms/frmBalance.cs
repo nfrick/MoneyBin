@@ -11,7 +11,6 @@ using System.Windows.Forms;
 namespace MoneyBin.Forms {
     public partial class frmBalance : Form {
         private MoneyBinEntities _ctx;
-        private AutoCompleteStringCollection _grupoPicklist;
 
         #region FORM
         public frmBalance() {
@@ -41,7 +40,7 @@ namespace MoneyBin.Forms {
         private void frmBalance_FormClosing(object sender, FormClosingEventArgs e) {
             dgvBalance.EndEdit();
             if (!_ctx.ChangeTracker.HasChanges()) return;
-            switch (PerguntaSeSalva()) {
+            switch (FormUtils.PerguntaSeSalva(_ctx.ChangeTracker, Text)) {
                 case DialogResult.Yes:
                     _ctx.SaveChanges();
                     break;
@@ -49,17 +48,6 @@ namespace MoneyBin.Forms {
                     e.Cancel = true;
                     break;
             }
-        }
-
-        private DialogResult PerguntaSeSalva() {
-            return MessageBox.Show(Alteracoes() + @"?", Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-        }
-
-        private string Alteracoes() {
-            var alts = _ctx.ChangeTracker.Entries().Count(entry => entry.State == EntityState.Added ||
-                                                                   entry.State == EntityState.Deleted ||
-                                                                   entry.State == EntityState.Modified);
-            return $" Salvar {alts} alteraç" + (alts == 1 ? "ão" : "ões");
         }
         #endregion FORM
 
@@ -138,76 +126,25 @@ namespace MoneyBin.Forms {
 
         #region DATAGRIDVIEW
         private void dgvBalance_CellEndEdit(object sender, DataGridViewCellEventArgs e) {
-            var tracker = _ctx.ChangeTracker;
-            toolStripButtonSalvar.Text = Alteracoes();
-            toolStripButtonSalvar.Visible = tracker.HasChanges();
+            toolStripButtonSalvar.Text = FormUtils.TextoSalvar(_ctx.ChangeTracker);
+            toolStripButtonSalvar.Visible = _ctx.ChangeTracker.HasChanges();
         }
 
         private void dgvBalance_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             if ((e.ColumnIndex != 6 && e.ColumnIndex != 7) || (decimal)e.Value > 0) return;
-            e.CellStyle.ForeColor = Color.DarkOrange;
-        }
-
-        private void CalculaSaldos(int start) {
-            var _BalanceItems = (List<BalanceItemComSaldo>)BalanceBindingSource.DataSource;
-            var saldo = start == _BalanceItems.Count - 1 ? 0.0m : _BalanceItems.ElementAt(start + 1).Saldo;
-            for (var i = start; i >= 0; i--) {
-                var bi = _BalanceItems.ElementAt(i);
-                saldo += bi.ValorParaSaldo;
-                bi.Saldo = saldo;
-            }
-            dgvBalance.Refresh();
+            e.CellStyle.ForeColor = (decimal)e.Value == 0 ? Color.Gray : Color.DarkOrange;
         }
 
         private void dgvBalance_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex == -1 || dgvBalance.Columns[e.ColumnIndex].Name !=
                 "afetaSaldoDataGridViewCheckBoxColumn") return;
-            CalculaSaldos(e.RowIndex);
-        }
-        private void dgvBalance_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e) {
-            var dgv = (DataGridView)sender;
-            var row = dgv.CurrentCell.RowIndex;
-            var col = dgv.CurrentCell.ColumnIndex;
-            var bi = (BalanceItemComSaldo)dgv.Rows[row].DataBoundItem;
-            var txt = e.Control as TextBox;
-            using (var ctx = new MoneyBinEntities()) {
-                switch (dgv.Columns[col].HeaderText) {
-                    case "Novo Grupo":
-                        if (_grupoPicklist == null)
-                            _grupoPicklist = CreateCollection(ctx.BalanceComSaldo.Select(b => b.NovoGrupo).Distinct().ToArray());
-                        txt.AutoCompleteCustomSource = _grupoPicklist;
-                        txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                        txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                        break;
-                    case "Nova Categoria":
-                        txt.AutoCompleteCustomSource =
-                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovoGrupo == bi.NovoGrupo).Select(b => b.NovaCategoria));
-                        txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                        txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                        break;
-                    case "Nova SubCategoria":
-                        txt.AutoCompleteCustomSource =
-                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovaCategoria == bi.NovaCategoria).Select(b => b.NovaSubCategoria));
-                        txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                        txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                        break;
-                    case "Descrição":
-                        txt.AutoCompleteCustomSource =
-                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovaSubCategoria == bi.NovaSubCategoria).Select(b => b.Descricao));
-                        txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                        txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                        break;
-                    default:
-                        txt.AutoCompleteMode = AutoCompleteMode.None;
-                        break;
-                }
-            }
+            FormUtils.CalculaSaldos((List<BalanceItemComSaldo>)BalanceBindingSource.DataSource, e.RowIndex);
+            dgvBalance.Refresh();
         }
 
-        private AutoCompleteStringCollection CreateCollection(IEnumerable<string> lista) {
-            var source = new AutoCompleteStringCollection();
-            source.AddRange(lista.Distinct().Where(a => !string.IsNullOrEmpty(a)).ToArray());
-            return source;
+        private void dgvBalance_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            FormUtils.EditingControlShowing(sender, e);
         }
 
         #endregion DATAGRIDVIEW

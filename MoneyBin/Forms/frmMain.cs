@@ -63,7 +63,7 @@ namespace MoneyBin {
         }
 
         private void toolStripButtonCalendar_Click(object sender, EventArgs e) {
-            var frm = new frmCalendar { MdiParent = this };
+            var frm = new frmCalendario { MdiParent = this };
             frm.Show();
         }
     }

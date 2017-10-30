@@ -10,7 +10,6 @@ using System.Windows.Forms;
 namespace MoneyBin.Forms {
     public partial class frmLeitor : Form {
         private List<BalanceItemComSaldo> _BalanceItems;
-        private AutoCompleteStringCollection _grupoPicklist;
         public bool HasData;
 
         #region FORM
@@ -41,8 +40,7 @@ namespace MoneyBin.Forms {
         private void frmLeitor_FormClosing(object sender, FormClosingEventArgs e) {
             dgvBalance.EndEdit();
             if (!_BalanceItems.Any(bi => bi.AddToDatabase)) return;
-            switch (MessageBox.Show(@"Salvar alterações pendentes?", Text, MessageBoxButtons.YesNoCancel,
-                MessageBoxIcon.Question)) {
+            switch (FormUtils.PerguntaSeSalva(_BalanceItems.Count(bi => bi.AddToDatabase), Text)) {
                 case DialogResult.Cancel:
                     e.Cancel = true;
                     break;
@@ -112,16 +110,7 @@ namespace MoneyBin.Forms {
         private void dgvBalance_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex == -1 || dgvBalance.Columns[e.ColumnIndex].Name !=
                 "afetaSaldoDataGridViewCheckBoxColumn") return;
-            CalculaSaldos(e.RowIndex);
-        }
-
-        private void CalculaSaldos(int start) {
-            var saldo = start == _BalanceItems.Count - 1 ? 0.0m : _BalanceItems.ElementAt(start + 1).Saldo;
-            for (var i = start; i >= 0; i--) {
-                var bi = _BalanceItems.ElementAt(i);
-                saldo += bi.ValorParaSaldo;
-                bi.Saldo = saldo;
-            }
+            FormUtils.CalculaSaldos(_BalanceItems, e.RowIndex);
             dgvBalance.Refresh();
         }
 
@@ -131,49 +120,7 @@ namespace MoneyBin.Forms {
         }
 
         private void dgvBalance_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e) {
-            var dgv = (DataGridView)sender;
-            var row = dgv.CurrentCell.RowIndex;
-            var col = dgv.CurrentCell.ColumnIndex;
-            var bi = (BalanceItemComSaldo)dgv.Rows[row].DataBoundItem;
-            var txt = e.Control as TextBox;
-            using (var ctx = new MoneyBinEntities()) {
-                switch (dgv.Columns[col].HeaderText) {
-                    case "Novo Grupo":
-                        if (_grupoPicklist == null)
-                            _grupoPicklist = CreateCollection(ctx.BalanceComSaldo.Select(b => b.NovoGrupo).Distinct().ToArray());
-                        txt.AutoCompleteCustomSource = _grupoPicklist;
-                        txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                        txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                        break;
-                    case "Nova Categoria":
-                        txt.AutoCompleteCustomSource =
-                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovoGrupo == bi.NovoGrupo).Select(b => b.NovaCategoria));
-                        txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                        txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                        break;
-                    case "Nova SubCategoria":
-                        txt.AutoCompleteCustomSource =
-                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovaCategoria == bi.NovaCategoria).Select(b => b.NovaSubCategoria));
-                        txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                        txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                        break;
-                    case "Descrição":
-                        txt.AutoCompleteCustomSource =
-                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovaSubCategoria == bi.NovaSubCategoria).Select(b => b.Descricao));
-                        txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                        txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                        break;
-                    default:
-                        txt.AutoCompleteMode = AutoCompleteMode.None;
-                        break;
-                }
-            }
-        }
-
-        private AutoCompleteStringCollection CreateCollection(IEnumerable<string> lista) {
-            var source = new AutoCompleteStringCollection();
-            source.AddRange(lista.Distinct().Where(a => !string.IsNullOrEmpty(a)).ToArray());
-            return source;
+            FormUtils.EditingControlShowing(sender, e);
         }
 
         #endregion

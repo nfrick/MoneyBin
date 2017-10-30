@@ -7,6 +7,7 @@ namespace DataLayer {
         None = 0, Jan = 1, Feb = 2, Mar = 4, Apr = 8, May = 16, Jun = 32, Jul = 64, Aug = 128, Sep = 256, Oct = 512, Nov = 1024, Dec = 2048
     }
     public partial class Payment {
+        public override string ToString() => Description;
         public bool Year {
             get => Enum.GetValues(typeof(MonthsOfYear)).Cast<MonthsOfYear>().All(IsMonth);
             set {

@@ -207,7 +207,7 @@
             this.toolStripButtonDesfazer});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(175, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(136, 27);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButtonSalvar
@@ -243,6 +243,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "frmRules";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Regras";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmRules_FormClosing);
             this.Load += new System.EventHandler(this.frmRules_Load);

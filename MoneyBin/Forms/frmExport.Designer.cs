@@ -26,13 +26,13 @@
             this.textBoxSaveAs = new System.Windows.Forms.TextBox();
             this.buttonExport = new System.Windows.Forms.Button();
             this.buttonPickFile = new System.Windows.Forms.Button();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.SFD = new System.Windows.Forms.SaveFileDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioButtonExtrato = new System.Windows.Forms.RadioButton();
             this.radioButtonAcertos = new System.Windows.Forms.RadioButton();
             this.radioButtonExcel = new System.Windows.Forms.RadioButton();
             this.radioButtonXML = new System.Windows.Forms.RadioButton();
             this.radioButtonCSV = new System.Windows.Forms.RadioButton();
-            this.radioButtonExtrato = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,6 +87,21 @@
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Format";
+            // 
+            // radioButtonExtrato
+            // 
+            this.radioButtonExtrato.AutoSize = true;
+            this.radioButtonExtrato.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonExtrato.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.radioButtonExtrato.Location = new System.Drawing.Point(376, 27);
+            this.radioButtonExtrato.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.radioButtonExtrato.Name = "radioButtonExtrato";
+            this.radioButtonExtrato.Size = new System.Drawing.Size(150, 27);
+            this.radioButtonExtrato.TabIndex = 18;
+            this.radioButtonExtrato.TabStop = true;
+            this.radioButtonExtrato.Text = "Extrato (Access)";
+            this.radioButtonExtrato.UseVisualStyleBackColor = true;
+            this.radioButtonExtrato.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
             // 
             // radioButtonAcertos
             // 
@@ -148,21 +163,6 @@
             this.radioButtonCSV.UseVisualStyleBackColor = true;
             this.radioButtonCSV.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
             // 
-            // radioButtonExtrato
-            // 
-            this.radioButtonExtrato.AutoSize = true;
-            this.radioButtonExtrato.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonExtrato.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.radioButtonExtrato.Location = new System.Drawing.Point(376, 27);
-            this.radioButtonExtrato.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.radioButtonExtrato.Name = "radioButtonExtrato";
-            this.radioButtonExtrato.Size = new System.Drawing.Size(150, 27);
-            this.radioButtonExtrato.TabIndex = 18;
-            this.radioButtonExtrato.TabStop = true;
-            this.radioButtonExtrato.Text = "Extrato (Access)";
-            this.radioButtonExtrato.UseVisualStyleBackColor = true;
-            this.radioButtonExtrato.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
-            // 
             // frmExport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
@@ -194,7 +194,7 @@
         private System.Windows.Forms.TextBox textBoxSaveAs;
         private System.Windows.Forms.Button buttonExport;
         private System.Windows.Forms.Button buttonPickFile;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.SaveFileDialog SFD;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton radioButtonAcertos;
         private System.Windows.Forms.RadioButton radioButtonExcel;

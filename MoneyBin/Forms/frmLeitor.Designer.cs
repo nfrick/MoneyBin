@@ -62,11 +62,11 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dgvBalance);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1369, 523);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1278, 523);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(1369, 550);
+            this.toolStripContainer1.Size = new System.Drawing.Size(1278, 550);
             this.toolStripContainer1.TabIndex = 3;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -102,7 +102,7 @@
             this.dgvBalance.Location = new System.Drawing.Point(0, 0);
             this.dgvBalance.Name = "dgvBalance";
             this.dgvBalance.RowTemplate.Height = 24;
-            this.dgvBalance.Size = new System.Drawing.Size(1369, 523);
+            this.dgvBalance.Size = new System.Drawing.Size(1278, 523);
             this.dgvBalance.TabIndex = 0;
             this.dgvBalance.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvBalance_CellFormatting);
             this.dgvBalance.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvBalance_CellValueChanged);
@@ -279,11 +279,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1369, 550);
+            this.ClientSize = new System.Drawing.Size(1278, 550);
             this.Controls.Add(this.toolStripContainer1);
             this.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "frmLeitor";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Leitor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmLeitor_FormClosing);
             this.Load += new System.EventHandler(this.frmLeitor_Load);

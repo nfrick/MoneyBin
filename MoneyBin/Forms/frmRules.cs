@@ -27,8 +27,7 @@ namespace MoneyBin.Forms {
         private void frmRules_FormClosing(object sender, FormClosingEventArgs e) {
             dgvRules.EndEdit();
             if (!toolStripButtonSalvar.Visible) return;
-            switch (MessageBox.Show(@"Salvar alterações pendentes?", Text, MessageBoxButtons.YesNoCancel,
-                MessageBoxIcon.Question)) {
+            switch (FormUtils.PerguntaSeSalva(entityDataSource1.DbContext.ChangeTracker, Text)) {
                 case DialogResult.Cancel:
                     e.Cancel = true;
                     break;
@@ -58,13 +57,8 @@ namespace MoneyBin.Forms {
 
         private void RefreshSalvar() {
             var tracker = entityDataSource1.DbContext.ChangeTracker;
-            toolStrip1.Visible = tracker.HasChanges();
-
-            var alts = tracker.Entries().Count(entry => entry.State == EntityState.Added ||
-                                                        entry.State == EntityState.Deleted ||
-                                                        entry.State == EntityState.Modified);
-
-            toolStripButtonSalvar.Text = $" Salvar {alts} alteraç" + (alts == 1 ? "ão" : "ões");
+            if((toolStrip1.Visible = tracker.HasChanges()))
+            toolStripButtonSalvar.Text = FormUtils.TextoSalvar(tracker);
         }
     }
 }

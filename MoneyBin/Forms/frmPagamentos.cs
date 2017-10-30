@@ -18,9 +18,10 @@ namespace MoneyBin.Forms {
 
         private void frmPagamentos_Load(object sender, EventArgs e) {
             dgvPagamentos.Columns[0].Visible = false;
-            dgvPagamentos.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dgvPagamentos.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.TopRight;
-            for (var col = 3; col < dgvPagamentos.ColumnCount; col++) {
+            dgvPagamentos.Columns[1].Width = 50;
+            dgvPagamentos.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgvPagamentos.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.TopRight;
+            for (var col = 4; col < dgvPagamentos.ColumnCount; col++) {
                 dgvPagamentos.Columns[col].Width = 50;
             }
         }
@@ -28,8 +29,7 @@ namespace MoneyBin.Forms {
         private void frmPagamentos_FormClosing(object sender, FormClosingEventArgs e) {
             dgvPagamentos.EndEdit();
             if (!toolStripButtonSalvar.Visible) return;
-            switch (MessageBox.Show(@"Salvar alterações pendentes?", Text, MessageBoxButtons.YesNoCancel,
-                MessageBoxIcon.Question)) {
+            switch (FormUtils.PerguntaSeSalva(entityDataSource1.DbContext.ChangeTracker, Text)) {
                 case DialogResult.Cancel:
                     e.Cancel = true;
                     break;
@@ -59,13 +59,8 @@ namespace MoneyBin.Forms {
 
         private void RefreshSalvar() {
             var tracker = entityDataSource1.DbContext.ChangeTracker;
-            toolStrip1.Visible = tracker.HasChanges();
-
-            var alts = tracker.Entries().Count(entry => entry.State == EntityState.Added ||
-                                                        entry.State == EntityState.Deleted ||
-                                                        entry.State == EntityState.Modified);
-
-            toolStripButtonSalvar.Text = $" Salvar {alts} alteraç" + (alts == 1 ? "ão" : "ões");
+            if((toolStrip1.Visible = tracker.HasChanges()))
+            toolStripButtonSalvar.Text = FormUtils.TextoSalvar(entityDataSource1.DbContext.ChangeTracker);
         }
     }
 }

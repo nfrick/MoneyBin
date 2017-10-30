@@ -103,6 +103,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sp_AcertosPendentes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_BalanceItemDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
         </Function>
@@ -181,7 +182,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Property Name="Year" Type="Int16" Nullable="false" />
           <Property Name="Month" Type="Int16" Nullable="false" />
           <Property Name="PaymentID" Type="Int32" Nullable="false" />
-          <Property Name="Paid" Type="Boolean" />
+          <Property Name="Paid" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Payment" Relationship="MoneyBinModel.tblPaymenttblCalendar" FromRole="tblCalendar" ToRole="tblPayment" />
         </EntityType>
         <EntityType Name="Payment">
@@ -248,6 +249,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             <End Role="Bank" EntitySet="Banks" />
             <End Role="BalanceItemComSaldo" EntitySet="BalanceComSaldo" />
           </AssociationSet>
+          <FunctionImport Name="AcertosPendentes" EntitySet="BalanceComSaldo" ReturnType="Collection(MoneyBinModel.BalanceItemComSaldo)" />
         </EntityContainer>
         <Association Name="tblPaymenttblCalendar">
           <End Type="MoneyBinModel.Payment" Role="tblPayment" Multiplicity="1" />
@@ -356,6 +358,24 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="sp_AcertosPendentes_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Banco" Nullable="false" MaxLength="3" />
+          <Property Type="DateTime" Name="Data" Nullable="false" />
+          <Property Type="String" Name="Historico" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Documento" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="Valor" Nullable="false" Precision="19" />
+          <Property Type="Boolean" Name="AfetaSaldo" Nullable="false" />
+          <Property Type="String" Name="Grupo" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Categoria" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="SubCategoria" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Descricao" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="NovoGrupo" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="NovaCategoria" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="NovaSubCategoria" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="GrupoId" Nullable="true" />
+          <Property Type="Int32" Name="Saldo" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -477,6 +497,8 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AcertosPendentes" FunctionName="MoneyBinModel.Store.sp_AcertosPendentes">
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

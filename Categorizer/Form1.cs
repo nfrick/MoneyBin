@@ -40,7 +40,7 @@ namespace Categorizer {
         private void btnCategoriasToList_Click(object sender, EventArgs e) {
             using (var ctx = new MoneyBinEntities()) {
                 var categorias = ctx.Balance
-                    .Where(i => i.NovoGrupo == cbxNovoGrupo.SelectedValue && !string.IsNullOrEmpty(i.NovaCategoria))
+                    .Where(i => i.NovoGrupo == (string)cbxNovoGrupo.SelectedValue && !string.IsNullOrEmpty(i.NovaCategoria))
                     .Select(i => new { opcao = i.NovaCategoria }).Distinct()
                     .OrderBy(o => o.opcao).ToList();
                 listBox1.DataSource = categorias;
@@ -55,7 +55,7 @@ namespace Categorizer {
         private void btnSubCategoriasToList_Click(object sender, EventArgs e) {
             using (var ctx = new MoneyBinEntities()) {
                 var subCategorias = ctx.Balance
-                    .Where(i => i.NovoGrupo == cbxNovoGrupo.SelectedValue && i.NovaCategoria == txtNovaCategoria.Text
+                    .Where(i => i.NovoGrupo == (string)cbxNovoGrupo.SelectedValue && i.NovaCategoria == txtNovaCategoria.Text
                                 && !string.IsNullOrEmpty(i.NovaSubCategoria))
                     .Select(i => new { opcao = i.NovaSubCategoria }).Distinct()
                     .OrderBy(o => o.opcao).ToList();
@@ -75,7 +75,7 @@ namespace Categorizer {
         private void btnDescricoesToList_Click(object sender, EventArgs e) {
             using (var ctx = new MoneyBinEntities()) {
                 var descricoes = ctx.Balance
-                    .Where(i => i.NovoGrupo == cbxNovoGrupo.SelectedValue && i.NovaCategoria == txtNovaCategoria.Text
+                    .Where(i => i.NovoGrupo == (string)cbxNovoGrupo.SelectedValue && i.NovaCategoria == txtNovaCategoria.Text
                                  && !string.IsNullOrEmpty(i.Descricao))
                     .Select(i => new { opcao = i.Descricao }).Distinct()
                     .OrderBy(o => o.opcao).ToList();

@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace DataLayer {
     public partial class BalanceItemComSaldo : IEquatable<BalanceItemComSaldo> {
@@ -13,10 +14,6 @@ namespace DataLayer {
         public bool AddToDatabase { get; set; }
         public int Centavos => (int)(Valor % 1 * 100);
         public int Rule { get; set; }
-
-        public BalanceItemComSaldo() {
-            AddToDatabase = true;
-        }
 
         #region IEquitable_implementation
         /// <summary>
@@ -95,6 +92,14 @@ namespace DataLayer {
 
         #endregion
 
+        #region Constructors
+        /// <summary>
+        /// Não é chamado por código mas precisa existir
+        /// </summary>
+        public BalanceItemComSaldo() {
+            AddToDatabase = true;
+        }
+
         /// <summary>
         /// Creates a BalanceItemOld from a XML node
         /// </summary>
@@ -156,5 +161,35 @@ namespace DataLayer {
                     sb.Append(x).Append(" ");
             return sb.ToString().Trim();
         }
+        #endregion
+
+        #region Exporters
+        public static string CSVHeader() {
+            return
+                "\"ID\",\"Banco\",\"Data\",\"Historico\",\"Documento\",\"Valor\",\"AfetaSaldo\",\"Grupo\",\"Categoria\",\"SubCategoria\",\"Descricao\"";
+        }
+
+        public string ToCSV() {
+            return
+                $"\"{ID}\",\"{Banco}\",\"{Data:MM/dd/yyyy}\",\"{Historico}\",\"{Documento}\",\"{Valor.ToString("0.00", CultureUS)}\",\"{AfetaSaldo}\",\"{NovoGrupo}\",\"{NovaCategoria}\",\"{NovaSubCategoria}\",\"{Descricao}\"";
+        }
+
+
+        public XElement toXML() {
+            return new XElement("BalanceItemOld",
+                new XAttribute("ID", ID),
+                new XElement("Banco", Banco),
+                new XElement("Data", Data.ToString("MM/dd/yyyy")),
+                new XElement("Historico", Historico),
+                new XElement("Documento", Documento),
+                new XElement("Valor", Valor.ToString("0.00", CultureUS)),
+                new XElement("AfetaSaldo", AfetaSaldo),
+                new XElement("NovoGrupo", NovoGrupo),
+                new XElement("NovaCategoria", NovaCategoria),
+                new XElement("NovaSubCategoria", NovaSubCategoria),
+                new XElement("Descricao", Descricao)
+            );
+        }
+        #endregion
     }
 }

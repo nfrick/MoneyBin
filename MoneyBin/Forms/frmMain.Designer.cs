@@ -60,8 +60,8 @@
             this.toolStripButtonViewer.Image = global::MoneyBin.Properties.Resources.table_edit_icon;
             this.toolStripButtonViewer.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonViewer.Name = "toolStripButtonViewer";
-            this.toolStripButtonViewer.Size = new System.Drawing.Size(58, 56);
-            this.toolStripButtonViewer.Text = "Viewer";
+            this.toolStripButtonViewer.Size = new System.Drawing.Size(60, 56);
+            this.toolStripButtonViewer.Text = "Extrato";
             this.toolStripButtonViewer.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButtonViewer.Click += new System.EventHandler(this.toolStripButtonNewViewer_Click);
             // 
@@ -71,8 +71,8 @@
             this.toolStripButtonReader.Image = global::MoneyBin.Properties.Resources.data_add_icon;
             this.toolStripButtonReader.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonReader.Name = "toolStripButtonReader";
-            this.toolStripButtonReader.Size = new System.Drawing.Size(60, 56);
-            this.toolStripButtonReader.Text = "Reader";
+            this.toolStripButtonReader.Size = new System.Drawing.Size(51, 56);
+            this.toolStripButtonReader.Text = "Leitor";
             this.toolStripButtonReader.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButtonReader.Click += new System.EventHandler(this.toolStripButtonNewReader_Click);
             // 
@@ -115,8 +115,8 @@
             this.toolStripButtonRules.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonRules.Image")));
             this.toolStripButtonRules.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonRules.Name = "toolStripButtonRules";
-            this.toolStripButtonRules.Size = new System.Drawing.Size(48, 56);
-            this.toolStripButtonRules.Text = "Rules";
+            this.toolStripButtonRules.Size = new System.Drawing.Size(58, 56);
+            this.toolStripButtonRules.Text = "Regras";
             this.toolStripButtonRules.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButtonRules.Click += new System.EventHandler(this.toolStripButtonRules_Click);
             // 
@@ -126,8 +126,8 @@
             this.toolStripButtonPayments.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonPayments.Image")));
             this.toolStripButtonPayments.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonPayments.Name = "toolStripButtonPayments";
-            this.toolStripButtonPayments.Size = new System.Drawing.Size(75, 56);
-            this.toolStripButtonPayments.Text = "Payments";
+            this.toolStripButtonPayments.Size = new System.Drawing.Size(94, 56);
+            this.toolStripButtonPayments.Text = "Pagamentos";
             this.toolStripButtonPayments.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButtonPayments.Click += new System.EventHandler(this.toolStripButtonPayments_Click);
             // 
@@ -137,8 +137,8 @@
             this.toolStripButtonCalendar.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonCalendar.Image")));
             this.toolStripButtonCalendar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonCalendar.Name = "toolStripButtonCalendar";
-            this.toolStripButtonCalendar.Size = new System.Drawing.Size(72, 56);
-            this.toolStripButtonCalendar.Text = "CalendarOld";
+            this.toolStripButtonCalendar.Size = new System.Drawing.Size(85, 56);
+            this.toolStripButtonCalendar.Text = "Calendário";
             this.toolStripButtonCalendar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButtonCalendar.Click += new System.EventHandler(this.toolStripButtonCalendar_Click);
             // 

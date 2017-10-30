@@ -140,5 +140,15 @@ namespace DataLayer
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_BalanceItemUpdate", iDParameter, afetaSaldoParameter, grupoParameter, categoriaParameter, subCategoriaParameter, descricaoParameter, novoGrupoParameter, novaCategoriaParameter, novaSubCategoriaParameter);
         }
+    
+        public virtual ObjectResult<BalanceItemComSaldo> AcertosPendentes()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BalanceItemComSaldo>("AcertosPendentes");
+        }
+    
+        public virtual ObjectResult<BalanceItemComSaldo> AcertosPendentes(MergeOption mergeOption)
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BalanceItemComSaldo>("AcertosPendentes", mergeOption);
+        }
     }
 }

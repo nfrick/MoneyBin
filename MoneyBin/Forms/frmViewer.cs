@@ -117,8 +117,8 @@ namespace MoneyBin {
         }
 
         private void buttonExport_Click(object sender, EventArgs e) {
-            var frm = new frmExport() { Items = balanceGrid1.BalanceItems };
-            frm.ShowDialog();
+            //var frm = new frmExport() { Items = balanceGrid1.BalanceItems };
+            //frm.ShowDialog();
         }
     }
 }

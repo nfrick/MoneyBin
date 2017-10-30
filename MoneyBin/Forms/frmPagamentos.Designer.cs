@@ -28,7 +28,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPagamentos));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.dgvPagamentos = new System.Windows.Forms.DataGridView();
+            this.entityDataSource1 = new EFWinforms.EntityDataSource(this.components);
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonSalvar = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonDesfazer = new System.Windows.Forms.ToolStripButton();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EnabledDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.groupDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dayDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,10 +50,6 @@
             this.octDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.novDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.decDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.entityDataSource1 = new EFWinforms.EntityDataSource(this.components);
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButtonSalvar = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonDesfazer = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -88,6 +89,7 @@
             this.dgvPagamentos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPagamentos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.iDDataGridViewTextBoxColumn,
+            this.EnabledDataGridViewCheckBoxColumn,
             this.groupDataGridViewTextBoxColumn,
             this.descriptionDataGridViewTextBoxColumn,
             this.dayDataGridViewTextBoxColumn,
@@ -114,108 +116,6 @@
             this.dgvPagamentos.Size = new System.Drawing.Size(1128, 483);
             this.dgvPagamentos.TabIndex = 0;
             this.dgvPagamentos.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPagamentos_CellEndEdit);
-            // 
-            // iDDataGridViewTextBoxColumn
-            // 
-            this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
-            this.iDDataGridViewTextBoxColumn.HeaderText = "ID";
-            this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
-            // 
-            // groupDataGridViewTextBoxColumn
-            // 
-            this.groupDataGridViewTextBoxColumn.DataPropertyName = "Group";
-            this.groupDataGridViewTextBoxColumn.HeaderText = "Group";
-            this.groupDataGridViewTextBoxColumn.Name = "groupDataGridViewTextBoxColumn";
-            // 
-            // descriptionDataGridViewTextBoxColumn
-            // 
-            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
-            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
-            // 
-            // dayDataGridViewTextBoxColumn
-            // 
-            this.dayDataGridViewTextBoxColumn.DataPropertyName = "Day";
-            this.dayDataGridViewTextBoxColumn.HeaderText = "Day";
-            this.dayDataGridViewTextBoxColumn.Name = "dayDataGridViewTextBoxColumn";
-            // 
-            // yearDataGridViewCheckBoxColumn
-            // 
-            this.yearDataGridViewCheckBoxColumn.DataPropertyName = "Year";
-            this.yearDataGridViewCheckBoxColumn.HeaderText = "Year";
-            this.yearDataGridViewCheckBoxColumn.Name = "yearDataGridViewCheckBoxColumn";
-            // 
-            // janDataGridViewCheckBoxColumn
-            // 
-            this.janDataGridViewCheckBoxColumn.DataPropertyName = "Jan";
-            this.janDataGridViewCheckBoxColumn.HeaderText = "Jan";
-            this.janDataGridViewCheckBoxColumn.Name = "janDataGridViewCheckBoxColumn";
-            // 
-            // febDataGridViewCheckBoxColumn
-            // 
-            this.febDataGridViewCheckBoxColumn.DataPropertyName = "Feb";
-            this.febDataGridViewCheckBoxColumn.HeaderText = "Feb";
-            this.febDataGridViewCheckBoxColumn.Name = "febDataGridViewCheckBoxColumn";
-            // 
-            // marDataGridViewCheckBoxColumn
-            // 
-            this.marDataGridViewCheckBoxColumn.DataPropertyName = "Mar";
-            this.marDataGridViewCheckBoxColumn.HeaderText = "Mar";
-            this.marDataGridViewCheckBoxColumn.Name = "marDataGridViewCheckBoxColumn";
-            // 
-            // aprDataGridViewCheckBoxColumn
-            // 
-            this.aprDataGridViewCheckBoxColumn.DataPropertyName = "Apr";
-            this.aprDataGridViewCheckBoxColumn.HeaderText = "Apr";
-            this.aprDataGridViewCheckBoxColumn.Name = "aprDataGridViewCheckBoxColumn";
-            // 
-            // mayDataGridViewCheckBoxColumn
-            // 
-            this.mayDataGridViewCheckBoxColumn.DataPropertyName = "May";
-            this.mayDataGridViewCheckBoxColumn.HeaderText = "May";
-            this.mayDataGridViewCheckBoxColumn.Name = "mayDataGridViewCheckBoxColumn";
-            // 
-            // junDataGridViewCheckBoxColumn
-            // 
-            this.junDataGridViewCheckBoxColumn.DataPropertyName = "Jun";
-            this.junDataGridViewCheckBoxColumn.HeaderText = "Jun";
-            this.junDataGridViewCheckBoxColumn.Name = "junDataGridViewCheckBoxColumn";
-            // 
-            // julDataGridViewCheckBoxColumn
-            // 
-            this.julDataGridViewCheckBoxColumn.DataPropertyName = "Jul";
-            this.julDataGridViewCheckBoxColumn.HeaderText = "Jul";
-            this.julDataGridViewCheckBoxColumn.Name = "julDataGridViewCheckBoxColumn";
-            // 
-            // augDataGridViewCheckBoxColumn
-            // 
-            this.augDataGridViewCheckBoxColumn.DataPropertyName = "Aug";
-            this.augDataGridViewCheckBoxColumn.HeaderText = "Aug";
-            this.augDataGridViewCheckBoxColumn.Name = "augDataGridViewCheckBoxColumn";
-            // 
-            // sepDataGridViewCheckBoxColumn
-            // 
-            this.sepDataGridViewCheckBoxColumn.DataPropertyName = "Sep";
-            this.sepDataGridViewCheckBoxColumn.HeaderText = "Sep";
-            this.sepDataGridViewCheckBoxColumn.Name = "sepDataGridViewCheckBoxColumn";
-            // 
-            // octDataGridViewCheckBoxColumn
-            // 
-            this.octDataGridViewCheckBoxColumn.DataPropertyName = "Oct";
-            this.octDataGridViewCheckBoxColumn.HeaderText = "Oct";
-            this.octDataGridViewCheckBoxColumn.Name = "octDataGridViewCheckBoxColumn";
-            // 
-            // novDataGridViewCheckBoxColumn
-            // 
-            this.novDataGridViewCheckBoxColumn.DataPropertyName = "Nov";
-            this.novDataGridViewCheckBoxColumn.HeaderText = "Nov";
-            this.novDataGridViewCheckBoxColumn.Name = "novDataGridViewCheckBoxColumn";
-            // 
-            // decDataGridViewCheckBoxColumn
-            // 
-            this.decDataGridViewCheckBoxColumn.DataPropertyName = "Dec";
-            this.decDataGridViewCheckBoxColumn.HeaderText = "Dec";
-            this.decDataGridViewCheckBoxColumn.Name = "decDataGridViewCheckBoxColumn";
             // 
             // toolStrip1
             // 
@@ -253,6 +153,114 @@
             this.toolStripButtonDesfazer.Text = "Desfazer";
             this.toolStripButtonDesfazer.Click += new System.EventHandler(this.toolStripButtonDesfazer_Click);
             // 
+            // iDDataGridViewTextBoxColumn
+            // 
+            this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
+            this.iDDataGridViewTextBoxColumn.HeaderText = "ID";
+            this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
+            // 
+            // EnabledDataGridViewCheckBoxColumn
+            // 
+            this.EnabledDataGridViewCheckBoxColumn.DataPropertyName = "Enabled";
+            this.EnabledDataGridViewCheckBoxColumn.HeaderText = "Ativo";
+            this.EnabledDataGridViewCheckBoxColumn.Name = "EnabledDataGridViewCheckBoxColumn";
+            // 
+            // groupDataGridViewTextBoxColumn
+            // 
+            this.groupDataGridViewTextBoxColumn.DataPropertyName = "Group";
+            this.groupDataGridViewTextBoxColumn.HeaderText = "Grupo";
+            this.groupDataGridViewTextBoxColumn.Name = "groupDataGridViewTextBoxColumn";
+            // 
+            // descriptionDataGridViewTextBoxColumn
+            // 
+            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
+            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Descrição";
+            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
+            // 
+            // dayDataGridViewTextBoxColumn
+            // 
+            this.dayDataGridViewTextBoxColumn.DataPropertyName = "Day";
+            this.dayDataGridViewTextBoxColumn.HeaderText = "Dia";
+            this.dayDataGridViewTextBoxColumn.Name = "dayDataGridViewTextBoxColumn";
+            // 
+            // yearDataGridViewCheckBoxColumn
+            // 
+            this.yearDataGridViewCheckBoxColumn.DataPropertyName = "Year";
+            this.yearDataGridViewCheckBoxColumn.HeaderText = "Ano";
+            this.yearDataGridViewCheckBoxColumn.Name = "yearDataGridViewCheckBoxColumn";
+            // 
+            // janDataGridViewCheckBoxColumn
+            // 
+            this.janDataGridViewCheckBoxColumn.DataPropertyName = "Jan";
+            this.janDataGridViewCheckBoxColumn.HeaderText = "Jan";
+            this.janDataGridViewCheckBoxColumn.Name = "janDataGridViewCheckBoxColumn";
+            // 
+            // febDataGridViewCheckBoxColumn
+            // 
+            this.febDataGridViewCheckBoxColumn.DataPropertyName = "Feb";
+            this.febDataGridViewCheckBoxColumn.HeaderText = "Fev";
+            this.febDataGridViewCheckBoxColumn.Name = "febDataGridViewCheckBoxColumn";
+            // 
+            // marDataGridViewCheckBoxColumn
+            // 
+            this.marDataGridViewCheckBoxColumn.DataPropertyName = "Mar";
+            this.marDataGridViewCheckBoxColumn.HeaderText = "Mar";
+            this.marDataGridViewCheckBoxColumn.Name = "marDataGridViewCheckBoxColumn";
+            // 
+            // aprDataGridViewCheckBoxColumn
+            // 
+            this.aprDataGridViewCheckBoxColumn.DataPropertyName = "Apr";
+            this.aprDataGridViewCheckBoxColumn.HeaderText = "Abr";
+            this.aprDataGridViewCheckBoxColumn.Name = "aprDataGridViewCheckBoxColumn";
+            // 
+            // mayDataGridViewCheckBoxColumn
+            // 
+            this.mayDataGridViewCheckBoxColumn.DataPropertyName = "May";
+            this.mayDataGridViewCheckBoxColumn.HeaderText = "Mai";
+            this.mayDataGridViewCheckBoxColumn.Name = "mayDataGridViewCheckBoxColumn";
+            // 
+            // junDataGridViewCheckBoxColumn
+            // 
+            this.junDataGridViewCheckBoxColumn.DataPropertyName = "Jun";
+            this.junDataGridViewCheckBoxColumn.HeaderText = "Jun";
+            this.junDataGridViewCheckBoxColumn.Name = "junDataGridViewCheckBoxColumn";
+            // 
+            // julDataGridViewCheckBoxColumn
+            // 
+            this.julDataGridViewCheckBoxColumn.DataPropertyName = "Jul";
+            this.julDataGridViewCheckBoxColumn.HeaderText = "Jul";
+            this.julDataGridViewCheckBoxColumn.Name = "julDataGridViewCheckBoxColumn";
+            // 
+            // augDataGridViewCheckBoxColumn
+            // 
+            this.augDataGridViewCheckBoxColumn.DataPropertyName = "Aug";
+            this.augDataGridViewCheckBoxColumn.HeaderText = "Ago";
+            this.augDataGridViewCheckBoxColumn.Name = "augDataGridViewCheckBoxColumn";
+            // 
+            // sepDataGridViewCheckBoxColumn
+            // 
+            this.sepDataGridViewCheckBoxColumn.DataPropertyName = "Sep";
+            this.sepDataGridViewCheckBoxColumn.HeaderText = "Set";
+            this.sepDataGridViewCheckBoxColumn.Name = "sepDataGridViewCheckBoxColumn";
+            // 
+            // octDataGridViewCheckBoxColumn
+            // 
+            this.octDataGridViewCheckBoxColumn.DataPropertyName = "Oct";
+            this.octDataGridViewCheckBoxColumn.HeaderText = "Out";
+            this.octDataGridViewCheckBoxColumn.Name = "octDataGridViewCheckBoxColumn";
+            // 
+            // novDataGridViewCheckBoxColumn
+            // 
+            this.novDataGridViewCheckBoxColumn.DataPropertyName = "Nov";
+            this.novDataGridViewCheckBoxColumn.HeaderText = "Nov";
+            this.novDataGridViewCheckBoxColumn.Name = "novDataGridViewCheckBoxColumn";
+            // 
+            // decDataGridViewCheckBoxColumn
+            // 
+            this.decDataGridViewCheckBoxColumn.DataPropertyName = "Dec";
+            this.decDataGridViewCheckBoxColumn.HeaderText = "Dez";
+            this.decDataGridViewCheckBoxColumn.Name = "decDataGridViewCheckBoxColumn";
+            // 
             // frmPagamentos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
@@ -262,6 +270,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "frmPagamentos";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Pagamentos";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmPagamentos_FormClosing);
             this.Load += new System.EventHandler(this.frmPagamentos_Load);
@@ -283,7 +292,10 @@
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
         private System.Windows.Forms.DataGridView dgvPagamentos;
         private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButtonSalvar;
+        private System.Windows.Forms.ToolStripButton toolStripButtonDesfazer;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn EnabledDataGridViewCheckBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn groupDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn dayDataGridViewTextBoxColumn;
@@ -300,7 +312,5 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn octDataGridViewCheckBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn novDataGridViewCheckBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn decDataGridViewCheckBoxColumn;
-        private System.Windows.Forms.ToolStripButton toolStripButtonSalvar;
-        private System.Windows.Forms.ToolStripButton toolStripButtonDesfazer;
     }
 }
