@@ -359,14 +359,14 @@ namespace DataClasses {
             }
         }
 
-        public static int ExportToExtrato(string accessDB) {
+        public static void ExportToExtrato(string accessDB) {
             try {
                 using (var conn = GetConnection()) {
                     var cmd = new SqlCommand("sp_ExportToExtrato", conn) {
                         CommandType = System.Data.CommandType.StoredProcedure
                 };
                     cmd.Parameters.Add(new SqlParameter("@AccessDB", accessDB));
-                    return cmd.ExecuteNonQuery();
+                    var x = cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception ex) {

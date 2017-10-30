@@ -93,8 +93,8 @@
             this.toolStripButtonReport.Image = global::MoneyBin.Properties.Resources.document_yellow_icon1;
             this.toolStripButtonReport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonReport.Name = "toolStripButtonReport";
-            this.toolStripButtonReport.Size = new System.Drawing.Size(58, 56);
-            this.toolStripButtonReport.Text = "Report";
+            this.toolStripButtonReport.Size = new System.Drawing.Size(80, 56);
+            this.toolStripButtonReport.Text = "Relatórios";
             this.toolStripButtonReport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButtonReport.Click += new System.EventHandler(this.toolStripButtonReport_Click);
             // 
@@ -104,8 +104,8 @@
             this.toolStripButtonExport.Image = global::MoneyBin.Properties.Resources.export_icon;
             this.toolStripButtonExport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonExport.Name = "toolStripButtonExport";
-            this.toolStripButtonExport.Size = new System.Drawing.Size(56, 56);
-            this.toolStripButtonExport.Text = "Export";
+            this.toolStripButtonExport.Size = new System.Drawing.Size(69, 56);
+            this.toolStripButtonExport.Text = "Exportar";
             this.toolStripButtonExport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButtonExport.Click += new System.EventHandler(this.toolStripButtonExport_Click);
             // 

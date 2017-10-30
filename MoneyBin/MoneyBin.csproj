@@ -190,6 +190,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
+    <Content Include="Reports\ReportComDescricao.rdlc" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -203,6 +204,7 @@
     <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Reports\ReportPorGrupo.rdlc" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\DataClasses.Condition.datasource" />
     <None Include="Properties\DataSources\DataClasses.Payment.datasource" />
@@ -272,7 +274,6 @@
     </Compile>
     <Content Include="Reports\ReportBalance.rdlc" />
     <Content Include="Reports\ReportAnoMesGrupoCategoria.rdlc" />
-    <Content Include="Reports\ReportComDescricao.rdlc" />
     <None Include="Properties\DataSources\DataClasses.AnalysisItem.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

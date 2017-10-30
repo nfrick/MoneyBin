@@ -177,6 +177,7 @@ namespace MoneyBin {
             }
 
             row--;
+            col--;
             ws.Cells[$"B2:B{row}"].Style.Numberformat.Format = "dd-MM-yyyy";
             ws.Cells[$"D2:D{row}"].Style.Numberformat.Format = "@";
             ws.Cells[$"E2:E{row}"].Style.Numberformat.Format = "#,##0.00";

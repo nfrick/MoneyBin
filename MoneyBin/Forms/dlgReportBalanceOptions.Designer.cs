@@ -35,19 +35,19 @@
             // 
             // dateTimePickerTermino
             // 
-            this.dateTimePickerTermino.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePickerTermino.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateTimePickerTermino.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePickerTermino.Location = new System.Drawing.Point(187, 119);
-            this.dateTimePickerTermino.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dateTimePickerTermino.Location = new System.Drawing.Point(210, 137);
+            this.dateTimePickerTermino.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.dateTimePickerTermino.Name = "dateTimePickerTermino";
-            this.dateTimePickerTermino.Size = new System.Drawing.Size(117, 27);
+            this.dateTimePickerTermino.Size = new System.Drawing.Size(131, 30);
             this.dateTimePickerTermino.TabIndex = 16;
             // 
             // labelTermino
             // 
             this.labelTermino.AutoSize = true;
             this.labelTermino.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTermino.Location = new System.Drawing.Point(183, 91);
+            this.labelTermino.Location = new System.Drawing.Point(206, 105);
             this.labelTermino.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelTermino.Name = "labelTermino";
             this.labelTermino.Size = new System.Drawing.Size(63, 20);
@@ -58,7 +58,7 @@
             // 
             this.labelInicio.AutoSize = true;
             this.labelInicio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelInicio.Location = new System.Drawing.Point(183, 22);
+            this.labelInicio.Location = new System.Drawing.Point(206, 25);
             this.labelInicio.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelInicio.Name = "labelInicio";
             this.labelInicio.Size = new System.Drawing.Size(45, 20);
@@ -67,21 +67,21 @@
             // 
             // dateTimePickerInicio
             // 
-            this.dateTimePickerInicio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePickerInicio.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateTimePickerInicio.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePickerInicio.Location = new System.Drawing.Point(187, 51);
-            this.dateTimePickerInicio.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dateTimePickerInicio.Location = new System.Drawing.Point(210, 59);
+            this.dateTimePickerInicio.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.dateTimePickerInicio.Name = "dateTimePickerInicio";
-            this.dateTimePickerInicio.Size = new System.Drawing.Size(117, 27);
+            this.dateTimePickerInicio.Size = new System.Drawing.Size(131, 30);
             this.dateTimePickerInicio.TabIndex = 15;
             // 
             // buttonOK
             // 
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(47, 166);
-            this.buttonOK.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonOK.Location = new System.Drawing.Point(53, 191);
+            this.buttonOK.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(100, 35);
+            this.buttonOK.Size = new System.Drawing.Size(112, 40);
             this.buttonOK.TabIndex = 21;
             this.buttonOK.Text = "OK";
             this.buttonOK.UseVisualStyleBackColor = true;
@@ -90,10 +90,10 @@
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(168, 166);
-            this.buttonCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonCancel.Location = new System.Drawing.Point(189, 191);
+            this.buttonCancel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(100, 35);
+            this.buttonCancel.Size = new System.Drawing.Size(112, 40);
             this.buttonCancel.TabIndex = 22;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
@@ -102,23 +102,24 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 24);
+            this.label1.Location = new System.Drawing.Point(25, 28);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(50, 20);
+            this.label1.Size = new System.Drawing.Size(57, 23);
             this.label1.TabIndex = 26;
             this.label1.Text = "Banco";
             // 
             // comboBoxBanco
             // 
+            this.comboBoxBanco.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBoxBanco.FormattingEnabled = true;
             this.comboBoxBanco.Items.AddRange(new object[] {
             "BB",
             "CEF",
             "STD"});
-            this.comboBoxBanco.Location = new System.Drawing.Point(26, 50);
+            this.comboBoxBanco.Location = new System.Drawing.Point(29, 57);
             this.comboBoxBanco.Name = "comboBoxBanco";
-            this.comboBoxBanco.Size = new System.Drawing.Size(102, 28);
+            this.comboBoxBanco.Size = new System.Drawing.Size(114, 31);
             this.comboBoxBanco.TabIndex = 25;
             this.comboBoxBanco.Text = "BB";
             this.comboBoxBanco.SelectedValueChanged += new System.EventHandler(this.comboBoxBanco_SelectedValueChanged);
@@ -126,10 +127,10 @@
             // dlgReportBalanceOptions
             // 
             this.AcceptButton = this.buttonOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(329, 220);
+            this.ClientSize = new System.Drawing.Size(370, 253);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBoxBanco);
             this.Controls.Add(this.buttonCancel);
@@ -138,11 +139,11 @@
             this.Controls.Add(this.labelTermino);
             this.Controls.Add(this.labelInicio);
             this.Controls.Add(this.dateTimePickerInicio);
-            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.Name = "dlgReportBalanceOptions";
-            this.Text = "Balance Options";
+            this.Text = "Opções";
             this.Load += new System.EventHandler(this.dlgReportBalanceOptions_Load);
             this.Click += new System.EventHandler(this.buttons_Click);
             this.ResumeLayout(false);

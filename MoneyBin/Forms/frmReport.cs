@@ -4,6 +4,7 @@ using System;
 using System.Configuration;
 using System.Linq;
 using System.Windows.Forms;
+using DataLayer;
 
 namespace MoneyBin {
     public partial class frmReport : Form {
@@ -28,7 +29,20 @@ namespace MoneyBin {
             reportEngine.DataSources.Clear();
             var rep = ((ToolStripButton)sender).Tag;
             reportEngine.ReportPath = string.Format(_rptPath, rep);
-            reportEngine.DataSources.Add(new ReportDataSource($@"DataSet{rep}", MoneyBinDB.GetBalanceItems(dlg.Banco, dlg.Inicio, dlg.Termino)));  //, "")));
+
+            using (var ctx = new MoneyBinEntities()) {
+                if (rep == "PorGrupo") {
+                    reportEngine.DataSources.Add(new ReportDataSource($@"DataSet{rep}",
+                        ctx.BalanceComSaldo
+                            .Where(b => b.Banco == dlg.Banco && b.Data >= dlg.Inicio &&
+                                        b.Data <= dlg.Termino).ToList()));
+                }
+                else {
+                    reportEngine.DataSources.Add(new ReportDataSource($@"DataSet{rep}", ctx.BalanceComSaldo.Where(b => b.Data >= dlg.Inicio && b.Data <= dlg.Termino).ToList()));
+
+                }
+            }
+
             reportViewer1.RefreshReport();
         }
     }
