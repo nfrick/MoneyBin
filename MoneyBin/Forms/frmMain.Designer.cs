@@ -82,8 +82,8 @@
             this.toolStripButtonAnalysis.Image = global::MoneyBin.Properties.Resources.Document_Chart_icon;
             this.toolStripButtonAnalysis.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonAnalysis.Name = "toolStripButtonAnalysis";
-            this.toolStripButtonAnalysis.Size = new System.Drawing.Size(66, 56);
-            this.toolStripButtonAnalysis.Text = "Analysis";
+            this.toolStripButtonAnalysis.Size = new System.Drawing.Size(61, 56);
+            this.toolStripButtonAnalysis.Text = "Análise";
             this.toolStripButtonAnalysis.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButtonAnalysis.Click += new System.EventHandler(this.toolStripButtonAnalysis_Click);
             // 
@@ -147,6 +147,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
+            this.BackgroundImage = global::MoneyBin.Properties.Resources.uncle_scrooge;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1805, 1090);
             this.Controls.Add(this.toolStripMainMenu);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

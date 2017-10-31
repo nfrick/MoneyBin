@@ -17,7 +17,7 @@ namespace MoneyBin.Forms {
             InitializeComponent();
 
             _BalanceItems = BalanceFileReader.Read();
-            HasData = _BalanceItems.Any();
+            HasData = _BalanceItems != null && _BalanceItems.Any();
             if (!HasData)
                 Load += (s, e) => Close();
         }

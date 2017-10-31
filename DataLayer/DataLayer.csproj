@@ -53,6 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnaliseItem.cs">
+      <DependentUpon>ModelMoneyBin.tt</DependentUpon>
+    </Compile>
     <Compile Include="BalanceItemComSaldo.cs">
       <DependentUpon>ModelMoneyBin.tt</DependentUpon>
     </Compile>
@@ -81,6 +84,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelMoneyBin.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Partial Classes\AnaliseItem.cs" />
     <Compile Include="Partial Classes\BalanceItemComSaldo.cs" />
     <Compile Include="Partial Classes\CalendarItem.cs" />
     <Compile Include="Partial Classes\Payment.cs" />

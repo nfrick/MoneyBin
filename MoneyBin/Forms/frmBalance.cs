@@ -82,7 +82,19 @@ namespace MoneyBin.Forms {
             toolStripButtonSalvar.Visible = false;
         }
 
+        private void toolStripTextBoxProcurar_KeyPress(object sender, KeyPressEventArgs e) {
+
+        }
+        private void toolStripTextBoxProcurar_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Enter && !string.IsNullOrEmpty(toolStripTextBoxProcurar.Text))
+                Procurar();
+        }
+
         private void toolStripButtonProcurar_Click(object sender, EventArgs e) {
+            Procurar();
+        }
+
+        private void Procurar() {
             var columns = dgvBalance.Columns.Cast<DataGridViewColumn>().Where(c => c.Visible).Select(c => c.Index)
                 .ToArray();
             var row = dgvBalance.CurrentRow.Index;
@@ -142,11 +154,11 @@ namespace MoneyBin.Forms {
             dgvBalance.Refresh();
         }
 
-        private void dgvBalance_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
-        {
+        private void dgvBalance_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e) {
             FormUtils.EditingControlShowing(sender, e);
         }
 
         #endregion DATAGRIDVIEW
+
     }
 }

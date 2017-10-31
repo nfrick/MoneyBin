@@ -53,6 +53,19 @@
           <Property Name="NovaSubCategoria" Type="nvarchar" MaxLength="30" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'MoneyBin.dbo.vw_Analise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_Analise">
+          <Key>
+            <PropertyRef Name="Valor" />
+          </Key>
+          <Property Name="Ano" Type="varchar" MaxLength="4" />
+          <Property Name="Mes" Type="varchar" MaxLength="2" />
+          <Property Name="Grupo" Type="nvarchar" MaxLength="15" />
+          <Property Name="Categoria" Type="nvarchar" MaxLength="20" />
+          <Property Name="Sinal" Type="money" />
+          <Property Name="Valor" Type="money" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'MoneyBin.dbo.vw_Balance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Balance">
           <Key>
@@ -138,6 +151,16 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <EntitySet Name="tblCalendar" EntityType="Self.tblCalendar" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPayments" EntityType="Self.tblPayments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblRules" EntityType="Self.tblRules" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vw_Analise" EntityType="Self.vw_Analise" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_Analise].[Ano] AS [Ano], 
+    [vw_Analise].[Mes] AS [Mes], 
+    [vw_Analise].[Grupo] AS [Grupo], 
+    [vw_Analise].[Categoria] AS [Categoria], 
+    [vw_Analise].[Sinal] AS [Sinal], 
+    [vw_Analise].[Valor] AS [Valor]
+    FROM [dbo].[vw_Analise] AS [vw_Analise]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_Balance" EntityType="Self.vw_Balance" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_Balance].[ID] AS [ID], 
@@ -250,6 +273,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             <End Role="BalanceItemComSaldo" EntitySet="BalanceComSaldo" />
           </AssociationSet>
           <FunctionImport Name="AcertosPendentes" EntitySet="BalanceComSaldo" ReturnType="Collection(MoneyBinModel.BalanceItemComSaldo)" />
+          <EntitySet Name="Analise" EntityType="MoneyBinModel.AnaliseItem" />
         </EntityContainer>
         <Association Name="tblPaymenttblCalendar">
           <End Type="MoneyBinModel.Payment" Role="tblPayment" Multiplicity="1" />
@@ -376,6 +400,17 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Property Type="Int32" Name="GrupoId" Nullable="true" />
           <Property Type="Int32" Name="Saldo" Nullable="false" />
         </ComplexType>
+        <EntityType Name="AnaliseItem">
+          <Key>
+            <PropertyRef Name="Valor" />
+          </Key>
+          <Property Name="Ano" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Mes" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="Grupo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Categoria" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Sinal" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Valor" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -457,6 +492,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
                   <ScalarProperty Name="Historico" ParameterName="Historico" />
                   <ScalarProperty Name="Data" ParameterName="Data" />
                   <ScalarProperty Name="Banco" ParameterName="Banco" />
+                  <ResultBinding Name="ID" ColumnName="NewID" />
                 </InsertFunction>
               </ModificationFunctionMapping>
             </EntityTypeMapping>
@@ -499,6 +535,18 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="AcertosPendentes" FunctionName="MoneyBinModel.Store.sp_AcertosPendentes">
           </FunctionImportMapping>
+          <EntitySetMapping Name="Analise">
+            <EntityTypeMapping TypeName="MoneyBinModel.AnaliseItem">
+              <MappingFragment StoreEntitySet="vw_Analise">
+                <ScalarProperty Name="Categoria" ColumnName="Categoria" />
+                <ScalarProperty Name="Grupo" ColumnName="Grupo" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="Sinal" ColumnName="Sinal" />
+                <ScalarProperty Name="Mes" ColumnName="Mes" />
+                <ScalarProperty Name="Ano" ColumnName="Ano" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

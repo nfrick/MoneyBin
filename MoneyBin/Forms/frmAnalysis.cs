@@ -1,14 +1,15 @@
-﻿using System;
+﻿using CustomControls;
+using DataLayer;
+using GridAndChartStyleLibrary;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using CustomControls;
-using DataClasses;
-using GridAndChartStyleLibrary;
 
 namespace MoneyBin {
     public partial class frmAnalysis : frmBase {
+        private MoneyBinEntities _ctx;
 
         private BindingSource _sourceAnoGrupo;
         private BindingSource _sourceAnoMesGrupo;
@@ -25,26 +26,27 @@ namespace MoneyBin {
         public frmAnalysis() {
             InitializeComponent();
             statusStrip1.Visible = false;
+            _ctx = new MoneyBinEntities();
         }
 
         private void frmAnalysis_Load(object sender, EventArgs e) {
-
-            //foreach (Control ctrl in tableLayoutPanelTables.Controls)
-            //    if (ctrl.GetType().Name.Equals("DataGridView"))
-            //        SetupDGV((DataGridView)ctrl);
-
             SetupChart(chartAnoPositive, "Ano x Grupo", "Positivo");
             SetupChart(chartAnoMesPositive, "Ano-Mês x Grupo", "Positivo");
             SetupChart(chartAnoNegative, "Ano x Grupo", "Negativo");
             SetupChart(chartAnoMesNegative, "Ano-Mês x Grupo", "Negativo");
 
-            var meses = MoneyBinDB.GetAnosMeses("BB");
-            treeSelMonths.LoadData(meses);
+            var meses = _ctx.BalanceComSaldo
+                .Select(b => new { Ano = b.Data.Year, Mes = b.Data.Month }).Distinct()
+                .OrderByDescending(t => t.Ano).ThenByDescending(t => t.Mes).ToList();
+            treeSelMonths.LoadData(meses.Select(t => new Tuple<string, string>($"{t.Ano}", $"{t.Mes:D2}")).ToList());
             treeSelMonths.ItemName = "Ano";
             treeSelMonths.SubItemName = "Mes";
 
-            var grpCats = MoneyBinDB.GetGruposCategorias();
-            treeSelGroupsCats.LoadData(grpCats);
+            var grpCats = _ctx.BalanceComSaldo
+                .Select(b => new { b.NovoGrupo, b.NovaCategoria }).Distinct()
+                .OrderBy(t => t.NovoGrupo).ThenBy(t => t.NovaCategoria).ToList();
+            treeSelGroupsCats.LoadData(grpCats
+                .Select(b => new Tuple<string, string>(b.NovoGrupo, b.NovaCategoria)).ToList());
             treeSelGroupsCats.ItemName = "Grupo";
             treeSelGroupsCats.SubItemName = "Categoria";
 
@@ -117,85 +119,83 @@ namespace MoneyBin {
             _isSingleGroup = treeSelGroupsCats.IsSingleLevel(1);
             _isSingleCategory = treeSelGroupsCats.IsSingleLevel(2);
 
-            var baseData = MoneyBinDB.GetAnalysisItems(treeSelMonths.GetQuery(), treeSelGroupsCats.GetQuery());
+            var baseData = _ctx.Database
+                .SqlQuery<AnaliseItem>(
+                    $"SELECT * FROM vw_Analise {WhereClause()}")
+                .OrderByDescending(c => c.Ano).ThenByDescending(c => c.Mes)
+                .ThenBy(c => c.Grupo).ThenBy(c => c.Categoria)
+                .ToList();
 
             var anoMesGrupoCategoria =
-                (from p in baseData
-                 group p by p.Ano + p.Mes + p.Grupo + p.Categoria into g
-                 select new {
-                     Ano = g.Key.Substring(0, 4),
-                     Mes = g.Key.Substring(4, 2),
-                     Grupo = g.Key.Substring(6, 1),
-                     Categoria = g.Key.Substring(7),
-                     Positivo = g.Sum(p => p.IsPositive ? p.Valor : 0),
-                     Negativo = g.Sum(p => p.IsNegative ? p.Valor : 0),
-                     Total = g.Sum(p => p.Valor)
-                 }).OrderBy(c => c.Ano).ThenBy(c => c.Mes).ThenBy(c => c.Grupo).ThenBy(c => c.Categoria);
+            (from p in baseData
+             group p by new { p.Ano, p.Mes, p.Grupo, p.Categoria } into g
+             select new {
+                 Ano = g.Key.Ano,
+                 Mes = g.Key.Mes,
+                 Grupo = g.Key.Grupo,
+                 Categoria = g.Key.Categoria,
+                 Positivo = g.Sum(p => p.IsPositive ? p.Valor : 0),
+                 Negativo = g.Sum(p => p.IsNegative ? p.Valor : 0),
+                 Total = g.Sum(p => p.Valor)
+             });
 
             var anoGrupo =
                 (from p in anoMesGrupoCategoria
-                 group p by p.Ano + p.Grupo into g
+                 group p by new { p.Ano, p.Grupo } into g
                  select new {
-                     Ano = g.Key.Substring(0, 4),
-                     Grupo = g.Key.Substring(4),
+                     Ano = g.Key.Ano,
+                     Grupo = g.Key.Grupo,
                      Positivo = g.Sum(p => p.Positivo),
                      Negativo = g.Sum(p => p.Negativo),
                      Total = g.Sum(p => p.Total)
-                 }).OrderBy(c => c.Ano).ThenBy(c => c.Grupo);
+                 });
 
             var anoMesGrupo =
-                (from p in anoMesGrupoCategoria
-                 group p by p.Ano + p.Mes + p.Grupo into g
-                 select new {
-                     Ano = g.Key.Substring(0, 4),
-                     Mes = g.Key.Substring(4, 2),
-                     Grupo = g.Key.Substring(6),
-                     Positivo = g.Sum(p => p.Positivo),
-                     Negativo = g.Sum(p => p.Negativo),
-                     Total = g.Sum(p => p.Total)
-                 }).OrderBy(c => c.Ano).ThenBy(c => c.Mes).ThenBy(c => c.Grupo);
+            (from p in anoMesGrupoCategoria
+             group p by new { p.Ano, p.Mes, p.Grupo }
+                into g
+             select new {
+                 Ano = g.Key.Ano,
+                 Mes = g.Key.Mes,
+                 Grupo = g.Key.Grupo,
+                 Positivo = g.Sum(p => p.Positivo),
+                 Negativo = g.Sum(p => p.Negativo),
+                 Total = g.Sum(p => p.Total)
+             });
 
-            var anoMesCategoria =
-                (from p in anoMesGrupoCategoria
-                 group p by p.Ano + p.Mes + p.Categoria into g
-                 select new {
-                     Ano = g.Key.Substring(0, 4),
-                     Mes = g.Key.Substring(4, 2),
-                     Categoria = g.Key.Substring(6),
-                     Positivo = g.Sum(p => p.Positivo),
-                     Negativo = g.Sum(p => p.Negativo),
-                     Total = g.Sum(p => p.Total)
-                 }).OrderBy(c => c.Ano).ThenBy(c => c.Mes).ThenBy(c => c.Categoria);
+            var mesAnoGrupo =
+                anoMesGrupo.OrderBy(c => c.Mes).ThenByDescending(c => c.Ano).ThenBy(c => c.Grupo)
+                .Select(p => new { p.Mes, p.Ano, p.Grupo, p.Positivo, p.Negativo, p.Total });
 
             // ANO-MES-GRUPO-CATEGORIA (1-1)
             if (_isSingleCategory || _isSingleMonth)  // Redundante com Ano-Grupo-Categoria ou Ano-Mes-Grupo
-                AnoMesGrupoCategoriaDataGridView.Visible = false;
+                dgvAnoMesGrupoCategoria.Visible = false;
             else {
-                AnoMesGrupoCategoriaDataGridView.Visible = true;
-                _sourceAnoMesGrupoCategoria = new BindingSource { DataSource = anoMesGrupoCategoria };
-                AnoMesGrupoCategoriaDataGridView.DataSource = _sourceAnoMesGrupoCategoria;
+                dgvAnoMesGrupoCategoria.Visible = true;
+                _sourceAnoMesGrupoCategoria = new BindingSource {
+                    DataSource = anoMesGrupoCategoria
+                };
+                dgvAnoMesGrupoCategoria.DataSource = _sourceAnoMesGrupoCategoria;
             }
 
             // ANO-GRUPO
-            if (_isSingleMonth) // Redundante com Ano-Mes-Grupo
-                AnoGrupoDataGridView.Visible = false;
-            else {
-                AnoGrupoDataGridView.Visible = true;
+            dgvAnoGrupo.Visible = !_isSingleMonth;
+            if (!_isSingleMonth) { // Redundante com Ano-Mes-Grupo
+                dgvAnoGrupo.Visible = true;
                 _sourceAnoGrupo = new BindingSource { DataSource = anoGrupo };
-                AnoGrupoDataGridView.DataSource = _sourceAnoGrupo;
+                dgvAnoGrupo.DataSource = _sourceAnoGrupo;
             }
 
             // ANO-MES-GRUPO
             _sourceAnoMesGrupo = new BindingSource { DataSource = anoMesGrupo };
-            AnoMesGrupoDataGridView.DataSource = _sourceAnoMesGrupo;
+            dgvAnoMesGrupo.DataSource = _sourceAnoMesGrupo;
 
             // ANO-MES-CATEGORIA
-            if (_isSingleCategory) // Redundante com Ano-Mes-Grupo
-                AnoMesCategoriaDataGridView.Visible = false;
-            else {
-                AnoMesCategoriaDataGridView.Visible = true;
-                _sourceAnoMesCategoria = new BindingSource { DataSource = anoMesCategoria };
-                AnoMesCategoriaDataGridView.DataSource = _sourceAnoMesCategoria;
+            dgvAnoMesCategoria.Visible = !_isSingleCategory;
+            if (!_isSingleCategory) {  // Redundante com Ano-Mes-Grupo
+                dgvAnoMesCategoria.Visible = true;
+                _sourceAnoMesCategoria = new BindingSource { DataSource = mesAnoGrupo };
+                dgvAnoMesCategoria.DataSource = _sourceAnoMesCategoria;
             }
 
             tableLayoutPanelExternal.ColumnStyles[1].Width = _isSingleCategory ? 0 : 400;
@@ -208,10 +208,13 @@ namespace MoneyBin {
             }
 
             // SET CHARTS
-            chartAnoPositive.Series.Clear();
-            chartAnoMesPositive.Series.Clear();
-            chartAnoNegative.Series.Clear();
-            chartAnoMesNegative.Series.Clear();
+            foreach (Control ctrl in tableLayoutPanelCharts.Controls)
+                if (ctrl.GetType().Name.Equals("Chart")) {
+                    ((Chart)ctrl).Series.Clear();
+                    ((Chart)ctrl).Legends.Clear();
+                    var legenda = new Legend();
+                    ((Chart)ctrl).Legends.Add(legenda);
+                }
 
             if (_isSingleGroup) {
                 if (_isSingleYear || _isSingleMonth) {
@@ -237,25 +240,25 @@ namespace MoneyBin {
                 else {
                     // Stacked bar at Category level
                     var anoCategoria =
-                        (from p in anoMesCategoria
-                         group p by p.Ano + p.Categoria into g
+                        (from p in anoMesGrupo
+                         group p by new { p.Ano, p.Grupo } into g
                          select new {
-                             Ano = g.Key.Substring(0, 4),
-                             Categoria = g.Key.Substring(4),
+                             Ano = g.Key.Ano,
+                             Grupo = g.Key.Grupo,
                              TotalPos = g.Sum(p => p.Positivo),
                              TotalNeg = g.Sum(p => p.Negativo)
-                         }).OrderBy(c => c.Categoria).ThenBy(c => c.Ano);
+                         }).OrderBy(c => c.Grupo).ThenBy(c => c.Ano);
 
                     foreach (var cat in anoCategoria) {
-                        var seriesP = chartAnoPositive.Series.FindByName(cat.Categoria);
+                        var seriesP = chartAnoPositive.Series.FindByName(cat.Grupo);
                         if (seriesP == null) {
-                            seriesP = chartAnoPositive.Series.Add(cat.Categoria);
+                            seriesP = chartAnoPositive.Series.Add(cat.Grupo);
                             seriesP.ChartType = SeriesChartType.StackedColumn;
                         }
 
-                        var seriesN = chartAnoNegative.Series.FindByName(cat.Categoria);
+                        var seriesN = chartAnoNegative.Series.FindByName(cat.Grupo);
                         if (seriesN == null) {
-                            seriesN = chartAnoNegative.Series.Add(cat.Categoria);
+                            seriesN = chartAnoNegative.Series.Add(cat.Grupo);
                             seriesN.ChartType = SeriesChartType.StackedColumn;
                         }
 
@@ -279,17 +282,15 @@ namespace MoneyBin {
             }
 
             else {
-                var grupos = anoGrupo.Select(a => a.Grupo).Distinct().OrderBy(g => g);
+                var grupos = anoGrupo.GroupBy(g => g.Grupo).OrderBy(g => g.Key);
 
                 foreach (var grupo in grupos) {
-                    var seriesP = chartAnoPositive.Series.Add(grupo);
+                    var seriesP = chartAnoPositive.Series.Add(grupo.Key);
                     seriesP.ChartType = SeriesChartType.StackedColumn;
-                    var seriesN = chartAnoNegative.Series.Add(grupo);
+                    var seriesN = chartAnoNegative.Series.Add(grupo.Key);
                     seriesN.ChartType = SeriesChartType.StackedColumn;
 
-                    var itemsAno = anoGrupo.Where(i => i.Grupo == grupo).OrderBy(i => i.Ano);
-
-                    foreach (var ai in itemsAno) {
+                    foreach (var ai in grupo) {
                         seriesP.Points.AddXY(ai.Ano, ai.Positivo == 0 ? 0 : ai.Positivo);
                         seriesN.Points.AddXY(ai.Ano, ai.Negativo == 0 ? 0 : -1 * ai.Negativo);
                     }
@@ -320,14 +321,14 @@ namespace MoneyBin {
                 }
                 else {
                     // Stacked bar at Category level
-                    var categorias = (
-                        from g in anoMesCategoria
-                        orderby g.Categoria
-                        select g.Categoria)
+                    var grupos = (
+                        from g in mesAnoGrupo
+                        orderby g.Grupo
+                        select g.Grupo)
                         .Distinct();
 
                     var anosMeses = (
-                        from g in anoMesCategoria
+                        from g in mesAnoGrupo
                         orderby g.Ano, g.Mes
                         select new {
                             g.Ano,
@@ -336,7 +337,7 @@ namespace MoneyBin {
                         })
                         .Distinct();
 
-                    foreach (var cat in categorias) {
+                    foreach (var cat in grupos) {
                         var seriesP = chartAnoMesPositive.Series.Add(cat);
                         seriesP.ChartType = SeriesChartType.StackedColumn;
                         var seriesN = chartAnoMesNegative.Series.Add(cat);
@@ -344,8 +345,8 @@ namespace MoneyBin {
 
                         foreach (var am in anosMeses) {
                             var anoMesData = (
-                                from p in anoMesCategoria
-                                where p.Ano == am.Ano && p.Mes == am.Mes && p.Categoria == cat
+                                from p in mesAnoGrupo
+                                where p.Ano == am.Ano && p.Mes == am.Mes && p.Grupo == cat
                                 select new {
                                     AnoMes = $@"{p.Ano}\n{p.Mes}",
                                     TotalPos = p.Positivo,
@@ -399,6 +400,15 @@ namespace MoneyBin {
                     }
                 }
             }
+        }
+
+        private string WhereClause() {
+            var anoMes = treeSelMonths.Query;
+            var grupoCategoria = treeSelGroupsCats.Query;
+            if (anoMes.Equals("") && grupoCategoria.Equals(""))
+                return "";
+            string[] condicoes = { anoMes, grupoCategoria };
+            return "WHERE " + string.Join(" AND ", condicoes);
         }
     }
 }

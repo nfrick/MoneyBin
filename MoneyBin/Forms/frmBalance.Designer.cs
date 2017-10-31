@@ -246,7 +246,7 @@
             this.toolStripSeparator1});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(521, 28);
+            this.toolStrip1.Size = new System.Drawing.Size(690, 28);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripLabel1
@@ -318,6 +318,8 @@
             this.toolStripTextBoxProcurar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.toolStripTextBoxProcurar.Name = "toolStripTextBoxProcurar";
             this.toolStripTextBoxProcurar.Size = new System.Drawing.Size(100, 28);
+            this.toolStripTextBoxProcurar.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBoxProcurar_KeyDown);
+            this.toolStripTextBoxProcurar.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBoxProcurar_KeyPress);
             // 
             // toolStripLabelProcurar
             // 

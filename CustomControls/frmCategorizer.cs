@@ -1,4 +1,4 @@
-﻿using DataClasses;
+﻿using DataLayer;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -9,12 +9,12 @@ namespace CustomControls {
             InitializeComponent();
         }
 
-        public List<BalanceItemOld> SelectedItems;
+        public List<BalanceItemComSaldo> SelectedItems;
 
         private void buttonPreencher_Click(object sender, EventArgs e) {
             progressBar1.Maximum = SelectedItems.Count;
             progressBar1.Value = 0;
-            foreach (BalanceItemOld bi in SelectedItems) {
+            foreach (BalanceItemComSaldo bi in SelectedItems) {
                 progressBar1.Value++;
                 if (checkBoxGrupo.Checked)
                     bi.Grupo = textBoxGrupo.Text.Length == 0 ? null : textBoxGrupo.Text;
@@ -24,7 +24,6 @@ namespace CustomControls {
                     bi.SubCategoria = textBoxSubCategoria.Text.Length == 0 ? null : textBoxSubCategoria.Text;
                 if (checkBoxDescricao.Checked)
                     bi.Descricao = textBoxDescricao.Text.Length == 0 ? null : textBoxDescricao.Text;
-                bi.Updated = true;
             }
             //progressBar1.Value = 0;
         }

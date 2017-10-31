@@ -33,6 +33,7 @@ namespace DataLayer
         public virtual DbSet<Bank> Banks { get; set; }
         public virtual DbSet<Rule> Rules { get; set; }
         public virtual DbSet<DataMaxMin> DataMaxsMins { get; set; }
+        public virtual DbSet<AnaliseItem> Analise { get; set; }
     
         public virtual int sp_BalanceItemDelete(Nullable<int> iD)
         {

@@ -49,16 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnalysisItem.cs" />
-    <Compile Include="BalanceItemOld.cs" />
     <Compile Include="CalendarOld.cs" />
-    <Compile Include="Classificacao.cs" />
-    <Compile Include="ClassificacaoItem.cs" />
-    <Compile Include="ImportMaps.cs" />
-    <Compile Include="Rule.cs" />
-    <Compile Include="ItemSubItem.cs" />
-    <Compile Include="Payment.cs" />
-    <Compile Include="Readers.cs" />
     <Compile Include="MoneyBinDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SortableBindingList.cs" />

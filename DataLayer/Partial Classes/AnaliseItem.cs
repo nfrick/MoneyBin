@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer {
-    public partial class CalendarItem {
-        public override string ToString() => Payment.Description;
-
-        public int Day => Payment.Day;
+    public partial class AnaliseItem
+    {
+        public bool IsPositive => this.Sinal > 0;
+        public bool IsNegative => this.Sinal < 0;
     }
 }

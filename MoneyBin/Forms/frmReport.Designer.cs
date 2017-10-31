@@ -40,10 +40,6 @@
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // AnalysisItemAnoMesGrupoCategoriaBindingSource
-            // 
-            this.AnalysisItemAnoMesGrupoCategoriaBindingSource.DataSource = typeof(DataClasses.AnalysisItem);
-            // 
             // reportViewer1
             // 
             this.reportViewer1.Dock = System.Windows.Forms.DockStyle.Fill;

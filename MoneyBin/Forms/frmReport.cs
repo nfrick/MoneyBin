@@ -27,7 +27,7 @@ namespace MoneyBin {
 
             var reportEngine = reportViewer1.LocalReport;
             reportEngine.DataSources.Clear();
-            var rep = ((ToolStripButton)sender).Tag;
+            var rep = (string)((ToolStripButton)sender).Tag;
             reportEngine.ReportPath = string.Format(_rptPath, rep);
 
             using (var ctx = new MoneyBinEntities()) {

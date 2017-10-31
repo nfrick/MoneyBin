@@ -24,7 +24,8 @@ namespace DataLayer {
             var includeAll = MessageBox.Show(@"Incluir todos os itens?", DialogTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
             foreach (var file in dlg.FileNames) {
                 var extrato = new Extrato(file, includeAll);
-                NewItems.AddRange(extrato.Entries);
+                if (extrato.HasEntries)
+                    NewItems.AddRange(extrato.Entries);
             }
 
             if (NewItems.Any())
@@ -38,14 +39,10 @@ namespace DataLayer {
         private static readonly MoneyBinEntities _ctx = new MoneyBinEntities();
         private readonly Bank _banco;
         private readonly bool _getAll;
-
-        /// <summary>
-        /// Returns list of entries in Extrato
-        /// </summary>
-        /// <returns>List<BalanceItemOld></returns>
         private List<BalanceItemComSaldo> _entries;
 
         public List<BalanceItemComSaldo> Entries => _getAll ? _entries : _entries.Where(i => i.Data.CompareTo(_banco.DataMaxMins.DataMax) >= 0).ToList();
+        public bool HasEntries => _entries != null && _entries.Any();
 
         /// <summary>
         /// Populates the BalanceItemOld list with entries from a file
@@ -53,7 +50,9 @@ namespace DataLayer {
         /// <param name="filepath">Path of the import file</param>
         public Extrato(string filepath, bool getAll) {
             var extension = Path.GetExtension(filepath).ToLower();
-            _banco = _ctx.Banks.First(b => extension.EndsWith(b.Extensao));
+            _banco = _ctx.Banks.FirstOrDefault(b => extension.EndsWith(b.Extensao));
+            if (_banco == null)
+                return;
             _getAll = _banco.DataMaxMins.DataMax == null || getAll;
 
             if (extension.Equals(".xls")) {
@@ -138,6 +137,7 @@ namespace DataLayer {
                 else {
                     csv.Configuration.Delimiter = ";";
                     csv.Configuration.RegisterClassMap<ExtratoCEFMap>();
+                    csv.Configuration.HeaderValidated = null;
                 }
 
                 _entries = csv.GetRecords<BalanceItemComSaldo>().ToList();

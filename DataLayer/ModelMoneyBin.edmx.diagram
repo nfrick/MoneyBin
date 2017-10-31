@@ -15,6 +15,7 @@
         <EntityTypeShape EntityType="MoneyBinModel.DataMaxMin" Width="1.5" PointX="4.75" PointY="3" FillColor="255, 192, 128" />
         <AssociationConnector Association="MoneyBinModel.BankDataMaxMin" />
         <AssociationConnector Association="MoneyBinModel.BankBalanceItemComSaldo" />
+        <EntityTypeShape EntityType="MoneyBinModel.AnaliseItem" Width="1.5" PointX="9" PointY="0.5" FillColor="255, 224, 192" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

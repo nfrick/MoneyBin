@@ -1,13 +1,17 @@
-﻿using DataClasses;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
 namespace CustomControls {
-    public partial class TreeSelector : UserControl {
+    public static class ExtensionMethods {
+        public static string Key(this Tuple<string, string> value) {
+            return value.Item1 + "-" + value.Item2;
+        }
+    }
 
+    public partial class TreeSelector : UserControl {
         public string ItemName { get; set; }
         public string SubItemName { get; set; }
 
@@ -15,17 +19,17 @@ namespace CustomControls {
             InitializeComponent();
         }
 
-        public void LoadData(List<Tuple2Levels> items) {
+        public void LoadData(List<Tuple<string, string>> items) {
             var nodeRoot = treeViewItems.Nodes[0];
             nodeRoot.Nodes.Clear();
             TreeNode nodeGrupo = null;
             foreach (var i in items) {
-                if (!nodeRoot.Nodes.ContainsKey(i.Item)) {
-                    nodeGrupo = nodeRoot.Nodes.Add(i.Item, i.Item);
+                if (!nodeRoot.Nodes.ContainsKey(i.Item1)) {
+                    nodeGrupo = nodeRoot.Nodes.Add(i.Item1, i.Item1);
                     nodeGrupo.Checked = true;
                 }
                 if (nodeGrupo == null) continue;
-                var nodeCategoria = nodeGrupo.Nodes.Add(i.Key(), i.SubItem);
+                var nodeCategoria = nodeGrupo.Nodes.Add(i.Key(), i.Item2);
                 nodeCategoria.Checked = true;
             }
             nodeRoot.Expand();
@@ -95,7 +99,9 @@ namespace CustomControls {
             return true;
         }
 
-        public string GetQuery() {
+        public string Query => GetQuery();
+
+        private string GetQuery() {
             var nodeRoot = treeViewItems.Nodes[0];
             if (nodeRoot.Checked) return string.Empty;
 
@@ -108,12 +114,12 @@ namespace CustomControls {
                     var SubItemsCount = CountCheckedNodes(nodeItem);
                     if (SubItemsCount <= 0) continue;
                     var sb1 = new StringBuilder(200);
-                    sb.AppendFormat("({0} = '{1}' AND ", ItemName, nodeItem.Name);
+                    sb.Append($"({ItemName} = '{nodeItem.Name}' AND ");
                     if (SubItemsCount == 1)
-                        sb1.AppendFormat("{0} = '{1}' ", SubItemName, GetUniquedNode(nodeItem, true).Text);
+                        sb1.Append($"{SubItemName} = '{GetUniquedNode(nodeItem, true).Text}' ");
 
                     else if (SubItemsCount == nodeItem.Nodes.Count - 1)
-                        sb1.AppendFormat("NOT {0} = '{1}' ", SubItemName, GetUniquedNode(nodeItem, false).Text);
+                        sb1.Append($"NOT {SubItemName} = '{GetUniquedNode(nodeItem, false).Text}' ");
 
                     else {
                         sb1.Append(SubItemName).Append(" ");
@@ -131,10 +137,10 @@ namespace CustomControls {
             if (sb.Length > 0 && checkedItems.Count == 0)
                 sb.Remove(sb.Length - 4, 4);
             if (checkedItems.Count == 1) {
-                sb.AppendFormat("{0} = '{1}'", ItemName, checkedItems[0]);
+                sb.Append($"{ItemName} = '{checkedItems[0]}'");
             }
             else if (checkedItems.Count == nodeRoot.Nodes.Count - 1) {
-                sb.AppendFormat("NOT {0} = '{1}'", ItemName, GetUniquedNode(nodeRoot, false).Text);
+                sb.Append("NOT {ItemName} = '{GetUniquedNode(nodeRoot, false).Text}'");
             }
             else if (checkedItems.Count > 1) {
                 sb.Append(ItemName).Append(" IN ('")

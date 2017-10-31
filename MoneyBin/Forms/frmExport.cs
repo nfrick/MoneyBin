@@ -103,7 +103,7 @@ namespace MoneyBin {
                     progressDialog.Maximum = Items.Count;
                     progressDialog.UpdateProgress("Exporting \u2026");
                     var sw = new StreamWriter(textBoxSaveAs.Text, false, Encoding.Default);
-                    sw.WriteLine(BalanceItemOld.CSVHeader());
+                    sw.WriteLine(BalanceItemComSaldo.CSVHeader());
 
                     foreach (var item in Items) {
                         progressDialog.UpdateProgress();

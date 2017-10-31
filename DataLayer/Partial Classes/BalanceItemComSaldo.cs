@@ -78,8 +78,8 @@ namespace DataLayer {
             Categoria = rule.Categoria;
             SubCategoria = rule.SubCategoria;
             NovoGrupo = rule.NovoGrupo;
-            NovaCategoria = rule.Categoria;
-            NovaSubCategoria = rule.SubCategoria;
+            NovaCategoria = rule.NovaCategoria;
+            NovaSubCategoria = rule.NovaSubCategoria;
             Descricao = rule.Descricao;
             if (rule.AfetaSaldo)
                 AfetaSaldo = !Historico.StartsWith(@"Depósito bloq", StringComparison.CurrentCultureIgnoreCase);
