@@ -24,18 +24,18 @@
         /// </summary>
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            Microsoft.Reporting.WinForms.ReportDataSource reportDataSource3 = new Microsoft.Reporting.WinForms.ReportDataSource();
+            Microsoft.Reporting.WinForms.ReportDataSource reportDataSource1 = new Microsoft.Reporting.WinForms.ReportDataSource();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmReport));
             this.AnalysisItemAnoMesGrupoCategoriaBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonByGroup = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonByMonth = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonByGroup = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripComboBoxBanco = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripLabelBanco = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripComboBoxBanco = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripLabelInicio = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabelTermino = new System.Windows.Forms.ToolStripLabel();
             ((System.ComponentModel.ISupportInitialize)(this.AnalysisItemAnoMesGrupoCategoriaBindingSource)).BeginInit();
@@ -48,9 +48,9 @@
             // reportViewer1
             // 
             this.reportViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            reportDataSource3.Name = "DataSetAnoMesGrupoCategoria";
-            reportDataSource3.Value = this.AnalysisItemAnoMesGrupoCategoriaBindingSource;
-            this.reportViewer1.LocalReport.DataSources.Add(reportDataSource3);
+            reportDataSource1.Name = "DataSetAnoMesGrupoCategoria";
+            reportDataSource1.Value = this.AnalysisItemAnoMesGrupoCategoriaBindingSource;
+            this.reportViewer1.LocalReport.DataSources.Add(reportDataSource1);
             this.reportViewer1.LocalReport.ReportEmbeddedResource = "MoneyBin.ReportAnoMesGrupoCategoria.rdlc";
             this.reportViewer1.Location = new System.Drawing.Point(0, 0);
             this.reportViewer1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
@@ -96,7 +96,7 @@
             this.toolStripLabelTermino});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(516, 28);
+            this.toolStrip1.Size = new System.Drawing.Size(501, 28);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButton1
@@ -112,19 +112,6 @@
             this.toolStripButton1.Text = "Balance";
             this.toolStripButton1.Click += new System.EventHandler(this.ToolStripButtonReport_Click);
             // 
-            // toolStripButtonByGroup
-            // 
-            this.toolStripButtonByGroup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.toolStripButtonByGroup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButtonByGroup.ForeColor = System.Drawing.Color.Black;
-            this.toolStripButtonByGroup.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonByGroup.Image")));
-            this.toolStripButtonByGroup.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonByGroup.Name = "toolStripButtonByGroup";
-            this.toolStripButtonByGroup.Size = new System.Drawing.Size(74, 25);
-            this.toolStripButtonByGroup.Tag = "PorGrupo";
-            this.toolStripButtonByGroup.Text = "By Group";
-            this.toolStripButtonByGroup.Click += new System.EventHandler(this.ToolStripButtonReport_Click);
-            // 
             // toolStripButtonByMonth
             // 
             this.toolStripButtonByMonth.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
@@ -138,17 +125,23 @@
             this.toolStripButtonByMonth.Text = "By Month";
             this.toolStripButtonByMonth.Click += new System.EventHandler(this.ToolStripButtonReport_Click);
             // 
+            // toolStripButtonByGroup
+            // 
+            this.toolStripButtonByGroup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.toolStripButtonByGroup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonByGroup.ForeColor = System.Drawing.Color.Black;
+            this.toolStripButtonByGroup.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonByGroup.Image")));
+            this.toolStripButtonByGroup.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonByGroup.Name = "toolStripButtonByGroup";
+            this.toolStripButtonByGroup.Size = new System.Drawing.Size(74, 25);
+            this.toolStripButtonByGroup.Tag = "PorGrupo";
+            this.toolStripButtonByGroup.Text = "By Group";
+            this.toolStripButtonByGroup.Click += new System.EventHandler(this.ToolStripButtonReport_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 28);
-            // 
-            // toolStripComboBoxBanco
-            // 
-            this.toolStripComboBoxBanco.ForeColor = System.Drawing.Color.Black;
-            this.toolStripComboBoxBanco.Name = "toolStripComboBoxBanco";
-            this.toolStripComboBoxBanco.Size = new System.Drawing.Size(75, 28);
-            this.toolStripComboBoxBanco.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxBanco_SelectedIndexChanged);
             // 
             // toolStripLabelBanco
             // 
@@ -156,6 +149,14 @@
             this.toolStripLabelBanco.Name = "toolStripLabelBanco";
             this.toolStripLabelBanco.Size = new System.Drawing.Size(53, 25);
             this.toolStripLabelBanco.Text = "Banco:";
+            // 
+            // toolStripComboBoxBanco
+            // 
+            this.toolStripComboBoxBanco.AutoSize = false;
+            this.toolStripComboBoxBanco.ForeColor = System.Drawing.Color.Black;
+            this.toolStripComboBoxBanco.Name = "toolStripComboBoxBanco";
+            this.toolStripComboBoxBanco.Size = new System.Drawing.Size(60, 28);
+            this.toolStripComboBoxBanco.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxBanco_SelectedIndexChanged);
             // 
             // toolStripLabelInicio
             // 
