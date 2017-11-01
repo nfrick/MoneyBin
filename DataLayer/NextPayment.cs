@@ -10,14 +10,12 @@
 namespace DataLayer
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class DataMaxMin
+    public partial class NextPayment
     {
-        public string Banco { get; set; }
-        public System.DateTime DataMin { get; set; }
-        public System.DateTime DataMax { get; set; }
-    
-        public virtual Bank Bank { get; set; }
+        public Nullable<System.DateTime> Date { get; set; }
+        public string Group { get; set; }
+        public Nullable<int> DaysLate { get; set; }
+        public string Description { get; set; }
     }
 }

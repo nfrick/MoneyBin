@@ -41,6 +41,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -83,6 +84,10 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelMoneyBin.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="MoneyBinDB.cs" />
+    <Compile Include="NextPayment.cs">
+      <DependentUpon>ModelMoneyBin.tt</DependentUpon>
     </Compile>
     <Compile Include="Partial Classes\AnaliseItem.cs" />
     <Compile Include="Partial Classes\BalanceItemComSaldo.cs" />

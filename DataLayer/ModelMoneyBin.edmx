@@ -21,7 +21,7 @@
           <Property Name="Year" Type="smallint" Nullable="false" />
           <Property Name="Month" Type="smallint" Nullable="false" />
           <Property Name="PaymentID" Type="int" Nullable="false" />
-          <Property Name="Paid" Type="bit" />
+          <Property Name="Paid" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tblPayments">
           <Key>
@@ -42,7 +42,7 @@
           <Property Name="Banco" Type="varchar" MaxLength="3" Nullable="false" />
           <Property Name="Historico" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Comparacao" Type="int" Nullable="false" />
-          <Property Name="AfetaSaldo" Type="bit" />
+          <Property Name="AfetaSaldo" Type="bit" Nullable="false" />
           <Property Name="Grupo" Type="nchar" MaxLength="1" />
           <Property Name="Categoria" Type="nvarchar" MaxLength="20" />
           <Property Name="SubCategoria" Type="nvarchar" MaxLength="30" />
@@ -145,6 +145,9 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Parameter Name="NovoGrupo" Type="nvarchar" Mode="In" />
           <Parameter Name="NovaCategoria" Type="nvarchar" Mode="In" />
           <Parameter Name="NovaSubCategoria" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_CalendarNextPayments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Days" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="MoneyBinModelStoreContainer">
           <EntitySet Name="tblBanks" EntityType="Self.tblBanks" Schema="dbo" store:Type="Tables" />
@@ -274,6 +277,9 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           </AssociationSet>
           <FunctionImport Name="AcertosPendentes" EntitySet="BalanceComSaldo" ReturnType="Collection(MoneyBinModel.BalanceItemComSaldo)" />
           <EntitySet Name="Analise" EntityType="MoneyBinModel.AnaliseItem" />
+          <FunctionImport Name="CalendarNextPayments" ReturnType="Collection(MoneyBinModel.NextPayment)">
+          <Parameter Name="Days" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <Association Name="tblPaymenttblCalendar">
           <End Type="MoneyBinModel.Payment" Role="tblPayment" Multiplicity="1" />
@@ -354,8 +360,8 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             <PropertyRef Name="Banco" />
           </Key>
           <Property Name="Banco" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="true" />
-          <Property Name="DataMin" Type="DateTime" Precision="0" />
-          <Property Name="DataMax" Type="DateTime" Precision="0" />
+          <Property Name="DataMin" Type="DateTime" Precision="0" Nullable="false" />
+          <Property Name="DataMax" Type="DateTime" Precision="0" Nullable="false" />
           <NavigationProperty Name="Bank" Relationship="MoneyBinModel.BankDataMaxMin" FromRole="DataMaxMin" ToRole="Bank" />
         </EntityType>
         <Association Name="BankDataMaxMin">
@@ -411,6 +417,12 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Property Name="Sinal" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Valor" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
         </EntityType>
+        <ComplexType Name="NextPayment">
+          <Property Type="DateTime" Name="Date" Nullable="true" />
+          <Property Type="String" Name="Group" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="DaysLate" Nullable="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="30" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -547,6 +559,16 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CalendarNextPayments" FunctionName="MoneyBinModel.Store.sp_CalendarNextPayments">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MoneyBinModel.NextPayment">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="DaysLate" ColumnName="DaysLate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -13,7 +13,7 @@ namespace MoneyBin {
 
         private BindingSource _sourceAnoGrupo;
         private BindingSource _sourceAnoMesGrupo;
-        private BindingSource _sourceAnoMesCategoria;
+        private BindingSource _sourceGrupoMesAno;
         private BindingSource _sourceAnoMesGrupoCategoria;
 
         private bool _isSingleGroup;
@@ -83,10 +83,10 @@ namespace MoneyBin {
                 switch (col.HeaderText) {
                     case "Ano":
                         GridStyles.FormatColumn(col, GridStyles.StyleInteger, 50);
-                        col.DisplayIndex = 0;
                         break;
                     case "Mes":
                         GridStyles.FormatColumn(col, GridStyles.StyleInteger, 50);
+                        col.DefaultCellStyle.Padding = new Padding(0,0,5,0);
                         break;
                     case "Grupo":
                         GridStyles.FormatColumn(col, GridStyles.StyleBase, 70);
@@ -98,12 +98,15 @@ namespace MoneyBin {
                         break;
                     case "Positivo":
                         GridStyles.FormatColumn(col, GridStyles.StyleCurrency, remainderWidth / 3);
+                        col.DefaultCellStyle.Padding = new Padding(0, 0, 5, 0);
                         break;
                     case "Negativo":
                         GridStyles.FormatColumn(col, GridStyles.StyleCurrency, remainderWidth / 2);
+                        col.DefaultCellStyle.Padding = new Padding(0, 0, 5, 0);
                         break;
                     case "Total":
                         GridStyles.FormatColumn(col, GridStyles.StyleCurrency, remainderWidth);
+                        col.DefaultCellStyle.Padding = new Padding(0, 0, 5, 0);
                         col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                         break;
                     default:
@@ -163,9 +166,9 @@ namespace MoneyBin {
                  Total = g.Sum(p => p.Total)
              });
 
-            var mesAnoGrupo =
-                anoMesGrupo.OrderBy(c => c.Mes).ThenByDescending(c => c.Ano).ThenBy(c => c.Grupo)
-                .Select(p => new { p.Mes, p.Ano, p.Grupo, p.Positivo, p.Negativo, p.Total });
+            var grupoMesAno = anoMesGrupo
+                .Select(p => new { p.Grupo, p.Mes, p.Ano, p.Positivo, p.Negativo, p.Total })
+                    .OrderBy(c => c.Grupo).ThenByDescending(c => c.Mes).ThenByDescending(c => c.Ano);
 
             // ANO-MES-GRUPO-CATEGORIA (1-1)
             if (_isSingleCategory || _isSingleMonth)  // Redundante com Ano-Grupo-Categoria ou Ano-Mes-Grupo
@@ -190,12 +193,12 @@ namespace MoneyBin {
             _sourceAnoMesGrupo = new BindingSource { DataSource = anoMesGrupo };
             dgvAnoMesGrupo.DataSource = _sourceAnoMesGrupo;
 
-            // ANO-MES-CATEGORIA
-            dgvAnoMesCategoria.Visible = !_isSingleCategory;
+            // GRUPO-MES-ANO
+            dgvGrupoMesAno.Visible = !_isSingleCategory;
             if (!_isSingleCategory) {  // Redundante com Ano-Mes-Grupo
-                dgvAnoMesCategoria.Visible = true;
-                _sourceAnoMesCategoria = new BindingSource { DataSource = mesAnoGrupo };
-                dgvAnoMesCategoria.DataSource = _sourceAnoMesCategoria;
+                dgvGrupoMesAno.Visible = true;
+                _sourceGrupoMesAno = new BindingSource { DataSource = grupoMesAno };
+                dgvGrupoMesAno.DataSource = _sourceGrupoMesAno;
             }
 
             tableLayoutPanelExternal.ColumnStyles[1].Width = _isSingleCategory ? 0 : 400;
@@ -322,13 +325,13 @@ namespace MoneyBin {
                 else {
                     // Stacked bar at Category level
                     var grupos = (
-                        from g in mesAnoGrupo
+                        from g in grupoMesAno
                         orderby g.Grupo
                         select g.Grupo)
                         .Distinct();
 
                     var anosMeses = (
-                        from g in mesAnoGrupo
+                        from g in grupoMesAno
                         orderby g.Ano, g.Mes
                         select new {
                             g.Ano,
@@ -345,7 +348,7 @@ namespace MoneyBin {
 
                         foreach (var am in anosMeses) {
                             var anoMesData = (
-                                from p in mesAnoGrupo
+                                from p in grupoMesAno
                                 where p.Ano == am.Ano && p.Mes == am.Mes && p.Grupo == cat
                                 select new {
                                     AnoMes = $@"{p.Ano}\n{p.Mes}",

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DataLayer;
+using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace MoneyBin {
@@ -7,7 +9,7 @@ namespace MoneyBin {
             InitializeComponent();
         }
 
-        public string Banco {get; set; }
+        public string Banco { get; set; }
 
         public DateTime Inicio => dateTimePickerInicio.Value;
 
@@ -24,22 +26,25 @@ namespace MoneyBin {
         }
 
         private void SetDates() {
-            var dateRange = DataClasses.MoneyBinDB.GetDataMaxMin(Banco);
-            if (dateRange.Max.Year == 1900) {
-                dateTimePickerInicio.Value = DateTime.Today;
-                dateTimePickerInicio.Enabled = false;
-                dateTimePickerTermino.Value = DateTime.Today;
-                dateTimePickerTermino.Enabled = false;
-            }
-            else {
-                var menosSeis = DateTime.Today.AddMonths(-6);
-                dateTimePickerInicio.MinDate = dateRange.Min;
-                dateTimePickerInicio.MaxDate = dateRange.Max;
-                dateTimePickerInicio.Value = (menosSeis.CompareTo(dateRange.Min) < 0) ? dateRange.Min : menosSeis;
+            using (var ctx = new MoneyBinEntities()) {
+                var dateRange = ctx.DataMaxsMins.FirstOrDefault(d => d.Banco == Banco);
+                if (dateRange == null) return;
+                if (dateRange.DataMax.Year == 1900) {
+                    dateTimePickerInicio.Value = DateTime.Today;
+                    dateTimePickerInicio.Enabled = false;
+                    dateTimePickerTermino.Value = DateTime.Today;
+                    dateTimePickerTermino.Enabled = false;
+                }
+                else {
+                    var menosSeis = dateRange.DataMax.AddMonths(-6);
+                    dateTimePickerInicio.MinDate = dateRange.DataMin;
+                    dateTimePickerInicio.MaxDate = dateRange.DataMax;
+                    dateTimePickerInicio.Value = (menosSeis.CompareTo(dateRange.DataMin) < 0) ? dateRange.DataMin : menosSeis;
 
-                dateTimePickerTermino.MinDate = dateRange.Min;
-                dateTimePickerTermino.MaxDate = dateRange.Max;
-                dateTimePickerTermino.Value = dateRange.Max;
+                    dateTimePickerTermino.MinDate = dateRange.DataMin;
+                    dateTimePickerTermino.MaxDate = dateRange.DataMax;
+                    dateTimePickerTermino.Value = dateRange.DataMax;
+                }
             }
         }
 

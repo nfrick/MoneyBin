@@ -49,10 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CalendarOld.cs" />
     <Compile Include="MoneyBinDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SortableBindingList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

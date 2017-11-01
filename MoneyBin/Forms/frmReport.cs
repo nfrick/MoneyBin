@@ -1,10 +1,8 @@
-﻿using DataClasses;
+﻿using DataLayer;
 using Microsoft.Reporting.WinForms;
 using System;
-using System.Configuration;
 using System.Linq;
 using System.Windows.Forms;
-using DataLayer;
 
 namespace MoneyBin {
     public partial class frmReport : Form {

@@ -1,4 +1,6 @@
-﻿using DataClasses;
+﻿using DataLayer;
+using OfficeOpenXml;
+using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,9 +9,6 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using DataLayer;
-using OfficeOpenXml;
-using OfficeOpenXml.Table;
 
 namespace MoneyBin {
     public partial class frmExport : Form {

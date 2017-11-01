@@ -151,5 +151,14 @@ namespace DataLayer
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BalanceItemComSaldo>("AcertosPendentes", mergeOption);
         }
+    
+        public virtual ObjectResult<NextPayment> CalendarNextPayments(Nullable<int> days)
+        {
+            var daysParameter = days.HasValue ?
+                new ObjectParameter("Days", days) :
+                new ObjectParameter("Days", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<NextPayment>("CalendarNextPayments", daysParameter);
+        }
     }
 }

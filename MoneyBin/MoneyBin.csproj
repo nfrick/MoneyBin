@@ -247,10 +247,6 @@
       <Project>{eeac5dd7-42aa-4a02-aa7b-364249ca8907}</Project>
       <Name>CustomControls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DataClasses\DataClasses\DataClasses.csproj">
-      <Project>{14b084a3-f098-40e7-a4d8-89f7034b2fc1}</Project>
-      <Name>DataClasses</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataLayer\DataLayer.csproj">
       <Project>{cb5e47ac-09e2-4706-b3c6-d2e2f048a605}</Project>
       <Name>DataLayer</Name>

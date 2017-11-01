@@ -37,7 +37,7 @@
             this.tableLayoutPanelTables = new System.Windows.Forms.TableLayoutPanel();
             this.dgvAnoGrupo = new System.Windows.Forms.DataGridView();
             this.dgvAnoMesGrupo = new System.Windows.Forms.DataGridView();
-            this.dgvAnoMesCategoria = new System.Windows.Forms.DataGridView();
+            this.dgvGrupoMesAno = new System.Windows.Forms.DataGridView();
             this.dgvAnoMesGrupoCategoria = new System.Windows.Forms.DataGridView();
             this.tabPageCharts = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelCharts = new System.Windows.Forms.TableLayoutPanel();
@@ -56,7 +56,7 @@
             this.tableLayoutPanelTables.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnoGrupo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnoMesGrupo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAnoMesCategoria)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvGrupoMesAno)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnoMesGrupoCategoria)).BeginInit();
             this.tabPageCharts.SuspendLayout();
             this.tableLayoutPanelCharts.SuspendLayout();
@@ -126,7 +126,7 @@
             this.tableLayoutPanelTables.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelTables.Controls.Add(this.dgvAnoGrupo, 1, 0);
             this.tableLayoutPanelTables.Controls.Add(this.dgvAnoMesGrupo, 0, 1);
-            this.tableLayoutPanelTables.Controls.Add(this.dgvAnoMesCategoria, 0, 1);
+            this.tableLayoutPanelTables.Controls.Add(this.dgvGrupoMesAno, 0, 1);
             this.tableLayoutPanelTables.Controls.Add(this.dgvAnoMesGrupoCategoria, 0, 0);
             this.tableLayoutPanelTables.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelTables.Location = new System.Drawing.Point(4, 4);
@@ -171,21 +171,21 @@
             this.dgvAnoMesGrupo.Size = new System.Drawing.Size(764, 410);
             this.dgvAnoMesGrupo.TabIndex = 9;
             // 
-            // dgvAnoMesCategoria
+            // dgvGrupoMesAno
             // 
-            this.dgvAnoMesCategoria.AllowUserToAddRows = false;
-            this.dgvAnoMesCategoria.AllowUserToDeleteRows = false;
-            this.dgvAnoMesCategoria.AllowUserToOrderColumns = true;
-            this.dgvAnoMesCategoria.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvAnoMesCategoria.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAnoMesCategoria.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvAnoMesCategoria.Location = new System.Drawing.Point(776, 421);
-            this.dgvAnoMesCategoria.Margin = new System.Windows.Forms.Padding(4);
-            this.dgvAnoMesCategoria.Name = "dgvAnoMesCategoria";
-            this.dgvAnoMesCategoria.ReadOnly = true;
-            this.dgvAnoMesCategoria.RowTemplate.Height = 32;
-            this.dgvAnoMesCategoria.Size = new System.Drawing.Size(764, 410);
-            this.dgvAnoMesCategoria.TabIndex = 8;
+            this.dgvGrupoMesAno.AllowUserToAddRows = false;
+            this.dgvGrupoMesAno.AllowUserToDeleteRows = false;
+            this.dgvGrupoMesAno.AllowUserToOrderColumns = true;
+            this.dgvGrupoMesAno.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvGrupoMesAno.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvGrupoMesAno.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvGrupoMesAno.Location = new System.Drawing.Point(776, 421);
+            this.dgvGrupoMesAno.Margin = new System.Windows.Forms.Padding(4);
+            this.dgvGrupoMesAno.Name = "dgvGrupoMesAno";
+            this.dgvGrupoMesAno.ReadOnly = true;
+            this.dgvGrupoMesAno.RowTemplate.Height = 32;
+            this.dgvGrupoMesAno.Size = new System.Drawing.Size(764, 410);
+            this.dgvGrupoMesAno.TabIndex = 8;
             // 
             // dgvAnoMesGrupoCategoria
             // 
@@ -357,7 +357,7 @@
             this.tableLayoutPanelTables.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnoGrupo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnoMesGrupo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAnoMesCategoria)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvGrupoMesAno)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnoMesGrupoCategoria)).EndInit();
             this.tabPageCharts.ResumeLayout(false);
             this.tableLayoutPanelCharts.ResumeLayout(false);
@@ -378,7 +378,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelTables;
         private System.Windows.Forms.DataGridView dgvAnoGrupo;
         private System.Windows.Forms.DataGridView dgvAnoMesGrupo;
-        private System.Windows.Forms.DataGridView dgvAnoMesCategoria;
+        private System.Windows.Forms.DataGridView dgvGrupoMesAno;
         private System.Windows.Forms.DataGridView dgvAnoMesGrupoCategoria;
         private System.Windows.Forms.TabPage tabPageCharts;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelCharts;
