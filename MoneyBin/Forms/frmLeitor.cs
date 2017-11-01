@@ -110,7 +110,7 @@ namespace MoneyBin.Forms {
         private void dgvBalance_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex == -1 || dgvBalance.Columns[e.ColumnIndex].Name !=
                 "afetaSaldoDataGridViewCheckBoxColumn") return;
-            FormUtils.CalculaSaldos(_BalanceItems, e.RowIndex);
+            _BalanceItems.CalcularSaldos(e.RowIndex);
             dgvBalance.Refresh();
         }
 

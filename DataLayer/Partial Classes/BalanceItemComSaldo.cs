@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -40,17 +42,17 @@ namespace DataLayer {
         public bool Similar(BalanceItemComSaldo other) {
             if (other == null)
                 return false;
-            return this.Data.Equals(other.Data) &&
+            return this.Banco.Equals(other.Banco) &&
+                   this.Data.Equals(other.Data) &&
                    this.Valor.Equals(other.Valor) &&
                    (other.Documento == null ?
-                       (this.Documento == null || this.Documento.Equals("")) :
+                       string.IsNullOrEmpty(this.Documento) :
                        this.Documento.Equals(other.Documento));
         }
 
         public override int GetHashCode() {
             return this.Historico.GetHashCode();
         }
-
 
         public static bool operator ==(BalanceItemComSaldo bi1, BalanceItemComSaldo bi2) {
             if (object.ReferenceEquals(bi1, bi2)) return true;
@@ -64,6 +66,10 @@ namespace DataLayer {
             if (object.ReferenceEquals(bi1, null)) return true;
             if (object.ReferenceEquals(bi2, null)) return true;
             return !bi1.Equals(bi2);
+        }
+
+        public bool FindMatchingRule(List<Rule> rules) {
+            return Rule != 0 || rules.Any(Matches);
         }
 
         public bool Matches(Rule rule) {
@@ -90,15 +96,22 @@ namespace DataLayer {
             return true;
         }
 
+        public bool IsSaldo(IEnumerable<Rule> rules) {
+            var ruleSaldo = Bank.Rules.FirstOrDefault(r => r.Grupo == "S");
+            return (ruleSaldo != null) && Matches(ruleSaldo);
+        }
+
         #endregion
 
         #region Constructors
+
         /// <summary>
         /// Não é chamado por código mas precisa existir
         /// </summary>
         public BalanceItemComSaldo() {
             AddToDatabase = true;
         }
+
 
         /// <summary>
         /// Creates a BalanceItemOld from a XML node
@@ -191,5 +204,16 @@ namespace DataLayer {
             );
         }
         #endregion
+    }
+
+    public static class Extensions {
+        public static void CalcularSaldos(this List<BalanceItemComSaldo> lista, int start) {
+            var saldo = start == lista.Count - 1 ? 0.0m : lista[start + 1].Saldo;
+            for (var i = start; i >= 0; i--) {
+                var bi = lista.ElementAt(i);
+                saldo += bi.ValorParaSaldo;
+                bi.Saldo = saldo;
+            }
+        }
     }
 }

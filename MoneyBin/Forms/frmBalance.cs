@@ -29,8 +29,7 @@ namespace MoneyBin.Forms {
             this.Width = 150 + dgvBalance.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
 
             _ctx = new MoneyBinEntities();
-            toolStripComboBoxBanco.ComboBox.Items.AddRange(_ctx.BalanceComSaldo.Select(b => b.Banco).Distinct()
-                .OrderBy(b => b).ToArray());
+            toolStripComboBoxBanco.ComboBox.Items.AddRange(_ctx.BalanceComSaldo.Select(b => b.Banco).Distinct().OrderBy(b => b).ToArray());
             toolStripComboBoxBanco.ComboBox.SelectedIndex = 0;
             dgvBalance.DataSource = BalanceBindingSource;
 
@@ -150,7 +149,8 @@ namespace MoneyBin.Forms {
         private void dgvBalance_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex == -1 || dgvBalance.Columns[e.ColumnIndex].Name !=
                 "afetaSaldoDataGridViewCheckBoxColumn") return;
-            FormUtils.CalculaSaldos((List<BalanceItemComSaldo>)BalanceBindingSource.DataSource, e.RowIndex);
+
+            ((List<BalanceItemComSaldo>)BalanceBindingSource.DataSource).CalcularSaldos(e.RowIndex);
             dgvBalance.Refresh();
         }
 

@@ -67,39 +67,46 @@ namespace DataLayer {
         }
 
         private void ClassificaItens() {
+            //var Saldo = 0.0m;
+
+            //var rules = _banco.Rules;
+            //foreach (var bi in _entries) {
+            //    foreach (var rule in rules.Where(r => r.Grupo == "S")) {
+            //        if (bi.Matches(rule))
+            //            break;
+            //    }
+            //    if (bi.Rule == 0) {
+            //        foreach (var rule in rules.Where(r => r.Grupo != "S")) {
+            //            if (bi.Matches(rule))
+            //                break;
+            //        }
+            //    }
+            //    Saldo += bi.ValorParaSaldo;
+            //    bi.Saldo = Saldo;
+            //}
+
+            var rules = _banco.Rules.OrderByDescending(r => r.Ocorrencias).ToList();
+            var rulesSaldo = rules.Where(r => r.Grupo == "S").ToList();
+            _entries[0].Saldo = _entries[0].ValorParaSaldo;
+            var saldo = _entries[0].FindMatchingRule(rulesSaldo) ? _entries[0].Saldo : 0.0m;
+
+            var start = _entries[0].Rule == 0 ? 0 : 1;
+            for (var i = start; i < _entries.Count; i++) {
+                _entries[i].FindMatchingRule(rules);
+                saldo += _entries[i].ValorParaSaldo;
+                _entries[i].Saldo = saldo;
+            }
+
             var MinData = _entries.Min(p => p.Data);
             var MinData2 = _entries.Min(p => p.Data).AddDays(-45);
             var MaxData = _entries.Max(p => p.Data);
-
-            var Saldo = 0.0m;
-
-            var rules = _banco.Rules;
-            foreach (var bi in _entries) {
-                foreach (var rule in rules.Where(r => r.Grupo == "S")) {
-                    if (bi.Matches(rule))
-                        break;
-                }
-                if (bi.Rule == 0) {
-                    foreach (var rule in rules.Where(r => r.Grupo != "S")) {
-                        if (bi.Matches(rule))
-                            break;
-                    }
-                }
-                Saldo += bi.ValorParaSaldo;
-                bi.Saldo = Saldo;
-            }
 
             var existing = _banco.BalanceItemsComSaldo
                 .Where(bi => bi.Data >= MinData && bi.Data <= MaxData)
                 .ToList();
 
-            if (existing.Any()) {
-                var repetidos = _entries
-                    .Where(r => r.Grupo != "S" && existing.Any(d => d.Similar(r))).ToArray();
-                if (repetidos.Any()) {
-                    foreach (var rep in repetidos)
-                        rep.AddToDatabase = false;
-                }
+            foreach (var entry in _entries) {
+                entry.AddToDatabase = entry.Grupo != "S" && !existing.Any(d => d.Similar(entry));
             }
 
             var grupos = new[] { "Rio", "Araras" };
@@ -108,9 +115,9 @@ namespace DataLayer {
                                                              bi.Data >= MaxData).ToList();
 
             var compensacoes =
-                _entries.Where(bi => bi.Historico.StartsWith("Transferência on line") &&
-                                             bi.Historico.EndsWith("AYRTON FRICK") && bi.Valor > 0 &&
-                                             bi.AddToDatabase);
+                _entries.Where(bi => bi.AddToDatabase &&
+                                     bi.Historico.StartsWith("Transferência on line") &&
+                                     bi.Historico.EndsWith("AYRTON FRICK") && bi.Valor > 0);
 
             foreach (var comp in compensacoes) {
                 var despesa = aCompensar.FirstOrDefault(ex => Math.Abs(ex.Valor) == comp.Valor);
