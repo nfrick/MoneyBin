@@ -3,7 +3,7 @@ using System.Globalization;
 using CsvHelper.Configuration;
 
 namespace DataLayer {
-    public sealed class ExtratoBBMap : ClassMap<BalanceItemComSaldo> {
+    public sealed class ExtratoBBMap : ClassMap<BalanceItem> {
         //"Data","Dependencia Origem","Histórico","Data do Balancete","Número do documento","Valor",
         public ExtratoBBMap() {
             Map(m => m.Banco).Index(1).Constant(@"BB");
@@ -17,7 +17,7 @@ namespace DataLayer {
         }
     }
 
-    public sealed class ExtratoCEFMap : ClassMap<BalanceItemComSaldo> {
+    public sealed class ExtratoCEFMap : ClassMap<BalanceItem> {
         //"Conta";"Data_Mov";"Nr_Doc";"Historico";"Valor";"Deb_Cred"
         public ExtratoCEFMap() {
             Map(m => m.Banco).Index(0).Constant("CEF");

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace MoneyBin.Forms {
     public partial class frmLeitor : Form {
-        private List<BalanceItemComSaldo> _BalanceItems;
+        private List<BalanceItem> _BalanceItems;
         public bool HasData;
 
         #region FORM
@@ -57,7 +57,7 @@ namespace MoneyBin.Forms {
         private int Salvar() {
             dgvBalance.EndEdit();
             using (var ctx = new MoneyBinEntities()) {
-                ctx.BalanceComSaldo.AddRange(_BalanceItems.Where(bi => bi.AddToDatabase).ToList());
+                ctx.Balance.AddRange(_BalanceItems.Where(bi => bi.AddToDatabase).ToList());
                 try {
                     return ctx.SaveChanges();
                 }

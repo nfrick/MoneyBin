@@ -12,7 +12,7 @@ namespace DataLayer
     using System;
     using System.Collections.Generic;
     
-    public partial class BalanceItemComSaldo
+    public partial class BalanceItem
     {
         public int ID { get; set; }
         public string Banco { get; set; }

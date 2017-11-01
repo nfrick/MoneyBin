@@ -13,7 +13,7 @@ using System.Xml.Linq;
 
 namespace MoneyBin {
     public partial class frmExport : Form {
-        public List<BalanceItemComSaldo> Items { get; set; }
+        public List<BalanceItem> Items { get; set; }
 
         private Func<bool> _exporter;
 
@@ -23,7 +23,7 @@ namespace MoneyBin {
 
         private void frmExport_Load(object sender, EventArgs e) {
             using (var ctx = new MoneyBinEntities()) {
-                Items = ctx.BalanceComSaldo.ToList();
+                Items = ctx.Balance.ToList();
             }
             textBoxSaveAs.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Money Bin Export.csv";
             radioButtonCSV.Checked = true;
@@ -102,7 +102,7 @@ namespace MoneyBin {
                     progressDialog.Maximum = Items.Count;
                     progressDialog.UpdateProgress("Exporting \u2026");
                     var sw = new StreamWriter(textBoxSaveAs.Text, false, Encoding.Default);
-                    sw.WriteLine(BalanceItemComSaldo.CSVHeader());
+                    sw.WriteLine(BalanceItem.CSVHeader());
 
                     foreach (var item in Items) {
                         progressDialog.UpdateProgress();
@@ -141,7 +141,7 @@ namespace MoneyBin {
             }
         }
 
-        private bool ToExcel(IEnumerable<BalanceItemComSaldo> mItems) {
+        private bool ToExcel(IEnumerable<BalanceItem> mItems) {
             var pck = new ExcelPackage(new FileInfo(textBoxSaveAs.Text));
             var ws = pck.Workbook.Worksheets.Add("Balance");
             ws.View.ShowGridLines = false;

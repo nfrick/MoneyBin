@@ -91,12 +91,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExtensionMethods.cs" />
-    <Compile Include="Forms\dlgReportBalanceOptions.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\dlgReportBalanceOptions.Designer.cs">
-      <DependentUpon>dlgReportBalanceOptions.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\frmBalance.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -183,9 +177,6 @@
     <None Include="Resources\export-icon.png" />
     <None Include="Resources\document-yellow-icon1.png" />
     <None Include="Resources\document-yellow-icon.png" />
-    <EmbeddedResource Include="Forms\dlgReportBalanceOptions.resx">
-      <DependentUpon>dlgReportBalanceOptions.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmBalance.resx">
       <DependentUpon>frmBalance.cs</DependentUpon>
     </EmbeddedResource>

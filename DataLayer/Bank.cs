@@ -18,7 +18,7 @@ namespace DataLayer
         public Bank()
         {
             this.Rules = new HashSet<Rule>();
-            this.BalanceItemsComSaldo = new HashSet<BalanceItemComSaldo>();
+            this.Balance = new HashSet<BalanceItem>();
         }
     
         public string Banco { get; set; }
@@ -28,6 +28,6 @@ namespace DataLayer
         public virtual ICollection<Rule> Rules { get; set; }
         public virtual DataMaxMin DataMaxMins { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BalanceItemComSaldo> BalanceItemsComSaldo { get; set; }
+        public virtual ICollection<BalanceItem> Balance { get; set; }
     }
 }

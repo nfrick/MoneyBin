@@ -7,7 +7,7 @@ using System.Xml;
 using System.Xml.Linq;
 
 namespace DataLayer {
-    public partial class BalanceItemComSaldo : IEquatable<BalanceItemComSaldo> {
+    public partial class BalanceItem : IEquatable<BalanceItem> {
         private static readonly CultureInfo CultureUS = CultureInfo.CreateSpecificCulture("en-US");
         private static readonly CultureInfo CultureBR = CultureInfo.CreateSpecificCulture("pt-BR");
         private const DateTimeStyles Styles = DateTimeStyles.None;
@@ -24,12 +24,12 @@ namespace DataLayer {
         /// <param name="bi"></param>
         /// <returns></returns>
         public override bool Equals(object obj) {
-            if (!(obj is BalanceItemComSaldo)) throw new ArgumentException("Object is not a BalanceItemComSaldo");
-            var other = (BalanceItemComSaldo)obj;
+            if (!(obj is BalanceItem)) throw new ArgumentException("Object is not a BalanceItem");
+            var other = (BalanceItem)obj;
             return this.Equals(other);
         }
 
-        public bool Equals(BalanceItemComSaldo other) {
+        public bool Equals(BalanceItem other) {
             if (other == null)
                 return false;
             return this.Data.Equals(other.Data) &&
@@ -39,7 +39,7 @@ namespace DataLayer {
                    (other.Documento == null ? (this.Documento == null || this.Documento.Equals("")) : this.Documento.Equals(other.Documento));
         }
 
-        public bool Similar(BalanceItemComSaldo other) {
+        public bool Similar(BalanceItem other) {
             if (other == null)
                 return false;
             return this.Banco.Equals(other.Banco) &&
@@ -54,14 +54,14 @@ namespace DataLayer {
             return this.Historico.GetHashCode();
         }
 
-        public static bool operator ==(BalanceItemComSaldo bi1, BalanceItemComSaldo bi2) {
+        public static bool operator ==(BalanceItem bi1, BalanceItem bi2) {
             if (object.ReferenceEquals(bi1, bi2)) return true;
             if (object.ReferenceEquals(bi1, null)) return false;
             return !object.ReferenceEquals(bi2, null) && bi1.Equals(bi2);
         }
 
 
-        public static bool operator !=(BalanceItemComSaldo bi1, BalanceItemComSaldo bi2) {
+        public static bool operator !=(BalanceItem bi1, BalanceItem bi2) {
             if (object.ReferenceEquals(bi1, bi2)) return false;
             if (object.ReferenceEquals(bi1, null)) return true;
             if (object.ReferenceEquals(bi2, null)) return true;
@@ -108,7 +108,7 @@ namespace DataLayer {
         /// <summary>
         /// Não é chamado por código mas precisa existir
         /// </summary>
-        public BalanceItemComSaldo() {
+        public BalanceItem() {
             AddToDatabase = true;
         }
 
@@ -118,7 +118,7 @@ namespace DataLayer {
         /// </summary>
         /// <param name="xTRNode">XML node</param>
         /// <param name="banco">Bank code</param>
-        public BalanceItemComSaldo(XmlNode xTDNode, string banco) {
+        public BalanceItem(XmlNode xTDNode, string banco) {
             Banco = banco;
             AfetaSaldo = true;
             Grupo = "";
@@ -207,7 +207,7 @@ namespace DataLayer {
     }
 
     public static class Extensions {
-        public static void CalcularSaldos(this List<BalanceItemComSaldo> lista, int start) {
+        public static void CalcularSaldos(this List<BalanceItem> lista, int start) {
             var saldo = start == lista.Count - 1 ? 0.0m : lista[start + 1].Saldo;
             for (var i = start; i >= 0; i--) {
                 var bi = lista.ElementAt(i);

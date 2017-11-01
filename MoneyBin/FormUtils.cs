@@ -1,12 +1,9 @@
-﻿using System;
+﻿using DataLayer;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DataLayer;
 
 namespace MoneyBin {
     public static class FormUtils {
@@ -33,7 +30,7 @@ namespace MoneyBin {
             return MessageBox.Show(TextoSalvar(alteracoes) + @"?", caption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
         }
 
-        public static void CalculaSaldos(List<BalanceItemComSaldo> lista, int start) {
+        public static void CalculaSaldos(List<BalanceItem> lista, int start) {
             var saldo = start == lista.Count - 1 ? 0.0m : lista[start + 1].Saldo;
             for (var i = start; i >= 0; i--) {
                 var bi = lista.ElementAt(i);
@@ -46,31 +43,31 @@ namespace MoneyBin {
             var dgv = (DataGridView)sender;
             var row = dgv.CurrentCell.RowIndex;
             var col = dgv.CurrentCell.ColumnIndex;
-            var bi = (BalanceItemComSaldo)dgv.Rows[row].DataBoundItem;
+            var bi = (BalanceItem)dgv.Rows[row].DataBoundItem;
             var txt = e.Control as TextBox;
             using (var ctx = new MoneyBinEntities()) {
                 switch (dgv.Columns[col].HeaderText) {
                     case "Novo Grupo":
                         txt.AutoCompleteCustomSource = 
-                            CreateCollection(ctx.BalanceComSaldo.Select(b => b.NovoGrupo).Distinct().ToArray());
+                            CreateCollection(ctx.Balance.Select(b => b.NovoGrupo).Distinct().ToArray());
                         txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                         txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
                         break;
                     case "Nova Categoria":
                         txt.AutoCompleteCustomSource =
-                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovoGrupo == bi.NovoGrupo).Select(b => b.NovaCategoria));
+                            CreateCollection(ctx.Balance.Where(b => b.NovoGrupo == bi.NovoGrupo).Select(b => b.NovaCategoria));
                         txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                         txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
                         break;
                     case "Nova SubCategoria":
                         txt.AutoCompleteCustomSource =
-                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovaCategoria == bi.NovaCategoria).Select(b => b.NovaSubCategoria));
+                            CreateCollection(ctx.Balance.Where(b => b.NovaCategoria == bi.NovaCategoria).Select(b => b.NovaSubCategoria));
                         txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                         txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
                         break;
                     case "Descrição":
                         txt.AutoCompleteCustomSource =
-                            CreateCollection(ctx.BalanceComSaldo.Where(b => b.NovaSubCategoria == bi.NovaSubCategoria).Select(b => b.Descricao));
+                            CreateCollection(ctx.Balance.Where(b => b.NovaSubCategoria == bi.NovaSubCategoria).Select(b => b.Descricao));
                         txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                         txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
                         break;

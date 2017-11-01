@@ -1,18 +1,17 @@
-﻿using System;
+﻿using CsvHelper;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using CsvHelper;
 
 namespace DataLayer {
     public static class BalanceFileReader {
         private const string DialogTitle = @"Leitor de Extratos";
-        public static List<BalanceItemComSaldo> Read() {
-            var NewItems = new List<BalanceItemComSaldo>();
+        public static List<BalanceItem> Read() {
+            var NewItems = new List<BalanceItem>();
             var dlg = new OpenFileDialog {
                 Filter = @"Balance Files|*.csv;*.txt;*.xls|All Files|*.*",
                 Multiselect = true,
@@ -39,9 +38,9 @@ namespace DataLayer {
         private static readonly MoneyBinEntities _ctx = new MoneyBinEntities();
         private readonly Bank _banco;
         private readonly bool _getAll;
-        private List<BalanceItemComSaldo> _entries;
+        private List<BalanceItem> _entries;
 
-        public List<BalanceItemComSaldo> Entries => _getAll ? _entries : _entries.Where(i => i.Data.CompareTo(_banco.DataMaxMins.DataMax) >= 0).ToList();
+        public List<BalanceItem> Entries => _getAll ? _entries : _entries.Where(i => i.Data.CompareTo(_banco.DataMaxMins.DataMax) >= 0).ToList();
         public bool HasEntries => _entries != null && _entries.Any();
 
         /// <summary>
@@ -83,7 +82,7 @@ namespace DataLayer {
             var MinData2 = _entries.Min(p => p.Data).AddDays(-45);
             var MaxData = _entries.Max(p => p.Data);
 
-            var existing = _banco.BalanceItemsComSaldo
+            var existing = _banco.Balance
                 .Where(bi => bi.Data >= MinData && bi.Data <= MaxData)
                 .ToList();
 
@@ -92,7 +91,7 @@ namespace DataLayer {
             }
 
             var grupos = new[] { "Rio", "Araras" };
-            var aCompensar = _banco.BalanceItemsComSaldo.Where(bi => grupos.Contains(bi.Grupo) &&
+            var aCompensar = _banco.Balance.Where(bi => grupos.Contains(bi.Grupo) &&
                                                              bi.Data <= MinData2 &&
                                                              bi.Data >= MaxData).ToList();
 
@@ -129,12 +128,12 @@ namespace DataLayer {
                     csv.Configuration.HeaderValidated = null;
                 }
 
-                _entries = csv.GetRecords<BalanceItemComSaldo>().ToList();
+                _entries = csv.GetRecords<BalanceItem>().ToList();
             }
         }
 
         private void ExtratoFromXML(string filepath) {
-            _entries = new List<BalanceItemComSaldo>();
+            _entries = new List<BalanceItem>();
 
             var htmlContent = File.ReadAllText(filepath).Replace("Saldo<td>", "Saldo</td>");
             var xmlDoc = new XmlDocument();
@@ -151,7 +150,7 @@ namespace DataLayer {
             var rows = xTableNode.SelectNodes("tr");
             for (var i = 1; i < rows.Count; i++) {
                 var xTDNode = rows[i].SelectNodes("td")[0];
-                _entries.Add(new BalanceItemComSaldo(xTDNode, _banco.Banco));
+                _entries.Add(new BalanceItem(xTDNode, _banco.Banco));
             }
         }
     }

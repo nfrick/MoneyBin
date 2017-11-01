@@ -35,14 +35,14 @@ namespace MoneyBin {
             SetupChart(chartAnoNegative, "Ano x Grupo", "Negativo");
             SetupChart(chartAnoMesNegative, "Ano-Mês x Grupo", "Negativo");
 
-            var meses = _ctx.BalanceComSaldo
+            var meses = _ctx.Balance
                 .Select(b => new { Ano = b.Data.Year, Mes = b.Data.Month }).Distinct()
                 .OrderByDescending(t => t.Ano).ThenByDescending(t => t.Mes).ToList();
             treeSelMonths.LoadData(meses.Select(t => new Tuple<string, string>($"{t.Ano}", $"{t.Mes:D2}")).ToList());
             treeSelMonths.ItemName = "Ano";
             treeSelMonths.SubItemName = "Mes";
 
-            var grpCats = _ctx.BalanceComSaldo
+            var grpCats = _ctx.Balance
                 .Select(b => new { b.NovoGrupo, b.NovaCategoria }).Distinct()
                 .OrderBy(t => t.NovoGrupo).ThenBy(t => t.NovaCategoria).ToList();
             treeSelGroupsCats.LoadData(grpCats

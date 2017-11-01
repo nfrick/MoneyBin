@@ -29,7 +29,7 @@ namespace MoneyBin.Forms {
             this.Width = 150 + dgvBalance.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
 
             _ctx = new MoneyBinEntities();
-            toolStripComboBoxBanco.ComboBox.Items.AddRange(_ctx.BalanceComSaldo.Select(b => b.Banco).Distinct().OrderBy(b => b).ToArray());
+            toolStripComboBoxBanco.ComboBox.Items.AddRange(_ctx.Balance.Select(b => b.Banco).Distinct().OrderBy(b => b).ToArray());
             toolStripComboBoxBanco.ComboBox.SelectedIndex = 0;
             dgvBalance.DataSource = BalanceBindingSource;
 
@@ -52,24 +52,24 @@ namespace MoneyBin.Forms {
 
         #region TOOLBAR
         private void toolStripComboBoxBanco_SelectedIndexChanged(object sender, EventArgs e) {
-            BalanceBindingSource.DataSource = _ctx.BalanceComSaldo
+            BalanceBindingSource.DataSource = _ctx.Balance
                 .Where(b => b.Banco == (string)toolStripComboBoxBanco.SelectedItem)
                 .OrderByDescending(b => b.Data).ThenByDescending(b => b.ID).ToList();
 
             toolStripComboBoxGrupo.ComboBox.Items.Clear();
             toolStripComboBoxGrupo.ComboBox.Items.Add("Todos");
             toolStripComboBoxGrupo.ComboBox.Items
-                .AddRange(_ctx.BalanceComSaldo.Select(b => b.NovoGrupo).Distinct().OrderBy(b => b).ToArray());
+                .AddRange(_ctx.Balance.Select(b => b.NovoGrupo).Distinct().OrderBy(b => b).ToArray());
             toolStripComboBoxGrupo.ComboBox.SelectedIndex = 0;
         }
 
         private void toolStripComboBoxGrupo_SelectedIndexChanged(object sender, EventArgs e) {
             if (toolStripComboBoxGrupo.SelectedIndex == 0)
-                BalanceBindingSource.DataSource = _ctx.BalanceComSaldo.Local
+                BalanceBindingSource.DataSource = _ctx.Balance.Local
                     .Where(b => b.Banco == (string)toolStripComboBoxBanco.SelectedItem)
                     .OrderByDescending(b => b.Data).ThenByDescending(b => b.ID).ToList();
             else
-                BalanceBindingSource.DataSource = _ctx.BalanceComSaldo.Local
+                BalanceBindingSource.DataSource = _ctx.Balance.Local
                     .Where(b => b.Banco == (string)toolStripComboBoxBanco.SelectedItem
                                 && b.NovoGrupo == (string)toolStripComboBoxGrupo.SelectedItem)
                     .OrderByDescending(b => b.Data).ThenByDescending(b => b.ID).ToList();
@@ -150,7 +150,7 @@ namespace MoneyBin.Forms {
             if (e.RowIndex == -1 || dgvBalance.Columns[e.ColumnIndex].Name !=
                 "afetaSaldoDataGridViewCheckBoxColumn") return;
 
-            ((List<BalanceItemComSaldo>)BalanceBindingSource.DataSource).CalcularSaldos(e.RowIndex);
+            ((List<BalanceItem>)BalanceBindingSource.DataSource).CalcularSaldos(e.RowIndex);
             dgvBalance.Refresh();
         }
 

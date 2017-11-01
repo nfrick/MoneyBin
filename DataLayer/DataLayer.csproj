@@ -57,7 +57,7 @@
     <Compile Include="AnaliseItem.cs">
       <DependentUpon>ModelMoneyBin.tt</DependentUpon>
     </Compile>
-    <Compile Include="BalanceItemComSaldo.cs">
+    <Compile Include="BalanceItem.cs">
       <DependentUpon>ModelMoneyBin.tt</DependentUpon>
     </Compile>
     <Compile Include="Bank.cs">
@@ -90,7 +90,7 @@
       <DependentUpon>ModelMoneyBin.tt</DependentUpon>
     </Compile>
     <Compile Include="Partial Classes\AnaliseItem.cs" />
-    <Compile Include="Partial Classes\BalanceItemComSaldo.cs" />
+    <Compile Include="Partial Classes\BalanceItem.cs" />
     <Compile Include="Partial Classes\CalendarItem.cs" />
     <Compile Include="Partial Classes\Payment.cs" />
     <Compile Include="Partial Classes\Rule.cs" />

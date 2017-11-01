@@ -29,7 +29,7 @@ namespace DataLayer
     
         public virtual DbSet<CalendarItem> Calendar { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
-        public virtual DbSet<BalanceItemComSaldo> BalanceComSaldo { get; set; }
+        public virtual DbSet<BalanceItem> Balance { get; set; }
         public virtual DbSet<Bank> Banks { get; set; }
         public virtual DbSet<Rule> Rules { get; set; }
         public virtual DbSet<DataMaxMin> DataMaxsMins { get; set; }
@@ -142,14 +142,14 @@ namespace DataLayer
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_BalanceItemUpdate", iDParameter, afetaSaldoParameter, grupoParameter, categoriaParameter, subCategoriaParameter, descricaoParameter, novoGrupoParameter, novaCategoriaParameter, novaSubCategoriaParameter);
         }
     
-        public virtual ObjectResult<BalanceItemComSaldo> AcertosPendentes()
+        public virtual ObjectResult<BalanceItem> AcertosPendentes()
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BalanceItemComSaldo>("AcertosPendentes");
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BalanceItem>("AcertosPendentes");
         }
     
-        public virtual ObjectResult<BalanceItemComSaldo> AcertosPendentes(MergeOption mergeOption)
+        public virtual ObjectResult<BalanceItem> AcertosPendentes(MergeOption mergeOption)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BalanceItemComSaldo>("AcertosPendentes", mergeOption);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BalanceItem>("AcertosPendentes", mergeOption);
         }
     
         public virtual ObjectResult<NextPayment> CalendarNextPayments(Nullable<int> days)

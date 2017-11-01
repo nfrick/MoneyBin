@@ -226,7 +226,7 @@
             // BalanceBindingSource
             // 
             this.BalanceBindingSource.AllowNew = false;
-            this.BalanceBindingSource.DataSource = typeof(DataLayer.BalanceItemComSaldo);
+            this.BalanceBindingSource.DataSource = typeof(DataLayer.BalanceItem);
             // 
             // toolStrip1
             // 

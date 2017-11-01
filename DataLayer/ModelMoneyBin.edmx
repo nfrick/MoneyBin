@@ -259,7 +259,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             <Parameter Name="NovaCategoria" Mode="In" Type="String" />
             <Parameter Name="NovaSubCategoria" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="BalanceComSaldo" EntityType="MoneyBinModel.BalanceItemComSaldo" />
+          <EntitySet Name="Balance" EntityType="MoneyBinModel.BalanceItem" />
           <EntitySet Name="Banks" EntityType="MoneyBinModel.Bank" />
           <EntitySet Name="Rules" EntityType="MoneyBinModel.Rule" />
           <AssociationSet Name="FK_tblRules_tblBanks" Association="MoneyBinModel.FK_tblRules_tblBanks">
@@ -271,11 +271,11 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             <End Role="Bank" EntitySet="Banks" />
             <End Role="DataMaxMin" EntitySet="DataMaxsMins" />
           </AssociationSet>
-          <AssociationSet Name="BankBalanceItemComSaldo" Association="MoneyBinModel.BankBalanceItemComSaldo">
+          <AssociationSet Name="BankBalanceItem" Association="MoneyBinModel.BankBalanceItem">
             <End Role="Bank" EntitySet="Banks" />
-            <End Role="BalanceItemComSaldo" EntitySet="BalanceComSaldo" />
+            <End Role="BalanceItem" EntitySet="Balance" />
           </AssociationSet>
-          <FunctionImport Name="AcertosPendentes" EntitySet="BalanceComSaldo" ReturnType="Collection(MoneyBinModel.BalanceItemComSaldo)" />
+          <FunctionImport Name="AcertosPendentes" EntitySet="Balance" ReturnType="Collection(MoneyBinModel.BalanceItem)" />
           <EntitySet Name="Analise" EntityType="MoneyBinModel.AnaliseItem" />
           <FunctionImport Name="CalendarNextPayments" ReturnType="Collection(MoneyBinModel.NextPayment)">
           <Parameter Name="Days" Mode="In" Type="Int32" />
@@ -293,7 +293,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="BalanceItemComSaldo">
+        <EntityType Name="BalanceItem">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -312,7 +312,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Property Name="NovaCategoria" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="NovaSubCategoria" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="Saldo" Type="Decimal" Precision="19" Scale="4" />
-          <NavigationProperty Name="Bank" Relationship="MoneyBinModel.BankBalanceItemComSaldo" FromRole="BalanceItemComSaldo" ToRole="Bank" />
+          <NavigationProperty Name="Bank" Relationship="MoneyBinModel.BankBalanceItem" FromRole="BalanceItem" ToRole="Bank" />
         </EntityType>
         <EntityType Name="Bank">
           <Key>
@@ -322,7 +322,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Property Name="Extensao" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Rules" Relationship="MoneyBinModel.FK_tblRules_tblBanks" FromRole="Bank" ToRole="tblRule" />
           <NavigationProperty Name="DataMaxMins" Relationship="MoneyBinModel.BankDataMaxMin" FromRole="Bank" ToRole="DataMaxMin" />
-          <NavigationProperty Name="BalanceItemsComSaldo" Relationship="MoneyBinModel.BankBalanceItemComSaldo" FromRole="Bank" ToRole="BalanceItemComSaldo" />
+          <NavigationProperty Name="Balance" Relationship="MoneyBinModel.BankBalanceItem" FromRole="Bank" ToRole="BalanceItem" />
         </EntityType>
         <EntityType Name="Rule">
           <Key>
@@ -376,14 +376,14 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="BankBalanceItemComSaldo">
+        <Association Name="BankBalanceItem">
           <End Type="MoneyBinModel.Bank" Role="Bank" Multiplicity="1" />
-          <End Type="MoneyBinModel.BalanceItemComSaldo" Role="BalanceItemComSaldo" Multiplicity="*" />
+          <End Type="MoneyBinModel.BalanceItem" Role="BalanceItem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Bank">
               <PropertyRef Name="Banco" />
             </Principal>
-            <Dependent Role="BalanceItemComSaldo">
+            <Dependent Role="BalanceItem">
               <PropertyRef Name="Banco" />
             </Dependent>
           </ReferentialConstraint>
@@ -454,8 +454,8 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <FunctionImportMapping FunctionImportName="sp_BalanceItemDelete" FunctionName="MoneyBinModel.Store.sp_BalanceItemDelete" />
           <FunctionImportMapping FunctionImportName="sp_BalanceItemInsert" FunctionName="MoneyBinModel.Store.sp_BalanceItemInsert" />
           <FunctionImportMapping FunctionImportName="sp_BalanceItemUpdate" FunctionName="MoneyBinModel.Store.sp_BalanceItemUpdate" />
-          <EntitySetMapping Name="BalanceComSaldo">
-            <EntityTypeMapping TypeName="MoneyBinModel.BalanceItemComSaldo">
+          <EntitySetMapping Name="Balance">
+            <EntityTypeMapping TypeName="MoneyBinModel.BalanceItem">
               <MappingFragment StoreEntitySet="vw_Balance">
                 <ScalarProperty Name="Saldo" ColumnName="Saldo" />
                 <ScalarProperty Name="NovaSubCategoria" ColumnName="NovaSubCategoria" />
@@ -474,7 +474,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
-            <EntityTypeMapping TypeName="MoneyBinModel.BalanceItemComSaldo">
+            <EntityTypeMapping TypeName="MoneyBinModel.BalanceItem">
               <ModificationFunctionMapping>
                 <UpdateFunction FunctionName="MoneyBinModel.Store.sp_BalanceItemUpdate">
                   <ScalarProperty Name="NovaSubCategoria" ParameterName="NovaSubCategoria" Version="Current" />
