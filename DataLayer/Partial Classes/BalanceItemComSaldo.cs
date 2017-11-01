@@ -114,7 +114,7 @@ namespace DataLayer {
 
 
         /// <summary>
-        /// Creates a BalanceItemOld from a XML node
+        /// Creates a BalanceItem from a XML node
         /// </summary>
         /// <param name="xTRNode">XML node</param>
         /// <param name="banco">Bank code</param>
@@ -189,7 +189,7 @@ namespace DataLayer {
 
 
         public XElement toXML() {
-            return new XElement("BalanceItemOld",
+            return new XElement("BalanceItem",
                 new XAttribute("ID", ID),
                 new XElement("Banco", Banco),
                 new XElement("Data", Data.ToString("MM/dd/yyyy")),

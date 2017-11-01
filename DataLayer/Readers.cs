@@ -45,7 +45,7 @@ namespace DataLayer {
         public bool HasEntries => _entries != null && _entries.Any();
 
         /// <summary>
-        /// Populates the BalanceItemOld list with entries from a file
+        /// Populates BalanceItem list with entries from a file
         /// </summary>
         /// <param name="filepath">Path of the import file</param>
         public Extrato(string filepath, bool getAll) {
@@ -67,24 +67,6 @@ namespace DataLayer {
         }
 
         private void ClassificaItens() {
-            //var Saldo = 0.0m;
-
-            //var rules = _banco.Rules;
-            //foreach (var bi in _entries) {
-            //    foreach (var rule in rules.Where(r => r.Grupo == "S")) {
-            //        if (bi.Matches(rule))
-            //            break;
-            //    }
-            //    if (bi.Rule == 0) {
-            //        foreach (var rule in rules.Where(r => r.Grupo != "S")) {
-            //            if (bi.Matches(rule))
-            //                break;
-            //        }
-            //    }
-            //    Saldo += bi.ValorParaSaldo;
-            //    bi.Saldo = Saldo;
-            //}
-
             var rules = _banco.Rules.OrderByDescending(r => r.Ocorrencias).ToList();
             var rulesSaldo = rules.Where(r => r.Grupo == "S").ToList();
             _entries[0].Saldo = _entries[0].ValorParaSaldo;

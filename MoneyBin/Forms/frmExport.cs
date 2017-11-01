@@ -3,6 +3,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,10 +13,9 @@ using System.Xml.Linq;
 
 namespace MoneyBin {
     public partial class frmExport : Form {
-        private delegate bool Exporter();
-
         public List<BalanceItemComSaldo> Items { get; set; }
-        private Exporter _exporter;
+
+        private Func<bool> _exporter;
 
         public frmExport() {
             InitializeComponent();
@@ -196,8 +196,8 @@ namespace MoneyBin {
 
         private bool ExportToExtrato() {
             // https://www.aspsnippets.com/Articles/The-OLE-DB-provider-Microsoft.Ace.OLEDB.12.0-for-linked-server-null.aspx
+            var retorno = true;
             MoneyBinDB.ExportToExtrato(textBoxSaveAs.Text);
-            Thread.Sleep(3000);
             var accessDB = textBoxSaveAs.Text;
             var tempFile = Path.Combine(Path.GetDirectoryName(accessDB),
                 Path.GetRandomFileName() + Path.GetExtension(accessDB));
@@ -210,12 +210,13 @@ namespace MoneyBin {
             }
             catch (Exception e) {
                 MessageBox.Show(e.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                retorno = false;
                 //throw;
             }
             finally {
                 app.Quit();
             }
-            return true;
+            return retorno;
         }
     }
 }
