@@ -160,5 +160,18 @@ namespace DataLayer
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<NextPayment>("CalendarNextPayments", daysParameter);
         }
+    
+        public virtual int sp_CalendarRefresh(Nullable<short> year, Nullable<short> month)
+        {
+            var yearParameter = year.HasValue ?
+                new ObjectParameter("Year", year) :
+                new ObjectParameter("Year", typeof(short));
+    
+            var monthParameter = month.HasValue ?
+                new ObjectParameter("Month", month) :
+                new ObjectParameter("Month", typeof(short));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_CalendarRefresh", yearParameter, monthParameter);
+        }
     }
 }

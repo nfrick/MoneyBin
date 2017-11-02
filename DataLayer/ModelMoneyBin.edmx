@@ -149,6 +149,10 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
         <Function Name="sp_CalendarNextPayments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Days" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_CalendarRefresh" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Year" Type="smallint" Mode="In" />
+          <Parameter Name="Month" Type="smallint" Mode="In" />
+        </Function>
         <EntityContainer Name="MoneyBinModelStoreContainer">
           <EntitySet Name="tblBanks" EntityType="Self.tblBanks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCalendar" EntityType="Self.tblCalendar" Schema="dbo" store:Type="Tables" />
@@ -279,6 +283,10 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <EntitySet Name="Analise" EntityType="MoneyBinModel.AnaliseItem" />
           <FunctionImport Name="CalendarNextPayments" ReturnType="Collection(MoneyBinModel.NextPayment)">
           <Parameter Name="Days" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_CalendarRefresh">
+            <Parameter Name="Year" Mode="In" Type="Int16" />
+            <Parameter Name="Month" Mode="In" Type="Int16" />
           </FunctionImport>
         </EntityContainer>
         <Association Name="tblPaymenttblCalendar">
@@ -569,6 +577,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_CalendarRefresh" FunctionName="MoneyBinModel.Store.sp_CalendarRefresh" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

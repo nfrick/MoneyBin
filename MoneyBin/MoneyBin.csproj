@@ -36,6 +36,9 @@
   <PropertyGroup>
     <StartupObject>MoneyBin.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Uncle Scrooge.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EFWinforms">
       <HintPath>..\..\EF6Winforms\EF6WinForms\bin\Debug\EFWinforms.dll</HintPath>
@@ -156,6 +159,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Content Include="Reports\ReportComDescricao.rdlc" />
+    <Content Include="Uncle Scrooge.ico" />
     <None Include="Resources\uncle scrooge.jpg" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">

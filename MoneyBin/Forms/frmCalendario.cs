@@ -87,6 +87,7 @@ namespace MoneyBin.Forms {
             if (reload)
                 toolStripComboBoxMes.SelectedIndex = previousIndex;
             var mes = (MesPicklist)toolStripComboBoxMes.SelectedItem;
+            _ctx.sp_CalendarRefresh((short)mes.Year, (short)mes.Month);
             CalendarBindingSource.DataSource = _ctx.Calendar.Where(c => c.Month == mes.Month && c.Year == mes.Year).ToList().OrderBy(c => c.Day).ThenBy(c => c.ToString()).ToList();
             Height = toolStrip1.Height + dgvCalendario.ColumnHeadersHeight +
                      dgvCalendario.RowCount * (5 + dgvCalendario.RowTemplate.Height);
