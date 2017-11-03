@@ -91,7 +91,7 @@ namespace MoneyBin {
         private void buttonExport_Click(object sender, EventArgs e) {
             Cursor.Current = Cursors.WaitCursor;
             if (_exporter())
-                MessageBox.Show(@"Data exported.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(@"Dados exportados.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             Cursor.Current = Cursors.Default;
         }
 
@@ -100,7 +100,7 @@ namespace MoneyBin {
             var backgroundThread = new Thread(
                 () => {
                     progressDialog.Maximum = Items.Count;
-                    progressDialog.UpdateProgress("Exporting \u2026");
+                    progressDialog.UpdateProgress("Exportando \u2026");
                     var sw = new StreamWriter(textBoxSaveAs.Text, false, Encoding.Default);
                     sw.WriteLine(BalanceItem.CSVHeader());
 
@@ -142,6 +142,11 @@ namespace MoneyBin {
         }
 
         private bool ToExcel(IEnumerable<BalanceItem> mItems) {
+            if (!mItems.Any()) {
+                MessageBox.Show(@"Não há registros para serem exportados.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+
             var pck = new ExcelPackage(new FileInfo(textBoxSaveAs.Text));
             var ws = pck.Workbook.Worksheets.Add("Balance");
             ws.View.ShowGridLines = false;

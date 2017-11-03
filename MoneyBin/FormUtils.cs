@@ -47,19 +47,19 @@ namespace MoneyBin {
             var txt = e.Control as TextBox;
             using (var ctx = new MoneyBinEntities()) {
                 switch (dgv.Columns[col].HeaderText) {
-                    case "Novo Grupo":
+                    case "Grupo":
                         txt.AutoCompleteCustomSource = 
                             CreateCollection(ctx.Balance.Select(b => b.NovoGrupo).Distinct().ToArray());
                         txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                         txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
                         break;
-                    case "Nova Categoria":
+                    case "Categoria":
                         txt.AutoCompleteCustomSource =
                             CreateCollection(ctx.Balance.Where(b => b.NovoGrupo == bi.NovoGrupo).Select(b => b.NovaCategoria));
                         txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                         txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
                         break;
-                    case "Nova SubCategoria":
+                    case "SubCategoria":
                         txt.AutoCompleteCustomSource =
                             CreateCollection(ctx.Balance.Where(b => b.NovaCategoria == bi.NovaCategoria).Select(b => b.NovaSubCategoria));
                         txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
