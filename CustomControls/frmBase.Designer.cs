@@ -92,13 +92,15 @@
             // 
             // toolStripContainer1.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(694, 390);
+            this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(925, 491);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.LeftToolStripPanelVisible = false;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
+            this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.toolStripContainer1.Name = "toolStripContainer1";
             this.toolStripContainer1.RightToolStripPanelVisible = false;
-            this.toolStripContainer1.Size = new System.Drawing.Size(694, 451);
+            this.toolStripContainer1.Size = new System.Drawing.Size(925, 555);
             this.toolStripContainer1.TabIndex = 1;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -109,6 +111,7 @@
             // statusStrip1
             // 
             this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabelRecords,
             this.toolStripStatusLabelAdded,
@@ -117,43 +120,43 @@
             this.toolStripProgressBar1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 0);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(694, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(925, 25);
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabelRecords
             // 
             this.toolStripStatusLabelRecords.Name = "toolStripStatusLabelRecords";
-            this.toolStripStatusLabelRecords.Size = new System.Drawing.Size(61, 17);
+            this.toolStripStatusLabelRecords.Size = new System.Drawing.Size(77, 20);
             this.toolStripStatusLabelRecords.Text = "Records: 0";
             // 
             // toolStripStatusLabelAdded
             // 
             this.toolStripStatusLabelAdded.Name = "toolStripStatusLabelAdded";
-            this.toolStripStatusLabelAdded.Size = new System.Drawing.Size(43, 17);
+            this.toolStripStatusLabelAdded.Size = new System.Drawing.Size(54, 20);
             this.toolStripStatusLabelAdded.Text = "New: 0";
             // 
             // toolStripStatusLabelUpdated
             // 
             this.toolStripStatusLabelUpdated.Name = "toolStripStatusLabelUpdated";
-            this.toolStripStatusLabelUpdated.Size = new System.Drawing.Size(62, 17);
+            this.toolStripStatusLabelUpdated.Size = new System.Drawing.Size(79, 20);
             this.toolStripStatusLabelUpdated.Text = "Updates: 0";
             // 
             // toolStripStatusLabelDeleted
             // 
             this.toolStripStatusLabelDeleted.Name = "toolStripStatusLabelDeleted";
-            this.toolStripStatusLabelDeleted.Size = new System.Drawing.Size(57, 17);
+            this.toolStripStatusLabelDeleted.Size = new System.Drawing.Size(74, 20);
             this.toolStripStatusLabelDeleted.Text = "Deletes: 0";
             // 
             // toolStripProgressBar1
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 19);
             // 
             // toolStrip1
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonLoad,
             this.toolStripButtonSave,
@@ -161,7 +164,7 @@
             this.toolStripButtonAnalyze});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(156, 39);
+            this.toolStrip1.Size = new System.Drawing.Size(195, 39);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButtonLoad
@@ -208,10 +211,11 @@
             // 
             // frmBase
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(694, 451);
+            this.ClientSize = new System.Drawing.Size(925, 555);
             this.Controls.Add(this.toolStripContainer1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frmBase";
             this.Load += new System.EventHandler(this.frmBase_Load);
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);

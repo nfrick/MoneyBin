@@ -2,12 +2,18 @@
 using DataLayer;
 using GridAndChartStyleLibrary;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace MoneyBin {
+    internal enum ChartPeriod {
+        Ano,
+        AnoMes
+    }
+
     public partial class frmAnalysis : frmBase {
         private MoneyBinEntities _ctx;
 
@@ -86,7 +92,7 @@ namespace MoneyBin {
                         break;
                     case "Mes":
                         GridStyles.FormatColumn(col, GridStyles.StyleInteger, 50);
-                        col.DefaultCellStyle.Padding = new Padding(0,0,5,0);
+                        col.DefaultCellStyle.Padding = new Padding(0, 0, 5, 0);
                         break;
                     case "Grupo":
                         GridStyles.FormatColumn(col, GridStyles.StyleBase, 70);
@@ -138,7 +144,7 @@ namespace MoneyBin {
                  Grupo = g.Key.Grupo,
                  Categoria = g.Key.Categoria,
                  Positivo = g.Sum(p => p.IsPositive ? p.Valor : 0),
-                 Negativo = g.Sum(p => p.IsNegative ? p.Valor : 0),
+                 Negativo = -1 * g.Sum(p => p.IsNegative ? p.Valor : 0),
                  Total = g.Sum(p => p.Valor)
              });
 
@@ -160,6 +166,7 @@ namespace MoneyBin {
              select new {
                  Ano = g.Key.Ano,
                  Mes = g.Key.Mes,
+                 AnoMes = $@"{g.Key.Ano}\n{g.Key.Mes}",
                  Grupo = g.Key.Grupo,
                  Positivo = g.Sum(p => p.Positivo),
                  Negativo = g.Sum(p => p.Negativo),
@@ -167,7 +174,7 @@ namespace MoneyBin {
              });
 
             var grupoMesAno = anoMesGrupo
-                .Select(p => new { p.Grupo, p.Mes, p.Ano, p.Positivo, p.Negativo, p.Total })
+                .Select(p => new { p.Grupo, p.Mes, p.Ano, p.AnoMes, p.Positivo, p.Negativo, p.Total })
                     .OrderBy(c => c.Grupo).ThenByDescending(c => c.Mes).ThenByDescending(c => c.Ano);
 
             // ANO-MES-GRUPO-CATEGORIA (1-1)
@@ -213,205 +220,176 @@ namespace MoneyBin {
             // SET CHARTS
             foreach (Control ctrl in tableLayoutPanelCharts.Controls)
                 if (ctrl.GetType().Name.Equals("Chart")) {
+                    ctrl.Visible = true;
                     ((Chart)ctrl).Series.Clear();
                     ((Chart)ctrl).Legends.Clear();
-                    var legenda = new Legend();
+                    var legenda = new Legend { LegendItemOrder = LegendItemOrder.SameAsSeriesOrder };
                     ((Chart)ctrl).Legends.Add(legenda);
+                    ((Chart) ctrl).ChartAreas[0].AxisY.MajorGrid.LineColor =
+                        ((Chart)ctrl).ChartAreas[0].AxisX.MajorGrid.LineColor = Color.DarkGray;
+                    ((Chart) ctrl).ChartAreas[0].AxisY.LabelStyle.Format = "N0";
                 }
 
+            #region ANO-GRUPO
             if (_isSingleGroup) {
                 if (_isSingleYear || _isSingleMonth) {
                     // Pie chart at category level
-                    var categories =
+                    var items =
                         (from p in anoMesGrupoCategoria
                          group p by p.Categoria into g
-                         select new {
-                             Categoria = g.Key,
-                             TotalPos = g.Sum(p => p.Positivo),
-                             TotalNeg = g.Sum(p => p.Negativo)
-                         }).OrderBy(c => c.Categoria);
-
-                    var seriesP = chartAnoPositive.Series.Add(anoGrupo.ElementAt(0).Ano);
-                    seriesP.ChartType = SeriesChartType.Pie;
-                    var seriesN = chartAnoNegative.Series.Add(anoGrupo.ElementAt(0).Ano);
-                    seriesN.ChartType = SeriesChartType.Pie;
-                    foreach (var cat in categories) {
-                        seriesP.Points.AddXY(cat.Categoria, cat.TotalPos == 0 ? 0 : cat.TotalPos);
-                        seriesN.Points.AddXY(cat.Categoria, cat.TotalNeg == 0 ? 0 : -1 * cat.TotalNeg);
-                    }
+                         select new PieItem() {
+                             Legenda = g.Key,
+                             Positivo = g.Sum(p => p.Positivo),
+                             Negativo = g.Sum(p => p.Negativo)
+                         });
+                    DrawPieChart(items, ChartPeriod.Ano);
                 }
+
+                // Single Group, more than one years or months
                 else {
                     // Stacked bar at Category level
-                    var anoCategoria =
-                        (from p in anoMesGrupo
-                         group p by new { p.Ano, p.Grupo } into g
-                         select new {
-                             Ano = g.Key.Ano,
-                             Grupo = g.Key.Grupo,
-                             TotalPos = g.Sum(p => p.Positivo),
-                             TotalNeg = g.Sum(p => p.Negativo)
-                         }).OrderBy(c => c.Grupo).ThenBy(c => c.Ano);
-
-                    foreach (var cat in anoCategoria) {
-                        var seriesP = chartAnoPositive.Series.FindByName(cat.Grupo);
-                        if (seriesP == null) {
-                            seriesP = chartAnoPositive.Series.Add(cat.Grupo);
-                            seriesP.ChartType = SeriesChartType.StackedColumn;
-                        }
-
-                        var seriesN = chartAnoNegative.Series.FindByName(cat.Grupo);
-                        if (seriesN == null) {
-                            seriesN = chartAnoNegative.Series.Add(cat.Grupo);
-                            seriesN.ChartType = SeriesChartType.StackedColumn;
-                        }
-
-                        seriesP.Points.AddXY(cat.Ano, cat.TotalPos == 0 ? 0 : cat.TotalPos);
-                        seriesN.Points.AddXY(cat.Ano, cat.TotalNeg == 0 ? 0 : -1 * cat.TotalNeg);
-                    }
+                    var items =
+                        from p in anoMesGrupoCategoria
+                        group p by new { p.Ano, p.Categoria }
+                            into g
+                        select new StackedItem {
+                            Legenda = g.Key.Categoria,
+                            EixoX = g.Key.Ano,
+                            Positivo = g.Sum(p => p.Positivo),
+                            Negativo = g.Sum(p => p.Negativo)
+                        };
+                    DrawStackedChart(items, ChartPeriod.Ano);
                 }
             }
 
+            // More than one Group, Single Year
             else if (_isSingleYear) {
                 // Pie chart at group level
-                var seriesP = chartAnoPositive.Series.Add(anoGrupo.ElementAt(0).Ano);
-                seriesP.ChartType = SeriesChartType.Pie;
-                var seriesN = chartAnoNegative.Series.Add(anoGrupo.ElementAt(0).Ano);
-                seriesN.ChartType = SeriesChartType.Pie;
-
-                foreach (var g in anoGrupo) {
-                    seriesP.Points.AddXY(g.Grupo, g.Positivo == 0 ? 0 : g.Positivo);
-                    seriesN.Points.AddXY(g.Grupo, g.Negativo == 0 ? 0 : -1 * g.Negativo);
-                }
+                var items = anoGrupo.Select(
+                    a => new PieItem { Legenda = a.Grupo, Positivo = a.Positivo, Negativo = a.Negativo });
+                DrawPieChart(items, ChartPeriod.Ano);
             }
 
+            // More than one Group, More than one Year
             else {
-                var grupos = anoGrupo.GroupBy(g => g.Grupo).OrderBy(g => g.Key);
-
-                foreach (var grupo in grupos) {
-                    var seriesP = chartAnoPositive.Series.Add(grupo.Key);
-                    seriesP.ChartType = SeriesChartType.StackedColumn;
-                    var seriesN = chartAnoNegative.Series.Add(grupo.Key);
-                    seriesN.ChartType = SeriesChartType.StackedColumn;
-
-                    foreach (var ai in grupo) {
-                        seriesP.Points.AddXY(ai.Ano, ai.Positivo == 0 ? 0 : ai.Positivo);
-                        seriesN.Points.AddXY(ai.Ano, ai.Negativo == 0 ? 0 : -1 * ai.Negativo);
-                    }
-                }
+                var items = anoGrupo.Select(
+                    a => new StackedItem { Legenda = a.Grupo, EixoX = a.Ano, Positivo = a.Positivo, Negativo = a.Negativo });
+                DrawStackedChart(items, ChartPeriod.Ano);
             }
+            #endregion ANO-GRUPO
 
-            // ANO-MES-GRUPO
+            #region ANO-MES-GRUPO
             if (_isSingleGroup) {
                 if (_isSingleYear && _isSingleMonth) {
                     // Pie chart at category level
-                    var categories =
-                        (from p in anoMesGrupoCategoria
-                         group p by p.Categoria into g
-                         select new {
-                             Categoria = g.Key,
-                             TotalPos = g.Sum(p => p.Positivo),
-                             TotalNeg = g.Sum(p => p.Negativo)
-                         }).OrderBy(c => c.Categoria);
-
-                    var seriesP = chartAnoMesPositive.Series.Add(anoGrupo.ElementAt(0).Ano);
-                    seriesP.ChartType = SeriesChartType.Pie;
-                    var seriesN = chartAnoMesNegative.Series.Add(anoGrupo.ElementAt(0).Ano);
-                    seriesN.ChartType = SeriesChartType.Pie;
-                    foreach (var cat in categories) {
-                        seriesP.Points.AddXY(cat.Categoria, cat.TotalPos == 0 ? 0 : cat.TotalPos);
-                        seriesN.Points.AddXY(cat.Categoria, cat.TotalNeg == 0 ? 0 : -1 * cat.TotalNeg);
-                    }
+                    var items =
+                        from p in anoMesGrupoCategoria
+                        group p by p.Categoria into g
+                        select new PieItem {
+                            Legenda = g.Key,
+                            Positivo = g.Sum(p => p.Positivo),
+                            Negativo = g.Sum(p => p.Negativo)
+                        };
+                    DrawPieChart(items, ChartPeriod.AnoMes);
                 }
+
+                // Single Group, more than one year or month
                 else {
-                    // Stacked bar at Category level
-                    var grupos = (
-                        from g in grupoMesAno
-                        orderby g.Grupo
-                        select g.Grupo)
-                        .Distinct();
-
-                    var anosMeses = (
-                        from g in grupoMesAno
-                        orderby g.Ano, g.Mes
-                        select new {
-                            g.Ano,
-                            g.Mes,
-                            AnoMes = $@"{g.Ano}\n{g.Mes}"
-                        })
-                        .Distinct();
-
-                    foreach (var cat in grupos) {
-                        var seriesP = chartAnoMesPositive.Series.Add(cat);
-                        seriesP.ChartType = SeriesChartType.StackedColumn;
-                        var seriesN = chartAnoMesNegative.Series.Add(cat);
-                        seriesN.ChartType = SeriesChartType.StackedColumn;
-
-                        foreach (var am in anosMeses) {
-                            var anoMesData = (
-                                from p in grupoMesAno
-                                where p.Ano == am.Ano && p.Mes == am.Mes && p.Grupo == cat
-                                select new {
-                                    AnoMes = $@"{p.Ano}\n{p.Mes}",
-                                    TotalPos = p.Positivo,
-                                    TotalNeg = p.Negativo
-                                }).OrderBy(c => c.AnoMes);
-
-                            if (!anoMesData.Any()) {
-                                seriesP.Points.AddXY(am.AnoMes, 0);
-                                seriesN.Points.AddXY(am.AnoMes, 0);
-                            }
-                            else {
-                                foreach (var item in anoMesData) {
-                                    seriesP.Points.AddXY(item.AnoMes, item.TotalPos == 0 ? 0 : item.TotalPos);
-                                    seriesN.Points.AddXY(item.AnoMes, item.TotalNeg == 0 ? 0 : -1 * item.TotalNeg);
-                                }
-                            }
-                        }
-                    }
+                    var items =
+                    from p in anoMesGrupoCategoria
+                    group p by new { p.Categoria, p.Ano, p.Mes }
+                        into g
+                    select new StackedItem {
+                        Legenda = g.Key.Categoria,
+                        EixoX = $@"{g.Key.Ano}\n{g.Key.Mes}",
+                        Positivo = g.Sum(p => p.Positivo),
+                        Negativo = g.Sum(p => p.Negativo)
+                    };
+                    DrawStackedChart(items, ChartPeriod.AnoMes);
                 }
             }
 
+            // More than one Group, single Month - redundant: same as ANO-GRUPO
             else if (_isSingleMonth) {
-                // Pie chart at group level
-                var firstItem = anoMesGrupo.ElementAt(0);
-                var aNomes = $@"{firstItem.Ano}\n{firstItem.Mes}";
-                var seriesP = chartAnoMesPositive.Series.Add(aNomes);
-                seriesP.ChartType = SeriesChartType.Pie;
-                var seriesN = chartAnoMesNegative.Series.Add(aNomes);
-                seriesN.ChartType = SeriesChartType.Pie;
-
-                foreach (var g in anoMesGrupo) {
-                    seriesP.Points.AddXY(g.Grupo, g.Positivo == 0 ? 0 : g.Positivo);
-                    seriesN.Points.AddXY(g.Grupo, g.Negativo == 0 ? 0 : -1 * g.Negativo);
-                }
+                // do nothing
             }
+
+            // More than one Group, more than one Month
             else {
-                var grupos = anoGrupo.Select(g => g.Grupo).Distinct().OrderBy(g => g);
-                foreach (var grupo in grupos) {
-                    var seriesP = chartAnoMesPositive.Series.Add(grupo);
-                    seriesP.ChartType = SeriesChartType.StackedColumn;
-                    var seriesN = chartAnoMesNegative.Series.Add(grupo);
-                    seriesN.ChartType = SeriesChartType.StackedColumn;
-
-                    var itemsAnoMes = anoMesGrupo.Where(i => i.Grupo == grupo)
-                        .OrderBy(i => i.Ano).ThenBy(i => i.Mes);
-
-                    foreach (var item in itemsAnoMes) {
-                        var anomes = $@"{item.Ano}\n{item.Mes}";
-                        seriesP.Points.AddXY(anomes, item.Positivo == 0 ? 0 : item.Positivo);
-                        seriesN.Points.AddXY(anomes, item.Negativo == 0 ? 0 : -1 * item.Negativo);
-                    }
-                }
+                var items = grupoMesAno.Select(
+                    i => new StackedItem() { Legenda = i.Grupo, EixoX = i.AnoMes, Positivo = i.Positivo, Negativo = i.Negativo });
+                DrawStackedChart(items, ChartPeriod.AnoMes);
             }
+            #endregion ANO-MES-GRUPO
+
+            foreach (Control ctrl in tableLayoutPanelCharts.Controls)
+                if (ctrl.GetType().Name.Equals("Chart")) {
+                    var chart = (Chart)ctrl;
+                    chart.Visible = chart.Series.Any(s => s.Points.Any(p => p.YValues.Any(y => y > 0.0)));
+                }
+        }
+
+        private Series GetSeries(Chart chart, string serieName, SeriesChartType type) {
+            var serie = chart.Series.FindByName(serieName);
+            if (serie != null) return serie;
+            serie = chart.Series.Add(serieName);
+            serie.ChartType = type;
+            return serie;
         }
 
         private string WhereClause() {
-            var anoMes = treeSelMonths.Query;
-            var grupoCategoria = treeSelGroupsCats.Query;
-            if (anoMes.Equals("") && grupoCategoria.Equals(""))
-                return "";
-            string[] condicoes = { anoMes, grupoCategoria };
-            return "WHERE " + string.Join(" AND ", condicoes);
+            var condicoes = new List<string> { treeSelMonths.Query, treeSelGroupsCats.Query };
+            return condicoes.All(string.IsNullOrEmpty) ?
+                "" : "WHERE " + string.Join(" AND ", condicoes.Where(c => !string.IsNullOrEmpty(c)));
         }
+
+        private void DrawPieChart(IEnumerable<PieItem> items, ChartPeriod period) {
+            GetCharts(period, out Chart chartPos, out Chart chartNeg);
+            foreach (var item in items.OrderByDescending(c => c.Legenda)) {
+                if (item.Positivo != 0)
+                    PieChartAdd(chartPos, item.Legenda, item.Positivo);
+
+                if (item.Negativo == 0) continue;
+                PieChartAdd(chartNeg, item.Legenda, item.Negativo);
+            }
+        }
+
+        private void PieChartAdd(Chart chart, string legenda, decimal valor) {
+            var series = GetSeries(chart, "pie", SeriesChartType.Pie);
+            var dp = series.Points.Add((double)valor);
+            dp.LegendText = legenda;
+            dp.AxisLabel = $"{valor:N0}";
+            chart.ApplyPaletteColors();
+            dp.LabelForeColor = ColorFunctions.ContrastColor(dp.Color);
+        }
+
+        private void DrawStackedChart(IEnumerable<StackedItem> items, ChartPeriod period) {
+            GetCharts(period, out Chart chartPos, out Chart chartNeg);
+            foreach (var item in items.OrderByDescending(i => i.Legenda).ThenBy(i => i.EixoX)) {
+                var seriesP = GetSeries(chartPos, item.Legenda, SeriesChartType.StackedColumn);
+                seriesP.Points.AddXY(item.EixoX, item.Positivo);
+                var seriesN = GetSeries(chartNeg, item.Legenda, SeriesChartType.StackedColumn);
+                seriesN.Points.AddXY(item.EixoX, item.Negativo);
+            }
+        }
+
+        private void GetCharts(ChartPeriod period, out Chart chartPos, out Chart chartNeg) {
+            chartPos = period == ChartPeriod.Ano ? chartAnoPositive : chartAnoMesPositive;
+            chartNeg = period == ChartPeriod.Ano ? chartAnoNegative : chartAnoMesNegative;
+        }
+
+    }
+
+    internal class PieItem {
+        public string Legenda { get; set; }
+        public decimal Positivo { get; set; }
+        public decimal Negativo { get; set; }
+    }
+
+    internal class StackedItem {
+        public string Legenda { get; set; }
+        public string EixoX { get; set; }
+        public decimal Positivo { get; set; }
+        public decimal Negativo { get; set; }
     }
 }

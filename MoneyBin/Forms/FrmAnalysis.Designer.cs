@@ -23,14 +23,14 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend9 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea10 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend10 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea11 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend11 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea12 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend12 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.tableLayoutPanelExternal = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageTables = new System.Windows.Forms.TabPage();
@@ -80,6 +80,7 @@
             // 
             // tableLayoutPanelExternal
             // 
+            this.tableLayoutPanelExternal.BackColor = System.Drawing.Color.Silver;
             this.tableLayoutPanelExternal.ColumnCount = 2;
             this.tableLayoutPanelExternal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 237F));
             this.tableLayoutPanelExternal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 996F));
@@ -211,13 +212,14 @@
             this.tabPageCharts.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageCharts.Name = "tabPageCharts";
             this.tabPageCharts.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageCharts.Size = new System.Drawing.Size(980, 0);
+            this.tabPageCharts.Size = new System.Drawing.Size(1552, 843);
             this.tabPageCharts.TabIndex = 1;
             this.tabPageCharts.Text = "Charts";
             this.tabPageCharts.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanelCharts
             // 
+            this.tableLayoutPanelCharts.BackColor = System.Drawing.Color.Silver;
             this.tableLayoutPanelCharts.ColumnCount = 2;
             this.tableLayoutPanelCharts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelCharts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -232,7 +234,7 @@
             this.tableLayoutPanelCharts.RowCount = 2;
             this.tableLayoutPanelCharts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelCharts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelCharts.Size = new System.Drawing.Size(972, 0);
+            this.tableLayoutPanelCharts.Size = new System.Drawing.Size(1544, 835);
             this.tableLayoutPanelCharts.TabIndex = 0;
             // 
             // chartAnoNegative
@@ -240,15 +242,15 @@
             this.chartAnoNegative.BackColor = System.Drawing.Color.Gainsboro;
             this.chartAnoNegative.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chartAnoNegative.BackSecondaryColor = System.Drawing.Color.DarkGray;
-            chartArea1.Name = "ChartArea1";
-            this.chartAnoNegative.ChartAreas.Add(chartArea1);
+            chartArea9.Name = "ChartArea1";
+            this.chartAnoNegative.ChartAreas.Add(chartArea9);
             this.chartAnoNegative.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.chartAnoNegative.Legends.Add(legend1);
-            this.chartAnoNegative.Location = new System.Drawing.Point(4, 4);
-            this.chartAnoNegative.Margin = new System.Windows.Forms.Padding(4);
+            legend9.Name = "Legend1";
+            this.chartAnoNegative.Legends.Add(legend9);
+            this.chartAnoNegative.Location = new System.Drawing.Point(0, 417);
+            this.chartAnoNegative.Margin = new System.Windows.Forms.Padding(0);
             this.chartAnoNegative.Name = "chartAnoNegative";
-            this.chartAnoNegative.Size = new System.Drawing.Size(478, 1);
+            this.chartAnoNegative.Size = new System.Drawing.Size(772, 418);
             this.chartAnoNegative.TabIndex = 14;
             // 
             // chartAnoPositive
@@ -257,15 +259,16 @@
             this.chartAnoPositive.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chartAnoPositive.BackSecondaryColor = System.Drawing.Color.DarkGray;
             this.chartAnoPositive.BorderlineColor = System.Drawing.Color.Black;
-            chartArea2.Name = "ChartArea1";
-            this.chartAnoPositive.ChartAreas.Add(chartArea2);
+            chartArea10.Name = "ChartArea1";
+            this.chartAnoPositive.ChartAreas.Add(chartArea10);
             this.chartAnoPositive.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Name = "Legend1";
-            this.chartAnoPositive.Legends.Add(legend2);
-            this.chartAnoPositive.Location = new System.Drawing.Point(4, 4);
-            this.chartAnoPositive.Margin = new System.Windows.Forms.Padding(4);
+            legend10.LegendItemOrder = System.Windows.Forms.DataVisualization.Charting.LegendItemOrder.ReversedSeriesOrder;
+            legend10.Name = "Legend1";
+            this.chartAnoPositive.Legends.Add(legend10);
+            this.chartAnoPositive.Location = new System.Drawing.Point(0, 0);
+            this.chartAnoPositive.Margin = new System.Windows.Forms.Padding(0);
             this.chartAnoPositive.Name = "chartAnoPositive";
-            this.chartAnoPositive.Size = new System.Drawing.Size(478, 1);
+            this.chartAnoPositive.Size = new System.Drawing.Size(772, 417);
             this.chartAnoPositive.TabIndex = 8;
             // 
             // chartAnoMesPositive
@@ -274,15 +277,15 @@
             this.chartAnoMesPositive.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chartAnoMesPositive.BackSecondaryColor = System.Drawing.Color.DarkGray;
             this.chartAnoMesPositive.BorderlineColor = System.Drawing.Color.Black;
-            chartArea3.Name = "ChartArea1";
-            this.chartAnoMesPositive.ChartAreas.Add(chartArea3);
+            chartArea11.Name = "ChartArea1";
+            this.chartAnoMesPositive.ChartAreas.Add(chartArea11);
             this.chartAnoMesPositive.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend3.Name = "Legend1";
-            this.chartAnoMesPositive.Legends.Add(legend3);
-            this.chartAnoMesPositive.Location = new System.Drawing.Point(490, 4);
-            this.chartAnoMesPositive.Margin = new System.Windows.Forms.Padding(4);
+            legend11.Name = "Legend1";
+            this.chartAnoMesPositive.Legends.Add(legend11);
+            this.chartAnoMesPositive.Location = new System.Drawing.Point(772, 0);
+            this.chartAnoMesPositive.Margin = new System.Windows.Forms.Padding(0);
             this.chartAnoMesPositive.Name = "chartAnoMesPositive";
-            this.chartAnoMesPositive.Size = new System.Drawing.Size(478, 1);
+            this.chartAnoMesPositive.Size = new System.Drawing.Size(772, 417);
             this.chartAnoMesPositive.TabIndex = 9;
             // 
             // chartAnoMesNegative
@@ -290,15 +293,15 @@
             this.chartAnoMesNegative.BackColor = System.Drawing.Color.Gainsboro;
             this.chartAnoMesNegative.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
             this.chartAnoMesNegative.BackSecondaryColor = System.Drawing.Color.DarkGray;
-            chartArea4.Name = "ChartArea1";
-            this.chartAnoMesNegative.ChartAreas.Add(chartArea4);
+            chartArea12.Name = "ChartArea1";
+            this.chartAnoMesNegative.ChartAreas.Add(chartArea12);
             this.chartAnoMesNegative.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend4.Name = "Legend1";
-            this.chartAnoMesNegative.Legends.Add(legend4);
-            this.chartAnoMesNegative.Location = new System.Drawing.Point(490, 4);
-            this.chartAnoMesNegative.Margin = new System.Windows.Forms.Padding(4);
+            legend12.Name = "Legend1";
+            this.chartAnoMesNegative.Legends.Add(legend12);
+            this.chartAnoMesNegative.Location = new System.Drawing.Point(772, 417);
+            this.chartAnoMesNegative.Margin = new System.Windows.Forms.Padding(0);
             this.chartAnoMesNegative.Name = "chartAnoMesNegative";
-            this.chartAnoMesNegative.Size = new System.Drawing.Size(478, 1);
+            this.chartAnoMesNegative.Size = new System.Drawing.Size(772, 418);
             this.chartAnoMesNegative.TabIndex = 13;
             // 
             // tableLayoutPanel4

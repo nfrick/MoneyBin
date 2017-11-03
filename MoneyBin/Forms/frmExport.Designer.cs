@@ -33,6 +33,7 @@
             this.radioButtonExcel = new System.Windows.Forms.RadioButton();
             this.radioButtonXML = new System.Windows.Forms.RadioButton();
             this.radioButtonCSV = new System.Windows.Forms.RadioButton();
+            this.buttonSair = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,12 +51,12 @@
             // 
             this.buttonExport.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonExport.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.buttonExport.Location = new System.Drawing.Point(626, 14);
+            this.buttonExport.Location = new System.Drawing.Point(645, 27);
             this.buttonExport.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.buttonExport.Name = "buttonExport";
-            this.buttonExport.Size = new System.Drawing.Size(113, 54);
+            this.buttonExport.Size = new System.Drawing.Size(94, 41);
             this.buttonExport.TabIndex = 5;
-            this.buttonExport.Text = "Export";
+            this.buttonExport.Text = "Exportar";
             this.buttonExport.UseVisualStyleBackColor = true;
             this.buttonExport.Click += new System.EventHandler(this.buttonExport_Click);
             // 
@@ -86,7 +87,7 @@
             this.groupBox1.Size = new System.Drawing.Size(542, 101);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Format";
+            this.groupBox1.Text = "Formato";
             // 
             // radioButtonExtrato
             // 
@@ -163,12 +164,26 @@
             this.radioButtonCSV.UseVisualStyleBackColor = true;
             this.radioButtonCSV.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
             // 
+            // buttonSair
+            // 
+            this.buttonSair.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonSair.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.buttonSair.Location = new System.Drawing.Point(645, 70);
+            this.buttonSair.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.buttonSair.Name = "buttonSair";
+            this.buttonSair.Size = new System.Drawing.Size(94, 41);
+            this.buttonSair.TabIndex = 15;
+            this.buttonSair.Text = "Sair";
+            this.buttonSair.UseVisualStyleBackColor = true;
+            this.buttonSair.Click += new System.EventHandler(this.buttonSair_Click);
+            // 
             // frmExport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(757, 174);
+            this.Controls.Add(this.buttonSair);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonPickFile);
             this.Controls.Add(this.buttonExport);
@@ -180,7 +195,7 @@
             this.MinimizeBox = false;
             this.Name = "frmExport";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Export";
+            this.Text = "Exportar";
             this.Load += new System.EventHandler(this.frmExport_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -201,5 +216,6 @@
         private System.Windows.Forms.RadioButton radioButtonXML;
         private System.Windows.Forms.RadioButton radioButtonCSV;
         private System.Windows.Forms.RadioButton radioButtonExtrato;
+        private System.Windows.Forms.Button buttonSair;
     }
 }

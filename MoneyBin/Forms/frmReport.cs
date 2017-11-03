@@ -40,7 +40,7 @@ namespace MoneyBin {
         }
 
         private void ToolStripButtonReport_Click(object sender, EventArgs e) {
-            var reportEngine = reportViewer1.LocalReport;
+            var reportEngine = rptViewer.LocalReport;
             reportEngine.DataSources.Clear();
             var rep = (string)((ToolStripButton)sender).Tag;
             reportEngine.ReportPath = string.Format(_rptPath, rep);
@@ -57,7 +57,7 @@ namespace MoneyBin {
                         .Where(b => b.Banco == Banco.Banco && b.Data >= _inicio.Value &&
                                     b.Data <= _termino.Value).ToList()));
             }
-            reportViewer1.RefreshReport();
+            rptViewer.RefreshReport();
         }
 
         private void toolStripComboBoxBanco_SelectedIndexChanged(object sender, EventArgs e) {

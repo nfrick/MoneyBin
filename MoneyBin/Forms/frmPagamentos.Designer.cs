@@ -28,10 +28,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPagamentos));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.dgvPagamentos = new System.Windows.Forms.DataGridView();
-            this.entityDataSource1 = new EFWinforms.EntityDataSource(this.components);
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButtonSalvar = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonDesfazer = new System.Windows.Forms.ToolStripButton();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EnabledDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.groupDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,6 +46,10 @@
             this.octDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.novDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.decDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.entityDataSource1 = new EFWinforms.EntityDataSource(this.components);
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonSalvar = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonDesfazer = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -111,47 +111,12 @@
             this.dgvPagamentos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvPagamentos.Location = new System.Drawing.Point(0, 0);
             this.dgvPagamentos.Name = "dgvPagamentos";
+            this.dgvPagamentos.RowHeadersWidth = 25;
             this.dgvPagamentos.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
             this.dgvPagamentos.RowTemplate.Height = 24;
             this.dgvPagamentos.Size = new System.Drawing.Size(1128, 483);
             this.dgvPagamentos.TabIndex = 0;
             this.dgvPagamentos.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPagamentos_CellEndEdit);
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButtonSalvar,
-            this.toolStripButtonDesfazer});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(136, 27);
-            this.toolStrip1.TabIndex = 0;
-            // 
-            // toolStripButtonSalvar
-            // 
-            this.toolStripButtonSalvar.BackColor = System.Drawing.Color.Green;
-            this.toolStripButtonSalvar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButtonSalvar.ForeColor = System.Drawing.Color.White;
-            this.toolStripButtonSalvar.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSalvar.Image")));
-            this.toolStripButtonSalvar.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonSalvar.Name = "toolStripButtonSalvar";
-            this.toolStripButtonSalvar.Size = new System.Drawing.Size(53, 24);
-            this.toolStripButtonSalvar.Text = "Salvar";
-            this.toolStripButtonSalvar.Click += new System.EventHandler(this.toolStripButtonSalvar_Click);
-            // 
-            // toolStripButtonDesfazer
-            // 
-            this.toolStripButtonDesfazer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.toolStripButtonDesfazer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButtonDesfazer.ForeColor = System.Drawing.Color.White;
-            this.toolStripButtonDesfazer.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDesfazer.Image")));
-            this.toolStripButtonDesfazer.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonDesfazer.Name = "toolStripButtonDesfazer";
-            this.toolStripButtonDesfazer.Size = new System.Drawing.Size(71, 24);
-            this.toolStripButtonDesfazer.Text = "Desfazer";
-            this.toolStripButtonDesfazer.Click += new System.EventHandler(this.toolStripButtonDesfazer_Click);
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -260,6 +225,42 @@
             this.decDataGridViewCheckBoxColumn.DataPropertyName = "Dec";
             this.decDataGridViewCheckBoxColumn.HeaderText = "Dez";
             this.decDataGridViewCheckBoxColumn.Name = "decDataGridViewCheckBoxColumn";
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonSalvar,
+            this.toolStripButtonDesfazer});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(136, 27);
+            this.toolStrip1.TabIndex = 0;
+            // 
+            // toolStripButtonSalvar
+            // 
+            this.toolStripButtonSalvar.BackColor = System.Drawing.Color.Green;
+            this.toolStripButtonSalvar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonSalvar.ForeColor = System.Drawing.Color.White;
+            this.toolStripButtonSalvar.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSalvar.Image")));
+            this.toolStripButtonSalvar.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonSalvar.Name = "toolStripButtonSalvar";
+            this.toolStripButtonSalvar.Size = new System.Drawing.Size(53, 24);
+            this.toolStripButtonSalvar.Text = "Salvar";
+            this.toolStripButtonSalvar.Click += new System.EventHandler(this.toolStripButtonSalvar_Click);
+            // 
+            // toolStripButtonDesfazer
+            // 
+            this.toolStripButtonDesfazer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.toolStripButtonDesfazer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonDesfazer.ForeColor = System.Drawing.Color.White;
+            this.toolStripButtonDesfazer.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDesfazer.Image")));
+            this.toolStripButtonDesfazer.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonDesfazer.Name = "toolStripButtonDesfazer";
+            this.toolStripButtonDesfazer.Size = new System.Drawing.Size(71, 24);
+            this.toolStripButtonDesfazer.Text = "Desfazer";
+            this.toolStripButtonDesfazer.Click += new System.EventHandler(this.toolStripButtonDesfazer_Click);
             // 
             // frmPagamentos
             // 

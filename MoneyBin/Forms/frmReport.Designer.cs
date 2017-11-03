@@ -27,7 +27,7 @@
             Microsoft.Reporting.WinForms.ReportDataSource reportDataSource1 = new Microsoft.Reporting.WinForms.ReportDataSource();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmReport));
             this.AnalysisItemAnoMesGrupoCategoriaBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
+            this.rptViewer = new Microsoft.Reporting.WinForms.ReportViewer();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
@@ -38,33 +38,36 @@
             this.toolStripComboBoxBanco = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripLabelInicio = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabelTermino = new System.Windows.Forms.ToolStripLabel();
+            this.BalanceItemComGrupoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.AnalysisItemAnoMesGrupoCategoriaBindingSource)).BeginInit();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.BalanceItemComGrupoBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
-            // reportViewer1
+            // rptViewer
             // 
-            this.reportViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            reportDataSource1.Name = "DataSetAnoMesGrupoCategoria";
-            reportDataSource1.Value = this.AnalysisItemAnoMesGrupoCategoriaBindingSource;
-            this.reportViewer1.LocalReport.DataSources.Add(reportDataSource1);
-            this.reportViewer1.LocalReport.ReportEmbeddedResource = "MoneyBin.ReportAnoMesGrupoCategoria.rdlc";
-            this.reportViewer1.Location = new System.Drawing.Point(0, 0);
-            this.reportViewer1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.reportViewer1.Name = "reportViewer1";
-            this.reportViewer1.ServerReport.BearerToken = null;
-            this.reportViewer1.Size = new System.Drawing.Size(1446, 555);
-            this.reportViewer1.TabIndex = 0;
+            this.rptViewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            reportDataSource1.Name = "DataSetBalance";
+            reportDataSource1.Value = this.BalanceItemComGrupoBindingSource;
+            this.rptViewer.LocalReport.DataSources.Add(reportDataSource1);
+            this.rptViewer.LocalReport.ReportEmbeddedResource = "MoneyBin.Reports.ReportBalance.rdlc";
+            this.rptViewer.Location = new System.Drawing.Point(0, 0);
+            this.rptViewer.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.rptViewer.Name = "rptViewer";
+            this.rptViewer.ServerReport.BearerToken = null;
+            this.rptViewer.ServerReport.ReportServerUrl = new System.Uri("", System.UriKind.Relative);
+            this.rptViewer.Size = new System.Drawing.Size(1446, 555);
+            this.rptViewer.TabIndex = 0;
             // 
             // toolStripContainer1
             // 
             // 
             // toolStripContainer1.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.reportViewer1);
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.rptViewer);
             this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1446, 555);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -96,7 +99,7 @@
             this.toolStripLabelTermino});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(501, 28);
+            this.toolStrip1.Size = new System.Drawing.Size(462, 28);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButton1
@@ -172,6 +175,10 @@
             this.toolStripLabelTermino.Size = new System.Drawing.Size(66, 25);
             this.toolStripLabelTermino.Text = "Término:";
             // 
+            // BalanceItemComGrupoBindingSource
+            // 
+            this.BalanceItemComGrupoBindingSource.DataMember = "BalanceItemComGrupo";
+            // 
             // frmReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
@@ -192,13 +199,14 @@
             this.toolStripContainer1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.BalanceItemComGrupoBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private Microsoft.Reporting.WinForms.ReportViewer reportViewer1;
+        private Microsoft.Reporting.WinForms.ReportViewer rptViewer;
         private System.Windows.Forms.BindingSource AnalysisItemAnoMesGrupoCategoriaBindingSource;
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
         private System.Windows.Forms.ToolStrip toolStrip1;
@@ -210,5 +218,6 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabelBanco;
         private System.Windows.Forms.ToolStripLabel toolStripLabelInicio;
         private System.Windows.Forms.ToolStripLabel toolStripLabelTermino;
+        private System.Windows.Forms.BindingSource BalanceItemComGrupoBindingSource;
     }
 }

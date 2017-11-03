@@ -218,5 +218,9 @@ namespace MoneyBin {
             }
             return retorno;
         }
+
+        private void buttonSair_Click(object sender, EventArgs e) {
+            this.Close();
+        }
     }
 }

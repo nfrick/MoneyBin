@@ -62,10 +62,6 @@ namespace CustomControls {
             return parent.Nodes.Cast<TreeNode>().Count(child => child.Checked);
         }
 
-        private TreeNode GetUniquedNode(TreeNode parent, bool status) {
-            return parent.Nodes.Cast<TreeNode>().FirstOrDefault(child => child.Checked == status);
-        }
-
         public bool IsSingleLevel(int level) {
             var root = treeViewItems.Nodes[0];
             if (level == 1) {
@@ -91,8 +87,8 @@ namespace CustomControls {
                 foreach (TreeNode grandchild in child.Nodes) {
                     if (!grandchild.Checked) continue;
                     if (item == null)
-                        item = grandchild.Text;
-                    else if (!item.Equals(grandchild.Text))
+                        item = grandchild.FullPath;
+                    else if (!item.Equals(grandchild.FullPath))
                         return false;
                 }
             }
@@ -105,49 +101,50 @@ namespace CustomControls {
             var nodeRoot = treeViewItems.Nodes[0];
             if (nodeRoot.Checked) return string.Empty;
 
-            var sb = new StringBuilder("", 200);
-            var checkedItems = new List<string>();
-            foreach (TreeNode nodeItem in nodeRoot.Nodes) {
-                if (nodeItem.Checked)
-                    checkedItems.Add(nodeItem.Text);
-                else {
-                    var SubItemsCount = CountCheckedNodes(nodeItem);
-                    if (SubItemsCount <= 0) continue;
-                    var sb1 = new StringBuilder(200);
-                    sb.Append($"({ItemName} = '{nodeItem.Name}' AND ");
-                    if (SubItemsCount == 1)
-                        sb1.Append($"{SubItemName} = '{GetUniquedNode(nodeItem, true).Text}' ");
+            var sb = new StringBuilder("", 100);
+            var condicoes = new List<string>();
 
-                    else if (SubItemsCount == nodeItem.Nodes.Count - 1)
-                        sb1.Append($"NOT {SubItemName} = '{GetUniquedNode(nodeItem, false).Text}' ");
-
-                    else {
-                        sb1.Append(SubItemName).Append(" ");
-                        if (SubItemsCount > nodeItem.Nodes.Count / 2) {
-                            sb1.Append("NOT ");
-                        }
-                        sb1.Append("IN ('")
-                            .Append(string.Join("','", 
-                                nodeItem.Nodes.Cast<TreeNode>().Where(n => n.Checked).Select(n=>n.Text)))
-                            .Append("')");
-                    }
-                    sb.Append(sb1).Append(") OR ");
+            var rChecked = nodeRoot.Nodes.Cast<TreeNode>().Where(n => n.Checked).ToList();
+            var rNotChecked = nodeRoot.Nodes.Cast<TreeNode>().Where(n => !n.Checked).ToList();
+            if (rChecked.Any()) {
+                if (rChecked.Count > rNotChecked.Count) {
+                    sb.Append("NOT ");
+                    condicoes.AddRange(rNotChecked.Select(n => n.Text));
                 }
+                else {
+                    condicoes.AddRange(rChecked.Select(n => n.Text));
+                }
+                sb.Append($"{ItemName} ");
+                if (condicoes.Count == 1)
+                    sb.Append($"= '{condicoes[0]}'");
+                else
+                    sb.Append("IN ('").Append(string.Join("','", condicoes)).Append("')");
             }
-            if (sb.Length > 0 && checkedItems.Count == 0)
-                sb.Remove(sb.Length - 4, 4);
-            if (checkedItems.Count == 1) {
-                sb.Append($"{ItemName} = '{checkedItems[0]}'");
+
+            foreach (var node in rNotChecked) {
+                condicoes.Clear();
+                var rChecked2 = node.Nodes.Cast<TreeNode>().Where(n => n.Checked).ToList();
+                if (!rChecked2.Any()) continue;
+
+                var rNotChecked2 = node.Nodes.Cast<TreeNode>().Where(n => !n.Checked).ToList();
+                if (sb.Length > 0)
+                    sb.Append(" OR ");
+                sb.Append($"({ItemName} = '{node.Text}' AND ");
+                if (rChecked2.Count > rNotChecked2.Count) {
+                    sb.Append($"NOT ");
+                    condicoes.AddRange(rNotChecked2.Select(n => n.Text));
+                }
+                else
+                    condicoes.AddRange(rChecked2.Select(n => n.Text));
+                sb.Append($"{SubItemName} ");
+
+                if (condicoes.Count == 1)
+                    sb.Append($"= '{condicoes[0]}')");
+                else
+                    sb.Append("IN ('").Append(string.Join("','", condicoes)).Append("'))");
             }
-            else if (checkedItems.Count == nodeRoot.Nodes.Count - 1) {
-                sb.Append("NOT {ItemName} = '{GetUniquedNode(nodeRoot, false).Text}'");
-            }
-            else if (checkedItems.Count > 1) {
-                sb.Append(ItemName).Append(" IN ('")
-                    .Append(string.Join("','", checkedItems))
-                    .Append("')");
-            }
-            return sb.ToString();
+            var sql = sb.ToString();
+            return sql.Contains(" OR ") ? $"({sql})" : sql;
         }
     }
 }
