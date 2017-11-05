@@ -1,11 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 using MoneyBin.Forms;
 
 namespace MoneyBin {
     public partial class frmMain : Form {
+        private List<string> LastBackgrounds = new List<string>();
         public frmMain() {
             InitializeComponent();
+            NewBackground();
+            timer1.Enabled = true;
         }
 
         private void frmMain_Load(object sender, EventArgs e) {
@@ -65,6 +73,29 @@ namespace MoneyBin {
         private void toolStripButtonCalendar_Click(object sender, EventArgs e) {
             var frm = new frmCalendario { MdiParent = this };
             frm.Show();
+        }
+
+        private void toolStripButtonBackground_Click(object sender, EventArgs e) {
+            NewBackground();
+        }
+
+        private void NewBackground() {
+            var _imgPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\Backgrounds\\Reduzidas";
+            var files = Directory.GetFiles(_imgPath, "*.jpg");
+            if (LastBackgrounds.Count == files.Length)
+                LastBackgrounds.RemoveAt(0);
+
+            string file;
+            var rnd = new Random();
+            do {
+                file = Path.GetFileName(files[rnd.Next(0, files.Length)]);
+            } while (LastBackgrounds.Contains(file));
+            BackgroundImage = Image.FromFile($"{_imgPath}\\{file}");
+            LastBackgrounds.Add(Path.GetFileName(file));
+        }
+
+        private void timer1_Tick(object sender, EventArgs e) {
+            NewBackground();
         }
     }
 }

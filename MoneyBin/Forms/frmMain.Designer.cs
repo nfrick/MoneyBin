@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.toolStripMainMenu = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonViewer = new System.Windows.Forms.ToolStripButton();
@@ -33,6 +34,8 @@
             this.toolStripButtonRules = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonPayments = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonCalendar = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonBackground = new System.Windows.Forms.ToolStripButton();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.toolStripMainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,7 +50,8 @@
             this.toolStripButtonExport,
             this.toolStripButtonRules,
             this.toolStripButtonPayments,
-            this.toolStripButtonCalendar});
+            this.toolStripButtonCalendar,
+            this.toolStripButtonBackground});
             this.toolStripMainMenu.Location = new System.Drawing.Point(0, 0);
             this.toolStripMainMenu.Name = "toolStripMainMenu";
             this.toolStripMainMenu.Size = new System.Drawing.Size(1805, 59);
@@ -142,12 +146,27 @@
             this.toolStripButtonCalendar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButtonCalendar.Click += new System.EventHandler(this.toolStripButtonCalendar_Click);
             // 
+            // toolStripButtonBackground
+            // 
+            this.toolStripButtonBackground.ForeColor = System.Drawing.Color.Black;
+            this.toolStripButtonBackground.Image = global::MoneyBin.Properties.Resources.Uncle_Scrooge_McDuck;
+            this.toolStripButtonBackground.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonBackground.Name = "toolStripButtonBackground";
+            this.toolStripButtonBackground.Size = new System.Drawing.Size(92, 56);
+            this.toolStripButtonBackground.Text = "Background";
+            this.toolStripButtonBackground.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButtonBackground.Click += new System.EventHandler(this.toolStripButtonBackground_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 60000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.BackgroundImage = global::MoneyBin.Properties.Resources.uncle_scrooge;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1805, 1090);
             this.Controls.Add(this.toolStripMainMenu);
@@ -178,5 +197,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonRules;
         private System.Windows.Forms.ToolStripButton toolStripButtonPayments;
         private System.Windows.Forms.ToolStripButton toolStripButtonCalendar;
+        private System.Windows.Forms.ToolStripButton toolStripButtonBackground;
+        private System.Windows.Forms.Timer timer1;
     }
 }

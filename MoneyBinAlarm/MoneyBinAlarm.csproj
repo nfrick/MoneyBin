@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Disney-Scrooge-McDuck.ico</ApplicationIcon>
+    <ApplicationIcon>Uncle Scrooge McDuck.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -99,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Disney-Scrooge-McDuck.ico" />
+    <Content Include="Uncle Scrooge McDuck.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -173,9 +173,9 @@ namespace MoneyBin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap uncle_scrooge {
+        internal static System.Drawing.Bitmap Uncle_Scrooge_McDuck {
             get {
-                object obj = ResourceManager.GetObject("uncle_scrooge", resourceCulture);
+                object obj = ResourceManager.GetObject("Uncle Scrooge-McDuck", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
