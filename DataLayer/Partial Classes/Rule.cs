@@ -10,8 +10,10 @@ namespace DataLayer {
         Ends,
         Cents
     }
-    public partial class Rule {
-
+    public partial class Rule
+    {
+        public override string ToString() => $"{Banco} {ComparacaoAsEnum} {Historico}";
+        
         public short Centavos => ComparacaoAsEnum == Comparacoes.Cents ? short.Parse(Historico) : (short)0;
 
         public Comparacoes ComparacaoAsEnum => (Comparacoes)Comparacao;

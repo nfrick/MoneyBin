@@ -3,7 +3,6 @@ using OfficeOpenXml;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,6 +15,7 @@ namespace MoneyBin {
         public List<BalanceItem> Items { get; set; }
 
         private Func<bool> _exporter;
+        private string _saveAs;
 
         public frmExport() {
             InitializeComponent();
@@ -25,7 +25,7 @@ namespace MoneyBin {
             using (var ctx = new MoneyBinEntities()) {
                 Items = ctx.Balance.ToList();
             }
-            textBoxSaveAs.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Money Bin Export.csv";
+            _saveAs = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Money Bin Export.csv";
             radioButtonCSV.Checked = true;
         }
 
@@ -63,32 +63,30 @@ namespace MoneyBin {
             SFD.Filter = filter;
             if (extension == "accdb") {
                 var oneDrivePath = Environment.GetEnvironmentVariable("ONEDRIVE");
-                var filepath = oneDrivePath + @"\Documents\Financeiro\Extratos\ExtratosData.accdb";
-                while (!File.Exists(filepath)) {
-                    filepath = PickFile(oneDrivePath, "ExtratosData.accdb");
-                }
-                textBoxSaveAs.Text = filepath;
+                _saveAs = oneDrivePath + @"\Documents\Financeiro\Extratos\ExtratosData.accdb";
             }
-            else if (textBoxSaveAs.Text != string.Empty)
-                textBoxSaveAs.Text = Path.ChangeExtension(textBoxSaveAs.Text, extension);
-        }
-
-        private void buttonPickFile_Click(object sender, EventArgs e) {
-            var fInfo = new FileInfo(textBoxSaveAs.Text);
-            SFD.InitialDirectory = fInfo.DirectoryName;
-            SFD.FileName = fInfo.Name;
-            textBoxSaveAs.Text = PickFile(fInfo.DirectoryName, fInfo.Name);
-        }
-
-        private string PickFile(string path, string file) {
-            SFD.InitialDirectory = path;
-            SFD.FileName = file;
-            SFD.CheckFileExists = SFD.DefaultExt == "accdb";
-            SFD.OverwritePrompt = SFD.DefaultExt != "accdb";
-            return SFD.ShowDialog() == DialogResult.OK ? SFD.FileName : file;
+            else if (_saveAs != string.Empty)
+                _saveAs = Path.ChangeExtension(_saveAs, extension);
         }
 
         private void buttonExport_Click(object sender, EventArgs e) {
+            var fInfo = new FileInfo(_saveAs);
+            SFD.InitialDirectory = fInfo.DirectoryName;
+            SFD.FileName = fInfo.Name;
+            SFD.CheckFileExists = SFD.DefaultExt == "accdb";
+            SFD.OverwritePrompt = SFD.DefaultExt != "accdb";
+
+            if (fInfo.Extension == "accdb") {
+                do {
+                    if (SFD.ShowDialog() != DialogResult.OK) return;
+                    _saveAs = SFD.FileName;
+                } while (!File.Exists(_saveAs));
+            }
+            else {
+                if (SFD.ShowDialog() != DialogResult.OK) return;
+            }
+
+            _saveAs = SFD.FileName;
             Cursor.Current = Cursors.WaitCursor;
             if (_exporter())
                 MessageBox.Show(@"Dados exportados.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -101,7 +99,7 @@ namespace MoneyBin {
                 () => {
                     progressDialog.Maximum = Items.Count;
                     progressDialog.UpdateProgress("Exportando \u2026");
-                    var sw = new StreamWriter(textBoxSaveAs.Text, false, Encoding.Default);
+                    var sw = new StreamWriter(_saveAs, false, Encoding.Default);
                     sw.WriteLine(BalanceItem.CSVHeader());
 
                     foreach (var item in Items) {
@@ -122,7 +120,7 @@ namespace MoneyBin {
         private bool ExportToXML() {
             try {
                 var xEle = new XElement("Balance", Items.Select(b => b.toXML()));
-                xEle.Save(textBoxSaveAs.Text);
+                xEle.Save(_saveAs);
                 return true;
             }
             catch (Exception ex) {
@@ -147,7 +145,7 @@ namespace MoneyBin {
                 return false;
             }
 
-            var pck = new ExcelPackage(new FileInfo(textBoxSaveAs.Text));
+            var pck = new ExcelPackage(new FileInfo(_saveAs));
             var ws = pck.Workbook.Worksheets.Add("Balance");
             ws.View.ShowGridLines = false;
 
@@ -202,8 +200,8 @@ namespace MoneyBin {
         private bool ExportToExtrato() {
             // https://www.aspsnippets.com/Articles/The-OLE-DB-provider-Microsoft.Ace.OLEDB.12.0-for-linked-server-null.aspx
             var retorno = true;
-            MoneyBinDB.ExportToExtrato(textBoxSaveAs.Text);
-            var accessDB = textBoxSaveAs.Text;
+            MoneyBinDB.ExportToExtrato(_saveAs);
+            var accessDB = _saveAs;
             var tempFile = Path.Combine(Path.GetDirectoryName(accessDB),
                 Path.GetRandomFileName() + Path.GetExtension(accessDB));
             var app = new Microsoft.Office.Interop.Access.Application { Visible = false };

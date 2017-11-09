@@ -23,9 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.textBoxSaveAs = new System.Windows.Forms.TextBox();
             this.buttonExport = new System.Windows.Forms.Button();
-            this.buttonPickFile = new System.Windows.Forms.Button();
             this.SFD = new System.Windows.Forms.SaveFileDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.radioButtonExtrato = new System.Windows.Forms.RadioButton();
@@ -37,21 +35,11 @@
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // textBoxSaveAs
-            // 
-            this.textBoxSaveAs.Enabled = false;
-            this.textBoxSaveAs.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSaveAs.Location = new System.Drawing.Point(19, 130);
-            this.textBoxSaveAs.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.textBoxSaveAs.Name = "textBoxSaveAs";
-            this.textBoxSaveAs.Size = new System.Drawing.Size(676, 30);
-            this.textBoxSaveAs.TabIndex = 0;
-            // 
             // buttonExport
             // 
             this.buttonExport.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonExport.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.buttonExport.Location = new System.Drawing.Point(645, 27);
+            this.buttonExport.Location = new System.Drawing.Point(588, 27);
             this.buttonExport.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.buttonExport.Name = "buttonExport";
             this.buttonExport.Size = new System.Drawing.Size(94, 41);
@@ -59,18 +47,6 @@
             this.buttonExport.Text = "Exportar";
             this.buttonExport.UseVisualStyleBackColor = true;
             this.buttonExport.Click += new System.EventHandler(this.buttonExport_Click);
-            // 
-            // buttonPickFile
-            // 
-            this.buttonPickFile.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonPickFile.Location = new System.Drawing.Point(703, 130);
-            this.buttonPickFile.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.buttonPickFile.Name = "buttonPickFile";
-            this.buttonPickFile.Size = new System.Drawing.Size(36, 30);
-            this.buttonPickFile.TabIndex = 9;
-            this.buttonPickFile.Text = "...";
-            this.buttonPickFile.UseVisualStyleBackColor = true;
-            this.buttonPickFile.Click += new System.EventHandler(this.buttonPickFile_Click);
             // 
             // groupBox1
             // 
@@ -168,7 +144,7 @@
             // 
             this.buttonSair.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonSair.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.buttonSair.Location = new System.Drawing.Point(645, 70);
+            this.buttonSair.Location = new System.Drawing.Point(588, 70);
             this.buttonSair.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.buttonSair.Name = "buttonSair";
             this.buttonSair.Size = new System.Drawing.Size(94, 41);
@@ -182,12 +158,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(757, 174);
+            this.ClientSize = new System.Drawing.Size(706, 135);
             this.Controls.Add(this.buttonSair);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.buttonPickFile);
             this.Controls.Add(this.buttonExport);
-            this.Controls.Add(this.textBoxSaveAs);
             this.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
@@ -200,15 +174,11 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox textBoxSaveAs;
         private System.Windows.Forms.Button buttonExport;
-        private System.Windows.Forms.Button buttonPickFile;
         private System.Windows.Forms.SaveFileDialog SFD;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton radioButtonAcertos;
