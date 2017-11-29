@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace MoneyBin.Forms {
@@ -24,8 +25,8 @@ namespace MoneyBin.Forms {
 
         private void frmLeitor_Load(object sender, EventArgs e) {
             GridStyles.FormatGrid(dgvBalance);
-            GridStyles.FormatColumn(dgvBalance.Columns[2], GridStyles.StyleDate, 90);
-            GridStyles.FormatColumns(dgvBalance, new[] { 6, 7 }, GridStyles.StyleCurrency, 80);
+            GridStyles.FormatColumns(dgvBalance, GridStyles.StyleDate, 90, 2);
+            GridStyles.FormatColumns(dgvBalance, 6, 7, GridStyles.StyleCurrency, 80);
             dgvBalance.Columns[3].Width = 400;
             dgvBalance.Columns[11].Width = 100;
             dgvBalance.Columns[12].Width = 110;
@@ -53,26 +54,35 @@ namespace MoneyBin.Forms {
                     throw new ArgumentOutOfRangeException();
             }
         }
-        
+
         private int Salvar() {
             dgvBalance.EndEdit();
+            var count = 0;
             using (var ctx = new MoneyBinEntities()) {
-                ctx.Balance.AddRange(_BalanceItems.Where(bi => bi.AddToDatabase).ToList());
-                try {
-                    return ctx.SaveChanges();
-                }
-                catch (DbEntityValidationException ex) {
-                    foreach (var eve in ex.EntityValidationErrors) {
-                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                        foreach (var ve in eve.ValidationErrors) {
-                            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                                ve.PropertyName, ve.ErrorMessage);
-                        }
+                foreach (var item in _BalanceItems.Where(bi => bi.AddToDatabase).OrderBy(bi => bi.Data).ThenByDescending(bi => bi.Valor)) {
+                    try {
+                        ctx.Balance.Add(item);
+                        count += ctx.SaveChanges();
                     }
-                    throw;
+                    catch (DbEntityValidationException ex) {
+                        var sb = new StringBuilder(100);
+                        foreach (var eve in ex.EntityValidationErrors) {
+                            sb.AppendLine(
+                                $"{eve.Entry.Entity.GetType().Name}\n{(BalanceItem)eve.Entry.Entity}\nAção '{eve.Entry.State}' apresenta erros de validação:");
+                            foreach (var ve in eve.ValidationErrors) {
+                                sb.AppendLine($"\t- {ve.PropertyName}, Erro: {ve.ErrorMessage}");
+                            }
+                        }
+                        MessageBox.Show(sb.ToString(), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        //throw;
+                    }
+                    catch (Exception ex) {
+                        MessageBox.Show(ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        //throw;
+                    }
                 }
             }
+            return count;
         }
 
         private void Limpar() {

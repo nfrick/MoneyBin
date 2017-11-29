@@ -20,7 +20,7 @@ namespace MoneyBin.Forms {
         private void frmBalance_Load(object sender, EventArgs e) {
             GridStyles.FormatGrid(dgvBalance);
             GridStyles.FormatColumn(dgvBalance.Columns[2], GridStyles.StyleDate, 90);
-            GridStyles.FormatColumns(dgvBalance, new[] { 6, 7 }, GridStyles.StyleCurrency, 80);
+            GridStyles.FormatColumns(dgvBalance, 6, 7, GridStyles.StyleCurrency, 80);
             dgvBalance.Columns[3].Width = 400;
             dgvBalance.Columns[11].Width = 100;
             dgvBalance.Columns[12].Width = 110;

@@ -17,6 +17,10 @@ namespace DataLayer {
         public int Centavos => (int)(Valor % 1 * 100);
         public int Rule { get; set; }
 
+        public override string ToString() {
+            return $"{Data} {Historico} {Valor:C2}";
+        }
+
         #region IEquitable_implementation
         /// <summary>
         /// Compares two BalanceItems

@@ -16,6 +16,8 @@ namespace MoneyBin {
 
         private Func<bool> _exporter;
         private string _saveAs;
+        private readonly string _myDocsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private readonly string _oneDriveFolder = Environment.GetEnvironmentVariable("ONEDRIVE");
 
         public frmExport() {
             InitializeComponent();
@@ -25,7 +27,7 @@ namespace MoneyBin {
             using (var ctx = new MoneyBinEntities()) {
                 Items = ctx.Balance.ToList();
             }
-            _saveAs = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Money Bin Export.csv";
+            _saveAs = $@"{_myDocsFolder}\Money Bin Export.csv";
             radioButtonCSV.Checked = true;
         }
 
@@ -33,40 +35,37 @@ namespace MoneyBin {
             var chk = sender as RadioButton;
             if (!chk.Checked) return;
             if (radioButtonCSV.Checked) {
-                SetSaveDialog("csv", @"CSV Files|*.csv");
+                SetSaveDialog("Money Bin Export", "csv", @"CSV Files|*.csv");
                 _exporter = ExportToCSV;
             }
 
             else if (radioButtonXML.Checked) {
-                SetSaveDialog("xml", @"XML Files|*.xml");
+                SetSaveDialog("Money Bin Export", "xml", @"XML Files|*.xml");
                 _exporter = ExportToXML;
             }
 
             else if (radioButtonExcel.Checked) {
-                SetSaveDialog("xlsx", @"Excel Files|*.xlsx");
+                SetSaveDialog("Money Bin Export", "xlsx", @"Excel Files|*.xlsx");
                 _exporter = ExportToExcel;
             }
 
             else if (radioButtonAcertos.Checked) {
-                SetSaveDialog("xlsx", @"Excel Files|*.xlsx");
+                SetSaveDialog("Acertos Pendentes", "xlsx", @"Excel Files|*.xlsx");
                 _exporter = ExportToAcertos;
             }
 
             else if (radioButtonExtrato.Checked) {
-                SetSaveDialog("accdb", @"Access Files|*.accdb");
+                SetSaveDialog("Extratos", "accdb", @"Access Files|*.accdb");
                 _exporter = ExportToExtrato;
             }
         }
 
-        private void SetSaveDialog(string extension, string filter) {
+        private void SetSaveDialog(string filename, string extension, string filter) {
             SFD.DefaultExt = extension;
             SFD.Filter = filter;
-            if (extension == "accdb") {
-                var oneDrivePath = Environment.GetEnvironmentVariable("ONEDRIVE");
-                _saveAs = oneDrivePath + @"\Documents\Financeiro\Extratos\ExtratosData.accdb";
-            }
-            else if (_saveAs != string.Empty)
-                _saveAs = Path.ChangeExtension(_saveAs, extension);
+            _saveAs = extension == "accdb" ? 
+                $@"{_oneDriveFolder}\Documents\Financeiro\Extratos\{filename}.{extension}" : 
+                $@"{_myDocsFolder}\{filename}.{extension}";
         }
 
         private void buttonExport_Click(object sender, EventArgs e) {
@@ -201,14 +200,13 @@ namespace MoneyBin {
             // https://www.aspsnippets.com/Articles/The-OLE-DB-provider-Microsoft.Ace.OLEDB.12.0-for-linked-server-null.aspx
             var retorno = true;
             MoneyBinDB.ExportToExtrato(_saveAs);
-            var accessDB = _saveAs;
-            var tempFile = Path.Combine(Path.GetDirectoryName(accessDB),
-                Path.GetRandomFileName() + Path.GetExtension(accessDB));
+            var tempFile = Path.Combine(Path.GetDirectoryName(_saveAs),
+                Path.GetRandomFileName() + Path.GetExtension(_saveAs));
             var app = new Microsoft.Office.Interop.Access.Application { Visible = false };
             try {
-                app.CompactRepair(accessDB, tempFile, false);
+                app.CompactRepair(_saveAs, tempFile, false);
                 var temp = new FileInfo(tempFile);
-                temp.CopyTo(accessDB, true);
+                temp.CopyTo(_saveAs, true);
                 temp.Delete();
             }
             catch (Exception e) {

@@ -66,6 +66,7 @@ namespace DataLayer {
         }
 
         private void ClassificaItens() {
+            var allRules = _ctx.Rules.ToList();
             var rules = _banco.Rules.OrderByDescending(r => r.Ocorrencias).ToList();
             var rulesSaldo = rules.Where(r => r.Grupo == "S").ToList();
             _entries[0].Saldo = _entries[0].ValorParaSaldo;
