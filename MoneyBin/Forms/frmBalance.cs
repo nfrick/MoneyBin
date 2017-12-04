@@ -19,12 +19,10 @@ namespace MoneyBin.Forms {
 
         private void frmBalance_Load(object sender, EventArgs e) {
             GridStyles.FormatGrid(dgvBalance);
-            GridStyles.FormatColumn(dgvBalance.Columns[2], GridStyles.StyleDate, 90);
+            GridStyles.FormatColumns(dgvBalance, GridStyles.StyleDate, 90, 2);
             GridStyles.FormatColumns(dgvBalance, 6, 7, GridStyles.StyleCurrency, 80);
             dgvBalance.Columns[3].Width = 400;
-            dgvBalance.Columns[11].Width = 100;
-            dgvBalance.Columns[12].Width = 110;
-            dgvBalance.Columns[13].Width = 180;
+            dgvBalance.Columns[5].Width = 50;
 
             this.Width = 150 + dgvBalance.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
 
@@ -59,7 +57,7 @@ namespace MoneyBin.Forms {
             toolStripComboBoxGrupo.ComboBox.Items.Clear();
             toolStripComboBoxGrupo.ComboBox.Items.Add("Todos");
             toolStripComboBoxGrupo.ComboBox.Items
-                .AddRange(_ctx.Balance.Select(b => b.NovoGrupo).Distinct().OrderBy(b => b).ToArray());
+                .AddRange(_ctx.Balance.Select(b => b.Grupo).Distinct().OrderBy(b => b).ToArray());
             toolStripComboBoxGrupo.ComboBox.SelectedIndex = 0;
         }
 
@@ -71,7 +69,7 @@ namespace MoneyBin.Forms {
             else
                 BalanceBindingSource.DataSource = _ctx.Balance.Local
                     .Where(b => b.Banco == (string)toolStripComboBoxBanco.SelectedItem
-                                && b.NovoGrupo == (string)toolStripComboBoxGrupo.SelectedItem)
+                                && b.Grupo == (string)toolStripComboBoxGrupo.SelectedItem)
                     .OrderByDescending(b => b.Data).ThenByDescending(b => b.ID).ToList();
         }
 
@@ -158,7 +156,20 @@ namespace MoneyBin.Forms {
             FormUtils.EditingControlShowing(sender, e);
         }
 
+        private void dgvBalance_UserDeletedRow(object sender, DataGridViewRowEventArgs e) {
+            ((List<BalanceItem>)BalanceBindingSource.DataSource).CalcularSaldos(e.Row.Index);
+            dgvBalance.Refresh();
+        }
+
         #endregion DATAGRIDVIEW
 
+        private void dgvBalance_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e) {
+            var bi = (BalanceItem)dgvBalance.CurrentRow.DataBoundItem;
+            if (MessageBox.Show($"Deletar item:\n{bi}?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No) {
+                e.Cancel = true;
+                return;
+            }
+            _ctx.sp_BalanceItemDelete(bi.ID);
+        }
     }
 }

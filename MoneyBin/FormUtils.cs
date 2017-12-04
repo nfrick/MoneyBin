@@ -49,25 +49,25 @@ namespace MoneyBin {
                 switch (dgv.Columns[col].HeaderText) {
                     case "Grupo":
                         txt.AutoCompleteCustomSource = 
-                            CreateCollection(ctx.Balance.Select(b => b.NovoGrupo).Distinct().ToArray());
+                            CreateCollection(ctx.Balance.Select(b => b.Grupo).Distinct().ToArray());
                         txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                         txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
                         break;
                     case "Categoria":
                         txt.AutoCompleteCustomSource =
-                            CreateCollection(ctx.Balance.Where(b => b.NovoGrupo == bi.NovoGrupo).Select(b => b.NovaCategoria));
+                            CreateCollection(ctx.Balance.Where(b => b.Grupo == bi.Grupo).Select(b => b.Categoria));
                         txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                         txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
                         break;
                     case "SubCategoria":
                         txt.AutoCompleteCustomSource =
-                            CreateCollection(ctx.Balance.Where(b => b.NovaCategoria == bi.NovaCategoria).Select(b => b.NovaSubCategoria));
+                            CreateCollection(ctx.Balance.Where(b => b.Categoria == bi.Categoria).Select(b => b.SubCategoria));
                         txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                         txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
                         break;
                     case "Descrição":
                         txt.AutoCompleteCustomSource =
-                            CreateCollection(ctx.Balance.Where(b => b.NovaSubCategoria == bi.NovaSubCategoria).Select(b => b.Descricao));
+                            CreateCollection(ctx.Balance.Where(b => b.SubCategoria == bi.SubCategoria).Select(b => b.Descricao));
                         txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                         txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
                         break;

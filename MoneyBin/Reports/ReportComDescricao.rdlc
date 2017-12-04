@@ -113,7 +113,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!NovoGrupo.Value</Value>
+                              <Value>=Fields!Grupo.Value</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontFamily>Segoe UI Semibold</FontFamily>
@@ -195,7 +195,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!NovaCategoria.Value</Value>
+                              <Value>=Fields!Categoria.Value</Value>
                               <Style>
                                 <FontFamily>Segoe UI Semibold</FontFamily>
                               </Style>
@@ -311,7 +311,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!NovaSubCategoria.Value &amp; " " &amp; Fields!Descricao.Value</Value>
+                              <Value>=Fields!SubCategoria.Value &amp; " " &amp; Fields!Descricao.Value</Value>
                               <Style>
                                 <FontFamily>Segoe UI</FontFamily>
                               </Style>
@@ -334,6 +334,7 @@
                       </Style>
                     </Textbox>
                     <ColSpan>2</ColSpan>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -405,7 +406,7 @@
                 <TablixMember>
                   <Group Name="Grupo">
                     <GroupExpressions>
-                      <GroupExpression>=Fields!NovoGrupo.Value</GroupExpression>
+                      <GroupExpression>=Fields!Grupo.Value</GroupExpression>
                     </GroupExpressions>
                   </Group>
                   <SortExpressions>
@@ -418,7 +419,7 @@
                     <TablixMember>
                       <Group Name="Categoria">
                         <GroupExpressions>
-                          <GroupExpression>=Fields!NovaCategoria.Value</GroupExpression>
+                          <GroupExpression>=Fields!Categoria.Value</GroupExpression>
                         </GroupExpressions>
                       </Group>
                       <SortExpressions>

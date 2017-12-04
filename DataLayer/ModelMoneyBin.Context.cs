@@ -44,7 +44,7 @@ namespace DataLayer
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_BalanceItemDelete", iDParameter);
         }
     
-        public virtual int sp_BalanceItemInsert(string banco, Nullable<System.DateTime> data, string historico, string documento, Nullable<decimal> valor, Nullable<bool> afetaSaldo, string grupo, string categoria, string subCategoria, string descricao, string novoGrupo, string novaCategoria, string novaSubCategoria)
+        public virtual int sp_BalanceItemInsert(string banco, Nullable<System.DateTime> data, string historico, string documento, Nullable<decimal> valor, Nullable<bool> afetaSaldo, string grupo, string categoria, string subCategoria, string descricao, string tipo)
         {
             var bancoParameter = banco != null ?
                 new ObjectParameter("Banco", banco) :
@@ -86,22 +86,14 @@ namespace DataLayer
                 new ObjectParameter("Descricao", descricao) :
                 new ObjectParameter("Descricao", typeof(string));
     
-            var novoGrupoParameter = novoGrupo != null ?
-                new ObjectParameter("NovoGrupo", novoGrupo) :
-                new ObjectParameter("NovoGrupo", typeof(string));
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("Tipo", tipo) :
+                new ObjectParameter("Tipo", typeof(string));
     
-            var novaCategoriaParameter = novaCategoria != null ?
-                new ObjectParameter("NovaCategoria", novaCategoria) :
-                new ObjectParameter("NovaCategoria", typeof(string));
-    
-            var novaSubCategoriaParameter = novaSubCategoria != null ?
-                new ObjectParameter("NovaSubCategoria", novaSubCategoria) :
-                new ObjectParameter("NovaSubCategoria", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_BalanceItemInsert", bancoParameter, dataParameter, historicoParameter, documentoParameter, valorParameter, afetaSaldoParameter, grupoParameter, categoriaParameter, subCategoriaParameter, descricaoParameter, novoGrupoParameter, novaCategoriaParameter, novaSubCategoriaParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_BalanceItemInsert", bancoParameter, dataParameter, historicoParameter, documentoParameter, valorParameter, afetaSaldoParameter, grupoParameter, categoriaParameter, subCategoriaParameter, descricaoParameter, tipoParameter);
         }
     
-        public virtual int sp_BalanceItemUpdate(Nullable<int> iD, Nullable<bool> afetaSaldo, string grupo, string categoria, string subCategoria, string descricao, string novoGrupo, string novaCategoria, string novaSubCategoria)
+        public virtual int sp_BalanceItemUpdate(Nullable<int> iD, Nullable<bool> afetaSaldo, string grupo, string categoria, string subCategoria, string descricao, string tipo)
         {
             var iDParameter = iD.HasValue ?
                 new ObjectParameter("ID", iD) :
@@ -127,19 +119,11 @@ namespace DataLayer
                 new ObjectParameter("Descricao", descricao) :
                 new ObjectParameter("Descricao", typeof(string));
     
-            var novoGrupoParameter = novoGrupo != null ?
-                new ObjectParameter("NovoGrupo", novoGrupo) :
-                new ObjectParameter("NovoGrupo", typeof(string));
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("Tipo", tipo) :
+                new ObjectParameter("Tipo", typeof(string));
     
-            var novaCategoriaParameter = novaCategoria != null ?
-                new ObjectParameter("NovaCategoria", novaCategoria) :
-                new ObjectParameter("NovaCategoria", typeof(string));
-    
-            var novaSubCategoriaParameter = novaSubCategoria != null ?
-                new ObjectParameter("NovaSubCategoria", novaSubCategoria) :
-                new ObjectParameter("NovaSubCategoria", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_BalanceItemUpdate", iDParameter, afetaSaldoParameter, grupoParameter, categoriaParameter, subCategoriaParameter, descricaoParameter, novoGrupoParameter, novaCategoriaParameter, novaSubCategoriaParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_BalanceItemUpdate", iDParameter, afetaSaldoParameter, grupoParameter, categoriaParameter, subCategoriaParameter, descricaoParameter, tipoParameter);
         }
     
         public virtual ObjectResult<BalanceItem> AcertosPendentes()

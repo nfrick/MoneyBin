@@ -178,7 +178,6 @@
     </Content>
     <Content Include="Reports\ReportPorGrupo.rdlc" />
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\DataLayer.BalanceItemComSaldo.datasource" />
     <None Include="Properties\DataSources\DataLayer.CalendarItem.datasource" />
     <None Include="Resources\export-icon.png" />
     <None Include="Resources\document-yellow-icon1.png" />

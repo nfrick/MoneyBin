@@ -25,9 +25,7 @@ namespace DataLayer
         public string Categoria { get; set; }
         public string SubCategoria { get; set; }
         public string Descricao { get; set; }
-        public string NovoGrupo { get; set; }
-        public string NovaCategoria { get; set; }
-        public string NovaSubCategoria { get; set; }
+        public string Tipo { get; set; }
         public Nullable<decimal> Saldo { get; set; }
     
         public virtual Bank Bank { get; set; }

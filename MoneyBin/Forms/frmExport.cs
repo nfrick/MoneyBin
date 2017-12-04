@@ -140,7 +140,8 @@ namespace MoneyBin {
 
         private bool ToExcel(IEnumerable<BalanceItem> mItems) {
             if (!mItems.Any()) {
-                MessageBox.Show(@"Não há registros para serem exportados.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(@"Não há registros para serem exportados.", this.Text, 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
 
@@ -171,9 +172,9 @@ namespace MoneyBin {
                 ws.Cells[row, col++].Value = item.Valor;
                 ws.Cells[row, col++].Value = item.AfetaSaldo;
                 ws.Cells[row, col++].Value = item.Saldo;
-                ws.Cells[row, col++].Value = item.NovoGrupo;
-                ws.Cells[row, col++].Value = item.NovaCategoria;
-                ws.Cells[row, col++].Value = item.NovaSubCategoria;
+                ws.Cells[row, col++].Value = item.Grupo;
+                ws.Cells[row, col++].Value = item.Categoria;
+                ws.Cells[row, col++].Value = item.SubCategoria;
                 ws.Cells[row++, col++].Value = item.Descricao;
             }
 

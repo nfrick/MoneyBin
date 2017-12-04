@@ -104,12 +104,9 @@ namespace DataLayer {
             foreach (var comp in compensacoes) {
                 var despesa = aCompensar.FirstOrDefault(ex => Math.Abs(ex.Valor) == comp.Valor);
                 if (despesa == null) continue;
-                comp.Grupo = despesa.Grupo == "B" ? "B" : "H";
-                comp.Categoria = despesa.Categoria;
+                comp.Grupo = "Pessoal";
+                comp.Categoria = "Papai";
                 comp.SubCategoria = despesa.SubCategoria;
-                comp.NovoGrupo = "Pessoal";
-                comp.NovaCategoria = "Papai";
-                comp.NovaSubCategoria = despesa.Grupo == "B" ? "despesa.NovaSubCategoria" : "Ajuda";
                 comp.Descricao = despesa.Descricao;
             }
         }

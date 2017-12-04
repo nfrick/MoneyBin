@@ -18,7 +18,7 @@ namespace DataLayer {
         public int Rule { get; set; }
 
         public override string ToString() {
-            return $"{Data} {Historico} {Valor:C2}";
+            return $"{Data:d}  {Historico}  {Valor:C2}";
         }
 
         #region IEquitable_implementation
@@ -87,9 +87,6 @@ namespace DataLayer {
             Grupo = rule.Grupo;
             Categoria = rule.Categoria;
             SubCategoria = rule.SubCategoria;
-            NovoGrupo = rule.NovoGrupo;
-            NovaCategoria = rule.NovaCategoria;
-            NovaSubCategoria = rule.NovaSubCategoria;
             Descricao = rule.Descricao;
             if (rule.AfetaSaldo)
                 AfetaSaldo = !Historico.StartsWith(@"Depósito bloq", StringComparison.CurrentCultureIgnoreCase);
@@ -188,7 +185,7 @@ namespace DataLayer {
 
         public string ToCSV() {
             return
-                $"\"{ID}\",\"{Banco}\",\"{Data:MM/dd/yyyy}\",\"{Historico}\",\"{Documento}\",\"{Valor.ToString("0.00", CultureUS)}\",\"{AfetaSaldo}\",\"{NovoGrupo}\",\"{NovaCategoria}\",\"{NovaSubCategoria}\",\"{Descricao}\"";
+                $"\"{ID}\",\"{Banco}\",\"{Data:MM/dd/yyyy}\",\"{Historico}\",\"{Documento}\",\"{Valor.ToString("0.00", CultureUS)}\",\"{AfetaSaldo}\",\"{Grupo}\",\"{Categoria}\",\"{SubCategoria}\",\"{Descricao}\"";
         }
 
 
@@ -201,9 +198,9 @@ namespace DataLayer {
                 new XElement("Documento", Documento),
                 new XElement("Valor", Valor.ToString("0.00", CultureUS)),
                 new XElement("AfetaSaldo", AfetaSaldo),
-                new XElement("NovoGrupo", NovoGrupo),
-                new XElement("NovaCategoria", NovaCategoria),
-                new XElement("NovaSubCategoria", NovaSubCategoria),
+                new XElement("Grupo", Grupo),
+                new XElement("Categoria", Categoria),
+                new XElement("SubCategoria", SubCategoria),
                 new XElement("Descricao", Descricao)
             );
         }

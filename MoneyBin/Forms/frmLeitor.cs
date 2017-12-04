@@ -28,9 +28,7 @@ namespace MoneyBin.Forms {
             GridStyles.FormatColumns(dgvBalance, GridStyles.StyleDate, 90, 2);
             GridStyles.FormatColumns(dgvBalance, 6, 7, GridStyles.StyleCurrency, 80);
             dgvBalance.Columns[3].Width = 400;
-            dgvBalance.Columns[11].Width = 100;
-            dgvBalance.Columns[12].Width = 110;
-            dgvBalance.Columns[13].Width = 180;
+            dgvBalance.Columns[5].Width = 50;
 
             this.Width = 150 + dgvBalance.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
 
@@ -133,6 +131,16 @@ namespace MoneyBin.Forms {
             FormUtils.EditingControlShowing(sender, e);
         }
 
+        private void dgvBalance_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e) {
+            _BalanceItems.CalcularSaldos(e.RowIndex);
+            dgvBalance.Refresh();
+        }
+
+        private void dgvBalance_UserDeletedRow(object sender, DataGridViewRowEventArgs e) {
+            _BalanceItems.CalcularSaldos(e.Row.Index);
+            dgvBalance.Refresh();
+        }
+
         #endregion
 
         #region TOOLBAR
@@ -162,5 +170,9 @@ namespace MoneyBin.Forms {
             LerArquivo();
         }
         #endregion
+
+        private void dgvBalance_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e) {
+            MessageBox.Show("here");
+        }
     }
 }

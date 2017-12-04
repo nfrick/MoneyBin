@@ -43,14 +43,11 @@
           <Property Name="Historico" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Comparacao" Type="int" Nullable="false" />
           <Property Name="AfetaSaldo" Type="bit" Nullable="false" />
-          <Property Name="Grupo" Type="nchar" MaxLength="1" />
+          <Property Name="Grupo" Type="nvarchar" MaxLength="15" />
           <Property Name="Categoria" Type="nvarchar" MaxLength="20" />
           <Property Name="SubCategoria" Type="nvarchar" MaxLength="30" />
           <Property Name="Descricao" Type="nvarchar" MaxLength="30" />
           <Property Name="Ocorrencias" Type="int" />
-          <Property Name="NovoGrupo" Type="nvarchar" MaxLength="15" />
-          <Property Name="NovaCategoria" Type="nvarchar" MaxLength="20" />
-          <Property Name="NovaSubCategoria" Type="nvarchar" MaxLength="30" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MoneyBin.dbo.vw_Analise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -64,6 +61,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Analise' does not have a primary k
           <Property Name="Categoria" Type="nvarchar" MaxLength="20" />
           <Property Name="Sinal" Type="money" />
           <Property Name="Valor" Type="money" Nullable="false" />
+          <Property Name="Tipo" Type="nchar" MaxLength="1" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MoneyBin.dbo.vw_Balance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -75,23 +73,19 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Balance' does not have a primary k
             
             
             
-            
-            
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Banco" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="Banco" Type="varchar" MaxLength="3" Nullable="false" />
           <Property Name="Data" Type="date" Nullable="false" />
           <Property Name="Historico" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Documento" Type="nvarchar" MaxLength="50" />
           <Property Name="Valor" Type="money" Nullable="false" />
           <Property Name="AfetaSaldo" Type="bit" Nullable="false" />
-          <Property Name="Grupo" Type="nchar" MaxLength="1" Nullable="false" />
-          <Property Name="Categoria" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Grupo" Type="nvarchar" MaxLength="15" />
+          <Property Name="Categoria" Type="nvarchar" MaxLength="20" />
           <Property Name="SubCategoria" Type="nvarchar" MaxLength="30" />
           <Property Name="Descricao" Type="nvarchar" MaxLength="200" />
-          <Property Name="NovoGrupo" Type="nvarchar" MaxLength="15" />
-          <Property Name="NovaCategoria" Type="nvarchar" MaxLength="20" />
-          <Property Name="NovaSubCategoria" Type="nvarchar" MaxLength="30" />
+          <Property Name="Tipo" Type="nchar" MaxLength="1" />
           <Property Name="Saldo" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
@@ -104,18 +98,6 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Property Name="DataMin" Type="date" />
           <Property Name="DataMax" Type="date" />
         </EntityType>
-        <Association Name="FK_tblRules_tblBanks">
-          <End Role="tblBanks" Type="Self.tblBanks" Multiplicity="1" />
-          <End Role="tblRules" Type="Self.tblRules" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblBanks">
-              <PropertyRef Name="Banco" />
-            </Principal>
-            <Dependent Role="tblRules">
-              <PropertyRef Name="Banco" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Function Name="sp_AcertosPendentes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_BalanceItemDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
@@ -127,24 +109,20 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Parameter Name="Documento" Type="nvarchar" Mode="In" />
           <Parameter Name="Valor" Type="money" Mode="In" />
           <Parameter Name="AfetaSaldo" Type="bit" Mode="In" />
-          <Parameter Name="Grupo" Type="nchar" Mode="In" />
+          <Parameter Name="Grupo" Type="nvarchar" Mode="In" />
           <Parameter Name="Categoria" Type="nvarchar" Mode="In" />
           <Parameter Name="SubCategoria" Type="nvarchar" Mode="In" />
           <Parameter Name="Descricao" Type="nvarchar" Mode="In" />
-          <Parameter Name="NovoGrupo" Type="nvarchar" Mode="In" />
-          <Parameter Name="NovaCategoria" Type="nvarchar" Mode="In" />
-          <Parameter Name="NovaSubCategoria" Type="nvarchar" Mode="In" />
+          <Parameter Name="Tipo" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="sp_BalanceItemUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
           <Parameter Name="AfetaSaldo" Type="bit" Mode="In" />
-          <Parameter Name="Grupo" Type="nchar" Mode="In" />
+          <Parameter Name="Grupo" Type="nvarchar" Mode="In" />
           <Parameter Name="Categoria" Type="nvarchar" Mode="In" />
           <Parameter Name="SubCategoria" Type="nvarchar" Mode="In" />
           <Parameter Name="Descricao" Type="nvarchar" Mode="In" />
-          <Parameter Name="NovoGrupo" Type="nvarchar" Mode="In" />
-          <Parameter Name="NovaCategoria" Type="nvarchar" Mode="In" />
-          <Parameter Name="NovaSubCategoria" Type="nvarchar" Mode="In" />
+          <Parameter Name="Tipo" Type="nchar" Mode="In" />
         </Function>
         <Function Name="sp_CalendarNextPayments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Days" Type="int" Mode="In" />
@@ -165,7 +143,8 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
     [vw_Analise].[Grupo] AS [Grupo], 
     [vw_Analise].[Categoria] AS [Categoria], 
     [vw_Analise].[Sinal] AS [Sinal], 
-    [vw_Analise].[Valor] AS [Valor]
+    [vw_Analise].[Valor] AS [Valor], 
+    [vw_Analise].[Tipo] AS [Tipo]
     FROM [dbo].[vw_Analise] AS [vw_Analise]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_Balance" EntityType="Self.vw_Balance" store:Type="Views" store:Schema="dbo">
@@ -181,9 +160,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
     [vw_Balance].[Categoria] AS [Categoria], 
     [vw_Balance].[SubCategoria] AS [SubCategoria], 
     [vw_Balance].[Descricao] AS [Descricao], 
-    [vw_Balance].[NovoGrupo] AS [NovoGrupo], 
-    [vw_Balance].[NovaCategoria] AS [NovaCategoria], 
-    [vw_Balance].[NovaSubCategoria] AS [NovaSubCategoria], 
+    [vw_Balance].[Tipo] AS [Tipo], 
     [vw_Balance].[Saldo] AS [Saldo]
     FROM [dbo].[vw_Balance] AS [vw_Balance]</DefiningQuery>
           </EntitySet>
@@ -194,10 +171,6 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
     [vwDataMaxMin].[DataMax] AS [DataMax]
     FROM [dbo].[vwDataMaxMin] AS [vwDataMaxMin]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="FK_tblRules_tblBanks" Association="Self.FK_tblRules_tblBanks">
-            <End Role="tblBanks" EntitySet="tblBanks" />
-            <End Role="tblRules" EntitySet="tblRules" />
-          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -248,9 +221,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             <Parameter Name="Categoria" Mode="In" Type="String" />
             <Parameter Name="SubCategoria" Mode="In" Type="String" />
             <Parameter Name="Descricao" Mode="In" Type="String" />
-            <Parameter Name="NovoGrupo" Mode="In" Type="String" />
-            <Parameter Name="NovaCategoria" Mode="In" Type="String" />
-            <Parameter Name="NovaSubCategoria" Mode="In" Type="String" />
+            <Parameter Name="Tipo" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_BalanceItemUpdate">
             <Parameter Name="ID" Mode="In" Type="Int32" />
@@ -259,9 +230,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             <Parameter Name="Categoria" Mode="In" Type="String" />
             <Parameter Name="SubCategoria" Mode="In" Type="String" />
             <Parameter Name="Descricao" Mode="In" Type="String" />
-            <Parameter Name="NovoGrupo" Mode="In" Type="String" />
-            <Parameter Name="NovaCategoria" Mode="In" Type="String" />
-            <Parameter Name="NovaSubCategoria" Mode="In" Type="String" />
+            <Parameter Name="Tipo" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="Balance" EntityType="MoneyBinModel.BalanceItem" />
           <EntitySet Name="Banks" EntityType="MoneyBinModel.Bank" />
@@ -306,19 +275,17 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Banco" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="Banco" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
           <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Historico" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Documento" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Valor" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="AfetaSaldo" Type="Boolean" Nullable="false" />
-          <Property Name="Grupo" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="Categoria" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Grupo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Categoria" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="SubCategoria" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="Descricao" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="NovoGrupo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="NovaCategoria" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="NovaSubCategoria" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="Saldo" Type="Decimal" Precision="19" Scale="4" />
           <NavigationProperty Name="Bank" Relationship="MoneyBinModel.BankBalanceItem" FromRole="BalanceItem" ToRole="Bank" />
         </EntityType>
@@ -341,14 +308,11 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Property Name="Historico" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Comparacao" Type="Int32" Nullable="false" />
           <Property Name="AfetaSaldo" Type="Boolean" Nullable="false" />
-          <Property Name="Grupo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="Grupo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="Categoria" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="SubCategoria" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="Descricao" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="Ocorrencias" Type="Int32" />
-          <Property Name="NovoGrupo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="NovaCategoria" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="NovaSubCategoria" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Bank" Relationship="MoneyBinModel.FK_tblRules_tblBanks" FromRole="tblRule" ToRole="Bank" />
         </EntityType>
         <Association Name="FK_tblRules_tblBanks">
@@ -424,6 +388,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Property Name="Categoria" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Sinal" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Valor" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
         </EntityType>
         <ComplexType Name="NextPayment">
           <Property Type="DateTime" Name="Date" Nullable="true" />
@@ -465,10 +430,8 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <EntitySetMapping Name="Balance">
             <EntityTypeMapping TypeName="MoneyBinModel.BalanceItem">
               <MappingFragment StoreEntitySet="vw_Balance">
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
                 <ScalarProperty Name="Saldo" ColumnName="Saldo" />
-                <ScalarProperty Name="NovaSubCategoria" ColumnName="NovaSubCategoria" />
-                <ScalarProperty Name="NovaCategoria" ColumnName="NovaCategoria" />
-                <ScalarProperty Name="NovoGrupo" ColumnName="NovoGrupo" />
                 <ScalarProperty Name="Descricao" ColumnName="Descricao" />
                 <ScalarProperty Name="SubCategoria" ColumnName="SubCategoria" />
                 <ScalarProperty Name="Categoria" ColumnName="Categoria" />
@@ -485,13 +448,11 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             <EntityTypeMapping TypeName="MoneyBinModel.BalanceItem">
               <ModificationFunctionMapping>
                 <UpdateFunction FunctionName="MoneyBinModel.Store.sp_BalanceItemUpdate">
-                  <ScalarProperty Name="NovaSubCategoria" ParameterName="NovaSubCategoria" Version="Current" />
-                  <ScalarProperty Name="NovaCategoria" ParameterName="NovaCategoria" Version="Current" />
-                  <ScalarProperty Name="NovoGrupo" ParameterName="NovoGrupo" Version="Current" />
-                  <ScalarProperty Name="Descricao" ParameterName="Descricao" Version="Current" />
+                  <ScalarProperty Name="Tipo" ParameterName="Tipo" Version="Current" />
                   <ScalarProperty Name="SubCategoria" ParameterName="SubCategoria" Version="Current" />
                   <ScalarProperty Name="Categoria" ParameterName="Categoria" Version="Current" />
                   <ScalarProperty Name="Grupo" ParameterName="Grupo" Version="Current" />
+                  <ScalarProperty Name="Descricao" ParameterName="Descricao" Version="Current" />
                   <ScalarProperty Name="AfetaSaldo" ParameterName="AfetaSaldo" Version="Current" />
                   <ScalarProperty Name="ID" ParameterName="ID" Version="Current" />
                 </UpdateFunction>
@@ -499,13 +460,11 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
                   <ScalarProperty Name="ID" ParameterName="ID" />
                 </DeleteFunction>
                 <InsertFunction FunctionName="MoneyBinModel.Store.sp_BalanceItemInsert">
-                  <ScalarProperty Name="NovaSubCategoria" ParameterName="NovaSubCategoria" />
-                  <ScalarProperty Name="NovaCategoria" ParameterName="NovaCategoria" />
-                  <ScalarProperty Name="NovoGrupo" ParameterName="NovoGrupo" />
-                  <ScalarProperty Name="Descricao" ParameterName="Descricao" />
+                  <ScalarProperty Name="Tipo" ParameterName="Tipo" />
                   <ScalarProperty Name="SubCategoria" ParameterName="SubCategoria" />
                   <ScalarProperty Name="Categoria" ParameterName="Categoria" />
                   <ScalarProperty Name="Grupo" ParameterName="Grupo" />
+                  <ScalarProperty Name="Descricao" ParameterName="Descricao" />
                   <ScalarProperty Name="AfetaSaldo" ParameterName="AfetaSaldo" />
                   <ScalarProperty Name="Valor" ParameterName="Valor" />
                   <ScalarProperty Name="Documento" ParameterName="Documento" />
@@ -528,9 +487,6 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <EntitySetMapping Name="Rules">
             <EntityTypeMapping TypeName="MoneyBinModel.Rule">
               <MappingFragment StoreEntitySet="tblRules">
-                <ScalarProperty Name="NovaSubCategoria" ColumnName="NovaSubCategoria" />
-                <ScalarProperty Name="NovaCategoria" ColumnName="NovaCategoria" />
-                <ScalarProperty Name="NovoGrupo" ColumnName="NovoGrupo" />
                 <ScalarProperty Name="Ocorrencias" ColumnName="Ocorrencias" />
                 <ScalarProperty Name="Descricao" ColumnName="Descricao" />
                 <ScalarProperty Name="SubCategoria" ColumnName="SubCategoria" />
@@ -558,6 +514,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <EntitySetMapping Name="Analise">
             <EntityTypeMapping TypeName="MoneyBinModel.AnaliseItem">
               <MappingFragment StoreEntitySet="vw_Analise">
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
                 <ScalarProperty Name="Categoria" ColumnName="Categoria" />
                 <ScalarProperty Name="Grupo" ColumnName="Grupo" />
                 <ScalarProperty Name="Valor" ColumnName="Valor" />

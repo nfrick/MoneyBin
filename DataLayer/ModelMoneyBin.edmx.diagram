@@ -12,7 +12,7 @@
         <EntityTypeShape EntityType="MoneyBinModel.Bank" Width="1.5" PointX="4.75" PointY="0.5" />
         <EntityTypeShape EntityType="MoneyBinModel.Rule" Width="1.5" PointX="2.625" PointY="0.5" />
         <AssociationConnector Association="MoneyBinModel.FK_tblRules_tblBanks" />
-        <EntityTypeShape EntityType="MoneyBinModel.DataMaxMin" Width="1.5" PointX="4.75" PointY="3" FillColor="255, 192, 128" />
+        <EntityTypeShape EntityType="MoneyBinModel.DataMaxMin" Width="1.5" PointX="4.75" PointY="3.125" FillColor="255, 192, 128" />
         <AssociationConnector Association="MoneyBinModel.BankDataMaxMin" />
         <AssociationConnector Association="MoneyBinModel.BankBalanceItem" />
         <EntityTypeShape EntityType="MoneyBinModel.AnaliseItem" Width="1.5" PointX="9" PointY="0.5" FillColor="255, 224, 192" />

@@ -49,10 +49,10 @@ namespace MoneyBin {
             treeSelMonths.SubItemName = "Mes";
 
             var grpCats = _ctx.Balance
-                .Select(b => new { b.NovoGrupo, b.NovaCategoria }).Distinct()
-                .OrderBy(t => t.NovoGrupo).ThenBy(t => t.NovaCategoria).ToList();
+                .Select(b => new { b.Grupo, b.Categoria }).Distinct()
+                .OrderBy(t => t.Grupo).ThenBy(t => t.Categoria).ToList();
             treeSelGroupsCats.LoadData(grpCats
-                .Select(b => new Tuple<string, string>(b.NovoGrupo, b.NovaCategoria)).ToList());
+                .Select(b => new Tuple<string, string>(b.Grupo, b.Categoria)).ToList());
             treeSelGroupsCats.ItemName = "Grupo";
             treeSelGroupsCats.SubItemName = "Categoria";
 
@@ -116,6 +116,7 @@ namespace MoneyBin {
                         col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                         break;
                     default:
+                        col.Visible = false;
                         break;
                 }
                 remainderWidth -= col.Width;
