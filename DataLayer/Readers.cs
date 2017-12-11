@@ -66,19 +66,6 @@ namespace DataLayer {
         }
 
         private void ClassificaItens() {
-            var allRules = _ctx.Rules.ToList();
-            var rules = _banco.Rules.OrderByDescending(r => r.Ocorrencias).ToList();
-            var rulesSaldo = rules.Where(r => r.Grupo == "S").ToList();
-            _entries[0].Saldo = _entries[0].ValorParaSaldo;
-            var saldo = _entries[0].FindMatchingRule(rulesSaldo) ? _entries[0].Saldo : 0.0m;
-
-            var start = _entries[0].Rule == 0 ? 0 : 1;
-            for (var i = start; i < _entries.Count; i++) {
-                _entries[i].FindMatchingRule(rules);
-                saldo += _entries[i].ValorParaSaldo;
-                _entries[i].Saldo = saldo;
-            }
-
             var MinData = _entries.Min(p => p.Data);
             var MinData2 = _entries.Min(p => p.Data).AddDays(-45);
             var MaxData = _entries.Max(p => p.Data);
@@ -87,8 +74,19 @@ namespace DataLayer {
                 .Where(bi => bi.Data >= MinData && bi.Data <= MaxData)
                 .ToList();
 
-            foreach (var entry in _entries) {
-                entry.AddToDatabase = entry.Grupo != "S" && !existing.Any(d => d.Similar(entry));
+
+            var rules = _banco.Rules.OrderByDescending(r => r.Ocorrencias).ToList();
+            var rulesSaldo = rules.Where(r => r.Grupo == "Saldo").ToList();
+            _entries[0].Saldo = _entries[0].ValorParaSaldo;
+            var saldo = _entries[0].FindMatchingRule(rulesSaldo) ? _entries[0].Saldo : 0.0m;
+
+            var start = _entries[0].Rule == 0 ? 0 : 1;
+            for (var i = start; i < _entries.Count; i++) {
+                _entries[i].FindMatchingRule(rules);
+                saldo += _entries[i].ValorParaSaldo;
+                _entries[i].Saldo = saldo;
+                _entries[i].AddToDatabase = _entries[i].AddToDatabase &&
+                    !existing.Any(d => d.Similar(_entries[i]));
             }
 
             var grupos = new[] { "Rio", "Araras" };

@@ -92,7 +92,7 @@ namespace DataLayer {
                 AfetaSaldo = !Historico.StartsWith(@"Depósito bloq", StringComparison.CurrentCultureIgnoreCase);
             else
                 AfetaSaldo = rule.AfetaSaldo;
-            AddToDatabase = (Grupo != "S");
+            AddToDatabase = (Grupo != "Saldo");
             Rule = rule.ID;
             return true;
         }
