@@ -14,7 +14,7 @@ using GridAndChartStyleLibrary;
 
 namespace MoneyBin.Forms {
     public partial class frmCalendario : Form {
-        private MoneyBinEntities _ctx;
+        private readonly MoneyBinEntities _ctx;
         private int previousIndex = -1;
         public frmCalendario() {
             InitializeComponent();
@@ -104,6 +104,10 @@ namespace MoneyBin.Forms {
             toolStripButtonSalvar.Text = FormUtils.TextoSalvar(_ctx.ChangeTracker);
             toolStripButtonSalvar.Visible = _ctx.ChangeTracker.HasChanges();
         }
+
+        private void dgvCalendario_CurrentCellDirtyStateChanged(object sender, EventArgs e) {
+            dgvCalendario.EndEdit();
+        }
     }
 
     internal class MesPicklist {
@@ -113,7 +117,7 @@ namespace MoneyBin.Forms {
 
         public MesPicklist ProximoMes() {
             var ultimoMes = 1 + (int)Math.Log(Month, 2);
-            return ultimoMes == 12 ? new MesPicklist() { Month = 0, Year = Year + 1 } :
+            return ultimoMes == 12 ? new MesPicklist() { Month = 1, Year = Year + 1 } :
                 new MesPicklist() { Month = Month * 2, Year = Year };
         }
     }
