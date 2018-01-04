@@ -32,6 +32,7 @@
             this.radioButtonXML = new System.Windows.Forms.RadioButton();
             this.radioButtonCSV = new System.Windows.Forms.RadioButton();
             this.buttonSair = new System.Windows.Forms.Button();
+            this.dateTimePickerInicio = new System.Windows.Forms.DateTimePicker();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,6 +51,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.dateTimePickerInicio);
             this.groupBox1.Controls.Add(this.radioButtonExtrato);
             this.groupBox1.Controls.Add(this.radioButtonAcertos);
             this.groupBox1.Controls.Add(this.radioButtonExcel);
@@ -70,7 +72,7 @@
             this.radioButtonExtrato.AutoSize = true;
             this.radioButtonExtrato.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonExtrato.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.radioButtonExtrato.Location = new System.Drawing.Point(376, 27);
+            this.radioButtonExtrato.Location = new System.Drawing.Point(177, 56);
             this.radioButtonExtrato.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.radioButtonExtrato.Name = "radioButtonExtrato";
             this.radioButtonExtrato.Size = new System.Drawing.Size(150, 27);
@@ -85,7 +87,7 @@
             this.radioButtonAcertos.AutoSize = true;
             this.radioButtonAcertos.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonAcertos.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.radioButtonAcertos.Location = new System.Drawing.Point(167, 58);
+            this.radioButtonAcertos.Location = new System.Drawing.Point(354, 27);
             this.radioButtonAcertos.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.radioButtonAcertos.Name = "radioButtonAcertos";
             this.radioButtonAcertos.Size = new System.Drawing.Size(172, 27);
@@ -100,7 +102,7 @@
             this.radioButtonExcel.AutoSize = true;
             this.radioButtonExcel.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonExcel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.radioButtonExcel.Location = new System.Drawing.Point(167, 27);
+            this.radioButtonExcel.Location = new System.Drawing.Point(177, 27);
             this.radioButtonExcel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.radioButtonExcel.Name = "radioButtonExcel";
             this.radioButtonExcel.Size = new System.Drawing.Size(69, 27);
@@ -153,6 +155,17 @@
             this.buttonSair.UseVisualStyleBackColor = true;
             this.buttonSair.Click += new System.EventHandler(this.buttonSair_Click);
             // 
+            // dateTimePickerInicio
+            // 
+            this.dateTimePickerInicio.CalendarFont = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePickerInicio.Enabled = false;
+            this.dateTimePickerInicio.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePickerInicio.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTimePickerInicio.Location = new System.Drawing.Point(377, 52);
+            this.dateTimePickerInicio.Name = "dateTimePickerInicio";
+            this.dateTimePickerInicio.Size = new System.Drawing.Size(149, 30);
+            this.dateTimePickerInicio.TabIndex = 19;
+            // 
             // frmExport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
@@ -187,5 +200,6 @@
         private System.Windows.Forms.RadioButton radioButtonCSV;
         private System.Windows.Forms.RadioButton radioButtonExtrato;
         private System.Windows.Forms.Button buttonSair;
+        private System.Windows.Forms.DateTimePicker dateTimePickerInicio;
     }
 }

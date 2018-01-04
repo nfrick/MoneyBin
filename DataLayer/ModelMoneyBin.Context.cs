@@ -126,14 +126,22 @@ namespace DataLayer
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_BalanceItemUpdate", iDParameter, afetaSaldoParameter, grupoParameter, categoriaParameter, subCategoriaParameter, descricaoParameter, tipoParameter);
         }
     
-        public virtual ObjectResult<BalanceItem> AcertosPendentes()
+        public virtual ObjectResult<BalanceItem> AcertosPendentes(Nullable<System.DateTime> data)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BalanceItem>("AcertosPendentes");
+            var dataParameter = data.HasValue ?
+                new ObjectParameter("Data", data) :
+                new ObjectParameter("Data", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BalanceItem>("AcertosPendentes", dataParameter);
         }
     
-        public virtual ObjectResult<BalanceItem> AcertosPendentes(MergeOption mergeOption)
+        public virtual ObjectResult<BalanceItem> AcertosPendentes(Nullable<System.DateTime> data, MergeOption mergeOption)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BalanceItem>("AcertosPendentes", mergeOption);
+            var dataParameter = data.HasValue ?
+                new ObjectParameter("Data", data) :
+                new ObjectParameter("Data", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BalanceItem>("AcertosPendentes", mergeOption, dataParameter);
         }
     
         public virtual ObjectResult<NextPayment> CalendarNextPayments(Nullable<int> days)
@@ -156,6 +164,11 @@ namespace DataLayer
                 new ObjectParameter("Month", typeof(short));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_CalendarRefresh", yearParameter, monthParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<System.DateTime>> UltimoAcerto()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<System.DateTime>>("UltimoAcerto");
         }
     }
 }

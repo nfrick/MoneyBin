@@ -98,7 +98,10 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Property Name="DataMin" Type="date" />
           <Property Name="DataMax" Type="date" />
         </EntityType>
-        <Function Name="sp_AcertosPendentes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_AcertosPendentes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Data" Type="date" Mode="In" />
+        </Function>
+        <Function Name="sp_AcertosUltimo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_BalanceItemDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
         </Function>
@@ -248,7 +251,9 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             <End Role="Bank" EntitySet="Banks" />
             <End Role="BalanceItem" EntitySet="Balance" />
           </AssociationSet>
-          <FunctionImport Name="AcertosPendentes" EntitySet="Balance" ReturnType="Collection(MoneyBinModel.BalanceItem)" />
+          <FunctionImport Name="AcertosPendentes" EntitySet="Balance" ReturnType="Collection(MoneyBinModel.BalanceItem)" >
+            <Parameter Name="Data" Mode="In" Type="DateTime" />
+          </FunctionImport>
           <EntitySet Name="Analise" EntityType="MoneyBinModel.AnaliseItem" />
           <FunctionImport Name="CalendarNextPayments" ReturnType="Collection(MoneyBinModel.NextPayment)">
           <Parameter Name="Days" Mode="In" Type="Int32" />
@@ -257,6 +262,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             <Parameter Name="Year" Mode="In" Type="Int16" />
             <Parameter Name="Month" Mode="In" Type="Int16" />
           </FunctionImport>
+          <FunctionImport Name="UltimoAcerto" ReturnType="Collection(DateTime)" />
         </EntityContainer>
         <Association Name="tblPaymenttblCalendar">
           <End Type="MoneyBinModel.Payment" Role="tblPayment" Multiplicity="1" />
@@ -535,6 +541,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_CalendarRefresh" FunctionName="MoneyBinModel.Store.sp_CalendarRefresh" />
+          <FunctionImportMapping FunctionImportName="UltimoAcerto" FunctionName="MoneyBinModel.Store.sp_AcertosUltimo" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

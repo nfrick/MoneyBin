@@ -26,6 +26,7 @@ namespace MoneyBin {
         private void frmExport_Load(object sender, EventArgs e) {
             using (var ctx = new MoneyBinEntities()) {
                 Items = ctx.Balance.ToList();
+                dateTimePickerInicio.Value = ctx.UltimoAcerto().FirstOrDefault() ?? DateTime.Now;
             }
             _saveAs = $@"{_myDocsFolder}\Money Bin Export.csv";
             radioButtonCSV.Checked = true;
@@ -34,6 +35,7 @@ namespace MoneyBin {
         private void radioButtons_CheckedChanged(object sender, EventArgs e) {
             var chk = sender as RadioButton;
             if (!chk.Checked) return;
+            dateTimePickerInicio.Enabled = radioButtonAcertos.Checked;
             if (radioButtonCSV.Checked) {
                 SetSaveDialog("Money Bin Export", "csv", @"CSV Files|*.csv");
                 _exporter = ExportToCSV;
@@ -134,7 +136,7 @@ namespace MoneyBin {
 
         private bool ExportToAcertos() {
             using (var ctx = new MoneyBinEntities()) {
-                return ToExcel(ctx.AcertosPendentes().ToList());
+                return ToExcel(ctx.AcertosPendentes(dateTimePickerInicio.Value).ToList());
             }
         }
 
