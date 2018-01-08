@@ -26,8 +26,10 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.toolStripMainMenu = new System.Windows.Forms.ToolStrip();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.toolStripButtonViewer = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonReader = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonReembolsos = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonAnalysis = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonReport = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonExport = new System.Windows.Forms.ToolStripButton();
@@ -35,7 +37,6 @@
             this.toolStripButtonPayments = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonCalendar = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonBackground = new System.Windows.Forms.ToolStripButton();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.toolStripMainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,6 +46,7 @@
             this.toolStripMainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonViewer,
             this.toolStripButtonReader,
+            this.toolStripButtonReembolsos,
             this.toolStripButtonAnalysis,
             this.toolStripButtonReport,
             this.toolStripButtonExport,
@@ -57,6 +59,11 @@
             this.toolStripMainMenu.Size = new System.Drawing.Size(1805, 59);
             this.toolStripMainMenu.TabIndex = 1;
             this.toolStripMainMenu.Text = "toolStrip1";
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 60000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // toolStripButtonViewer
             // 
@@ -79,6 +86,17 @@
             this.toolStripButtonReader.Text = "Leitor";
             this.toolStripButtonReader.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButtonReader.Click += new System.EventHandler(this.toolStripButtonNewReader_Click);
+            // 
+            // toolStripButtonReembolsos
+            // 
+            this.toolStripButtonReembolsos.ForeColor = System.Drawing.Color.Black;
+            this.toolStripButtonReembolsos.Image = global::MoneyBin.Properties.Resources.rightleft2red;
+            this.toolStripButtonReembolsos.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonReembolsos.Name = "toolStripButtonReembolsos";
+            this.toolStripButtonReembolsos.Size = new System.Drawing.Size(94, 56);
+            this.toolStripButtonReembolsos.Text = "Reembolsos";
+            this.toolStripButtonReembolsos.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButtonReembolsos.Click += new System.EventHandler(this.toolStripButtonReembolsos_Click);
             // 
             // toolStripButtonAnalysis
             // 
@@ -157,18 +175,13 @@
             this.toolStripButtonBackground.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButtonBackground.Click += new System.EventHandler(this.toolStripButtonBackground_Click);
             // 
-            // timer1
-            // 
-            this.timer1.Interval = 60000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(1805, 1090);
+            this.ClientSize = new System.Drawing.Size(1805, 1045);
             this.Controls.Add(this.toolStripMainMenu);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.Green;
@@ -199,5 +212,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonCalendar;
         private System.Windows.Forms.ToolStripButton toolStripButtonBackground;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ToolStripButton toolStripButtonReembolsos;
     }
 }

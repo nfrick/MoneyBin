@@ -18,7 +18,7 @@ namespace MoneyBin.Forms {
             GridStyles.FormatGrid(dgvRules);
             dgvRules.Columns[0].Visible = false;
             dgvRules.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            GridStyles.FormatColumn(dgvRules.Columns[12], GridStyles.StyleInteger, 80);
+            GridStyles.FormatColumn(dgvRules.Columns[9], GridStyles.StyleInteger, 80);
 
             this.Width = 150 + dgvRules.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
             RefreshSalvar();

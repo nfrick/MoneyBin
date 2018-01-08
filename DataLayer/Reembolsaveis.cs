@@ -12,24 +12,11 @@ namespace DataLayer
     using System;
     using System.Collections.Generic;
     
-    public partial class BalanceItem
+    public partial class Reembolsaveis
     {
         public int ID { get; set; }
-        public string Banco { get; set; }
-        public System.DateTime Data { get; set; }
-        public string Historico { get; set; }
-        public string Documento { get; set; }
-        public decimal Valor { get; set; }
-        public bool AfetaSaldo { get; set; }
         public string Grupo { get; set; }
         public string Categoria { get; set; }
         public string SubCategoria { get; set; }
-        public string Descricao { get; set; }
-        public string Tipo { get; set; }
-        public Nullable<decimal> Saldo { get; set; }
-        public Nullable<int> IDAssociado { get; set; }
-        public bool Reembolsavel { get; set; }
-    
-        public virtual Bank Bank { get; set; }
     }
 }

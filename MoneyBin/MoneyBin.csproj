@@ -94,6 +94,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="Forms\frmAssociador.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAssociador.Designer.cs">
+      <DependentUpon>frmAssociador.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmBalance.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,6 +167,7 @@
     <Content Include="Money Bin 1.ico" />
     <Content Include="Reports\ReportComDescricao.rdlc" />
     <None Include="Resources\Uncle Scrooge-McDuck.gif" />
+    <None Include="Resources\rightleft2red.png" />
     <Content Include="Uncle Scrooge.ico" />
     <None Include="Resources\uncle scrooge.jpg" />
     <Content Include="SqlServerTypes\readme.htm" />
@@ -182,6 +189,9 @@
     <None Include="Resources\export-icon.png" />
     <None Include="Resources\document-yellow-icon1.png" />
     <None Include="Resources\document-yellow-icon.png" />
+    <EmbeddedResource Include="Forms\frmAssociador.resx">
+      <DependentUpon>frmAssociador.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmBalance.resx">
       <DependentUpon>frmBalance.cs</DependentUpon>
     </EmbeddedResource>

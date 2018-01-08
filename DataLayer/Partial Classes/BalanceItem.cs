@@ -21,6 +21,15 @@ namespace DataLayer {
             return $"{Data:d}  {Historico}  {Valor:C2}";
         }
 
+        public string Classificacao() {
+            var classificacao = new List<string> { Grupo, Categoria };
+            if (SubCategoria != null) classificacao.Add(SubCategoria);
+            if (Descricao != null) classificacao.Add(Descricao);
+            return string.Join("-", classificacao);
+        }
+
+        public string Identificacao => $"{ID} {Classificacao()} {Data.ToShortDateString()}";
+
         #region IEquitable_implementation
         /// <summary>
         /// Compares two BalanceItems

@@ -39,9 +39,6 @@
             this.grupoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.categoriaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.subCategoriaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.novoGrupoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.novaCategoriaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.novaSubCategoriaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descricaoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ocorrenciasDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -89,9 +86,6 @@
             this.grupoDataGridViewTextBoxColumn,
             this.categoriaDataGridViewTextBoxColumn,
             this.subCategoriaDataGridViewTextBoxColumn,
-            this.novoGrupoDataGridViewTextBoxColumn,
-            this.novaCategoriaDataGridViewTextBoxColumn,
-            this.novaSubCategoriaDataGridViewTextBoxColumn,
             this.descricaoDataGridViewTextBoxColumn,
             this.ocorrenciasDataGridViewTextBoxColumn});
             this.dgvRules.DataMember = "Rules";
@@ -187,39 +181,18 @@
             this.grupoDataGridViewTextBoxColumn.DataPropertyName = "Grupo";
             this.grupoDataGridViewTextBoxColumn.HeaderText = "Grupo";
             this.grupoDataGridViewTextBoxColumn.Name = "grupoDataGridViewTextBoxColumn";
-            this.grupoDataGridViewTextBoxColumn.Visible = false;
             // 
             // categoriaDataGridViewTextBoxColumn
             // 
             this.categoriaDataGridViewTextBoxColumn.DataPropertyName = "Categoria";
             this.categoriaDataGridViewTextBoxColumn.HeaderText = "Categoria";
             this.categoriaDataGridViewTextBoxColumn.Name = "categoriaDataGridViewTextBoxColumn";
-            this.categoriaDataGridViewTextBoxColumn.Visible = false;
             // 
             // subCategoriaDataGridViewTextBoxColumn
             // 
             this.subCategoriaDataGridViewTextBoxColumn.DataPropertyName = "SubCategoria";
             this.subCategoriaDataGridViewTextBoxColumn.HeaderText = "SubCategoria";
             this.subCategoriaDataGridViewTextBoxColumn.Name = "subCategoriaDataGridViewTextBoxColumn";
-            this.subCategoriaDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // novoGrupoDataGridViewTextBoxColumn
-            // 
-            this.novoGrupoDataGridViewTextBoxColumn.DataPropertyName = "NovoGrupo";
-            this.novoGrupoDataGridViewTextBoxColumn.HeaderText = "Grupo";
-            this.novoGrupoDataGridViewTextBoxColumn.Name = "novoGrupoDataGridViewTextBoxColumn";
-            // 
-            // novaCategoriaDataGridViewTextBoxColumn
-            // 
-            this.novaCategoriaDataGridViewTextBoxColumn.DataPropertyName = "NovaCategoria";
-            this.novaCategoriaDataGridViewTextBoxColumn.HeaderText = "Categoria";
-            this.novaCategoriaDataGridViewTextBoxColumn.Name = "novaCategoriaDataGridViewTextBoxColumn";
-            // 
-            // novaSubCategoriaDataGridViewTextBoxColumn
-            // 
-            this.novaSubCategoriaDataGridViewTextBoxColumn.DataPropertyName = "NovaSubCategoria";
-            this.novaSubCategoriaDataGridViewTextBoxColumn.HeaderText = "SubCategoria";
-            this.novaSubCategoriaDataGridViewTextBoxColumn.Name = "novaSubCategoriaDataGridViewTextBoxColumn";
             // 
             // descricaoDataGridViewTextBoxColumn
             // 
@@ -267,6 +240,9 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButtonSalvar;
         private System.Windows.Forms.ToolStripButton toolStripButtonDesfazer;
+        private System.Windows.Forms.DataGridViewTextBoxColumn novoGrupoDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn novaCategoriaDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn novaSubCategoriaDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn Bank;
         private System.Windows.Forms.DataGridViewTextBoxColumn historicoDataGridViewTextBoxColumn;
@@ -275,9 +251,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn grupoDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn categoriaDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn subCategoriaDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn novoGrupoDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn novaCategoriaDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn novaSubCategoriaDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn descricaoDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ocorrenciasDataGridViewTextBoxColumn;
     }

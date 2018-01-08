@@ -161,8 +161,6 @@ namespace MoneyBin.Forms {
             dgvBalance.Refresh();
         }
 
-        #endregion DATAGRIDVIEW
-
         private void dgvBalance_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e) {
             var bi = (BalanceItem)dgvBalance.CurrentRow.DataBoundItem;
             if (MessageBox.Show($"Deletar item:\n{bi}?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No) {
@@ -171,5 +169,7 @@ namespace MoneyBin.Forms {
             }
             _ctx.sp_BalanceItemDelete(bi.ID);
         }
+
+        #endregion DATAGRIDVIEW
     }
 }

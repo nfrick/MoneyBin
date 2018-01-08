@@ -97,5 +97,10 @@ namespace MoneyBin {
         private void timer1_Tick(object sender, EventArgs e) {
             NewBackground();
         }
+
+        private void toolStripButtonReembolsos_Click(object sender, EventArgs e) {
+            var frm = new frmAssociador { MdiParent = this };
+            frm.Show();
+        }
     }
 }

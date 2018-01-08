@@ -86,7 +86,22 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Balance' does not have a primary k
           <Property Name="SubCategoria" Type="nvarchar" MaxLength="30" />
           <Property Name="Descricao" Type="nvarchar" MaxLength="200" />
           <Property Name="Tipo" Type="nchar" MaxLength="1" />
+          <Property Name="IDAssociado" Type="int" />
+          <Property Name="Reembolsavel" Type="bit" />
           <Property Name="Saldo" Type="money" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MoneyBin.dbo.vw_Reembolsaveis' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_Reembolsaveis">
+          <Key>
+            <PropertyRef Name="Grupo" />
+            <PropertyRef Name="Categoria" />
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Grupo" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Categoria" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="SubCategoria" Type="nvarchar" MaxLength="30" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -125,6 +140,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Parameter Name="Categoria" Type="nvarchar" Mode="In" />
           <Parameter Name="SubCategoria" Type="nvarchar" Mode="In" />
           <Parameter Name="Descricao" Type="nvarchar" Mode="In" />
+          <Parameter Name="IDAssociado" Type="int" Mode="In" />
           <Parameter Name="Tipo" Type="nchar" Mode="In" />
         </Function>
         <Function Name="sp_CalendarNextPayments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -164,8 +180,18 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
     [vw_Balance].[SubCategoria] AS [SubCategoria], 
     [vw_Balance].[Descricao] AS [Descricao], 
     [vw_Balance].[Tipo] AS [Tipo], 
+    [vw_Balance].[IDAssociado] AS [IDAssociado], 
+    [vw_Balance].[Reembolsavel] AS [Reembolsavel], 
     [vw_Balance].[Saldo] AS [Saldo]
     FROM [dbo].[vw_Balance] AS [vw_Balance]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_Reembolsaveis" EntityType="Self.vw_Reembolsaveis" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_Reembolsaveis].[Grupo] AS [Grupo], 
+    [vw_Reembolsaveis].[Categoria] AS [Categoria], 
+    [vw_Reembolsaveis].[SubCategoria] AS [SubCategoria], 
+    [vw_Reembolsaveis].[ID] AS [ID]
+    FROM [dbo].[vw_Reembolsaveis] AS [vw_Reembolsaveis]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vwDataMaxMin" EntityType="Self.vwDataMaxMin" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -233,6 +259,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             <Parameter Name="Categoria" Mode="In" Type="String" />
             <Parameter Name="SubCategoria" Mode="In" Type="String" />
             <Parameter Name="Descricao" Mode="In" Type="String" />
+            <Parameter Name="IDAssociado" Mode="In" Type="Int32" />
             <Parameter Name="Tipo" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="Balance" EntityType="MoneyBinModel.BalanceItem" />
@@ -252,7 +279,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             <End Role="BalanceItem" EntitySet="Balance" />
           </AssociationSet>
           <FunctionImport Name="AcertosPendentes" EntitySet="Balance" ReturnType="Collection(MoneyBinModel.BalanceItem)" >
-            <Parameter Name="Data" Mode="In" Type="DateTime" />
+          <Parameter Name="Data" Mode="In" Type="DateTime" />
           </FunctionImport>
           <EntitySet Name="Analise" EntityType="MoneyBinModel.AnaliseItem" />
           <FunctionImport Name="CalendarNextPayments" ReturnType="Collection(MoneyBinModel.NextPayment)">
@@ -263,6 +290,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             <Parameter Name="Month" Mode="In" Type="Int16" />
           </FunctionImport>
           <FunctionImport Name="UltimoAcerto" ReturnType="Collection(DateTime)" />
+          <EntitySet Name="Reembolsaveis" EntityType="MoneyBinModel.Reembolsaveis" />
         </EntityContainer>
         <Association Name="tblPaymenttblCalendar">
           <End Type="MoneyBinModel.Payment" Role="tblPayment" Multiplicity="1" />
@@ -294,6 +322,8 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Property Name="Tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="Saldo" Type="Decimal" Precision="19" Scale="4" />
           <NavigationProperty Name="Bank" Relationship="MoneyBinModel.BankBalanceItem" FromRole="BalanceItem" ToRole="Bank" />
+          <Property Name="IDAssociado" Type="Int32" />
+          <Property Name="Reembolsavel" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Bank">
           <Key>
@@ -402,6 +432,17 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Property Type="Int32" Name="DaysLate" Nullable="true" />
           <Property Type="String" Name="Description" Nullable="false" MaxLength="30" />
         </ComplexType>
+        <EntityType Name="Reembolsaveis">
+          <Key>
+            <PropertyRef Name="Grupo" />
+            <PropertyRef Name="Categoria" />
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" />
+          <Property Name="Grupo" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Categoria" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="SubCategoria" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -436,6 +477,8 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <EntitySetMapping Name="Balance">
             <EntityTypeMapping TypeName="MoneyBinModel.BalanceItem">
               <MappingFragment StoreEntitySet="vw_Balance">
+                <ScalarProperty Name="Reembolsavel" ColumnName="Reembolsavel" />
+                <ScalarProperty Name="IDAssociado" ColumnName="IDAssociado" />
                 <ScalarProperty Name="Tipo" ColumnName="Tipo" />
                 <ScalarProperty Name="Saldo" ColumnName="Saldo" />
                 <ScalarProperty Name="Descricao" ColumnName="Descricao" />
@@ -454,6 +497,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             <EntityTypeMapping TypeName="MoneyBinModel.BalanceItem">
               <ModificationFunctionMapping>
                 <UpdateFunction FunctionName="MoneyBinModel.Store.sp_BalanceItemUpdate">
+                  <ScalarProperty Name="IDAssociado" ParameterName="IDAssociado" Version="Current" />
                   <ScalarProperty Name="Tipo" ParameterName="Tipo" Version="Current" />
                   <ScalarProperty Name="SubCategoria" ParameterName="SubCategoria" Version="Current" />
                   <ScalarProperty Name="Categoria" ParameterName="Categoria" Version="Current" />
@@ -542,6 +586,16 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_CalendarRefresh" FunctionName="MoneyBinModel.Store.sp_CalendarRefresh" />
           <FunctionImportMapping FunctionImportName="UltimoAcerto" FunctionName="MoneyBinModel.Store.sp_AcertosUltimo" />
+          <EntitySetMapping Name="Reembolsaveis">
+            <EntityTypeMapping TypeName="MoneyBinModel.Reembolsaveis">
+              <MappingFragment StoreEntitySet="vw_Reembolsaveis">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SubCategoria" ColumnName="SubCategoria" />
+                <ScalarProperty Name="Categoria" ColumnName="Categoria" />
+                <ScalarProperty Name="Grupo" ColumnName="Grupo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

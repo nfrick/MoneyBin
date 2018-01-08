@@ -71,7 +71,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dgvBalance);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1012, 594);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1012, 592);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -106,7 +106,7 @@
             this.dgvBalance.Location = new System.Drawing.Point(0, 0);
             this.dgvBalance.Name = "dgvBalance";
             this.dgvBalance.RowTemplate.Height = 24;
-            this.dgvBalance.Size = new System.Drawing.Size(1012, 594);
+            this.dgvBalance.Size = new System.Drawing.Size(1012, 592);
             this.dgvBalance.TabIndex = 0;
             this.dgvBalance.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvBalance_CellEndEdit);
             this.dgvBalance.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvBalance_CellFormatting);
@@ -221,42 +221,42 @@
             this.toolStripSeparator1});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(486, 26);
+            this.toolStrip1.Size = new System.Drawing.Size(521, 28);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripLabel1
             // 
             this.toolStripLabel1.ForeColor = System.Drawing.Color.Black;
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(43, 23);
+            this.toolStripLabel1.Size = new System.Drawing.Size(53, 25);
             this.toolStripLabel1.Text = "Banco:";
             // 
             // toolStripComboBoxBanco
             // 
             this.toolStripComboBoxBanco.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.toolStripComboBoxBanco.Name = "toolStripComboBoxBanco";
-            this.toolStripComboBoxBanco.Size = new System.Drawing.Size(75, 26);
+            this.toolStripComboBoxBanco.Size = new System.Drawing.Size(75, 28);
             this.toolStripComboBoxBanco.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxBanco_SelectedIndexChanged);
             // 
             // toolStripLabel2
             // 
             this.toolStripLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(43, 23);
+            this.toolStripLabel2.Size = new System.Drawing.Size(53, 25);
             this.toolStripLabel2.Text = "Grupo:";
             // 
             // toolStripComboBoxGrupo
             // 
             this.toolStripComboBoxGrupo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.toolStripComboBoxGrupo.Name = "toolStripComboBoxGrupo";
-            this.toolStripComboBoxGrupo.Size = new System.Drawing.Size(121, 26);
+            this.toolStripComboBoxGrupo.Size = new System.Drawing.Size(121, 28);
             this.toolStripComboBoxGrupo.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxGrupo_SelectedIndexChanged);
             // 
             // toolStripSeparatorSalvar
             // 
             this.toolStripSeparatorSalvar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.toolStripSeparatorSalvar.Name = "toolStripSeparatorSalvar";
-            this.toolStripSeparatorSalvar.Size = new System.Drawing.Size(6, 26);
+            this.toolStripSeparatorSalvar.Size = new System.Drawing.Size(6, 28);
             this.toolStripSeparatorSalvar.Visible = false;
             // 
             // toolStripButtonSalvar
@@ -267,7 +267,7 @@
             this.toolStripButtonSalvar.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSalvar.Image")));
             this.toolStripButtonSalvar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonSalvar.Name = "toolStripButtonSalvar";
-            this.toolStripButtonSalvar.Size = new System.Drawing.Size(42, 23);
+            this.toolStripButtonSalvar.Size = new System.Drawing.Size(53, 25);
             this.toolStripButtonSalvar.Text = "Salvar";
             this.toolStripButtonSalvar.Visible = false;
             this.toolStripButtonSalvar.Click += new System.EventHandler(this.toolStripButtonSalvar_Click);
@@ -283,7 +283,7 @@
             this.toolStripButtonProcurar.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonProcurar.Image")));
             this.toolStripButtonProcurar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonProcurar.Name = "toolStripButtonProcurar";
-            this.toolStripButtonProcurar.Size = new System.Drawing.Size(25, 23);
+            this.toolStripButtonProcurar.Size = new System.Drawing.Size(28, 25);
             this.toolStripButtonProcurar.Text = "L";
             this.toolStripButtonProcurar.Click += new System.EventHandler(this.toolStripButtonProcurar_Click);
             // 
@@ -292,7 +292,7 @@
             this.toolStripTextBoxProcurar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripTextBoxProcurar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.toolStripTextBoxProcurar.Name = "toolStripTextBoxProcurar";
-            this.toolStripTextBoxProcurar.Size = new System.Drawing.Size(100, 26);
+            this.toolStripTextBoxProcurar.Size = new System.Drawing.Size(100, 28);
             this.toolStripTextBoxProcurar.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBoxProcurar_KeyDown);
             this.toolStripTextBoxProcurar.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBoxProcurar_KeyPress);
             // 
@@ -302,7 +302,7 @@
             this.toolStripLabelProcurar.ForeColor = System.Drawing.Color.Black;
             this.toolStripLabelProcurar.Name = "toolStripLabelProcurar";
             this.toolStripLabelProcurar.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.toolStripLabelProcurar.Size = new System.Drawing.Size(55, 23);
+            this.toolStripLabelProcurar.Size = new System.Drawing.Size(67, 25);
             this.toolStripLabelProcurar.Text = "Procurar:";
             // 
             // toolStripButtonDesfazer
@@ -313,7 +313,7 @@
             this.toolStripButtonDesfazer.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDesfazer.Image")));
             this.toolStripButtonDesfazer.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonDesfazer.Name = "toolStripButtonDesfazer";
-            this.toolStripButtonDesfazer.Size = new System.Drawing.Size(55, 23);
+            this.toolStripButtonDesfazer.Size = new System.Drawing.Size(71, 25);
             this.toolStripButtonDesfazer.Text = "Desfazer";
             this.toolStripButtonDesfazer.Visible = false;
             this.toolStripButtonDesfazer.Click += new System.EventHandler(this.toolStripButtonDesfazer_Click);
@@ -321,11 +321,11 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 26);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 28);
             // 
             // frmBalance
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1012, 620);
             this.Controls.Add(this.toolStripContainer1);

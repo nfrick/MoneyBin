@@ -34,6 +34,7 @@ namespace DataLayer
         public virtual DbSet<Rule> Rules { get; set; }
         public virtual DbSet<DataMaxMin> DataMaxsMins { get; set; }
         public virtual DbSet<AnaliseItem> Analise { get; set; }
+        public virtual DbSet<Reembolsaveis> Reembolsaveis { get; set; }
     
         public virtual int sp_BalanceItemDelete(Nullable<int> iD)
         {
@@ -93,7 +94,7 @@ namespace DataLayer
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_BalanceItemInsert", bancoParameter, dataParameter, historicoParameter, documentoParameter, valorParameter, afetaSaldoParameter, grupoParameter, categoriaParameter, subCategoriaParameter, descricaoParameter, tipoParameter);
         }
     
-        public virtual int sp_BalanceItemUpdate(Nullable<int> iD, Nullable<bool> afetaSaldo, string grupo, string categoria, string subCategoria, string descricao, string tipo)
+        public virtual int sp_BalanceItemUpdate(Nullable<int> iD, Nullable<bool> afetaSaldo, string grupo, string categoria, string subCategoria, string descricao, Nullable<int> iDAssociado, string tipo)
         {
             var iDParameter = iD.HasValue ?
                 new ObjectParameter("ID", iD) :
@@ -119,11 +120,15 @@ namespace DataLayer
                 new ObjectParameter("Descricao", descricao) :
                 new ObjectParameter("Descricao", typeof(string));
     
+            var iDAssociadoParameter = iDAssociado.HasValue ?
+                new ObjectParameter("IDAssociado", iDAssociado) :
+                new ObjectParameter("IDAssociado", typeof(int));
+    
             var tipoParameter = tipo != null ?
                 new ObjectParameter("Tipo", tipo) :
                 new ObjectParameter("Tipo", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_BalanceItemUpdate", iDParameter, afetaSaldoParameter, grupoParameter, categoriaParameter, subCategoriaParameter, descricaoParameter, tipoParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_BalanceItemUpdate", iDParameter, afetaSaldoParameter, grupoParameter, categoriaParameter, subCategoriaParameter, descricaoParameter, iDAssociadoParameter, tipoParameter);
         }
     
         public virtual ObjectResult<BalanceItem> AcertosPendentes(Nullable<System.DateTime> data)
