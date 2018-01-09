@@ -38,16 +38,16 @@ namespace MoneyBin.Forms {
         private void LoadPagamentos() {
             var start = dateTimePickerInicio.Value;
             IOrderedQueryable<BalanceItem> sbase;
-            if (comboBoxGrupo.Text == "Todos")
+            if (comboBoxGrupo.Text == @"Todos")
                 sbase = _ctx.Balance
                     .Where(b => b.Reembolsavel && b.Data >= start
-                                && _grupos.Contains(b.Grupo))
-                    .OrderByDescending(b => b.Data).ThenByDescending(b => b.ID);
+                        && _grupos.Contains(b.Grupo))
+                        .OrderByDescending(b => b.Data).ThenByDescending(b => b.ID);
             else {
                 sbase = _ctx.Balance
                     .Where(b => b.Reembolsavel && b.Data >= start
-                                && b.Grupo == comboBoxGrupo.Text)
-                    .OrderByDescending(b => b.Data).ThenByDescending(b => b.ID);
+                        && b.Grupo == comboBoxGrupo.Text)
+                        .OrderByDescending(b => b.Data).ThenByDescending(b => b.ID);
             }
 
             if (radioButtonPagtosTodos.Checked)
@@ -72,25 +72,15 @@ namespace MoneyBin.Forms {
             var associados = _ctx.Balance.Where(g => g.IDAssociado != null).Select(g => g.IDAssociado).ToArray();
             var pagamento = (BalanceItem)dgvPagamentos.CurrentRow.DataBoundItem;
             if (pagamento.IDAssociado == null) {
-                if (radioButtonReembValorIgual.Checked) {
-                    bindingSourceReembolsos.DataSource =
-                        _ctx.Balance.Where(b => b.AfetaSaldo &&
-                            !associados.Contains(b.ID) &&
-                            b.Data >= dateTimePickerInicio.Value &&
-                            (b.Grupo == "Rendas" || b.Grupo == "Pessoal") &&
-                            (b.Categoria == "Papai" || b.Categoria == "Supermercado") &&
-                            b.Valor == Math.Abs(pagamento.Valor))
-                            .OrderByDescending(b => b.Data).ToList();
-                }
-                else {
-                    bindingSourceReembolsos.DataSource =
-                        _ctx.Balance.Where(b => b.AfetaSaldo &&
-                            !associados.Contains(b.ID) &&
-                            b.Data >= dateTimePickerInicio.Value &&
-                            (b.Grupo == "Rendas" || b.Grupo == "Pessoal") && b.Categoria == "Papai" &&
-                            b.Valor > 0)
-                            .OrderByDescending(b => b.Data).ToList();
-                }
+                var sbase = _ctx.Balance.Where(b => b.AfetaSaldo &&
+                                !associados.Contains(b.ID) &&
+                                b.Data >= dateTimePickerInicio.Value &&
+                                (b.Grupo == "Rendas" || b.Grupo == "Pessoal") &&
+                                (b.Categoria == "Papai" || b.Categoria == "Supermercado"))
+                                .OrderByDescending(b => b.Data);
+                bindingSourceReembolsos.DataSource = radioButtonReembValorIgual.Checked ?
+                    sbase.Where(b => b.Valor == Math.Abs(pagamento.Valor)).ToList() :
+                    sbase.Where(b => b.Valor > 0).ToList();
             }
             else {
                 bindingSourceReembolsos.DataSource = _ctx.Balance
@@ -155,11 +145,7 @@ namespace MoneyBin.Forms {
             //    _ctx.SaveChanges();
         }
 
-        private void comboBoxGrupo_SelectedIndexChanged(object sender, EventArgs e) {
-            LoadPagamentos();
-        }
-
-        private void dateTimePickerInicio_ValueChanged(object sender, EventArgs e) {
+        private void Grupo_Inicio_ValueChanged(object sender, EventArgs e) {
             LoadPagamentos();
         }
 
@@ -170,20 +156,3 @@ namespace MoneyBin.Forms {
         }
     }
 }
-
-//if (!x.Any()) {
-//    bindingSourceReembolsos.DataSource = null;
-//    return;
-//}
-//var y = x.Select(b => new {
-//    b.ID,
-//    b.Banco,
-//    b.Data,
-//    b.Valor,
-//    b.Grupo,
-//    b.Categoria,
-//    b.SubCategoria,
-//    b.Descricao,
-//    Diff = Math.Abs((b.Data - pagamento.Data).TotalDays)
-//}).ToList();
-//bindingSourceReembolsos.DataSource = y.OrderBy(b => b.Diff).ToList();

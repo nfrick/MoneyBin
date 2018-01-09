@@ -25,8 +25,26 @@
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             this.dgvPagamentos = new System.Windows.Forms.DataGridView();
+            this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bancoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.valorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.grupoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.categoriaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subCategoriaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.descricaoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IDAssociado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bindingSourcePagamentos = new System.Windows.Forms.BindingSource(this.components);
             this.dgvReembolsos = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bindingSourceReembolsos = new System.Windows.Forms.BindingSource(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.labelPagamentos = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -40,31 +58,13 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.radioButtonReembTodos = new System.Windows.Forms.RadioButton();
             this.radioButtonReembValorIgual = new System.Windows.Forms.RadioButton();
-            this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bancoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.valorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.grupoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.categoriaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subCategoriaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.descricaoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bindingSourcePagamentos = new System.Windows.Forms.BindingSource(this.components);
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bindingSourceReembolsos = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPagamentos)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourcePagamentos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReembolsos)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceReembolsos)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourcePagamentos)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceReembolsos)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvPagamentos
@@ -94,11 +94,73 @@
             this.dgvPagamentos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvGastos_CellDoubleClick);
             this.dgvPagamentos.SelectionChanged += new System.EventHandler(this.dgvBalance_SelectionChanged);
             // 
+            // iDDataGridViewTextBoxColumn
+            // 
+            this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
+            this.iDDataGridViewTextBoxColumn.HeaderText = "ID";
+            this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
+            this.iDDataGridViewTextBoxColumn.ReadOnly = true;
+            this.iDDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // bancoDataGridViewTextBoxColumn
+            // 
+            this.bancoDataGridViewTextBoxColumn.DataPropertyName = "Banco";
+            this.bancoDataGridViewTextBoxColumn.HeaderText = "Banco";
+            this.bancoDataGridViewTextBoxColumn.Name = "bancoDataGridViewTextBoxColumn";
+            this.bancoDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // dataDataGridViewTextBoxColumn
+            // 
+            this.dataDataGridViewTextBoxColumn.DataPropertyName = "Data";
+            this.dataDataGridViewTextBoxColumn.HeaderText = "Data";
+            this.dataDataGridViewTextBoxColumn.Name = "dataDataGridViewTextBoxColumn";
+            this.dataDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // valorDataGridViewTextBoxColumn
+            // 
+            this.valorDataGridViewTextBoxColumn.DataPropertyName = "Valor";
+            this.valorDataGridViewTextBoxColumn.HeaderText = "Valor";
+            this.valorDataGridViewTextBoxColumn.Name = "valorDataGridViewTextBoxColumn";
+            this.valorDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // grupoDataGridViewTextBoxColumn
+            // 
+            this.grupoDataGridViewTextBoxColumn.DataPropertyName = "Grupo";
+            this.grupoDataGridViewTextBoxColumn.HeaderText = "Grupo";
+            this.grupoDataGridViewTextBoxColumn.Name = "grupoDataGridViewTextBoxColumn";
+            this.grupoDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // categoriaDataGridViewTextBoxColumn
+            // 
+            this.categoriaDataGridViewTextBoxColumn.DataPropertyName = "Categoria";
+            this.categoriaDataGridViewTextBoxColumn.HeaderText = "Categoria";
+            this.categoriaDataGridViewTextBoxColumn.Name = "categoriaDataGridViewTextBoxColumn";
+            this.categoriaDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // subCategoriaDataGridViewTextBoxColumn
+            // 
+            this.subCategoriaDataGridViewTextBoxColumn.DataPropertyName = "SubCategoria";
+            this.subCategoriaDataGridViewTextBoxColumn.HeaderText = "SubCategoria";
+            this.subCategoriaDataGridViewTextBoxColumn.Name = "subCategoriaDataGridViewTextBoxColumn";
+            this.subCategoriaDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // descricaoDataGridViewTextBoxColumn
+            // 
+            this.descricaoDataGridViewTextBoxColumn.DataPropertyName = "Descricao";
+            this.descricaoDataGridViewTextBoxColumn.HeaderText = "Descrição";
+            this.descricaoDataGridViewTextBoxColumn.Name = "descricaoDataGridViewTextBoxColumn";
+            this.descricaoDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
             // IDAssociado
             // 
             this.IDAssociado.DataPropertyName = "IDAssociado";
             this.IDAssociado.HeaderText = "Reemb";
             this.IDAssociado.Name = "IDAssociado";
+            // 
+            // bindingSourcePagamentos
+            // 
+            this.bindingSourcePagamentos.AllowNew = false;
+            this.bindingSourcePagamentos.DataSource = typeof(DataLayer.BalanceItem);
             // 
             // dgvReembolsos
             // 
@@ -125,6 +187,68 @@
             this.dgvReembolsos.Size = new System.Drawing.Size(741, 596);
             this.dgvReembolsos.TabIndex = 1;
             this.dgvReembolsos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvReembolsos_CellDoubleClick);
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "ID";
+            this.dataGridViewTextBoxColumn1.HeaderText = "ID";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "Banco";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Banco";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "Data";
+            this.dataGridViewTextBoxColumn3.HeaderText = "Data";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.DataPropertyName = "Valor";
+            this.dataGridViewTextBoxColumn4.HeaderText = "Valor";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.DataPropertyName = "Grupo";
+            this.dataGridViewTextBoxColumn5.HeaderText = "Grupo";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.DataPropertyName = "Categoria";
+            this.dataGridViewTextBoxColumn6.HeaderText = "Categoria";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            this.dataGridViewTextBoxColumn7.DataPropertyName = "SubCategoria";
+            this.dataGridViewTextBoxColumn7.HeaderText = "SubCategoria";
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            this.dataGridViewTextBoxColumn7.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            this.dataGridViewTextBoxColumn8.DataPropertyName = "Descricao";
+            this.dataGridViewTextBoxColumn8.HeaderText = "Descrição";
+            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            this.dataGridViewTextBoxColumn8.ReadOnly = true;
+            // 
+            // bindingSourceReembolsos
+            // 
+            this.bindingSourceReembolsos.AllowNew = false;
+            this.bindingSourceReembolsos.DataSource = typeof(DataLayer.BalanceItem);
             // 
             // tableLayoutPanel1
             // 
@@ -195,7 +319,7 @@
             this.comboBoxGrupo.Name = "comboBoxGrupo";
             this.comboBoxGrupo.Size = new System.Drawing.Size(103, 31);
             this.comboBoxGrupo.TabIndex = 5;
-            this.comboBoxGrupo.SelectedIndexChanged += new System.EventHandler(this.comboBoxGrupo_SelectedIndexChanged);
+            this.comboBoxGrupo.SelectedIndexChanged += new System.EventHandler(this.Grupo_Inicio_ValueChanged);
             // 
             // dateTimePickerInicio
             // 
@@ -206,7 +330,7 @@
             this.dateTimePickerInicio.Size = new System.Drawing.Size(102, 30);
             this.dateTimePickerInicio.TabIndex = 4;
             this.dateTimePickerInicio.Value = new System.DateTime(2016, 10, 1, 0, 0, 0, 0);
-            this.dateTimePickerInicio.ValueChanged += new System.EventHandler(this.dateTimePickerInicio_ValueChanged);
+            this.dateTimePickerInicio.ValueChanged += new System.EventHandler(this.Grupo_Inicio_ValueChanged);
             // 
             // buttonRefresh
             // 
@@ -294,130 +418,6 @@
             this.radioButtonReembValorIgual.UseVisualStyleBackColor = true;
             this.radioButtonReembValorIgual.CheckedChanged += new System.EventHandler(this.radioButtonReemb_CheckedChanged);
             // 
-            // iDDataGridViewTextBoxColumn
-            // 
-            this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
-            this.iDDataGridViewTextBoxColumn.HeaderText = "ID";
-            this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
-            this.iDDataGridViewTextBoxColumn.ReadOnly = true;
-            this.iDDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // bancoDataGridViewTextBoxColumn
-            // 
-            this.bancoDataGridViewTextBoxColumn.DataPropertyName = "Banco";
-            this.bancoDataGridViewTextBoxColumn.HeaderText = "Banco";
-            this.bancoDataGridViewTextBoxColumn.Name = "bancoDataGridViewTextBoxColumn";
-            this.bancoDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // dataDataGridViewTextBoxColumn
-            // 
-            this.dataDataGridViewTextBoxColumn.DataPropertyName = "Data";
-            this.dataDataGridViewTextBoxColumn.HeaderText = "Data";
-            this.dataDataGridViewTextBoxColumn.Name = "dataDataGridViewTextBoxColumn";
-            this.dataDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // valorDataGridViewTextBoxColumn
-            // 
-            this.valorDataGridViewTextBoxColumn.DataPropertyName = "Valor";
-            this.valorDataGridViewTextBoxColumn.HeaderText = "Valor";
-            this.valorDataGridViewTextBoxColumn.Name = "valorDataGridViewTextBoxColumn";
-            this.valorDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // grupoDataGridViewTextBoxColumn
-            // 
-            this.grupoDataGridViewTextBoxColumn.DataPropertyName = "Grupo";
-            this.grupoDataGridViewTextBoxColumn.HeaderText = "Grupo";
-            this.grupoDataGridViewTextBoxColumn.Name = "grupoDataGridViewTextBoxColumn";
-            this.grupoDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // categoriaDataGridViewTextBoxColumn
-            // 
-            this.categoriaDataGridViewTextBoxColumn.DataPropertyName = "Categoria";
-            this.categoriaDataGridViewTextBoxColumn.HeaderText = "Categoria";
-            this.categoriaDataGridViewTextBoxColumn.Name = "categoriaDataGridViewTextBoxColumn";
-            this.categoriaDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // subCategoriaDataGridViewTextBoxColumn
-            // 
-            this.subCategoriaDataGridViewTextBoxColumn.DataPropertyName = "SubCategoria";
-            this.subCategoriaDataGridViewTextBoxColumn.HeaderText = "SubCategoria";
-            this.subCategoriaDataGridViewTextBoxColumn.Name = "subCategoriaDataGridViewTextBoxColumn";
-            this.subCategoriaDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // descricaoDataGridViewTextBoxColumn
-            // 
-            this.descricaoDataGridViewTextBoxColumn.DataPropertyName = "Descricao";
-            this.descricaoDataGridViewTextBoxColumn.HeaderText = "Descrição";
-            this.descricaoDataGridViewTextBoxColumn.Name = "descricaoDataGridViewTextBoxColumn";
-            this.descricaoDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // bindingSourcePagamentos
-            // 
-            this.bindingSourcePagamentos.AllowNew = false;
-            this.bindingSourcePagamentos.DataSource = typeof(DataLayer.BalanceItem);
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "ID";
-            this.dataGridViewTextBoxColumn1.HeaderText = "ID";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Visible = false;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "Banco";
-            this.dataGridViewTextBoxColumn2.HeaderText = "Banco";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "Data";
-            this.dataGridViewTextBoxColumn3.HeaderText = "Data";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.DataPropertyName = "Valor";
-            this.dataGridViewTextBoxColumn4.HeaderText = "Valor";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.DataPropertyName = "Grupo";
-            this.dataGridViewTextBoxColumn5.HeaderText = "Grupo";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            this.dataGridViewTextBoxColumn6.DataPropertyName = "Categoria";
-            this.dataGridViewTextBoxColumn6.HeaderText = "Categoria";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            this.dataGridViewTextBoxColumn6.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn7
-            // 
-            this.dataGridViewTextBoxColumn7.DataPropertyName = "SubCategoria";
-            this.dataGridViewTextBoxColumn7.HeaderText = "SubCategoria";
-            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
-            this.dataGridViewTextBoxColumn7.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn8
-            // 
-            this.dataGridViewTextBoxColumn8.DataPropertyName = "Descricao";
-            this.dataGridViewTextBoxColumn8.HeaderText = "Descrição";
-            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
-            this.dataGridViewTextBoxColumn8.ReadOnly = true;
-            // 
-            // bindingSourceReembolsos
-            // 
-            this.bindingSourceReembolsos.AllowNew = false;
-            this.bindingSourceReembolsos.DataSource = typeof(DataLayer.BalanceItem);
-            // 
             // frmAssociador
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
@@ -428,18 +428,18 @@
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "frmAssociador";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Associador";
+            this.Text = "Pagamentos e Reembolsos";
             this.Load += new System.EventHandler(this.frmAssociador_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPagamentos)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourcePagamentos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReembolsos)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceReembolsos)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourcePagamentos)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceReembolsos)).EndInit();
             this.ResumeLayout(false);
 
         }
