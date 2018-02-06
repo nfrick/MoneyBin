@@ -52,7 +52,7 @@ namespace DataLayer {
             _banco = _ctx.Banks.FirstOrDefault(b => extension.EndsWith(b.Extensao));
             if (_banco == null)
                 return;
-            _getAll = _banco.DataMaxMins.DataMax == null || getAll;
+            _getAll = _banco.DataMaxMins == null || getAll;
 
             if (extension.Equals(".xls")) {
                 ExtratoFromXML(filepath);

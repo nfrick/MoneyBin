@@ -18,6 +18,14 @@ namespace MoneyBin.Forms {
         }
 
         private void frmBalance_Load(object sender, EventArgs e) {
+            _ctx = new MoneyBinEntities();
+            if (!_ctx.Balance.Any()) {
+                MessageBox.Show(@"Não há registros a serem mostrados.", this.Text,
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.BeginInvoke(new MethodInvoker(this.Close));
+                return;
+            }
+
             GridStyles.FormatGrid(dgvBalance);
             GridStyles.FormatColumns(dgvBalance, GridStyles.StyleDate, 90, 2);
             GridStyles.FormatColumns(dgvBalance, 6, 7, GridStyles.StyleCurrency, 80);
@@ -26,7 +34,6 @@ namespace MoneyBin.Forms {
 
             this.Width = 150 + dgvBalance.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
 
-            _ctx = new MoneyBinEntities();
             toolStripComboBoxBanco.ComboBox.Items.AddRange(_ctx.Balance.Select(b => b.Banco).Distinct().OrderBy(b => b).ToArray());
             toolStripComboBoxBanco.ComboBox.SelectedIndex = 0;
             dgvBalance.DataSource = BalanceBindingSource;
@@ -56,8 +63,11 @@ namespace MoneyBin.Forms {
 
             toolStripComboBoxGrupo.ComboBox.Items.Clear();
             toolStripComboBoxGrupo.ComboBox.Items.Add("Todos");
-            toolStripComboBoxGrupo.ComboBox.Items
-                .AddRange(_ctx.Balance.Select(b => b.Grupo).Distinct().OrderBy(b => b).ToArray());
+
+            var grupos = _ctx.Balance.Select(b => b.Grupo).Where(g => g != null).Distinct();
+            if (grupos.Any())
+                toolStripComboBoxGrupo.ComboBox.Items
+                    .AddRange(grupos.OrderBy(b => b).ToArray());
             toolStripComboBoxGrupo.ComboBox.SelectedIndex = 0;
         }
 
