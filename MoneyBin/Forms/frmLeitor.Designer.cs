@@ -44,7 +44,7 @@
             this.categoriaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.subCategoriaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descricaoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Updated = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.addToDBDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -59,7 +59,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dgvBalance);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1012, 525);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1012, 523);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -90,13 +90,13 @@
             this.categoriaDataGridViewTextBoxColumn,
             this.subCategoriaDataGridViewTextBoxColumn,
             this.descricaoDataGridViewTextBoxColumn,
-            this.Updated});
+            this.addToDBDataGridViewCheckBoxColumn});
             this.dgvBalance.DataSource = this.BalanceBindingSource;
             this.dgvBalance.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvBalance.Location = new System.Drawing.Point(0, 0);
             this.dgvBalance.Name = "dgvBalance";
             this.dgvBalance.RowTemplate.Height = 24;
-            this.dgvBalance.Size = new System.Drawing.Size(1012, 525);
+            this.dgvBalance.Size = new System.Drawing.Size(1012, 523);
             this.dgvBalance.TabIndex = 0;
             this.dgvBalance.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvBalance_CellFormatting);
             this.dgvBalance.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvBalance_CellValueChanged);
@@ -119,7 +119,7 @@
             this.toolStripButtonSalvar});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(210, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(260, 27);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButtonLerArquivo
@@ -130,7 +130,7 @@
             this.toolStripButtonLerArquivo.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonLerArquivo.Image")));
             this.toolStripButtonLerArquivo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonLerArquivo.Name = "toolStripButtonLerArquivo";
-            this.toolStripButtonLerArquivo.Size = new System.Drawing.Size(72, 22);
+            this.toolStripButtonLerArquivo.Size = new System.Drawing.Size(89, 24);
             this.toolStripButtonLerArquivo.Text = "Ler Arquivo";
             this.toolStripButtonLerArquivo.Click += new System.EventHandler(this.toolStripButtonLerArquivo_Click);
             // 
@@ -142,7 +142,7 @@
             this.toolStripButtonLimpar.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonLimpar.Image")));
             this.toolStripButtonLimpar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonLimpar.Name = "toolStripButtonLimpar";
-            this.toolStripButtonLimpar.Size = new System.Drawing.Size(84, 22);
+            this.toolStripButtonLimpar.Size = new System.Drawing.Size(106, 24);
             this.toolStripButtonLimpar.Text = "Limpar Dados";
             this.toolStripButtonLimpar.Click += new System.EventHandler(this.toolStripButtonLimpar_Click);
             // 
@@ -154,7 +154,7 @@
             this.toolStripButtonSalvar.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSalvar.Image")));
             this.toolStripButtonSalvar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonSalvar.Name = "toolStripButtonSalvar";
-            this.toolStripButtonSalvar.Size = new System.Drawing.Size(42, 22);
+            this.toolStripButtonSalvar.Size = new System.Drawing.Size(53, 24);
             this.toolStripButtonSalvar.Text = "Salvar";
             this.toolStripButtonSalvar.Click += new System.EventHandler(this.toolStripButtonSalvar_Click);
             // 
@@ -241,15 +241,15 @@
             this.descricaoDataGridViewTextBoxColumn.HeaderText = "Descrição";
             this.descricaoDataGridViewTextBoxColumn.Name = "descricaoDataGridViewTextBoxColumn";
             // 
-            // Updated
+            // addToDBDataGridViewCheckBoxColumn
             // 
-            this.Updated.DataPropertyName = "AddToDatabase";
-            this.Updated.HeaderText = "Add To Database";
-            this.Updated.Name = "Updated";
+            this.addToDBDataGridViewCheckBoxColumn.DataPropertyName = "AddToDatabase";
+            this.addToDBDataGridViewCheckBoxColumn.HeaderText = "Add To Database";
+            this.addToDBDataGridViewCheckBoxColumn.Name = "addToDBDataGridViewCheckBoxColumn";
             // 
             // frmLeitor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1012, 550);
             this.Controls.Add(this.toolStripContainer1);
@@ -297,6 +297,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn categoriaDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn subCategoriaDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn descricaoDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Updated;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn addToDBDataGridViewCheckBoxColumn;
     }
 }
