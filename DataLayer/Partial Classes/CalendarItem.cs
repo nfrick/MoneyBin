@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DataLayer {
     public partial class CalendarItem {
-        public override string ToString() => Payment.Description;
+        public override string ToString() => Payment?.Description ?? "Não definido";
 
-        public int Day => Payment.Day;
+        public int Day => Payment?.Day ?? 0;
     }
 }

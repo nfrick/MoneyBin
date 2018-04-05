@@ -27,22 +27,24 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCalendario));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.dgvCalendario = new System.Windows.Forms.DataGridView();
+            this.Day = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonPrevMonth = new System.Windows.Forms.ToolStripButton();
+            this.toolStripComboBoxMes = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripButtonNextMonth = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonSalvar = new System.Windows.Forms.ToolStripButton();
             this.paymentIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.yearDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.monthDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Day = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.paymentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.paidDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.CalendarBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripComboBoxMes = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripButtonSalvar = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCalendario)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CalendarBindingSource)).BeginInit();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.CalendarBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -51,7 +53,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dgvCalendario);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(302, 336);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(302, 333);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -82,12 +84,75 @@
             this.dgvCalendario.Name = "dgvCalendario";
             this.dgvCalendario.RowHeadersWidth = 25;
             this.dgvCalendario.RowTemplate.Height = 24;
-            this.dgvCalendario.Size = new System.Drawing.Size(302, 336);
+            this.dgvCalendario.Size = new System.Drawing.Size(302, 333);
             this.dgvCalendario.TabIndex = 0;
             this.dgvCalendario.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCalendario_CellEndEdit);
             this.dgvCalendario.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvCalendario_CellFormatting);
             this.dgvCalendario.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCalendario_CellValueChanged);
             this.dgvCalendario.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgvCalendario_CurrentCellDirtyStateChanged);
+            // 
+            // Day
+            // 
+            this.Day.DataPropertyName = "Day";
+            this.Day.HeaderText = "Dia";
+            this.Day.Name = "Day";
+            this.Day.ReadOnly = true;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonPrevMonth,
+            this.toolStripComboBoxMes,
+            this.toolStripButtonNextMonth,
+            this.toolStripButtonSalvar});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(254, 31);
+            this.toolStrip1.TabIndex = 0;
+            // 
+            // toolStripButtonPrevMonth
+            // 
+            this.toolStripButtonPrevMonth.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonPrevMonth.Font = new System.Drawing.Font("Webdings", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.toolStripButtonPrevMonth.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonPrevMonth.Image")));
+            this.toolStripButtonPrevMonth.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonPrevMonth.Name = "toolStripButtonPrevMonth";
+            this.toolStripButtonPrevMonth.Size = new System.Drawing.Size(34, 28);
+            this.toolStripButtonPrevMonth.Text = "3";
+            this.toolStripButtonPrevMonth.ToolTipText = "Mês anterior";
+            this.toolStripButtonPrevMonth.Click += new System.EventHandler(this.toolStripButtonMonth_Click);
+            // 
+            // toolStripComboBoxMes
+            // 
+            this.toolStripComboBoxMes.Name = "toolStripComboBoxMes";
+            this.toolStripComboBoxMes.Size = new System.Drawing.Size(80, 31);
+            this.toolStripComboBoxMes.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxMes_SelectedIndexChanged);
+            // 
+            // toolStripButtonNextMonth
+            // 
+            this.toolStripButtonNextMonth.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonNextMonth.Font = new System.Drawing.Font("Webdings", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.toolStripButtonNextMonth.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonNextMonth.Image")));
+            this.toolStripButtonNextMonth.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonNextMonth.Name = "toolStripButtonNextMonth";
+            this.toolStripButtonNextMonth.Size = new System.Drawing.Size(34, 28);
+            this.toolStripButtonNextMonth.Text = "4";
+            this.toolStripButtonNextMonth.ToolTipText = "Próximo mês";
+            this.toolStripButtonNextMonth.Click += new System.EventHandler(this.toolStripButtonMonth_Click);
+            // 
+            // toolStripButtonSalvar
+            // 
+            this.toolStripButtonSalvar.BackColor = System.Drawing.Color.Green;
+            this.toolStripButtonSalvar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonSalvar.ForeColor = System.Drawing.Color.White;
+            this.toolStripButtonSalvar.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSalvar.Image")));
+            this.toolStripButtonSalvar.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonSalvar.Name = "toolStripButtonSalvar";
+            this.toolStripButtonSalvar.Size = new System.Drawing.Size(53, 28);
+            this.toolStripButtonSalvar.Text = "Salvar";
+            this.toolStripButtonSalvar.Click += new System.EventHandler(this.toolStripButtonSalvar_Click);
             // 
             // paymentIDDataGridViewTextBoxColumn
             // 
@@ -113,13 +178,6 @@
             this.monthDataGridViewTextBoxColumn.ReadOnly = true;
             this.monthDataGridViewTextBoxColumn.Visible = false;
             // 
-            // Day
-            // 
-            this.Day.DataPropertyName = "Day";
-            this.Day.HeaderText = "Dia";
-            this.Day.Name = "Day";
-            this.Day.ReadOnly = true;
-            // 
             // paymentDataGridViewTextBoxColumn
             // 
             this.paymentDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -142,36 +200,6 @@
             this.CalendarBindingSource.AllowNew = false;
             this.CalendarBindingSource.DataSource = typeof(DataLayer.CalendarItem);
             // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripComboBoxMes,
-            this.toolStripButtonSalvar});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(147, 28);
-            this.toolStrip1.TabIndex = 0;
-            // 
-            // toolStripComboBoxMes
-            // 
-            this.toolStripComboBoxMes.Name = "toolStripComboBoxMes";
-            this.toolStripComboBoxMes.Size = new System.Drawing.Size(80, 28);
-            this.toolStripComboBoxMes.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxMes_SelectedIndexChanged);
-            // 
-            // toolStripButtonSalvar
-            // 
-            this.toolStripButtonSalvar.BackColor = System.Drawing.Color.Green;
-            this.toolStripButtonSalvar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButtonSalvar.ForeColor = System.Drawing.Color.White;
-            this.toolStripButtonSalvar.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSalvar.Image")));
-            this.toolStripButtonSalvar.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonSalvar.Name = "toolStripButtonSalvar";
-            this.toolStripButtonSalvar.Size = new System.Drawing.Size(53, 25);
-            this.toolStripButtonSalvar.Text = "Salvar";
-            this.toolStripButtonSalvar.Click += new System.EventHandler(this.toolStripButtonSalvar_Click);
-            // 
             // frmCalendario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
@@ -191,9 +219,9 @@
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCalendario)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CalendarBindingSource)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.CalendarBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -211,5 +239,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Day;
         private System.Windows.Forms.DataGridViewTextBoxColumn paymentDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn paidDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.ToolStripButton toolStripButtonPrevMonth;
+        private System.Windows.Forms.ToolStripButton toolStripButtonNextMonth;
     }
 }

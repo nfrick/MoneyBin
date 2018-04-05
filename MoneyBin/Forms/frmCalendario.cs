@@ -26,14 +26,14 @@ namespace MoneyBin.Forms {
             GridStyles.FormatGrid(dgvCalendario);
             GridStyles.FormatColumn(dgvCalendario.Columns[3], GridStyles.StyleInteger, 40);
             var temp = _ctx.Calendar.Select(c => new { c.Month, c.Year }).Distinct().OrderByDescending(m => m.Year).ThenByDescending(m => m.Month).ToList();
-            var Meses = temp.Select(t => new MesPicklist { Month = t.Month, Year = t.Year }).ToList();
-            Meses.Insert(0, Meses[0].ProximoMes());
-            toolStripComboBoxMes.ComboBox.DataSource = Meses;
+            var meses = temp.Select(t => new MesPicklist { Month = t.Month, Year = t.Year }).ToList();
+            meses.Insert(0, meses[0].ProximoMes());
+            toolStripComboBoxMes.ComboBox.DataSource = meses;
             toolStripComboBoxMes.ComboBox.ValueMember = "Mes";
             toolStripComboBoxMes.ComboBox.DisplayMember = "Mes";
             previousIndex = 1;
             toolStripComboBoxMes.SelectedIndex = 1;
-
+            SetHeight();
         }
 
         private void frmCalendario_FormClosing(object sender, FormClosingEventArgs e) {
@@ -88,11 +88,19 @@ namespace MoneyBin.Forms {
                 toolStripComboBoxMes.SelectedIndex = previousIndex;
             var mes = (MesPicklist)toolStripComboBoxMes.SelectedItem;
             _ctx.sp_CalendarRefresh((short)mes.Year, (short)mes.Month);
-            CalendarBindingSource.DataSource = _ctx.Calendar.Where(c => c.Month == mes.Month && c.Year == mes.Year).ToList().OrderBy(c => c.Day).ThenBy(c => c.ToString()).ToList();
-            Height = toolStrip1.Height + dgvCalendario.ColumnHeadersHeight +
-                     dgvCalendario.RowCount * (5 + dgvCalendario.RowTemplate.Height);
+            CalendarBindingSource.DataSource = _ctx.Calendar
+                .Where(c => c.Month == mes.Month && c.Year == mes.Year)
+                .ToList().OrderBy(c => c.Day).ThenBy(c => c.ToString()).ToList();
+            SetHeight();
             previousIndex = toolStripComboBoxMes.SelectedIndex;
+            EnableButtons();
         }
+
+        private void SetHeight() {
+            Height = 12 + toolStrip1.Height + dgvCalendario.ColumnHeadersHeight +
+                     dgvCalendario.RowCount * (5 + dgvCalendario.RowTemplate.Height);
+        }
+
 
         private void toolStripButtonSalvar_Click(object sender, EventArgs e) {
             dgvCalendario.EndEdit();
@@ -107,6 +115,22 @@ namespace MoneyBin.Forms {
 
         private void dgvCalendario_CurrentCellDirtyStateChanged(object sender, EventArgs e) {
             dgvCalendario.EndEdit();
+        }
+
+        private void toolStripButtonMonth_Click(object sender, EventArgs e) {
+            var btn = sender as ToolStripButton;
+            if (btn.Name.Contains("Prev")) {
+                toolStripComboBoxMes.ComboBox.SelectedIndex += 1;
+            }
+            else {
+                toolStripComboBoxMes.ComboBox.SelectedIndex -= 1;
+            }
+            EnableButtons();
+        }
+
+        private void EnableButtons() {
+            toolStripButtonNextMonth.Enabled = toolStripComboBoxMes.ComboBox.SelectedIndex < toolStripComboBoxMes.ComboBox.Items.Count - 1;
+            toolStripButtonPrevMonth.Enabled = toolStripComboBoxMes.ComboBox.SelectedIndex > 0;
         }
     }
 
