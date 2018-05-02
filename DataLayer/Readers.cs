@@ -11,7 +11,7 @@ namespace DataLayer {
     public static class BalanceFileReader {
         private const string DialogTitle = @"Leitor de Extratos";
         public static List<BalanceItem> Read() {
-            var NewItems = new List<BalanceItem>();
+            var newItems = new List<BalanceItem>();
             var dlg = new OpenFileDialog {
                 Filter = @"Balance Files|*.csv;*.txt;*.xls|All Files|*.*",
                 Multiselect = true,
@@ -24,18 +24,26 @@ namespace DataLayer {
             foreach (var file in dlg.FileNames) {
                 var extrato = new Extrato(file, includeAll);
                 if (extrato.HasEntries)
-                    NewItems.AddRange(extrato.Entries);
+                    newItems.AddRange(extrato.Entries);
             }
 
-            if (NewItems.Any())
-                return NewItems.OrderByDescending(x => x.Data).ToList();
+            if (MessageBox.Show(@"Deletar arquivo(s)?", @"Ler Extratos", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) ==
+                DialogResult.Yes) {
+                foreach (var arquivo in dlg.FileNames) {
+                    File.Delete(arquivo);
+                }
+            }
+
+            if (newItems.Any())
+                return newItems.OrderByDescending(x => x.Data).ToList();
             MessageBox.Show(@"Não há itens para serem importados.", DialogTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             return null;
         }
     }
 
     public class Extrato {
-        private static readonly MoneyBinEntities _ctx = new MoneyBinEntities();
+        private static readonly MoneyBinEntities Ctx = new MoneyBinEntities();
         private readonly Bank _banco;
         private readonly bool _getAll;
         private List<BalanceItem> _entries;
@@ -49,7 +57,7 @@ namespace DataLayer {
         /// <param name="filepath">Path of the import file</param>
         public Extrato(string filepath, bool getAll) {
             var extension = Path.GetExtension(filepath).ToLower();
-            _banco = _ctx.Banks.FirstOrDefault(b => extension.EndsWith(b.Extensao));
+            _banco = Ctx.Banks.FirstOrDefault(b => extension.EndsWith(b.Extensao));
             if (_banco == null)
                 return;
             _getAll = _banco.DataMaxMins == null || getAll;
@@ -66,12 +74,12 @@ namespace DataLayer {
         }
 
         private void ClassificaItens() {
-            var MinData = _entries.Min(p => p.Data);
-            var MinData2 = _entries.Min(p => p.Data).AddDays(-45);
-            var MaxData = _entries.Max(p => p.Data);
+            var minData = _entries.Min(p => p.Data);
+            var minData2 = _entries.Min(p => p.Data).AddDays(-45);
+            var maxData = _entries.Max(p => p.Data);
 
             var existing = _banco.Balance
-                .Where(bi => bi.Data >= MinData && bi.Data <= MaxData)
+                .Where(bi => bi.Data >= minData && bi.Data <= maxData)
                 .ToList();
 
 
@@ -91,8 +99,8 @@ namespace DataLayer {
 
             var grupos = new[] { "Rio", "Araras" };
             var aCompensar = _banco.Balance.Where(bi => grupos.Contains(bi.Grupo) &&
-                                                             bi.Data <= MinData2 &&
-                                                             bi.Data >= MaxData).ToList();
+                                                             bi.Data <= minData2 &&
+                                                             bi.Data >= maxData).ToList();
 
             var compensacoes =
                 _entries.Where(bi => bi.AddToDatabase &&
