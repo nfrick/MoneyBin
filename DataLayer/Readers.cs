@@ -10,9 +10,10 @@ using System.Xml;
 namespace DataLayer {
     public static class BalanceFileReader {
         private const string DialogTitle = @"Leitor de Extratos";
+        private static OpenFileDialog dlg;
         public static List<BalanceItem> Read() {
             var newItems = new List<BalanceItem>();
-            var dlg = new OpenFileDialog {
+            dlg = new OpenFileDialog {
                 Filter = @"Balance Files|*.csv;*.txt;*.xls|All Files|*.*",
                 Multiselect = true,
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
@@ -27,18 +28,20 @@ namespace DataLayer {
                     newItems.AddRange(extrato.Entries);
             }
 
-            if (MessageBox.Show(@"Deletar arquivo(s)?", @"Ler Extratos", MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question) ==
-                DialogResult.Yes) {
-                foreach (var arquivo in dlg.FileNames) {
-                    File.Delete(arquivo);
-                }
-            }
-
             if (newItems.Any())
-                return newItems.OrderByDescending(x => x.Data).ToList();
+                return newItems.OrderByDescending(x => x.Data).ThenBy(x => x.Valor).ToList();
+
             MessageBox.Show(@"Não há itens para serem importados.", DialogTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             return null;
+        }
+
+        public static void DeleteBalanceFiles() {
+            if (dlg == null || !dlg.FileNames.Any() || 
+                MessageBox.Show(@"Deletar arquivo(s)?", @"Ler Extratos", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) != DialogResult.Yes) return;
+            foreach (var arquivo in dlg.FileNames) {
+                File.Delete(arquivo);
+            }
         }
     }
 

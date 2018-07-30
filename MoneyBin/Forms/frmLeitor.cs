@@ -80,6 +80,7 @@ namespace MoneyBin.Forms {
                     }
                 }
             }
+            BalanceFileReader.DeleteBalanceFiles();
             return count;
         }
 
@@ -171,9 +172,5 @@ namespace MoneyBin.Forms {
             LerArquivo();
         }
         #endregion
-
-        private void dgvBalance_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e) {
-            MessageBox.Show("here");
-        }
     }
 }
