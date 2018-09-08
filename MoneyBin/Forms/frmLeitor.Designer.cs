@@ -27,11 +27,15 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLeitor));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.dgvBalance = new System.Windows.Forms.DataGridView();
-            this.BalanceBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.addToDBDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonLerArquivo = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonLimpar = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonSalvar = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripTextBoxTarget = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripButtonAdd = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonDontAdd = new System.Windows.Forms.ToolStripButton();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bancoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,13 +48,14 @@
             this.categoriaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.subCategoriaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descricaoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.addToDBDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.BalanceBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBalance)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.BalanceBindingSource)).BeginInit();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.BalanceBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -104,10 +109,11 @@
             this.dgvBalance.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgvBalance_EditingControlShowing);
             this.dgvBalance.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvBalance_RowHeaderMouseDoubleClick);
             // 
-            // BalanceBindingSource
+            // addToDBDataGridViewCheckBoxColumn
             // 
-            this.BalanceBindingSource.AllowNew = false;
-            this.BalanceBindingSource.DataSource = typeof(DataLayer.BalanceItem);
+            this.addToDBDataGridViewCheckBoxColumn.DataPropertyName = "AddToDatabase";
+            this.addToDBDataGridViewCheckBoxColumn.HeaderText = "Add To Database";
+            this.addToDBDataGridViewCheckBoxColumn.Name = "addToDBDataGridViewCheckBoxColumn";
             // 
             // toolStrip1
             // 
@@ -116,10 +122,15 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonLerArquivo,
             this.toolStripButtonLimpar,
-            this.toolStripButtonSalvar});
+            this.toolStripButtonSalvar,
+            this.toolStripSeparator1,
+            this.toolStripLabel1,
+            this.toolStripTextBoxTarget,
+            this.toolStripButtonAdd,
+            this.toolStripButtonDontAdd});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(260, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(693, 27);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButtonLerArquivo
@@ -157,6 +168,39 @@
             this.toolStripButtonSalvar.Size = new System.Drawing.Size(53, 24);
             this.toolStripButtonSalvar.Text = "Salvar";
             this.toolStripButtonSalvar.Click += new System.EventHandler(this.toolStripButtonSalvar_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
+            // 
+            // toolStripTextBoxTarget
+            // 
+            this.toolStripTextBoxTarget.Name = "toolStripTextBoxTarget";
+            this.toolStripTextBoxTarget.Size = new System.Drawing.Size(100, 27);
+            // 
+            // toolStripButtonAdd
+            // 
+            this.toolStripButtonAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.toolStripButtonAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonAdd.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonAdd.Image")));
+            this.toolStripButtonAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonAdd.Name = "toolStripButtonAdd";
+            this.toolStripButtonAdd.Size = new System.Drawing.Size(41, 24);
+            this.toolStripButtonAdd.Text = "Add";
+            this.toolStripButtonAdd.Click += new System.EventHandler(this.toolStripButtonAdd_Click);
+            // 
+            // toolStripButtonDontAdd
+            // 
+            this.toolStripButtonDontAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.toolStripButtonDontAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonDontAdd.ForeColor = System.Drawing.Color.White;
+            this.toolStripButtonDontAdd.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDontAdd.Image")));
+            this.toolStripButtonDontAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonDontAdd.Name = "toolStripButtonDontAdd";
+            this.toolStripButtonDontAdd.Size = new System.Drawing.Size(81, 24);
+            this.toolStripButtonDontAdd.Text = "Don\'t Add";
+            this.toolStripButtonDontAdd.Click += new System.EventHandler(this.toolStripButtonAdd_Click);
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -241,11 +285,16 @@
             this.descricaoDataGridViewTextBoxColumn.HeaderText = "Descrição";
             this.descricaoDataGridViewTextBoxColumn.Name = "descricaoDataGridViewTextBoxColumn";
             // 
-            // addToDBDataGridViewCheckBoxColumn
+            // BalanceBindingSource
             // 
-            this.addToDBDataGridViewCheckBoxColumn.DataPropertyName = "AddToDatabase";
-            this.addToDBDataGridViewCheckBoxColumn.HeaderText = "Add To Database";
-            this.addToDBDataGridViewCheckBoxColumn.Name = "addToDBDataGridViewCheckBoxColumn";
+            this.BalanceBindingSource.AllowNew = false;
+            this.BalanceBindingSource.DataSource = typeof(DataLayer.BalanceItem);
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(164, 24);
+            this.toolStripLabel1.Text = "Adicionar por Histórico";
             // 
             // frmLeitor
             // 
@@ -266,9 +315,9 @@
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBalance)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.BalanceBindingSource)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.BalanceBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -298,5 +347,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn subCategoriaDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn descricaoDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn addToDBDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBoxTarget;
+        private System.Windows.Forms.ToolStripButton toolStripButtonAdd;
+        private System.Windows.Forms.ToolStripButton toolStripButtonDontAdd;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
     }
 }

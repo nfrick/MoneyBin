@@ -29,7 +29,7 @@ namespace DataLayer {
             }
 
             if (newItems.Any())
-                return newItems.OrderByDescending(x => x.Data).ThenBy(x => x.Valor).ToList();
+                return newItems.OrderByDescending(x => x.Data).ToList();
 
             MessageBox.Show(@"Não há itens para serem importados.", DialogTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             return null;

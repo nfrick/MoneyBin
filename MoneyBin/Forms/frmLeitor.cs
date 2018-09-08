@@ -117,8 +117,8 @@ namespace MoneyBin.Forms {
         }
 
         private void dgvBalance_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
-            if (e.RowIndex == -1 || 
-                ! dgvBalance.Columns[e.ColumnIndex].Name.EndsWith("CheckBoxColumn")) return;
+            if (e.RowIndex == -1 ||
+                !dgvBalance.Columns[e.ColumnIndex].Name.EndsWith("CheckBoxColumn")) return;
             _BalanceItems.CalcularSaldos(e.RowIndex);
             dgvBalance.Refresh();
             AtualizarBotoes();
@@ -172,5 +172,17 @@ namespace MoneyBin.Forms {
             LerArquivo();
         }
         #endregion
+
+        private void toolStripButtonAdd_Click(object sender, EventArgs e) {
+            var text = toolStripTextBoxTarget.TextBox.Text;
+            if (string.IsNullOrEmpty(text)) return;
+            dgvBalance.DataSource = null;
+            var targets = text == "*" ? _BalanceItems : _BalanceItems.Where(b => b.Historico.StartsWith(text));
+            var check = ((ToolStripButton)sender).Text == "Add";
+            foreach (var bi in targets)
+                bi.AddToDatabase = check;
+            dgvBalance.DataSource = _BalanceItems;
+            AtualizarBotoes();
+        }
     }
 }

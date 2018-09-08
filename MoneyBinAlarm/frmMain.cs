@@ -47,6 +47,7 @@ namespace MoneyBinAlarm {
             else
                 e.CellStyle.ForeColor = Color.White;
             e.CellStyle.SelectionForeColor = e.CellStyle.ForeColor;
+            e.CellStyle.SelectionBackColor = e.CellStyle.BackColor;
         }
 
         private void labelNumDays_MouseDoubleClick(object sender, MouseEventArgs e) {
