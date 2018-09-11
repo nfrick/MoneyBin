@@ -15,7 +15,7 @@ namespace DataLayer {
         public decimal ValorParaSaldo => AfetaSaldo ? Valor : 0.0m;
         public bool AddToDatabase { get; set; }
         public int Centavos => (int)(Valor % 1 * 100);
-        public int Rule { get; set; }
+        //public int Rule { get; set; }
 
         public override string ToString() {
             return $"{Data:d}  {Historico}  {Valor:C2}";
@@ -82,7 +82,7 @@ namespace DataLayer {
         }
 
         public bool FindMatchingRule(List<Rule> rules) {
-            return Rule != 0 || rules.Any(Matches);
+            return RuleId != 0 || rules.Any(Matches);
         }
 
         public bool Matches(Rule rule) {
@@ -101,8 +101,8 @@ namespace DataLayer {
                 AfetaSaldo = !Historico.StartsWith(@"Depósito bloq", StringComparison.CurrentCultureIgnoreCase);
             else
                 AfetaSaldo = rule.AfetaSaldo;
-            AddToDatabase = (Grupo != "Saldo");
-            Rule = rule.ID;
+            AddToDatabase = rule.AddToDatabase;  // (Grupo != "Saldo");
+            RuleId = rule.ID;
             return true;
         }
 
@@ -136,7 +136,7 @@ namespace DataLayer {
             SubCategoria = "";
             Descricao = "";
             AddToDatabase = true;
-            Rule = 0;
+            RuleId = 0;
             do {
                 string s = xTDNode.InnerText;
                 switch (xTDNode.Attributes[0].Value) {

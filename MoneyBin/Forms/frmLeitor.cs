@@ -19,8 +19,9 @@ namespace MoneyBin.Forms {
 
             _BalanceItems = BalanceFileReader.Read();
             HasData = _BalanceItems != null && _BalanceItems.Any();
-            if (!HasData)
+            if (!HasData) {
                 Load += (s, e) => Close();
+            }
         }
 
         private void frmLeitor_Load(object sender, EventArgs e) {
@@ -38,7 +39,10 @@ namespace MoneyBin.Forms {
 
         private void frmLeitor_FormClosing(object sender, FormClosingEventArgs e) {
             dgvBalance.EndEdit();
-            if (!_BalanceItems.Any(bi => bi.AddToDatabase)) return;
+            if (!_BalanceItems.Any(bi => bi.AddToDatabase)) {
+                return;
+            }
+
             switch (FormUtils.PerguntaSeSalva(_BalanceItems.Count(bi => bi.AddToDatabase), Text)) {
                 case DialogResult.Cancel:
                     e.Cancel = true;
@@ -93,7 +97,8 @@ namespace MoneyBin.Forms {
 
         private void LerArquivo() {
             dgvBalance.DataSource = null;
-            _BalanceItems = _BalanceItems.Concat(BalanceFileReader.Read()).Distinct().ToList();
+            _BalanceItems = _BalanceItems.Concat(BalanceFileReader.Read())
+                .Distinct().OrderByDescending(b => b.Data).ToList();
             dgvBalance.DataSource = _BalanceItems;
             AtualizarBotoes();
         }
@@ -101,15 +106,24 @@ namespace MoneyBin.Forms {
 
         #region GRID
         private void dgvBalance_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (dgvBalance.RowCount == 0) return;
+            if (dgvBalance.RowCount == 0) {
+                return;
+            }
+
             var lastCol = dgvBalance.ColumnCount - 1;
-            if ((bool)dgvBalance.Rows[e.RowIndex].Cells[lastCol].Value) return;
+            if ((bool)dgvBalance.Rows[e.RowIndex].Cells[lastCol].Value) {
+                return;
+            }
+
             e.CellStyle.ForeColor = Color.DarkGray;
         }
 
         private void dgvBalance_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) {
             var lastCol = dgvBalance.ColumnCount - 1;
-            if (_BalanceItems.ElementAt(e.RowIndex).Grupo == "Saldo") return;
+            if (_BalanceItems.ElementAt(e.RowIndex).Grupo == "Saldo") {
+                return;
+            }
+
             var novoValor = !(bool)dgvBalance.Rows[e.RowIndex].Cells[lastCol].Value;
             dgvBalance.Rows[e.RowIndex].Cells[lastCol].Value = novoValor;
             dgvBalance.Refresh();
@@ -118,7 +132,10 @@ namespace MoneyBin.Forms {
 
         private void dgvBalance_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex == -1 ||
-                !dgvBalance.Columns[e.ColumnIndex].Name.EndsWith("CheckBoxColumn")) return;
+                !dgvBalance.Columns[e.ColumnIndex].Name.EndsWith("CheckBoxColumn")) {
+                return;
+            }
+
             _BalanceItems.CalcularSaldos(e.RowIndex);
             dgvBalance.Refresh();
             AtualizarBotoes();
@@ -149,7 +166,10 @@ namespace MoneyBin.Forms {
         private void AtualizarBotoes() {
             toolStripButtonSalvar.Visible = toolStripButtonLimpar.Visible =
                 _BalanceItems.Any(bi => bi.AddToDatabase);
-            if (!toolStripButtonSalvar.Visible) return;
+            if (!toolStripButtonSalvar.Visible) {
+                return;
+            }
+
             toolStripButtonSalvar.Text = $@"Salvar {_BalanceItems.Count(bi => bi.AddToDatabase)} novos itens";
         }
 
@@ -157,8 +177,9 @@ namespace MoneyBin.Forms {
             var count = Salvar();
             Limpar();
             if (MessageBox.Show($"{count} registros salvos. Ler outro arquivo?", Text, MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question) == DialogResult.No)
+                    MessageBoxIcon.Question) == DialogResult.No) {
                 this.Close();
+            }
             else {
                 LerArquivo();
             }
@@ -171,18 +192,24 @@ namespace MoneyBin.Forms {
         private void toolStripButtonLerArquivo_Click(object sender, EventArgs e) {
             LerArquivo();
         }
-        #endregion
 
         private void toolStripButtonAdd_Click(object sender, EventArgs e) {
             var text = toolStripTextBoxTarget.TextBox.Text;
-            if (string.IsNullOrEmpty(text)) return;
+            if (string.IsNullOrEmpty(text)) {
+                return;
+            }
+
             dgvBalance.DataSource = null;
             var targets = text == "*" ? _BalanceItems : _BalanceItems.Where(b => b.Historico.StartsWith(text));
             var check = ((ToolStripButton)sender).Text == "Add";
-            foreach (var bi in targets)
+            foreach (var bi in targets) {
                 bi.AddToDatabase = check;
+            }
+
             dgvBalance.DataSource = _BalanceItems;
             AtualizarBotoes();
         }
+
+        #endregion
     }
 }

@@ -29,6 +29,7 @@ namespace DataLayer
         public Nullable<decimal> Saldo { get; set; }
         public Nullable<int> IDAssociado { get; set; }
         public bool Reembolsavel { get; set; }
+        public int RuleId { get; set; }
     
         public virtual Bank Bank { get; set; }
     }

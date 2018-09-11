@@ -24,6 +24,7 @@ namespace DataLayer
         public string SubCategoria { get; set; }
         public string Descricao { get; set; }
         public Nullable<int> Ocorrencias { get; set; }
+        public bool AddToDatabase { get; set; }
     
         public virtual Bank Bank { get; set; }
     }

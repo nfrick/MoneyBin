@@ -27,7 +27,8 @@ namespace MoneyBin {
         }
 
         public static DialogResult PerguntaSeSalva(int alteracoes, string caption) {
-            return MessageBox.Show(TextoSalvar(alteracoes) + @"?", caption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            return alteracoes == 0 ? DialogResult.Yes : 
+                MessageBox.Show(TextoSalvar(alteracoes) + @"?", caption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
         }
 
         public static void CalculaSaldos(List<BalanceItem> lista, int start) {

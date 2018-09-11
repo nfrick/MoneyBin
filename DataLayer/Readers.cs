@@ -11,9 +11,10 @@ namespace DataLayer {
     public static class BalanceFileReader {
         private const string DialogTitle = @"Leitor de Extratos";
         private static OpenFileDialog dlg;
+
         public static List<BalanceItem> Read() {
             var newItems = new List<BalanceItem>();
-            dlg = new OpenFileDialog {
+            dlg = dlg ?? new OpenFileDialog {
                 Filter = @"Balance Files|*.csv;*.txt;*.xls|All Files|*.*",
                 Multiselect = true,
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
@@ -21,6 +22,7 @@ namespace DataLayer {
             };
             if (dlg.ShowDialog() != DialogResult.OK) return null;
 
+            dlg.InitialDirectory = Path.GetDirectoryName(dlg.FileNames[0]);
             var includeAll = MessageBox.Show(@"Incluir todos os itens?", DialogTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
             foreach (var file in dlg.FileNames) {
                 var extrato = new Extrato(file, includeAll);
@@ -91,7 +93,7 @@ namespace DataLayer {
             _entries[0].Saldo = _entries[0].ValorParaSaldo;
             var saldo = _entries[0].FindMatchingRule(rulesSaldo) ? _entries[0].Saldo : 0.0m;
 
-            var start = _entries[0].Rule == 0 ? 0 : 1;
+            var start = _entries[0].RuleId == 0 ? 0 : 1;
             for (var i = start; i < _entries.Count; i++) {
                 _entries[i].FindMatchingRule(rules);
                 saldo += _entries[i].ValorParaSaldo;

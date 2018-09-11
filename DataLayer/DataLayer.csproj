@@ -113,6 +113,9 @@
     <Compile Include="sp_AcertosPendentes_Result.cs">
       <DependentUpon>ModelMoneyBin.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_Historicos_Result.cs">
+      <DependentUpon>ModelMoneyBin.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="ModelMoneyBin.edmx">

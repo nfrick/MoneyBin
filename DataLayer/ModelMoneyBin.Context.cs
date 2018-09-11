@@ -175,5 +175,14 @@ namespace DataLayer
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<System.DateTime>>("UltimoAcerto");
         }
+    
+        public virtual ObjectResult<sp_Historicos_Result> sp_Historicos(string banco)
+        {
+            var bancoParameter = banco != null ?
+                new ObjectParameter("Banco", banco) :
+                new ObjectParameter("Banco", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Historicos_Result>("sp_Historicos", bancoParameter);
+        }
     }
 }
