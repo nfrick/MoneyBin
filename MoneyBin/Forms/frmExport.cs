@@ -13,6 +13,9 @@ using System.Xml.Linq;
 namespace MoneyBin {
     public partial class frmExport : Form {
         public List<BalanceItem> Items { get; set; }
+        public List<BalanceItem> SelectedItems { get; set; }
+        public List<DataMaxMin> Banks { get; set; }
+        public List<DataMaxMin> SelectedBanks { get; set; }
 
         private Func<bool> _exporter;
         private string _saveAs;
@@ -26,16 +29,64 @@ namespace MoneyBin {
         private void frmExport_Load(object sender, EventArgs e) {
             using (var ctx = new MoneyBinEntities()) {
                 Items = ctx.Balance.ToList();
-                dateTimePickerInicio.Value = ctx.UltimoAcerto().FirstOrDefault() ?? DateTime.Now;
+                Banks = ctx.DataMaxsMins.OrderBy(b=>b.Banco).ToList();
+                dtpAcertoInicio.Value = ctx.UltimoAcerto().FirstOrDefault() ?? DateTime.Now;
+            }
+            foreach (var b in Banks) {
+                checkedListBoxBancos.Items.Add(b.Banco);
+            }
+
+            for (var i = 0; i < checkedListBoxBancos.Items.Count; i++) {
+                checkedListBoxBancos.SetItemChecked(i, true);
             }
             _saveAs = $@"{_myDocsFolder}\Money Bin Export.csv";
             radioButtonCSV.Checked = true;
         }
 
+        private void checkedListBoxBancos_ItemCheck(object sender, ItemCheckEventArgs e) {
+            var bancosChecked = checkedListBoxBancos.CheckedItems.Cast<string>().ToList();
+            var curItem = checkedListBoxBancos.Items[e.Index].ToString();
+            if (e.NewValue == CheckState.Checked) {
+                bancosChecked.Add(curItem);
+            }
+            else {
+                bancosChecked.Remove(curItem);
+            }
+
+            SelectedBanks = Banks.Where(b => bancosChecked.Contains(b.Banco)).ToList();
+            buttonExport.Enabled = SelectedBanks.Any();
+            dtpInicio.Enabled = dtpTermino.Enabled = buttonExport.Enabled;
+            if (!buttonExport.Enabled) {
+                SelecionaParaExportar();
+                return;
+            }
+            dtpInicio.MinDate = dtpTermino.MinDate = SelectedBanks.Min(b => b.DataMin);
+            dtpInicio.MaxDate = dtpTermino.MaxDate = SelectedBanks.Max(b => b.DataMax);
+            dtpInicio.Value = dtpInicio.MinDate;
+            dtpTermino.Value = dtpTermino.MaxDate;
+            SelecionaParaExportar();
+        }
+
+        private void dtpickers_ValueChanged(object sender, EventArgs e) {
+            SelecionaParaExportar();
+        }
+
+        private void SelecionaParaExportar() {
+            var bancos = SelectedBanks.Select(b => b.Banco).ToArray();
+            SelectedItems = Items
+                .Where(b => bancos.Contains(b.Banco) && b.Data >= dtpInicio.Value && b.Data <= dtpTermino.Value).ToList();
+            labelCount.Text = SelectedItems.Count.ToString();
+            buttonExport.Enabled = SelectedItems.Any();
+        }
+
         private void radioButtons_CheckedChanged(object sender, EventArgs e) {
             var chk = sender as RadioButton;
-            if (!chk.Checked) return;
-            dateTimePickerInicio.Enabled = radioButtonAcertos.Checked;
+            if (!chk.Checked) {
+                return;
+            }
+
+            dtpAcertoInicio.Enabled = radioButtonAcertos.Checked;
+            groupBoxCriteria.Enabled = !radioButtonAcertos.Checked;
             if (radioButtonCSV.Checked) {
                 SetSaveDialog("Money Bin Export", "csv", @"CSV Files|*.csv");
                 _exporter = ExportToCSV;
@@ -65,8 +116,8 @@ namespace MoneyBin {
         private void SetSaveDialog(string filename, string extension, string filter) {
             SFD.DefaultExt = extension;
             SFD.Filter = filter;
-            _saveAs = extension == "accdb" ? 
-                $@"{_oneDriveFolder}\Documents\Financeiro\Extratos\{filename}.{extension}" : 
+            _saveAs = extension == "accdb" ?
+                $@"{_oneDriveFolder}\Documents\Financeiro\Extratos\{filename}.{extension}" :
                 $@"{_myDocsFolder}\{filename}.{extension}";
         }
 
@@ -79,18 +130,25 @@ namespace MoneyBin {
 
             if (fInfo.Extension == "accdb") {
                 do {
-                    if (SFD.ShowDialog() != DialogResult.OK) return;
+                    if (SFD.ShowDialog() != DialogResult.OK) {
+                        return;
+                    }
+
                     _saveAs = SFD.FileName;
                 } while (!File.Exists(_saveAs));
             }
             else {
-                if (SFD.ShowDialog() != DialogResult.OK) return;
+                if (SFD.ShowDialog() != DialogResult.OK) {
+                    return;
+                }
             }
 
             _saveAs = SFD.FileName;
             Cursor.Current = Cursors.WaitCursor;
-            if (_exporter())
-                MessageBox.Show(@"Dados exportados.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (_exporter()) {
+                MessageBox.Show($@"{SelectedItems.Count} registros exportados.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
             Cursor.Current = Cursors.Default;
         }
 
@@ -98,12 +156,12 @@ namespace MoneyBin {
             var progressDialog = new frmProgressBar();
             var backgroundThread = new Thread(
                 () => {
-                    progressDialog.Maximum = Items.Count;
+                    progressDialog.Maximum = SelectedItems.Count;
                     progressDialog.UpdateProgress("Exportando \u2026");
                     var sw = new StreamWriter(_saveAs, false, Encoding.Default);
                     sw.WriteLine(BalanceItem.CSVHeader());
 
-                    foreach (var item in Items) {
+                    foreach (var item in SelectedItems) {
                         progressDialog.UpdateProgress();
                         sw.WriteLine(item.ToCSV());
                     }
@@ -120,7 +178,7 @@ namespace MoneyBin {
 
         private bool ExportToXML() {
             try {
-                var xEle = new XElement("Balance", Items.Select(b => b.toXML()));
+                var xEle = new XElement("Balance", SelectedItems.Select(b => b.toXML()));
                 xEle.Save(_saveAs);
                 return true;
             }
@@ -131,18 +189,18 @@ namespace MoneyBin {
         }
 
         private bool ExportToExcel() {
-            return ToExcel(Items);
+            return ToExcel(SelectedItems);
         }
 
         private bool ExportToAcertos() {
             using (var ctx = new MoneyBinEntities()) {
-                return ToExcel(ctx.AcertosPendentes(dateTimePickerInicio.Value).ToList());
+                return ToExcel(ctx.AcertosPendentes(dtpAcertoInicio.Value).ToList());
             }
         }
 
         private bool ToExcel(IEnumerable<BalanceItem> mItems) {
             if (!mItems.Any()) {
-                MessageBox.Show(@"Não há registros para serem exportados.", this.Text, 
+                MessageBox.Show(@"Não há registros para serem exportados.", this.Text,
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
