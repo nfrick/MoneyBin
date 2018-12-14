@@ -40,6 +40,8 @@
             this.checkedListBoxBancos = new System.Windows.Forms.CheckedListBox();
             this.dtpTermino = new System.Windows.Forms.DateTimePicker();
             this.dtpInicio = new System.Windows.Forms.DateTimePicker();
+            this.checkedListBoxGrupos = new System.Windows.Forms.CheckedListBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBoxCriteria.SuspendLayout();
             this.SuspendLayout();
@@ -83,7 +85,7 @@
             this.dtpAcertoInicio.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpAcertoInicio.Location = new System.Drawing.Point(377, 52);
             this.dtpAcertoInicio.Name = "dtpAcertoInicio";
-            this.dtpAcertoInicio.Size = new System.Drawing.Size(149, 30);
+            this.dtpAcertoInicio.Size = new System.Drawing.Size(149, 26);
             this.dtpAcertoInicio.TabIndex = 19;
             // 
             // radioButtonExtrato
@@ -94,7 +96,7 @@
             this.radioButtonExtrato.Location = new System.Drawing.Point(177, 56);
             this.radioButtonExtrato.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.radioButtonExtrato.Name = "radioButtonExtrato";
-            this.radioButtonExtrato.Size = new System.Drawing.Size(150, 27);
+            this.radioButtonExtrato.Size = new System.Drawing.Size(122, 23);
             this.radioButtonExtrato.TabIndex = 18;
             this.radioButtonExtrato.TabStop = true;
             this.radioButtonExtrato.Text = "Extrato (Access)";
@@ -109,7 +111,7 @@
             this.radioButtonAcertos.Location = new System.Drawing.Point(354, 27);
             this.radioButtonAcertos.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.radioButtonAcertos.Name = "radioButtonAcertos";
-            this.radioButtonAcertos.Size = new System.Drawing.Size(172, 27);
+            this.radioButtonAcertos.Size = new System.Drawing.Size(140, 23);
             this.radioButtonAcertos.TabIndex = 17;
             this.radioButtonAcertos.TabStop = true;
             this.radioButtonAcertos.Text = "Acertos Pendentes";
@@ -124,7 +126,7 @@
             this.radioButtonExcel.Location = new System.Drawing.Point(177, 27);
             this.radioButtonExcel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.radioButtonExcel.Name = "radioButtonExcel";
-            this.radioButtonExcel.Size = new System.Drawing.Size(69, 27);
+            this.radioButtonExcel.Size = new System.Drawing.Size(56, 23);
             this.radioButtonExcel.TabIndex = 16;
             this.radioButtonExcel.TabStop = true;
             this.radioButtonExcel.Text = "Excel";
@@ -139,7 +141,7 @@
             this.radioButtonXML.Location = new System.Drawing.Point(24, 58);
             this.radioButtonXML.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.radioButtonXML.Name = "radioButtonXML";
-            this.radioButtonXML.Size = new System.Drawing.Size(64, 27);
+            this.radioButtonXML.Size = new System.Drawing.Size(55, 23);
             this.radioButtonXML.TabIndex = 15;
             this.radioButtonXML.TabStop = true;
             this.radioButtonXML.Text = "XML";
@@ -154,7 +156,7 @@
             this.radioButtonCSV.Location = new System.Drawing.Point(24, 27);
             this.radioButtonCSV.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.radioButtonCSV.Name = "radioButtonCSV";
-            this.radioButtonCSV.Size = new System.Drawing.Size(62, 27);
+            this.radioButtonCSV.Size = new System.Drawing.Size(52, 23);
             this.radioButtonCSV.TabIndex = 14;
             this.radioButtonCSV.TabStop = true;
             this.radioButtonCSV.Text = "CSV";
@@ -176,6 +178,8 @@
             // 
             // groupBoxCriteria
             // 
+            this.groupBoxCriteria.Controls.Add(this.label3);
+            this.groupBoxCriteria.Controls.Add(this.checkedListBoxGrupos);
             this.groupBoxCriteria.Controls.Add(this.labelCount);
             this.groupBoxCriteria.Controls.Add(this.label2);
             this.groupBoxCriteria.Controls.Add(this.label1);
@@ -184,19 +188,18 @@
             this.groupBoxCriteria.Controls.Add(this.dtpInicio);
             this.groupBoxCriteria.Location = new System.Drawing.Point(19, 135);
             this.groupBoxCriteria.Name = "groupBoxCriteria";
-            this.groupBoxCriteria.Size = new System.Drawing.Size(409, 129);
+            this.groupBoxCriteria.Size = new System.Drawing.Size(409, 236);
             this.groupBoxCriteria.TabIndex = 16;
             this.groupBoxCriteria.TabStop = false;
             this.groupBoxCriteria.Text = "Critério";
             // 
             // labelCount
             // 
-            this.labelCount.AutoSize = true;
             this.labelCount.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelCount.ForeColor = System.Drawing.Color.Black;
-            this.labelCount.Location = new System.Drawing.Point(315, 55);
+            this.labelCount.Location = new System.Drawing.Point(27, 200);
             this.labelCount.Name = "labelCount";
-            this.labelCount.Size = new System.Drawing.Size(66, 28);
+            this.labelCount.Size = new System.Drawing.Size(356, 21);
             this.labelCount.TabIndex = 5;
             this.labelCount.Text = "count";
             this.labelCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -205,9 +208,9 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(128, 78);
+            this.label2.Location = new System.Drawing.Point(24, 161);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(36, 23);
+            this.label2.Size = new System.Drawing.Size(30, 19);
             this.label2.TabIndex = 4;
             this.label2.Text = "Até";
             // 
@@ -215,45 +218,64 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(128, 35);
+            this.label1.Location = new System.Drawing.Point(23, 118);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(31, 23);
+            this.label1.Size = new System.Drawing.Size(26, 19);
             this.label1.TabIndex = 3;
             this.label1.Text = "De";
             // 
             // checkedListBoxBancos
             // 
             this.checkedListBoxBancos.FormattingEnabled = true;
-            this.checkedListBoxBancos.Location = new System.Drawing.Point(24, 29);
+            this.checkedListBoxBancos.Location = new System.Drawing.Point(91, 29);
             this.checkedListBoxBancos.Name = "checkedListBoxBancos";
-            this.checkedListBoxBancos.Size = new System.Drawing.Size(87, 79);
+            this.checkedListBoxBancos.Size = new System.Drawing.Size(87, 67);
             this.checkedListBoxBancos.TabIndex = 2;
             this.checkedListBoxBancos.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxBancos_ItemCheck);
             // 
             // dtpTermino
             // 
             this.dtpTermino.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpTermino.Location = new System.Drawing.Point(165, 72);
+            this.dtpTermino.Location = new System.Drawing.Point(60, 155);
             this.dtpTermino.Name = "dtpTermino";
-            this.dtpTermino.Size = new System.Drawing.Size(118, 30);
+            this.dtpTermino.Size = new System.Drawing.Size(118, 26);
             this.dtpTermino.TabIndex = 1;
             this.dtpTermino.ValueChanged += new System.EventHandler(this.dtpickers_ValueChanged);
             // 
             // dtpInicio
             // 
             this.dtpInicio.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpInicio.Location = new System.Drawing.Point(165, 29);
+            this.dtpInicio.Location = new System.Drawing.Point(60, 112);
             this.dtpInicio.Name = "dtpInicio";
-            this.dtpInicio.Size = new System.Drawing.Size(118, 30);
+            this.dtpInicio.Size = new System.Drawing.Size(118, 26);
             this.dtpInicio.TabIndex = 0;
             this.dtpInicio.ValueChanged += new System.EventHandler(this.dtpickers_ValueChanged);
             // 
+            // checkedListBoxGrupos
+            // 
+            this.checkedListBoxGrupos.FormattingEnabled = true;
+            this.checkedListBoxGrupos.Location = new System.Drawing.Point(212, 29);
+            this.checkedListBoxGrupos.Name = "checkedListBoxGrupos";
+            this.checkedListBoxGrupos.Size = new System.Drawing.Size(171, 151);
+            this.checkedListBoxGrupos.TabIndex = 6;
+            this.checkedListBoxGrupos.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxGrupos_ItemCheck);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.Black;
+            this.label3.Location = new System.Drawing.Point(23, 29);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(52, 19);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Bancos";
+            // 
             // frmExport
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(582, 276);
+            this.ClientSize = new System.Drawing.Size(583, 389);
             this.Controls.Add(this.groupBoxCriteria);
             this.Controls.Add(this.buttonSair);
             this.Controls.Add(this.groupBox1);
@@ -293,5 +315,7 @@
         private System.Windows.Forms.DateTimePicker dtpTermino;
         private System.Windows.Forms.DateTimePicker dtpInicio;
         private System.Windows.Forms.Label labelCount;
+        private System.Windows.Forms.CheckedListBox checkedListBoxGrupos;
+        private System.Windows.Forms.Label label3;
     }
 }

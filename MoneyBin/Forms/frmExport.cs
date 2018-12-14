@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace MoneyBin {
     public partial class frmExport : Form {
@@ -17,6 +18,7 @@ namespace MoneyBin {
         public List<DataMaxMin> Banks { get; set; }
         public List<DataMaxMin> SelectedBanks { get; set; }
 
+        private List<string> _gruposChecked;
         private Func<bool> _exporter;
         private string _saveAs;
         private readonly string _myDocsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -33,12 +35,10 @@ namespace MoneyBin {
                 dtpAcertoInicio.Value = ctx.UltimoAcerto().FirstOrDefault() ?? DateTime.Now;
             }
             foreach (var b in Banks) {
-                checkedListBoxBancos.Items.Add(b.Banco);
-            }
-
-            for (var i = 0; i < checkedListBoxBancos.Items.Count; i++) {
+                var i = checkedListBoxBancos.Items.Add(b.Banco);
                 checkedListBoxBancos.SetItemChecked(i, true);
             }
+
             _saveAs = $@"{_myDocsFolder}\Money Bin Export.csv";
             radioButtonCSV.Checked = true;
         }
@@ -55,7 +55,8 @@ namespace MoneyBin {
 
             SelectedBanks = Banks.Where(b => bancosChecked.Contains(b.Banco)).ToList();
             buttonExport.Enabled = SelectedBanks.Any();
-            dtpInicio.Enabled = dtpTermino.Enabled = buttonExport.Enabled;
+            dtpInicio.Enabled = dtpTermino.Enabled = 
+                checkedListBoxGrupos.Enabled = buttonExport.Enabled;
             if (!buttonExport.Enabled) {
                 SelecionaParaExportar();
                 return;
@@ -67,15 +68,33 @@ namespace MoneyBin {
             SelecionaParaExportar();
         }
 
+        private void AtualizaGrupos() {
+            var bancos = SelectedBanks.Select(b => b.Banco).ToArray();
+            checkedListBoxGrupos.Items.Clear();
+            checkedListBoxGrupos.Items.AddRange(Items
+                .Where(b => bancos.Contains(b.Banco) &&
+                            b.Data >= dtpInicio.Value && b.Data <= dtpTermino.Value)
+                .GroupBy(b => b.Grupo)
+                .Select(g => $"{g.Key} ({g.Count()})" )
+                .OrderBy(b => b).ToArray());
+
+            for (var i = 0; i < checkedListBoxGrupos.Items.Count; i++) {
+                checkedListBoxGrupos.SetItemChecked(i, true);
+            }
+        }
+
         private void dtpickers_ValueChanged(object sender, EventArgs e) {
+            AtualizaGrupos();
             SelecionaParaExportar();
         }
 
         private void SelecionaParaExportar() {
             var bancos = SelectedBanks.Select(b => b.Banco).ToArray();
             SelectedItems = Items
-                .Where(b => bancos.Contains(b.Banco) && b.Data >= dtpInicio.Value && b.Data <= dtpTermino.Value).ToList();
-            labelCount.Text = SelectedItems.Count.ToString();
+                .Where(b => bancos.Contains(b.Banco) && 
+                b.Data >= dtpInicio.Value && b.Data <= dtpTermino.Value &&
+                _gruposChecked.Contains(b.Grupo)).ToList();
+            labelCount.Text = $"Registros a serem exportados: {SelectedItems.Count}";
             buttonExport.Enabled = SelectedItems.Any();
         }
 
@@ -283,6 +302,22 @@ namespace MoneyBin {
 
         private void buttonSair_Click(object sender, EventArgs e) {
             this.Close();
+        }
+
+        private void checkedListBoxGrupos_ItemCheck(object sender, ItemCheckEventArgs e) {
+            _gruposChecked = checkedListBoxGrupos.CheckedItems.Cast<string>()
+                .Select(g => g.Substring(0,g.IndexOf(" ("))).ToList();
+
+            var curItem = checkedListBoxGrupos.Items[e.Index].ToString();
+            curItem = curItem.Substring(0, curItem.IndexOf(" ("));
+            if (e.NewValue == CheckState.Checked) {
+                _gruposChecked.Add(curItem);
+            }
+            else {
+                _gruposChecked.Remove(curItem);
+            }
+
+            SelecionaParaExportar();
         }
     }
 }

@@ -31,6 +31,7 @@ namespace MoneyBin.Forms {
             GridStyles.FormatColumns(dgvBalance, 6, 7, GridStyles.StyleCurrency, 80);
             dgvBalance.Columns[3].Width = 400;
             dgvBalance.Columns[5].Width = 50;
+            dgvBalance.Columns[12].Width = 50;
 
             this.Width = 150 + dgvBalance.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
 
