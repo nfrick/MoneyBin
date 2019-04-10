@@ -34,14 +34,14 @@
             this.radioButtonCSV = new System.Windows.Forms.RadioButton();
             this.buttonSair = new System.Windows.Forms.Button();
             this.groupBoxCriteria = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.checkedListBoxGrupos = new System.Windows.Forms.CheckedListBox();
             this.labelCount = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.checkedListBoxBancos = new System.Windows.Forms.CheckedListBox();
             this.dtpTermino = new System.Windows.Forms.DateTimePicker();
             this.dtpInicio = new System.Windows.Forms.DateTimePicker();
-            this.checkedListBoxGrupos = new System.Windows.Forms.CheckedListBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBoxCriteria.SuspendLayout();
             this.SuspendLayout();
@@ -193,6 +193,25 @@
             this.groupBoxCriteria.TabStop = false;
             this.groupBoxCriteria.Text = "Critério";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.Black;
+            this.label3.Location = new System.Drawing.Point(23, 29);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(52, 19);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Bancos";
+            // 
+            // checkedListBoxGrupos
+            // 
+            this.checkedListBoxGrupos.FormattingEnabled = true;
+            this.checkedListBoxGrupos.Location = new System.Drawing.Point(212, 29);
+            this.checkedListBoxGrupos.Name = "checkedListBoxGrupos";
+            this.checkedListBoxGrupos.Size = new System.Drawing.Size(171, 151);
+            this.checkedListBoxGrupos.TabIndex = 6;
+            this.checkedListBoxGrupos.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxGrupos_ItemCheck);
+            // 
             // labelCount
             // 
             this.labelCount.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -223,6 +242,7 @@
             this.label1.Size = new System.Drawing.Size(26, 19);
             this.label1.TabIndex = 3;
             this.label1.Text = "De";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // checkedListBoxBancos
             // 
@@ -251,25 +271,6 @@
             this.dtpInicio.TabIndex = 0;
             this.dtpInicio.ValueChanged += new System.EventHandler(this.dtpickers_ValueChanged);
             // 
-            // checkedListBoxGrupos
-            // 
-            this.checkedListBoxGrupos.FormattingEnabled = true;
-            this.checkedListBoxGrupos.Location = new System.Drawing.Point(212, 29);
-            this.checkedListBoxGrupos.Name = "checkedListBoxGrupos";
-            this.checkedListBoxGrupos.Size = new System.Drawing.Size(171, 151);
-            this.checkedListBoxGrupos.TabIndex = 6;
-            this.checkedListBoxGrupos.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxGrupos_ItemCheck);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(23, 29);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(52, 19);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Bancos";
-            // 
             // frmExport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
@@ -288,6 +289,7 @@
             this.Name = "frmExport";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Exportar";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmExport_FormClosing);
             this.Load += new System.EventHandler(this.frmExport_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

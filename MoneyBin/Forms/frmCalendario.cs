@@ -1,16 +1,10 @@
-﻿using System;
+﻿using DataLayer;
+using GridAndChartStyleLibrary;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Validation;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DataLayer;
-using GridAndChartStyleLibrary;
 
 namespace MoneyBin.Forms {
     public partial class frmCalendario : Form {
@@ -19,7 +13,7 @@ namespace MoneyBin.Forms {
         public frmCalendario() {
             InitializeComponent();
             _ctx = new MoneyBinEntities();
-            toolStripButtonSalvar.Visible = false;
+            //toolStripButtonSalvar.Visible = false;
         }
 
         private void frmCalendario_Load(object sender, EventArgs e) {
@@ -27,18 +21,32 @@ namespace MoneyBin.Forms {
             GridStyles.FormatColumn(dgvCalendario.Columns[3], GridStyles.StyleInteger, 40);
             var temp = _ctx.Calendar.Select(c => new { c.Month, c.Year }).Distinct().OrderByDescending(m => m.Year).ThenByDescending(m => m.Month).ToList();
             var meses = temp.Select(t => new MesPicklist { Month = t.Month, Year = t.Year }).ToList();
-            meses.Insert(0, meses[0].ProximoMes());
-            toolStripComboBoxMes.ComboBox.DataSource = meses;
+            if (meses.Count == 0) {
+                previousIndex = 0;
+                meses.Insert(0, new MesPicklist());
+                meses.Insert(0, meses[0].ProximoMes);
+            }
+            else {
+                meses.Insert(0, meses[0].ProximoMes);
+            }
+
             toolStripComboBoxMes.ComboBox.ValueMember = "Mes";
             toolStripComboBoxMes.ComboBox.DisplayMember = "Mes";
+            toolStripComboBoxMes.ComboBox.DataSource = meses;
+
             previousIndex = 1;
             toolStripComboBoxMes.SelectedIndex = 1;
+
             SetHeight();
+            UpdateToolbarButtons();
         }
 
         private void frmCalendario_FormClosing(object sender, FormClosingEventArgs e) {
             dgvCalendario.EndEdit();
-            if (!toolStripButtonSalvar.Visible) return;
+            if (!toolStripButtonSalvar.Visible) {
+                return;
+            }
+
             switch (FormUtils.PerguntaSeSalva(_ctx.ChangeTracker, Text)) {
                 case DialogResult.Cancel:
                     e.Cancel = true;
@@ -55,16 +63,23 @@ namespace MoneyBin.Forms {
 
         private void dgvCalendario_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             var cal = (CalendarItem)dgvCalendario.Rows[e.RowIndex].DataBoundItem;
-            if (cal.Paid) e.CellStyle.ForeColor = Color.Gray;
+            if (cal.Paid) {
+                e.CellStyle.ForeColor = Color.Gray;
+            }
         }
 
         private void dgvCalendario_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex == -1 || dgvCalendario.Columns[e.ColumnIndex].Name !=
-                "afetaSaldoDataGridViewCheckBoxColumn") return;
+                "afetaSaldoDataGridViewCheckBoxColumn") {
+                return;
+            }
         }
 
         private void toolStripComboBoxMes_SelectedIndexChanged(object sender, EventArgs e) {
-            if (previousIndex == -1) return;
+            if (previousIndex == -1) {
+                return;
+            }
+
             var reload = false;
             if (toolStripComboBoxMes.SelectedIndex == 0) {
                 var novoMes = (MesPicklist)toolStripComboBoxMes.Items[0];
@@ -84,8 +99,10 @@ namespace MoneyBin.Forms {
                     _ctx.SaveChanges();
                 }
             }
-            if (reload)
+            if (reload) {
                 toolStripComboBoxMes.SelectedIndex = previousIndex;
+            }
+
             var mes = (MesPicklist)toolStripComboBoxMes.SelectedItem;
             _ctx.sp_CalendarRefresh((short)mes.Year, (short)mes.Month);
             CalendarBindingSource.DataSource = _ctx.Calendar
@@ -97,7 +114,7 @@ namespace MoneyBin.Forms {
         }
 
         private void SetHeight() {
-            Height = 12 + toolStrip1.Height + dgvCalendario.ColumnHeadersHeight +
+            Height = 30 + toolStrip1.Height + dgvCalendario.ColumnHeadersHeight +
                      dgvCalendario.RowCount * (5 + dgvCalendario.RowTemplate.Height);
         }
 
@@ -109,8 +126,15 @@ namespace MoneyBin.Forms {
         }
 
         private void dgvCalendario_CellEndEdit(object sender, DataGridViewCellEventArgs e) {
+            UpdateToolbarButtons();
+        }
+
+        private void UpdateToolbarButtons() {
             toolStripButtonSalvar.Text = FormUtils.TextoSalvar(_ctx.ChangeTracker);
             toolStripButtonSalvar.Visible = _ctx.ChangeTracker.HasChanges();
+            toolStripEncontrarPagamentos.Visible = dgvCalendario.Rows.OfType<DataGridViewRow>()
+                .Select(r => (CalendarItem)r.DataBoundItem)
+                .Any(r => r.Scheduled && !r.Paid && (r.Payment.Historico != null || r.Payment.Valor != null));
         }
 
         private void dgvCalendario_CurrentCellDirtyStateChanged(object sender, EventArgs e) {
@@ -132,17 +156,61 @@ namespace MoneyBin.Forms {
             toolStripButtonNextMonth.Enabled = toolStripComboBoxMes.ComboBox.SelectedIndex < toolStripComboBoxMes.ComboBox.Items.Count - 1;
             toolStripButtonPrevMonth.Enabled = toolStripComboBoxMes.ComboBox.SelectedIndex > 0;
         }
+
+        private void toolStripButtonEncontrarPagamentos_Click(object sender, EventArgs e) {
+            var mes = (MesPicklist)toolStripComboBoxMes.SelectedItem;
+            var pagamentos = _ctx.Balance.Where(b => b.Valor < 0
+                                                     && b.Data.Year == mes.Year
+                                                     && b.Data.Month == mes.Month12).ToList();
+            var naoPagos = dgvCalendario.Rows.OfType<DataGridViewRow>()
+                .Select(r => (CalendarItem)r.DataBoundItem).Where(r => r.Scheduled && !r.Paid &&
+                (r.Payment.Historico != null || r.Payment.Valor != null));
+
+            foreach (var item in naoPagos) {
+                var ip = item.Payment;
+                IEnumerable<BalanceItem> found;
+                if (ip.Historico != null && ip.Valor != null) {
+                    found = pagamentos.Where(p => p.Historico.Contains(ip.Historico) &&
+                    p.Valor == -1 * ip.Valor);
+                }
+                else if (ip.Historico != null) {
+                    found = pagamentos.Where(p => p.Historico.Contains(ip.Historico));
+                }
+                else {
+                    found = pagamentos.Where(p => p.Valor == -1 * ip.Valor);
+                }
+                if (!found.Any()) {
+                    MessageBox.Show(item.ToString().ToUpper() +
+                                ":\n\n\tNenhum pagamentos encontrado.",
+                                "Confirmar Pagamento", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    continue;
+                }
+
+                var text = found.Select(f => f.ToString())
+                    .Aggregate((i, j) => "\t" + i.ToString() + "\n" + j.ToString());
+                item.Paid = MessageBox.Show(item.ToString().ToUpper() +
+                                            ":\n\n" + text + "\n\nConfirma?",
+                                "Confirmar Pagamento", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
+                            DialogResult.Yes;
+            }
+            dgvCalendario.Refresh();
+            UpdateToolbarButtons();
+        }
     }
 
     internal class MesPicklist {
-        public string Mes => $"{1 + Math.Log(Month, 2):00}-{Year}";
         public int Month { get; set; }
         public int Year { get; set; }
+        public int Month12 => 1 + (int)Math.Log(Month, 2);
+        public string Mes => $"{Month12:00}-{Year}";
 
-        public MesPicklist ProximoMes() {
-            var ultimoMes = 1 + (int)Math.Log(Month, 2);
-            return ultimoMes == 12 ? new MesPicklist() { Month = 1, Year = Year + 1 } :
-                new MesPicklist() { Month = Month * 2, Year = Year };
+        public MesPicklist() {
+            Month = (int)Math.Pow(2, DateTime.Today.Month - 1);
+            Year = DateTime.Today.Year;
         }
+
+        public MesPicklist ProximoMes =>
+            Month12 == 12 ? new MesPicklist() { Month = 1, Year = Year + 1 } :
+                new MesPicklist() { Month = Month * 2, Year = Year };
     }
 }

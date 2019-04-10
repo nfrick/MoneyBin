@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace MoneyBin {
     public partial class frmExport : Form {
@@ -23,7 +22,7 @@ namespace MoneyBin {
         private string _saveAs;
         private readonly string _myDocsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private readonly string _oneDriveFolder = Environment.GetEnvironmentVariable("ONEDRIVE");
-
+        private readonly DateTime _lastExportDate = Properties.Settings.Default.LastExport;
         public frmExport() {
             InitializeComponent();
         }
@@ -31,7 +30,7 @@ namespace MoneyBin {
         private void frmExport_Load(object sender, EventArgs e) {
             using (var ctx = new MoneyBinEntities()) {
                 Items = ctx.Balance.ToList();
-                Banks = ctx.DataMaxsMins.OrderBy(b=>b.Banco).ToList();
+                Banks = ctx.DataMaxsMins.OrderBy(b => b.Banco).ToList();
                 dtpAcertoInicio.Value = ctx.UltimoAcerto().FirstOrDefault() ?? DateTime.Now;
             }
             foreach (var b in Banks) {
@@ -55,7 +54,7 @@ namespace MoneyBin {
 
             SelectedBanks = Banks.Where(b => bancosChecked.Contains(b.Banco)).ToList();
             buttonExport.Enabled = SelectedBanks.Any();
-            dtpInicio.Enabled = dtpTermino.Enabled = 
+            dtpInicio.Enabled = dtpTermino.Enabled =
                 checkedListBoxGrupos.Enabled = buttonExport.Enabled;
             if (!buttonExport.Enabled) {
                 SelecionaParaExportar();
@@ -75,7 +74,7 @@ namespace MoneyBin {
                 .Where(b => bancos.Contains(b.Banco) &&
                             b.Data >= dtpInicio.Value && b.Data <= dtpTermino.Value)
                 .GroupBy(b => b.Grupo)
-                .Select(g => $"{g.Key} ({g.Count()})" )
+                .Select(g => $"{g.Key} ({g.Count()})")
                 .OrderBy(b => b).ToArray());
 
             for (var i = 0; i < checkedListBoxGrupos.Items.Count; i++) {
@@ -91,7 +90,7 @@ namespace MoneyBin {
         private void SelecionaParaExportar() {
             var bancos = SelectedBanks.Select(b => b.Banco).ToArray();
             SelectedItems = Items
-                .Where(b => bancos.Contains(b.Banco) && 
+                .Where(b => bancos.Contains(b.Banco) &&
                 b.Data >= dtpInicio.Value && b.Data <= dtpTermino.Value &&
                 _gruposChecked.Contains(b.Grupo)).ToList();
             labelCount.Text = $"Registros a serem exportados: {SelectedItems.Count}";
@@ -306,7 +305,7 @@ namespace MoneyBin {
 
         private void checkedListBoxGrupos_ItemCheck(object sender, ItemCheckEventArgs e) {
             _gruposChecked = checkedListBoxGrupos.CheckedItems.Cast<string>()
-                .Select(g => g.Substring(0,g.IndexOf(" ("))).ToList();
+                .Select(g => g.Substring(0, g.IndexOf(" ("))).ToList();
 
             var curItem = checkedListBoxGrupos.Items[e.Index].ToString();
             curItem = curItem.Substring(0, curItem.IndexOf(" ("));
@@ -318,6 +317,17 @@ namespace MoneyBin {
             }
 
             SelecionaParaExportar();
+        }
+
+        private void label1_Click(object sender, EventArgs e) {
+            if (_lastExportDate.Year == 1) return;
+            dtpInicio.Value = (dtpInicio.Value == dtpInicio.MinDate) ?
+                _lastExportDate : dtpInicio.MinDate;
+        }
+
+        private void frmExport_FormClosing(object sender, FormClosingEventArgs e) {
+            Properties.Settings.Default.LastExport = dtpTermino.Value;
+            Properties.Settings.Default.Save();
         }
     }
 }

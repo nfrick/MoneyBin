@@ -26,6 +26,8 @@ namespace DataLayer
         public byte Day { get; set; }
         public bool Enabled { get; set; }
         public int Months { get; set; }
+        public string Historico { get; set; }
+        public Nullable<decimal> Valor { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CalendarItem> CalendarItems { get; set; }

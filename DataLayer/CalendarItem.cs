@@ -18,6 +18,7 @@ namespace DataLayer
         public short Month { get; set; }
         public int PaymentID { get; set; }
         public bool Paid { get; set; }
+        public bool Scheduled { get; set; }
     
         public virtual Payment Payment { get; set; }
     }

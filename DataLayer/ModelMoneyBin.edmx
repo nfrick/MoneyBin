@@ -21,6 +21,7 @@
           <Property Name="Year" Type="smallint" Nullable="false" />
           <Property Name="Month" Type="smallint" Nullable="false" />
           <Property Name="PaymentID" Type="int" Nullable="false" />
+          <Property Name="Scheduled" Type="bit" Nullable="false" />
           <Property Name="Paid" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tblPayments">
@@ -33,6 +34,8 @@
           <Property Name="Day" Type="tinyint" Nullable="false" />
           <Property Name="Enabled" Type="bit" Nullable="false" />
           <Property Name="Months" Type="int" Nullable="false" />
+          <Property Name="Valor" Type="money" />
+          <Property Name="Historico" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="tblRules">
           <Key>
@@ -154,7 +157,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Parameter Name="Month" Type="smallint" Mode="In" />
         </Function>
         <Function Name="sp_Historicos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Banco" Type="char" Mode="In" />
+          <Parameter Name="Banco" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="MoneyBinModelStoreContainer">
           <EntitySet Name="tblBanks" EntityType="Self.tblBanks" Schema="dbo" store:Type="Tables" />
@@ -223,6 +226,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Property Name="PaymentID" Type="Int32" Nullable="false" />
           <Property Name="Paid" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Payment" Relationship="MoneyBinModel.tblPaymenttblCalendar" FromRole="tblCalendar" ToRole="tblPayment" />
+          <Property Name="Scheduled" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Payment">
           <Key>
@@ -235,6 +239,8 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Property Name="Enabled" Type="Boolean" Nullable="false" />
           <Property Name="Months" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CalendarItems" Relationship="MoneyBinModel.tblPaymenttblCalendar" FromRole="tblPayment" ToRole="tblCalendar" />
+          <Property Name="Historico" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Valor" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <EntityContainer Name="MoneyBinEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Calendar" EntityType="MoneyBinModel.CalendarItem" />
@@ -299,7 +305,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <FunctionImport Name="UltimoAcerto" ReturnType="Collection(DateTime)" />
           <EntitySet Name="Reembolsaveis" EntityType="MoneyBinModel.Reembolsaveis" />
           <FunctionImport Name="sp_Historicos" ReturnType="Collection(MoneyBinModel.sp_Historicos_Result)">
-            <Parameter Name="Banco" Mode="In" Type="String" />
+          <Parameter Name="Banco" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <Association Name="tblPaymenttblCalendar">
@@ -469,6 +475,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <EntitySetMapping Name="Calendar">
             <EntityTypeMapping TypeName="MoneyBinModel.CalendarItem">
               <MappingFragment StoreEntitySet="tblCalendar">
+                <ScalarProperty Name="Scheduled" ColumnName="Scheduled" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
@@ -479,6 +486,8 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <EntitySetMapping Name="Payments">
             <EntityTypeMapping TypeName="MoneyBinModel.Payment">
               <MappingFragment StoreEntitySet="tblPayments">
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="Historico" ColumnName="Historico" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Group" ColumnName="Group" />
                 <ScalarProperty Name="Description" ColumnName="Description" />

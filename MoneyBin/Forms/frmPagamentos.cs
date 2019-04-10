@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GridAndChartStyleLibrary;
 
 namespace MoneyBin.Forms {
     public partial class frmPagamentos : Form {
@@ -17,13 +18,16 @@ namespace MoneyBin.Forms {
         }
 
         private void frmPagamentos_Load(object sender, EventArgs e) {
+            GridStyles.FormatGrid(dgvPagamentos);
             dgvPagamentos.Columns[0].Visible = false;
             dgvPagamentos.Columns[1].Width = 50;
-            dgvPagamentos.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dgvPagamentos.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.TopRight;
-            for (var col = 4; col < dgvPagamentos.ColumnCount; col++) {
+            dgvPagamentos.Columns[3].Width = 150;
+            GridStyles.FormatColumn(dgvPagamentos.Columns[4], GridStyles.StyleInteger, 50);
+            dgvPagamentos.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            GridStyles.FormatColumn(dgvPagamentos.Columns[6], GridStyles.StyleCurrency, 70);
+            for (var col = 7; col < dgvPagamentos.ColumnCount; col++) {
                 dgvPagamentos.Columns[col].Width = 50;
-            }
+            }          
         }
 
         private void frmPagamentos_FormClosing(object sender, FormClosingEventArgs e) {
@@ -61,6 +65,20 @@ namespace MoneyBin.Forms {
             var tracker = entityDataSource1.DbContext.ChangeTracker;
             if((toolStrip1.Visible = tracker.HasChanges()))
             toolStripButtonSalvar.Text = FormUtils.TextoSalvar(entityDataSource1.DbContext.ChangeTracker);
+        }
+
+        private void dgvPagamentos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
+            var dgv = (DataGridView) sender;
+            if (dgv.RowCount == 0) {
+                return;
+            }
+
+            var ativo = dgv.Rows[e.RowIndex].Cells[1].Value ?? false;
+            if ((bool)ativo) {
+                return;
+            }
+
+            e.CellStyle.ForeColor = Color.DarkGray;
         }
     }
 }
