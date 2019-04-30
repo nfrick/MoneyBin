@@ -3,6 +3,7 @@ using GridAndChartStyleLibrary;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -13,22 +14,21 @@ namespace MoneyBin.Forms {
         public frmCalendario() {
             InitializeComponent();
             _ctx = new MoneyBinEntities();
-            //toolStripButtonSalvar.Visible = false;
         }
 
         private void frmCalendario_Load(object sender, EventArgs e) {
             GridStyles.FormatGrid(dgvCalendario);
             GridStyles.FormatColumn(dgvCalendario.Columns[3], GridStyles.StyleInteger, 40);
-            var temp = _ctx.Calendar.Select(c => new { c.Month, c.Year }).Distinct().OrderByDescending(m => m.Year).ThenByDescending(m => m.Month).ToList();
-            var meses = temp.Select(t => new MesPicklist { Month = t.Month, Year = t.Year }).ToList();
+
+            var meses = _ctx.Calendar.GroupBy(p => new { p.Year, p.Month })
+                .Select(g => new MesPicklist { Month = g.FirstOrDefault().Month, Year = g.FirstOrDefault().Year})
+                .OrderByDescending(m => m.Year).ThenByDescending(m=> m.Month).ToList();
+
             if (meses.Count == 0) {
                 previousIndex = 0;
                 meses.Insert(0, new MesPicklist());
-                meses.Insert(0, meses[0].ProximoMes);
             }
-            else {
-                meses.Insert(0, meses[0].ProximoMes);
-            }
+            meses.Insert(0, meses[0].ProximoMes);
 
             toolStripComboBoxMes.ComboBox.ValueMember = "Mes";
             toolStripComboBoxMes.ComboBox.DisplayMember = "Mes";
@@ -111,13 +111,13 @@ namespace MoneyBin.Forms {
             SetHeight();
             previousIndex = toolStripComboBoxMes.SelectedIndex;
             EnableButtons();
+            UpdateToolbarButtons();
         }
 
         private void SetHeight() {
             Height = 30 + toolStrip1.Height + dgvCalendario.ColumnHeadersHeight +
                      dgvCalendario.RowCount * (5 + dgvCalendario.RowTemplate.Height);
         }
-
 
         private void toolStripButtonSalvar_Click(object sender, EventArgs e) {
             dgvCalendario.EndEdit();
@@ -132,9 +132,13 @@ namespace MoneyBin.Forms {
         private void UpdateToolbarButtons() {
             toolStripButtonSalvar.Text = FormUtils.TextoSalvar(_ctx.ChangeTracker);
             toolStripButtonSalvar.Visible = _ctx.ChangeTracker.HasChanges();
-            toolStripEncontrarPagamentos.Visible = dgvCalendario.Rows.OfType<DataGridViewRow>()
-                .Select(r => (CalendarItem)r.DataBoundItem)
-                .Any(r => r.Scheduled && !r.Paid && (r.Payment.Historico != null || r.Payment.Valor != null));
+            toolStripEncontrarPagamentos.Visible = 
+                dgvCalendario.Rows.OfType<DataGridViewRow>()
+                    .Select(r => (CalendarItem)r.DataBoundItem)
+                    .Any(r =>
+                        (!r.Scheduled && r.Date < DateTime.Today) || 
+                        (r.Scheduled && !r.Paid && (r.Payment.Historico != null || r.Payment.Valor != null))
+                    );
         }
 
         private void dgvCalendario_CurrentCellDirtyStateChanged(object sender, EventArgs e) {
@@ -158,6 +162,37 @@ namespace MoneyBin.Forms {
         }
 
         private void toolStripButtonEncontrarPagamentos_Click(object sender, EventArgs e) {
+            ProcurarAgendamentos();
+            ProcurarPagamentos();
+            dgvCalendario.Refresh();
+            UpdateToolbarButtons();
+        }
+
+        private void ProcurarAgendamentos() {
+            const string folder = @"F:\Users\Nelson\SkyDrive\Documents\Financeiro\Pagamentos\";
+            const string header = "Conformar Agendamento";
+            var mes = (MesPicklist)toolStripComboBoxMes.SelectedItem;
+            foreach (var item in
+                dgvCalendario.Rows.OfType<DataGridViewRow>()
+                .Select(r => (CalendarItem)r.DataBoundItem)
+                .Where(i => !i.Scheduled)) {
+                var files = Directory.GetFiles($@"{folder}{item.Payment}", $@"{mes.YearMonth}*.*");
+                if (files.Length == 0) {
+                    if (mes.Limit(item.Day) > DateTime.Today) {
+                        return;
+                    }
+                    MessageBox.Show(item.ToString().ToUpper() +
+                                ":\n\n\tAgendamento não encontrado.",
+                                header, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                item.Scheduled = MessageBox.Show(item.ToString().ToUpper() + "\n\n" +
+                                     string.Join("\t\n", files) + "\n\nConfirma?", header,
+                                     MessageBoxButtons.YesNo,
+                                     MessageBoxIcon.Question) == DialogResult.Yes;
+            }
+        }
+
+        private void ProcurarPagamentos() {
             var mes = (MesPicklist)toolStripComboBoxMes.SelectedItem;
             var pagamentos = _ctx.Balance.Where(b => b.Valor < 0
                                                      && b.Data.Year == mes.Year
@@ -193,8 +228,6 @@ namespace MoneyBin.Forms {
                                 "Confirmar Pagamento", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
                             DialogResult.Yes;
             }
-            dgvCalendario.Refresh();
-            UpdateToolbarButtons();
         }
     }
 
@@ -208,6 +241,10 @@ namespace MoneyBin.Forms {
             Month = (int)Math.Pow(2, DateTime.Today.Month - 1);
             Year = DateTime.Today.Year;
         }
+
+        public string YearMonth => $"{Year:0000}-{Month12:00}";
+
+        public DateTime Limit(int day) => new DateTime(Year, Month12, day);
 
         public MesPicklist ProximoMes =>
             Month12 == 12 ? new MesPicklist() { Month = 1, Year = Year + 1 } :
