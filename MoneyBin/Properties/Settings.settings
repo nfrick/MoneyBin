@@ -5,5 +5,8 @@
     <Setting Name="LastExport" Type="System.DateTime" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="PaymentsFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">F:\Users\Nelson\SkyDrive\Documents\Financeiro\Pagamentos\</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

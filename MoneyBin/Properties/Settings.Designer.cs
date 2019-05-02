@@ -33,5 +33,17 @@ namespace MoneyBin.Properties {
                 this["LastExport"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("F:\\Users\\Nelson\\SkyDrive\\Documents\\Financeiro\\Pagamentos\\")]
+        public string PaymentsFolder {
+            get {
+                return ((string)(this["PaymentsFolder"]));
+            }
+            set {
+                this["PaymentsFolder"] = value;
+            }
+        }
     }
 }

@@ -21,8 +21,8 @@ namespace MoneyBin.Forms {
             GridStyles.FormatColumn(dgvCalendario.Columns[3], GridStyles.StyleInteger, 40);
 
             var meses = _ctx.Calendar.GroupBy(p => new { p.Year, p.Month })
-                .Select(g => new MesPicklist { Month = g.FirstOrDefault().Month, Year = g.FirstOrDefault().Year})
-                .OrderByDescending(m => m.Year).ThenByDescending(m=> m.Month).ToList();
+                .Select(g => new MesPicklist { Month = g.FirstOrDefault().Month, Year = g.FirstOrDefault().Year })
+                .OrderByDescending(m => m.Year).ThenByDescending(m => m.Month).ToList();
 
             if (meses.Count == 0) {
                 previousIndex = 0;
@@ -132,11 +132,11 @@ namespace MoneyBin.Forms {
         private void UpdateToolbarButtons() {
             toolStripButtonSalvar.Text = FormUtils.TextoSalvar(_ctx.ChangeTracker);
             toolStripButtonSalvar.Visible = _ctx.ChangeTracker.HasChanges();
-            toolStripEncontrarPagamentos.Visible = 
+            toolStripEncontrarPagamentos.Visible =
                 dgvCalendario.Rows.OfType<DataGridViewRow>()
                     .Select(r => (CalendarItem)r.DataBoundItem)
                     .Any(r =>
-                        (!r.Scheduled && r.Date < DateTime.Today) || 
+                        (!r.Scheduled && r.Date < DateTime.Today) ||
                         (r.Scheduled && !r.Paid && (r.Payment.Historico != null || r.Payment.Valor != null))
                     );
         }
@@ -169,26 +169,37 @@ namespace MoneyBin.Forms {
         }
 
         private void ProcurarAgendamentos() {
-            const string folder = @"F:\Users\Nelson\SkyDrive\Documents\Financeiro\Pagamentos\";
+            var folder = Properties.Settings.Default.PaymentsFolder;
             const string header = "Conformar Agendamento";
             var mes = (MesPicklist)toolStripComboBoxMes.SelectedItem;
             foreach (var item in
                 dgvCalendario.Rows.OfType<DataGridViewRow>()
                 .Select(r => (CalendarItem)r.DataBoundItem)
-                .Where(i => !i.Scheduled)) {
-                var files = Directory.GetFiles($@"{folder}{item.Payment}", $@"{mes.YearMonth}*.*");
-                if (files.Length == 0) {
-                    if (mes.Limit(item.Day) > DateTime.Today) {
-                        return;
+                .Where(i => !i.Scheduled)
+                .OrderBy(i => i.Date)) {
+                var itemFolder = $@"{folder}{item.Payment}";
+                if (Directory.Exists(itemFolder)) {
+                    var files = Directory.GetFiles(itemFolder, $@"{mes.YearMonth}*.*");
+                    if (files.Length == 0) {
+                        if (item.Date <= DateTime.Today) {
+                            MessageBox.Show(item.Description +
+                                        ":\n\n\tAgendamento não encontrado.",
+                                        header, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
-                    MessageBox.Show(item.ToString().ToUpper() +
-                                ":\n\n\tAgendamento não encontrado.",
-                                header, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else {
+                        item.Scheduled = MessageBox.Show(item.Description + "\n\n" +
+                                         string.Join("\t\n", files).Replace(folder, "    ") + "\n\nConfirma?", header,
+                                         MessageBoxButtons.YesNo,
+                                         MessageBoxIcon.Question) == DialogResult.Yes;
+                    }
                 }
-                item.Scheduled = MessageBox.Show(item.ToString().ToUpper() + "\n\n" +
-                                     string.Join("\t\n", files) + "\n\nConfirma?", header,
-                                     MessageBoxButtons.YesNo,
-                                     MessageBoxIcon.Question) == DialogResult.Yes;
+                else {
+                    if (MessageBox.Show($"Folder para '{item.Payment}' não existe. Cria?", header, MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question) == DialogResult.Yes) {
+                        Directory.CreateDirectory(itemFolder);
+                    }
+                }
             }
         }
 
@@ -215,15 +226,15 @@ namespace MoneyBin.Forms {
                     found = pagamentos.Where(p => p.Valor == -1 * ip.Valor);
                 }
                 if (!found.Any()) {
-                    MessageBox.Show(item.ToString().ToUpper() +
-                                ":\n\n\tNenhum pagamentos encontrado.",
+                    MessageBox.Show(item.Description +
+                                ":\n\n\tPagamento não encontrado.",
                                 "Confirmar Pagamento", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     continue;
                 }
 
                 var text = found.Select(f => f.ToString())
                     .Aggregate((i, j) => "\t" + i.ToString() + "\n" + j.ToString());
-                item.Paid = MessageBox.Show(item.ToString().ToUpper() +
+                item.Paid = MessageBox.Show(item.Description +
                                             ":\n\n" + text + "\n\nConfirma?",
                                 "Confirmar Pagamento", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
                             DialogResult.Yes;
@@ -243,8 +254,6 @@ namespace MoneyBin.Forms {
         }
 
         public string YearMonth => $"{Year:0000}-{Month12:00}";
-
-        public DateTime Limit(int day) => new DateTime(Year, Month12, day);
 
         public MesPicklist ProximoMes =>
             Month12 == 12 ? new MesPicklist() { Month = 1, Year = Year + 1 } :

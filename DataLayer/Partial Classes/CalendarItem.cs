@@ -9,5 +9,7 @@ namespace DataLayer {
         public int Month12 => 1 + (int)Math.Log(Month, 2);
 
         public DateTime Date => new DateTime(Year, Month12, Day);
+
+        public string Description => ToString().ToUpper() + " - " + Date.ToString("dd/MM/yyyy");
     }
 }

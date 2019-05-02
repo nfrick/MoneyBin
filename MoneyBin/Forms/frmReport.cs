@@ -35,9 +35,6 @@ namespace MoneyBin {
         }
 
         private void Form_Load(object sender, EventArgs e) {
-            //var x = AppDomain.CurrentDomain.BaseDirectory;
-            //_rptPath = string.Join(@"\", x.Split('\\'), 0, x.Count(c => c == '\\') - 2) + @"\Reports\Report{0}.rdlc";
-
             _rptPath = AppDomain.CurrentDomain.BaseDirectory + @"Reports\{0}.rdlc";
         }
 
