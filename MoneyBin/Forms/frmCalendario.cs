@@ -10,22 +10,31 @@ using System.Windows.Forms;
 namespace MoneyBin.Forms {
     public partial class frmCalendario : Form {
         private readonly MoneyBinEntities _ctx;
-        private int previousIndex = -1;
+        private int _previousIndex = -1;
+
         public frmCalendario() {
             InitializeComponent();
             _ctx = new MoneyBinEntities();
         }
 
+        #region FORM ------------------------------------
         private void frmCalendario_Load(object sender, EventArgs e) {
             GridStyles.FormatGrid(dgvCalendario);
             GridStyles.FormatColumn(dgvCalendario.Columns[3], GridStyles.StyleInteger, 40);
+
+            var font = new Font("Segoe UI", 12);
+            for (var i = 0; i < dgvCalendario.ColumnCount; i++) {
+                dgvCalendario.Columns[i].DefaultCellStyle.Font = font;
+            }
+            dgvCalendario.RowTemplate.Height = 28;
+            dgvCalendario.ColumnHeadersHeight = 28;
 
             var meses = _ctx.Calendar.GroupBy(p => new { p.Year, p.Month })
                 .Select(g => new MesPicklist { Month = g.FirstOrDefault().Month, Year = g.FirstOrDefault().Year })
                 .OrderByDescending(m => m.Year).ThenByDescending(m => m.Month).ToList();
 
             if (meses.Count == 0) {
-                previousIndex = 0;
+                _previousIndex = 0;
                 meses.Insert(0, new MesPicklist());
             }
             meses.Insert(0, meses[0].ProximoMes);
@@ -34,7 +43,7 @@ namespace MoneyBin.Forms {
             toolStripComboBoxMes.ComboBox.DisplayMember = "Mes";
             toolStripComboBoxMes.ComboBox.DataSource = meses;
 
-            previousIndex = 1;
+            _previousIndex = 1;
             toolStripComboBoxMes.SelectedIndex = 1;
 
             SetHeight();
@@ -61,6 +70,13 @@ namespace MoneyBin.Forms {
             }
         }
 
+        private void SetHeight() {
+            Height = 3 + toolStrip1.Height + dgvCalendario.ColumnHeadersHeight +
+                     dgvCalendario.RowCount * (4 + dgvCalendario.RowTemplate.Height);
+        }
+        #endregion FORM ---------------------------------
+
+        #region DATAGRIDVIEW ------------------------------------
         private void dgvCalendario_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             var cal = (CalendarItem)dgvCalendario.Rows[e.RowIndex].DataBoundItem;
             if (cal.Paid) {
@@ -75,8 +91,18 @@ namespace MoneyBin.Forms {
             }
         }
 
+        private void dgvCalendario_CellEndEdit(object sender, DataGridViewCellEventArgs e) {
+            UpdateToolbarButtons();
+        }
+
+        private void dgvCalendario_CurrentCellDirtyStateChanged(object sender, EventArgs e) {
+            dgvCalendario.EndEdit();
+        }
+        #endregion DATAGRIDVIEW ---------------------------------
+
+        #region TOOLBAR ------------------------------------
         private void toolStripComboBoxMes_SelectedIndexChanged(object sender, EventArgs e) {
-            if (previousIndex == -1) {
+            if (_previousIndex == -1) {
                 return;
             }
 
@@ -100,7 +126,7 @@ namespace MoneyBin.Forms {
                 }
             }
             if (reload) {
-                toolStripComboBoxMes.SelectedIndex = previousIndex;
+                toolStripComboBoxMes.SelectedIndex = _previousIndex;
             }
 
             var mes = (MesPicklist)toolStripComboBoxMes.SelectedItem;
@@ -109,14 +135,9 @@ namespace MoneyBin.Forms {
                 .Where(c => c.Month == mes.Month && c.Year == mes.Year)
                 .ToList().OrderBy(c => c.Day).ThenBy(c => c.ToString()).ToList();
             SetHeight();
-            previousIndex = toolStripComboBoxMes.SelectedIndex;
+            _previousIndex = toolStripComboBoxMes.SelectedIndex;
             EnableButtons();
             UpdateToolbarButtons();
-        }
-
-        private void SetHeight() {
-            Height = 30 + toolStrip1.Height + dgvCalendario.ColumnHeadersHeight +
-                     dgvCalendario.RowCount * (5 + dgvCalendario.RowTemplate.Height);
         }
 
         private void toolStripButtonSalvar_Click(object sender, EventArgs e) {
@@ -125,8 +146,15 @@ namespace MoneyBin.Forms {
             toolStripButtonSalvar.Visible = false;
         }
 
-        private void dgvCalendario_CellEndEdit(object sender, DataGridViewCellEventArgs e) {
-            UpdateToolbarButtons();
+        private void toolStripButtonMonth_Click(object sender, EventArgs e) {
+            var btn = sender as ToolStripButton;
+            if (btn.Name.Contains("Prev")) {
+                toolStripComboBoxMes.ComboBox.SelectedIndex += 1;
+            }
+            else {
+                toolStripComboBoxMes.ComboBox.SelectedIndex -= 1;
+            }
+            EnableButtons();
         }
 
         private void UpdateToolbarButtons() {
@@ -139,21 +167,6 @@ namespace MoneyBin.Forms {
                         (!r.Scheduled && r.Date < DateTime.Today) ||
                         (r.Scheduled && !r.Paid && (r.Payment.Historico != null || r.Payment.Valor != null))
                     );
-        }
-
-        private void dgvCalendario_CurrentCellDirtyStateChanged(object sender, EventArgs e) {
-            dgvCalendario.EndEdit();
-        }
-
-        private void toolStripButtonMonth_Click(object sender, EventArgs e) {
-            var btn = sender as ToolStripButton;
-            if (btn.Name.Contains("Prev")) {
-                toolStripComboBoxMes.ComboBox.SelectedIndex += 1;
-            }
-            else {
-                toolStripComboBoxMes.ComboBox.SelectedIndex -= 1;
-            }
-            EnableButtons();
         }
 
         private void EnableButtons() {
@@ -240,6 +253,7 @@ namespace MoneyBin.Forms {
                             DialogResult.Yes;
             }
         }
+        #endregion TOOLBAR ---------------------------------
     }
 
     internal class MesPicklist {
