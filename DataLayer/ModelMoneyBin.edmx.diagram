@@ -6,7 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="cc75ff4df7b5415fb791f018e4b63c64" Name="Diagram1" ZoomLevel="88">
         <EntityTypeShape EntityType="MoneyBinModel.CalendarItem" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MoneyBinModel.Payment" Width="1.5" PointX="0.5" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="MoneyBinModel.Payment" Width="1.5" PointX="0.5" PointY="3.75" IsExpanded="true" />
         <AssociationConnector Association="MoneyBinModel.tblPaymenttblCalendar" />
         <EntityTypeShape EntityType="MoneyBinModel.BalanceItem" Width="1.5" PointX="6.875" PointY="0.5" FillColor="255, 224, 192" />
         <EntityTypeShape EntityType="MoneyBinModel.Bank" Width="1.5" PointX="4.75" PointY="0.5" />

@@ -19,6 +19,9 @@ namespace DataLayer
         public int PaymentID { get; set; }
         public bool Paid { get; set; }
         public bool Scheduled { get; set; }
+        public Nullable<System.DateTime> ScheduleDate { get; set; }
+        public Nullable<System.DateTime> PaymentDate { get; set; }
+        public Nullable<decimal> Amount { get; set; }
     
         public virtual Payment Payment { get; set; }
     }

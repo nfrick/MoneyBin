@@ -20,7 +20,9 @@ namespace MoneyBin.Forms {
         #region FORM ------------------------------------
         private void frmCalendario_Load(object sender, EventArgs e) {
             GridStyles.FormatGrid(dgvCalendario);
-            GridStyles.FormatColumn(dgvCalendario.Columns[3], GridStyles.StyleInteger, 40);
+            GridStyles.FormatColumn(dgvCalendario.Columns[0], GridStyles.StyleInteger, 40);
+            GridStyles.FormatColumns(dgvCalendario, GridStyles.StyleDateTimeShort, 130, 3, 6);
+            GridStyles.FormatColumn(dgvCalendario.Columns[4], GridStyles.StyleCurrency, 100);
 
             var font = new Font("Segoe UI", 12);
             for (var i = 0; i < dgvCalendario.ColumnCount; i++) {
@@ -165,7 +167,7 @@ namespace MoneyBin.Forms {
                     .Select(r => (CalendarItem)r.DataBoundItem)
                     .Any(r =>
                         (!r.Scheduled && r.Date < DateTime.Today) ||
-                        (r.Scheduled && !r.Paid && (r.Payment.Historico != null || r.Payment.Valor != null))
+                        (r.Scheduled && !r.Paid && (r.Payment.Historico != null || r.Payment.Valor != null || r.Amount != null))
                     );
         }
 
@@ -192,7 +194,7 @@ namespace MoneyBin.Forms {
                 .OrderBy(i => i.Date)) {
                 var itemFolder = $@"{folder}{item.Payment}";
                 if (Directory.Exists(itemFolder)) {
-                    var files = Directory.GetFiles(itemFolder, $@"{mes.YearMonth}*.*");
+                    var files = Directory.GetFiles(itemFolder, $@"{mes.YearMonth}*.pdf");
                     if (files.Length == 0) {
                         if (item.Date <= DateTime.Today) {
                             MessageBox.Show(item.Description +
@@ -201,10 +203,17 @@ namespace MoneyBin.Forms {
                         }
                     }
                     else {
-                        item.Scheduled = MessageBox.Show(item.Description + "\n\n" +
-                                         string.Join("\t\n", files).Replace(folder, "    ") + "\n\nConfirma?", header,
-                                         MessageBoxButtons.YesNo,
-                                         MessageBoxIcon.Question) == DialogResult.Yes;
+                        var frm = new frmPagamentoPDF(item.Description, folder, files);
+                        switch (frm.ShowDialog()) {
+                            case DialogResult.No: continue;
+                            case DialogResult.Cancel: return;
+                            default:
+                                item.Scheduled = true;
+                                item.ScheduleDate = frm.Comprovante.Agendamento;
+                                item.PaymentDate = frm.Comprovante.Pagamento;
+                                item.Amount = frm.Comprovante.Valor;
+                                break;
+                        }
                     }
                 }
                 else {
@@ -223,20 +232,21 @@ namespace MoneyBin.Forms {
                                                      && b.Data.Month == mes.Month12).ToList();
             var naoPagos = dgvCalendario.Rows.OfType<DataGridViewRow>()
                 .Select(r => (CalendarItem)r.DataBoundItem).Where(r => r.Scheduled && !r.Paid &&
-                (r.Payment.Historico != null || r.Payment.Valor != null));
+                (r.Payment.Historico != null || r.Payment.Valor != null || r.Amount != null));
 
             foreach (var item in naoPagos) {
                 var ip = item.Payment;
+                var valor = item.Amount == null || item.Amount == 1 ? ip.Valor : item.Amount;
                 IEnumerable<BalanceItem> found;
-                if (ip.Historico != null && ip.Valor != null) {
+                if (ip.Historico != null && valor != null) {
                     found = pagamentos.Where(p => p.Historico.Contains(ip.Historico) &&
-                    p.Valor == -1 * ip.Valor);
+                    p.Valor == -1 * valor);
                 }
                 else if (ip.Historico != null) {
                     found = pagamentos.Where(p => p.Historico.Contains(ip.Historico));
                 }
                 else {
-                    found = pagamentos.Where(p => p.Valor == -1 * ip.Valor);
+                    found = pagamentos.Where(p => p.Valor == -1 * valor);
                 }
                 if (!found.Any()) {
                     MessageBox.Show(item.Description +
@@ -247,10 +257,12 @@ namespace MoneyBin.Forms {
 
                 var text = found.Select(f => f.ToString())
                     .Aggregate((i, j) => "\t" + i.ToString() + "\n" + j.ToString());
-                item.Paid = MessageBox.Show(item.Description +
+                if(MessageBox.Show(item.Description +
                                             ":\n\n" + text + "\n\nConfirma?",
                                 "Confirmar Pagamento", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
-                            DialogResult.Yes;
+                            DialogResult.No) return;
+                item.Paid = true;
+                item.Amount = valor ?? 1;
             }
         }
         #endregion TOOLBAR ---------------------------------

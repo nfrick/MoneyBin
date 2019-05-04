@@ -23,6 +23,9 @@
           <Property Name="PaymentID" Type="int" Nullable="false" />
           <Property Name="Scheduled" Type="bit" Nullable="false" />
           <Property Name="Paid" Type="bit" Nullable="false" />
+          <Property Name="ScheduleDate" Type="smalldatetime" />
+          <Property Name="PaymentDate" Type="smalldatetime" />
+          <Property Name="Amount" Type="smallmoney" />
         </EntityType>
         <EntityType Name="tblPayments">
           <Key>
@@ -227,6 +230,9 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Property Name="Paid" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Payment" Relationship="MoneyBinModel.tblPaymenttblCalendar" FromRole="tblCalendar" ToRole="tblPayment" />
           <Property Name="Scheduled" Type="Boolean" Nullable="false" />
+          <Property Name="ScheduleDate" Type="DateTime" Precision="0" />
+          <Property Name="PaymentDate" Type="DateTime" Precision="0" />
+          <Property Name="Amount" Type="Decimal" Precision="10" Scale="4" />
         </EntityType>
         <EntityType Name="Payment">
           <Key>
@@ -475,6 +481,9 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <EntitySetMapping Name="Calendar">
             <EntityTypeMapping TypeName="MoneyBinModel.CalendarItem">
               <MappingFragment StoreEntitySet="tblCalendar">
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="ScheduleDate" ColumnName="ScheduleDate" />
                 <ScalarProperty Name="Scheduled" ColumnName="Scheduled" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="Month" ColumnName="Month" />

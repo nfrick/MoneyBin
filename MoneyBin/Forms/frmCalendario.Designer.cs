@@ -27,13 +27,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCalendario));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.dgvCalendario = new System.Windows.Forms.DataGridView();
-            this.paymentIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.yearDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.monthDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Day = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.paymentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Scheduled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.paidDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.CalendarBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonPrevMonth = new System.Windows.Forms.ToolStripButton();
@@ -41,6 +34,13 @@
             this.toolStripButtonNextMonth = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonSalvar = new System.Windows.Forms.ToolStripButton();
             this.toolStripEncontrarPagamentos = new System.Windows.Forms.ToolStripButton();
+            this.Day = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.paymentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Scheduled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ScheduleDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.paidDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.PaymentDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -55,11 +55,11 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dgvCalendario);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(389, 336);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(772, 336);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(389, 364);
+            this.toolStripContainer1.Size = new System.Drawing.Size(772, 364);
             this.toolStripContainer1.TabIndex = 0;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -75,79 +75,25 @@
             this.dgvCalendario.ColumnHeadersHeight = 28;
             this.dgvCalendario.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvCalendario.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.paymentIDDataGridViewTextBoxColumn,
-            this.yearDataGridViewTextBoxColumn,
-            this.monthDataGridViewTextBoxColumn,
             this.Day,
             this.paymentDataGridViewTextBoxColumn,
             this.Scheduled,
-            this.paidDataGridViewCheckBoxColumn});
+            this.ScheduleDate,
+            this.Amount,
+            this.paidDataGridViewCheckBoxColumn,
+            this.PaymentDate});
             this.dgvCalendario.DataSource = this.CalendarBindingSource;
             this.dgvCalendario.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvCalendario.Location = new System.Drawing.Point(0, 0);
             this.dgvCalendario.Name = "dgvCalendario";
             this.dgvCalendario.RowHeadersWidth = 25;
             this.dgvCalendario.RowTemplate.Height = 24;
-            this.dgvCalendario.Size = new System.Drawing.Size(389, 336);
+            this.dgvCalendario.Size = new System.Drawing.Size(772, 336);
             this.dgvCalendario.TabIndex = 0;
             this.dgvCalendario.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCalendario_CellEndEdit);
             this.dgvCalendario.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvCalendario_CellFormatting);
             this.dgvCalendario.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCalendario_CellValueChanged);
             this.dgvCalendario.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgvCalendario_CurrentCellDirtyStateChanged);
-            // 
-            // paymentIDDataGridViewTextBoxColumn
-            // 
-            this.paymentIDDataGridViewTextBoxColumn.DataPropertyName = "PaymentID";
-            this.paymentIDDataGridViewTextBoxColumn.HeaderText = "PaymentID";
-            this.paymentIDDataGridViewTextBoxColumn.Name = "paymentIDDataGridViewTextBoxColumn";
-            this.paymentIDDataGridViewTextBoxColumn.ReadOnly = true;
-            this.paymentIDDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // yearDataGridViewTextBoxColumn
-            // 
-            this.yearDataGridViewTextBoxColumn.DataPropertyName = "Year";
-            this.yearDataGridViewTextBoxColumn.HeaderText = "Year";
-            this.yearDataGridViewTextBoxColumn.Name = "yearDataGridViewTextBoxColumn";
-            this.yearDataGridViewTextBoxColumn.ReadOnly = true;
-            this.yearDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // monthDataGridViewTextBoxColumn
-            // 
-            this.monthDataGridViewTextBoxColumn.DataPropertyName = "Month";
-            this.monthDataGridViewTextBoxColumn.HeaderText = "Month";
-            this.monthDataGridViewTextBoxColumn.Name = "monthDataGridViewTextBoxColumn";
-            this.monthDataGridViewTextBoxColumn.ReadOnly = true;
-            this.monthDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // Day
-            // 
-            this.Day.DataPropertyName = "Day";
-            this.Day.HeaderText = "Dia";
-            this.Day.Name = "Day";
-            this.Day.ReadOnly = true;
-            // 
-            // paymentDataGridViewTextBoxColumn
-            // 
-            this.paymentDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.paymentDataGridViewTextBoxColumn.DataPropertyName = "Payment";
-            this.paymentDataGridViewTextBoxColumn.HeaderText = "Pagamento";
-            this.paymentDataGridViewTextBoxColumn.Name = "paymentDataGridViewTextBoxColumn";
-            this.paymentDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // Scheduled
-            // 
-            this.Scheduled.DataPropertyName = "Scheduled";
-            this.Scheduled.HeaderText = "Agendado?";
-            this.Scheduled.Name = "Scheduled";
-            // 
-            // paidDataGridViewCheckBoxColumn
-            // 
-            this.paidDataGridViewCheckBoxColumn.DataPropertyName = "Paid";
-            this.paidDataGridViewCheckBoxColumn.HeaderText = "Pago?";
-            this.paidDataGridViewCheckBoxColumn.Name = "paidDataGridViewCheckBoxColumn";
-            this.paidDataGridViewCheckBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.paidDataGridViewCheckBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.paidDataGridViewCheckBoxColumn.Width = 60;
             // 
             // CalendarBindingSource
             // 
@@ -225,11 +171,59 @@
             this.toolStripEncontrarPagamentos.ToolTipText = "Encontrar pagamentos no extrato";
             this.toolStripEncontrarPagamentos.Click += new System.EventHandler(this.toolStripButtonEncontrarPagamentos_Click);
             // 
+            // Day
+            // 
+            this.Day.DataPropertyName = "Day";
+            this.Day.HeaderText = "Dia";
+            this.Day.Name = "Day";
+            this.Day.ReadOnly = true;
+            // 
+            // paymentDataGridViewTextBoxColumn
+            // 
+            this.paymentDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.paymentDataGridViewTextBoxColumn.DataPropertyName = "Payment";
+            this.paymentDataGridViewTextBoxColumn.HeaderText = "Pagamento";
+            this.paymentDataGridViewTextBoxColumn.Name = "paymentDataGridViewTextBoxColumn";
+            this.paymentDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // Scheduled
+            // 
+            this.Scheduled.DataPropertyName = "Scheduled";
+            this.Scheduled.HeaderText = "Agendado?";
+            this.Scheduled.Name = "Scheduled";
+            // 
+            // ScheduleDate
+            // 
+            this.ScheduleDate.DataPropertyName = "ScheduleDate";
+            this.ScheduleDate.HeaderText = "Data";
+            this.ScheduleDate.Name = "ScheduleDate";
+            // 
+            // Amount
+            // 
+            this.Amount.DataPropertyName = "Amount";
+            this.Amount.HeaderText = "Valor";
+            this.Amount.Name = "Amount";
+            // 
+            // paidDataGridViewCheckBoxColumn
+            // 
+            this.paidDataGridViewCheckBoxColumn.DataPropertyName = "Paid";
+            this.paidDataGridViewCheckBoxColumn.HeaderText = "Pago?";
+            this.paidDataGridViewCheckBoxColumn.Name = "paidDataGridViewCheckBoxColumn";
+            this.paidDataGridViewCheckBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.paidDataGridViewCheckBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.paidDataGridViewCheckBoxColumn.Width = 60;
+            // 
+            // PaymentDate
+            // 
+            this.PaymentDate.DataPropertyName = "PaymentDate";
+            this.PaymentDate.HeaderText = "Data";
+            this.PaymentDate.Name = "PaymentDate";
+            // 
             // frmCalendario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(389, 364);
+            this.ClientSize = new System.Drawing.Size(772, 364);
             this.Controls.Add(this.toolStripContainer1);
             this.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -261,12 +255,12 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonPrevMonth;
         private System.Windows.Forms.ToolStripButton toolStripButtonNextMonth;
         private System.Windows.Forms.ToolStripButton toolStripEncontrarPagamentos;
-        private System.Windows.Forms.DataGridViewTextBoxColumn paymentIDDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn yearDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn monthDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Day;
         private System.Windows.Forms.DataGridViewTextBoxColumn paymentDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Scheduled;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ScheduleDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Amount;
         private System.Windows.Forms.DataGridViewCheckBoxColumn paidDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PaymentDate;
     }
 }
