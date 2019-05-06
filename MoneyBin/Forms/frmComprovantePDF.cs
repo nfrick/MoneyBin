@@ -5,12 +5,12 @@ using System.Linq;
 using System.Windows.Forms;
 
 namespace MoneyBin {
-    public partial class frmPagamentoPDF : Form {
+    public partial class frmComprovantePDF : Form {
 
         public ComprovantePDF Comprovante { get; private set; }
         private readonly string _folder;
 
-        public frmPagamentoPDF(string header, string folder, IReadOnlyCollection<string> files) {
+        public frmComprovantePDF(string header, string folder, IReadOnlyCollection<string> files) {
             InitializeComponent();
             labelHeader.Text = header;
             _folder = folder;

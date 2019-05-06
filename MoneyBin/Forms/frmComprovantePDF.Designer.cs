@@ -1,5 +1,5 @@
 ﻿namespace MoneyBin {
-    partial class frmPagamentoPDF {
+    partial class frmComprovantePDF {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -275,7 +275,7 @@
             this.button1.Text = "Pula";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // frmPagamentoPDF
+            // frmComprovantePDF
             // 
             this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -286,7 +286,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
-            this.Name = "frmPagamentoPDF";
+            this.Name = "frmComprovantePDF";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = " Pagamento em PDF";
             this.tableLayoutPanel1.ResumeLayout(false);

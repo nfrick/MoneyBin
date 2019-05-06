@@ -167,7 +167,8 @@ namespace MoneyBin.Forms {
                     .Select(r => (CalendarItem)r.DataBoundItem)
                     .Any(r =>
                         (!r.Scheduled && r.Date < DateTime.Today) ||
-                        (r.Scheduled && !r.Paid && (r.Payment.Historico != null || r.Payment.Valor != null || r.Amount != null))
+                        (r.Scheduled && !r.Paid && r.PaymentDate <= DateTime.Today &&
+                        (r.Payment.Historico != null || r.Payment.Valor != null || r.Amount != null))
                     );
         }
 
@@ -203,7 +204,7 @@ namespace MoneyBin.Forms {
                         }
                     }
                     else {
-                        var frm = new frmPagamentoPDF(item.Description, folder, files);
+                        var frm = new frmComprovantePDF(item.Description, folder, files);
                         switch (frm.ShowDialog()) {
                             case DialogResult.No: continue;
                             case DialogResult.Cancel: return;
@@ -231,7 +232,8 @@ namespace MoneyBin.Forms {
                                                      && b.Data.Year == mes.Year
                                                      && b.Data.Month == mes.Month12).ToList();
             var naoPagos = dgvCalendario.Rows.OfType<DataGridViewRow>()
-                .Select(r => (CalendarItem)r.DataBoundItem).Where(r => r.Scheduled && !r.Paid &&
+                .Select(r => (CalendarItem)r.DataBoundItem)
+                .Where(r => r.Scheduled && !r.Paid && r.PaymentDate <= DateTime.Today &&
                 (r.Payment.Historico != null || r.Payment.Valor != null || r.Amount != null));
 
             foreach (var item in naoPagos) {

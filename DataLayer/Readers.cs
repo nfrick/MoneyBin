@@ -127,17 +127,25 @@ namespace DataLayer {
                 var csv = new CsvReader(reader);
                 csv.Configuration.HasHeaderRecord = true;
                 if (_banco.Banco == "BB") {
+                    ExtratoBBMap.DefineFormatoData(filepath);
                     csv.Configuration.Delimiter = ",";
                     csv.Configuration.RegisterClassMap<ExtratoBBMap>();
                     csv.Configuration.HeaderValidated = null;
                 }
                 else {
+                    ExtratoCEFMap.DefineFormatoData(filepath);
                     csv.Configuration.Delimiter = ";";
                     csv.Configuration.RegisterClassMap<ExtratoCEFMap>();
                     csv.Configuration.HeaderValidated = null;
                 }
 
-                _entries = csv.GetRecords<BalanceItem>().ToList();
+                try {
+                    _entries = csv.GetRecords<BalanceItem>().ToList();
+                }
+                catch (Exception) {
+                    _entries = null;
+                    throw;
+                }
             }
         }
 

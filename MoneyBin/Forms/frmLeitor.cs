@@ -169,7 +169,6 @@ namespace MoneyBin.Forms {
             if (!toolStripButtonSalvar.Visible) {
                 return;
             }
-
             toolStripButtonSalvar.Text = $@"Salvar {_BalanceItems.Count(bi => bi.AddToDatabase)} novos itens";
         }
 
@@ -205,7 +204,6 @@ namespace MoneyBin.Forms {
             foreach (var bi in targets) {
                 bi.AddToDatabase = check;
             }
-
             dgvBalance.DataSource = _BalanceItems;
             AtualizarBotoes();
         }
