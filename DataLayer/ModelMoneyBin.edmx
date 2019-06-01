@@ -159,6 +159,9 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Parameter Name="Year" Type="smallint" Mode="In" />
           <Parameter Name="Month" Type="smallint" Mode="In" />
         </Function>
+        <Function Name="sp_ExportToExtrato" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AccessDB" Type="nvarchar(max)" Mode="In" />
+        </Function>
         <Function Name="sp_Historicos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Banco" Type="varchar" Mode="In" />
         </Function>
@@ -312,6 +315,9 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <EntitySet Name="Reembolsaveis" EntityType="MoneyBinModel.Reembolsaveis" />
           <FunctionImport Name="sp_Historicos" ReturnType="Collection(MoneyBinModel.sp_Historicos_Result)">
           <Parameter Name="Banco" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ExportToExtrato">
+            <Parameter Name="AccessDB" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <Association Name="tblPaymenttblCalendar">
@@ -641,6 +647,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ExportToExtrato" FunctionName="MoneyBinModel.Store.sp_ExportToExtrato" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

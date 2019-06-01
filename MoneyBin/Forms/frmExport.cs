@@ -278,7 +278,12 @@ namespace MoneyBin {
         private bool ExportToExtrato() {
             // https://www.aspsnippets.com/Articles/The-OLE-DB-provider-Microsoft.Ace.OLEDB.12.0-for-linked-server-null.aspx
             var retorno = true;
+            //using (var ctx = new MoneyBinEntities()) {
+            //    ctx.sp_ExportToExtrato(_saveAs);
+            //}
+
             MoneyBinDB.ExportToExtrato(_saveAs);
+
             var tempFile = Path.Combine(Path.GetDirectoryName(_saveAs),
                 Path.GetRandomFileName() + Path.GetExtension(_saveAs));
             var app = new Microsoft.Office.Interop.Access.Application { Visible = false };

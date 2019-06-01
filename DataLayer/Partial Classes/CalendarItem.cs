@@ -2,7 +2,7 @@
 
 namespace DataLayer {
     public partial class CalendarItem {
-        public override string ToString() => Payment?.Description ?? "Não definido";
+        public override string ToString() => Payment.Group + "/" + Payment.Description;
 
         public int Day => Payment?.Day ?? 1;
 

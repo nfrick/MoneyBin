@@ -184,5 +184,14 @@ namespace DataLayer
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Historicos_Result>("sp_Historicos", bancoParameter);
         }
+    
+        public virtual int sp_ExportToExtrato(string accessDB)
+        {
+            var accessDBParameter = accessDB != null ?
+                new ObjectParameter("AccessDB", accessDB) :
+                new ObjectParameter("AccessDB", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_ExportToExtrato", accessDBParameter);
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Form = System.Windows.Forms.Form;
 
 namespace MoneyBin.Forms {
     public partial class frmCalendario : Form {
@@ -88,9 +89,19 @@ namespace MoneyBin.Forms {
 
         private void dgvCalendario_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex == -1 || dgvCalendario.Columns[e.ColumnIndex].Name !=
-                "afetaSaldoDataGridViewCheckBoxColumn") {
+                "Scheduled") {
                 return;
             }
+            var item = (CalendarItem)dgvCalendario.CurrentRow.DataBoundItem;
+            if (item.Scheduled) {
+                ProcurarAgendamento(item);
+            }
+            else {
+                item.ScheduleDate = null;
+                item.PaymentDate = null;
+                item.Amount = null;
+            }
+            dgvCalendario.Refresh();
         }
 
         private void dgvCalendario_CellEndEdit(object sender, DataGridViewCellEventArgs e) {
@@ -166,10 +177,9 @@ namespace MoneyBin.Forms {
                 dgvCalendario.Rows.OfType<DataGridViewRow>()
                     .Select(r => (CalendarItem)r.DataBoundItem)
                     .Any(r =>
-                        (!r.Scheduled && r.Date < DateTime.Today) ||
+                        !r.Scheduled && r.Date <= DateTime.Today ||
                         (r.Scheduled && !r.Paid && r.PaymentDate <= DateTime.Today &&
-                        (r.Payment.Historico != null || r.Payment.Valor != null || r.Amount != null))
-                    );
+                        (r.Payment.Historico != null || r.Payment.Valor != null || r.Amount != null)));
         }
 
         private void EnableButtons() {
@@ -185,46 +195,54 @@ namespace MoneyBin.Forms {
         }
 
         private void ProcurarAgendamentos() {
-            var folder = Properties.Settings.Default.PaymentsFolder;
-            const string header = "Conformar Agendamento";
-            var mes = (MesPicklist)toolStripComboBoxMes.SelectedItem;
             foreach (var item in
                 dgvCalendario.Rows.OfType<DataGridViewRow>()
                 .Select(r => (CalendarItem)r.DataBoundItem)
                 .Where(i => !i.Scheduled)
                 .OrderBy(i => i.Date)) {
-                var itemFolder = $@"{folder}{item.Payment}";
-                if (Directory.Exists(itemFolder)) {
-                    var files = Directory.GetFiles(itemFolder, $@"{mes.YearMonth}*.pdf");
-                    if (files.Length == 0) {
-                        if (item.Date <= DateTime.Today) {
-                            MessageBox.Show(item.Description +
-                                        ":\n\n\tAgendamento não encontrado.",
-                                        header, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                    }
-                    else {
-                        var frm = new frmComprovantePDF(item.Description, folder, files);
-                        switch (frm.ShowDialog()) {
-                            case DialogResult.No: continue;
-                            case DialogResult.Cancel: return;
-                            default:
-                                item.Scheduled = true;
-                                item.ScheduleDate = frm.Comprovante.Agendamento;
-                                item.PaymentDate = frm.Comprovante.Pagamento;
-                                item.Amount = frm.Comprovante.Valor;
-                                break;
-                        }
-                    }
-                }
-                else {
-                    if (MessageBox.Show($"Folder para '{item.Payment}' não existe. Cria?", header, MessageBoxButtons.YesNo,
-                            MessageBoxIcon.Question) == DialogResult.Yes) {
-                        Directory.CreateDirectory(itemFolder);
-                    }
+                if (!ProcurarAgendamento(item)) {
+                    break;
                 }
             }
         }
+
+        private bool ProcurarAgendamento(CalendarItem item) {
+            var folder = Properties.Settings.Default.PaymentsFolder;
+            const string header = "Conformar Agendamento";
+            var mes = (MesPicklist)toolStripComboBoxMes.SelectedItem;
+            var itemFolder = $@"{folder}{item.Payment}";
+            if (Directory.Exists(itemFolder)) {
+                var files = Directory.GetFiles(itemFolder, $@"{mes.YearMonth}*.pdf");
+                if (files.Length == 0) {
+                    //if (item.Date <= DateTime.Today) {
+                    item.Scheduled = MessageBox.Show(item.Description +
+                                    ":\n\n\tComprovante de agendamento não encontrado.\n\nConfirma?",
+                        header, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
+                    //}
+                }
+                else {
+                    var frm = new frmComprovantePDF(item.Description, folder, files);
+                    switch (frm.ShowDialog()) {
+                        case DialogResult.No: return true;
+                        case DialogResult.Cancel: return false;
+                        default:
+                            item.Scheduled = true;
+                            item.ScheduleDate = frm.Comprovante.Agendamento;
+                            item.PaymentDate = frm.Comprovante.Pagamento;
+                            item.Amount = frm.Comprovante.Valor;
+                            break;
+                    }
+                }
+            }
+            else {
+                if (MessageBox.Show($"Folder para '{item.Payment}' não existe. Cria?", header, MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question) == DialogResult.Yes) {
+                    Directory.CreateDirectory(itemFolder);
+                }
+            }
+            return true;
+        }
+
 
         private void ProcurarPagamentos() {
             var mes = (MesPicklist)toolStripComboBoxMes.SelectedItem;
@@ -259,10 +277,13 @@ namespace MoneyBin.Forms {
 
                 var text = found.Select(f => f.ToString())
                     .Aggregate((i, j) => "\t" + i.ToString() + "\n" + j.ToString());
-                if(MessageBox.Show(item.Description +
+                if (MessageBox.Show(item.Description +
                                             ":\n\n" + text + "\n\nConfirma?",
                                 "Confirmar Pagamento", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
-                            DialogResult.No) return;
+                            DialogResult.No) {
+                    return;
+                }
+
                 item.Paid = true;
                 item.Amount = valor ?? 1;
             }
