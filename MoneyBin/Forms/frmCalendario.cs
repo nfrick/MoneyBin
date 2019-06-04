@@ -198,8 +198,8 @@ namespace MoneyBin.Forms {
             foreach (var item in
                 dgvCalendario.Rows.OfType<DataGridViewRow>()
                 .Select(r => (CalendarItem)r.DataBoundItem)
-                .Where(i => !i.Scheduled)
-                .OrderBy(i => i.Date)) {
+                .Where(r => !r.Scheduled)
+                .OrderBy(r => r.Date)) {
                 if (!ProcurarAgendamento(item)) {
                     break;
                 }
@@ -243,7 +243,6 @@ namespace MoneyBin.Forms {
             return true;
         }
 
-
         private void ProcurarPagamentos() {
             var mes = (MesPicklist)toolStripComboBoxMes.SelectedItem;
             var pagamentos = _ctx.Balance.Where(b => b.Valor < 0
@@ -252,7 +251,8 @@ namespace MoneyBin.Forms {
             var naoPagos = dgvCalendario.Rows.OfType<DataGridViewRow>()
                 .Select(r => (CalendarItem)r.DataBoundItem)
                 .Where(r => r.Scheduled && !r.Paid && r.PaymentDate <= DateTime.Today &&
-                (r.Payment.Historico != null || r.Payment.Valor != null || r.Amount != null));
+                (r.Payment.Historico != null || r.Payment.Valor != null || r.Amount != null))
+                .OrderBy(r => r.Date);
 
             foreach (var item in naoPagos) {
                 var ip = item.Payment;

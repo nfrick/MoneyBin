@@ -18,11 +18,12 @@ namespace MoneyBin {
                 listBoxFiles.Items.Add(file.Replace(_folder, ""));
             }
 
-            if (files.Count == 1) {
+            var pagto = listBoxFiles.Items.Cast<string>().FirstOrDefault(f => f.Contains("pagto"));
+            if (pagto == null || files.Count == 1) {
                 listBoxFiles.SelectedIndex = 0;
             }
             else {
-                listBoxFiles.SelectedItem = listBoxFiles.Items.Cast<string>().First(f => f.Contains("pagto"));
+                listBoxFiles.SelectedItem = pagto;
             }
         }
 
