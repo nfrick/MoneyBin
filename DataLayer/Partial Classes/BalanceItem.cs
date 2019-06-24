@@ -22,10 +22,10 @@ namespace DataLayer {
         }
 
         public string Classificacao() {
-            var classificacao = new List<string> { Grupo, Categoria };
-            if (SubCategoria != null) classificacao.Add(SubCategoria);
-            if (Descricao != null) classificacao.Add(Descricao);
-            return string.Join("-", classificacao);
+            var classificacao = new List<string> { Grupo, Categoria, SubCategoria, Descricao };
+            //if (SubCategoria != null) classificacao.Add(SubCategoria);
+            //if (Descricao != null) classificacao.Add(Descricao);
+            return string.Join("-", classificacao.Where(c=> !string.IsNullOrEmpty(c)));
         }
 
         public string Identificacao => $"{ID} {Classificacao()} {Data.ToShortDateString()}";

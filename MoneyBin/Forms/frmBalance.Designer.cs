@@ -303,7 +303,6 @@
             this.toolStripTextBoxProcurar.Name = "toolStripTextBoxProcurar";
             this.toolStripTextBoxProcurar.Size = new System.Drawing.Size(100, 26);
             this.toolStripTextBoxProcurar.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBoxProcurar_KeyDown);
-            this.toolStripTextBoxProcurar.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBoxProcurar_KeyPress);
             // 
             // toolStripLabelProcurar
             // 

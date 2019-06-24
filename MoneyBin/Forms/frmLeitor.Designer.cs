@@ -48,9 +48,10 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBoxTarget = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonAdd = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonDontAdd = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -209,6 +210,7 @@
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripSeparator3,
             this.toolStripButtonLerArquivo,
             this.toolStripButtonLimpar,
             this.toolStripButtonSalvar,
@@ -220,7 +222,7 @@
             this.toolStripButtonDontAdd});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(583, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(589, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButtonLerArquivo
@@ -275,6 +277,11 @@
             this.toolStripTextBoxTarget.Name = "toolStripTextBoxTarget";
             this.toolStripTextBoxTarget.Size = new System.Drawing.Size(100, 25);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
             // toolStripButtonAdd
             // 
             this.toolStripButtonAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -298,10 +305,10 @@
             this.toolStripButtonDontAdd.Text = "Don\'t Add";
             this.toolStripButtonDontAdd.Click += new System.EventHandler(this.toolStripButtonAdd_Click);
             // 
-            // toolStripSeparator2
+            // toolStripSeparator3
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
             // frmLeitor
             // 
@@ -357,5 +364,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonDontAdd;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }

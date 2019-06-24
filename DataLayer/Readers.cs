@@ -20,27 +20,34 @@ namespace DataLayer {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
                 Title = @"Selecione arquivo(s) de extrato:"
             };
-            if (dlg.ShowDialog() != DialogResult.OK) return null;
+            if (dlg.ShowDialog() != DialogResult.OK) {
+                return null;
+            }
 
             dlg.InitialDirectory = Path.GetDirectoryName(dlg.FileNames[0]);
             var includeAll = MessageBox.Show(@"Incluir todos os itens?", DialogTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
             foreach (var file in dlg.FileNames) {
                 var extrato = new Extrato(file, includeAll);
-                if (extrato.HasEntries)
+                if (extrato.HasEntries) {
                     newItems.AddRange(extrato.Entries);
+                }
             }
 
-            if (newItems.Any())
+            if (newItems.Any()) {
                 return newItems.OrderByDescending(x => x.Data).ToList();
+            }
 
             MessageBox.Show(@"Não há itens para serem importados.", DialogTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             return null;
         }
 
         public static void DeleteBalanceFiles() {
-            if (dlg == null || !dlg.FileNames.Any() || 
+            if (dlg == null || !dlg.FileNames.Any() ||
                 MessageBox.Show(@"Deletar arquivo(s)?", @"Ler Extratos", MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question) != DialogResult.Yes) return;
+                    MessageBoxIcon.Question) != DialogResult.Yes) {
+                return;
+            }
+
             foreach (var arquivo in dlg.FileNames) {
                 File.Delete(arquivo);
             }
@@ -62,9 +69,21 @@ namespace DataLayer {
         /// <param name="filepath">Path of the import file</param>
         public Extrato(string filepath, bool getAll) {
             var extension = Path.GetExtension(filepath).ToLower();
-            _banco = Ctx.Banks.FirstOrDefault(b => extension.EndsWith(b.Extensao));
-            if (_banco == null)
-                return;
+            var bancos = Ctx.Banks.Where(b => extension.EndsWith(b.Extensao));
+
+            switch (bancos.Count()) {
+                case 0: return;
+                case 1:
+                    _banco = bancos.First();
+                    break;
+                default:
+                    var bank = "";
+                    if(PromptDialog.InputCombo("Banco", "Selecione o banco:", 
+                        bancos.Select(b=>b.Banco).ToArray(), ref bank) == DialogResult.Cancel) return;
+                    _banco = bancos.First(b => b.Banco == bank);
+                    break;
+            }
+
             _getAll = _banco.DataMaxMins == null || getAll;
 
             if (extension.Equals(".xls")) {
@@ -114,7 +133,10 @@ namespace DataLayer {
 
             foreach (var comp in compensacoes) {
                 var despesa = aCompensar.FirstOrDefault(ex => Math.Abs(ex.Valor) == comp.Valor);
-                if (despesa == null) continue;
+                if (despesa == null) {
+                    continue;
+                }
+
                 comp.Grupo = "Pessoal";
                 comp.Categoria = "Papai";
                 comp.SubCategoria = despesa.SubCategoria;
@@ -133,6 +155,7 @@ namespace DataLayer {
                     csv.Configuration.HeaderValidated = null;
                 }
                 else {
+                    ExtratoCEFMap.Banco = _banco.Banco;
                     ExtratoCEFMap.DefineFormatoData(filepath);
                     csv.Configuration.Delimiter = ";";
                     csv.Configuration.RegisterClassMap<ExtratoCEFMap>();

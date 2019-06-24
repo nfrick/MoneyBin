@@ -38,10 +38,11 @@ namespace DataLayer {
 
     public sealed class ExtratoCEFMap : ClassMap<BalanceItem> {
         private static string DataFormato { get; set; } = "dd/MM/yyyy";
+        public static string Banco { get; set; }
 
         //"Conta";"Data_Mov";"Nr_Doc";"Historico";"Valor";"Deb_Cred"
         public ExtratoCEFMap() {
-            Map(m => m.Banco).Index(0).Constant("CEF");
+            Map(m => m.Banco).Index(0).Constant(Banco);
             Map(m => m.Data).Index(1).ConvertUsing(row => DateTime.ParseExact(row.GetField<string>(1),
                 "yyyyMMdd", CultureInfo.InvariantCulture));
             Map(m => m.Documento).Index(2);

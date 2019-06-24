@@ -90,9 +90,6 @@ namespace MoneyBin.Forms {
             toolStripButtonSalvar.Visible = false;
         }
 
-        private void toolStripTextBoxProcurar_KeyPress(object sender, KeyPressEventArgs e) {
-
-        }
         private void toolStripTextBoxProcurar_KeyDown(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Enter && !string.IsNullOrEmpty(toolStripTextBoxProcurar.Text))
                 Procurar();
