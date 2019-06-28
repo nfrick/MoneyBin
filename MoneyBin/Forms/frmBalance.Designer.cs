@@ -33,7 +33,6 @@
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.dgvBalance = new System.Windows.Forms.DataGridView();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bancoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.historicoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.documentoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -91,7 +90,6 @@
             this.dgvBalance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvBalance.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.iDDataGridViewTextBoxColumn,
-            this.bancoDataGridViewTextBoxColumn,
             this.dataDataGridViewTextBoxColumn,
             this.historicoDataGridViewTextBoxColumn,
             this.documentoDataGridViewTextBoxColumn,
@@ -125,14 +123,6 @@
             this.iDDataGridViewTextBoxColumn.ReadOnly = true;
             this.iDDataGridViewTextBoxColumn.Width = 50;
             // 
-            // bancoDataGridViewTextBoxColumn
-            // 
-            this.bancoDataGridViewTextBoxColumn.DataPropertyName = "Banco";
-            this.bancoDataGridViewTextBoxColumn.HeaderText = "Banco";
-            this.bancoDataGridViewTextBoxColumn.Name = "bancoDataGridViewTextBoxColumn";
-            this.bancoDataGridViewTextBoxColumn.ReadOnly = true;
-            this.bancoDataGridViewTextBoxColumn.Visible = false;
-            // 
             // dataDataGridViewTextBoxColumn
             // 
             this.dataDataGridViewTextBoxColumn.DataPropertyName = "Data";
@@ -142,6 +132,7 @@
             // 
             // historicoDataGridViewTextBoxColumn
             // 
+            this.historicoDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.historicoDataGridViewTextBoxColumn.DataPropertyName = "Historico";
             this.historicoDataGridViewTextBoxColumn.HeaderText = "Histórico";
             this.historicoDataGridViewTextBoxColumn.Name = "historicoDataGridViewTextBoxColumn";
@@ -195,10 +186,10 @@
             // 
             // descricaoDataGridViewTextBoxColumn
             // 
-            this.descricaoDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.descricaoDataGridViewTextBoxColumn.DataPropertyName = "Descricao";
             this.descricaoDataGridViewTextBoxColumn.HeaderText = "Descrição";
             this.descricaoDataGridViewTextBoxColumn.Name = "descricaoDataGridViewTextBoxColumn";
+            this.descricaoDataGridViewTextBoxColumn.Width = 150;
             // 
             // IDAssociado
             // 
@@ -245,7 +236,6 @@
             this.toolStripComboBoxBanco.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.toolStripComboBoxBanco.Name = "toolStripComboBoxBanco";
             this.toolStripComboBoxBanco.Size = new System.Drawing.Size(75, 26);
-            this.toolStripComboBoxBanco.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxBanco_SelectedIndexChanged);
             // 
             // toolStripLabel2
             // 
@@ -303,7 +293,6 @@
             this.toolStripTextBoxProcurar.Name = "toolStripTextBoxProcurar";
             this.toolStripTextBoxProcurar.Size = new System.Drawing.Size(100, 26);
             this.toolStripTextBoxProcurar.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBoxProcurar_KeyDown);
-            this.toolStripTextBoxProcurar.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBoxProcurar_KeyPress);
             // 
             // toolStripLabelProcurar
             // 
@@ -375,7 +364,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonDesfazer;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn bancoDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn historicoDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn documentoDataGridViewTextBoxColumn;

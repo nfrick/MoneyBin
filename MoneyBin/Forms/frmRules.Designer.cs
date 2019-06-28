@@ -27,9 +27,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmRules));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.dgvRules = new System.Windows.Forms.DataGridView();
+            this.entityDataSource1 = new EFWinforms.EntityDataSource(this.components);
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonSalvar = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonDesfazer = new System.Windows.Forms.ToolStripButton();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Bank = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.entityDataSource1 = new EFWinforms.EntityDataSource(this.components);
             this.historicoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.comparacaoDataGridViewComboBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.afetaSaldoDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -39,9 +42,6 @@
             this.descricaoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AddToDatabase = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ocorrenciasDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButtonSalvar = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonDesfazer = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -60,7 +60,7 @@
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.dgvRules);
             this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1097, 536);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1097, 538);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -97,10 +97,46 @@
             this.dgvRules.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgvRules.Name = "dgvRules";
             this.dgvRules.RowTemplate.Height = 24;
-            this.dgvRules.Size = new System.Drawing.Size(1097, 536);
+            this.dgvRules.Size = new System.Drawing.Size(1097, 538);
             this.dgvRules.TabIndex = 0;
             this.dgvRules.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRules_CellDoubleClick);
             this.dgvRules.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRules_CellEndEdit);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonSalvar,
+            this.toolStripButtonDesfazer});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(109, 25);
+            this.toolStrip1.TabIndex = 0;
+            // 
+            // toolStripButtonSalvar
+            // 
+            this.toolStripButtonSalvar.BackColor = System.Drawing.Color.Green;
+            this.toolStripButtonSalvar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonSalvar.ForeColor = System.Drawing.Color.White;
+            this.toolStripButtonSalvar.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSalvar.Image")));
+            this.toolStripButtonSalvar.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonSalvar.Name = "toolStripButtonSalvar";
+            this.toolStripButtonSalvar.Size = new System.Drawing.Size(42, 22);
+            this.toolStripButtonSalvar.Text = "Salvar";
+            this.toolStripButtonSalvar.Click += new System.EventHandler(this.toolStripButtonSalvar_Click);
+            // 
+            // toolStripButtonDesfazer
+            // 
+            this.toolStripButtonDesfazer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.toolStripButtonDesfazer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonDesfazer.ForeColor = System.Drawing.Color.White;
+            this.toolStripButtonDesfazer.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDesfazer.Image")));
+            this.toolStripButtonDesfazer.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonDesfazer.Name = "toolStripButtonDesfazer";
+            this.toolStripButtonDesfazer.Size = new System.Drawing.Size(55, 22);
+            this.toolStripButtonDesfazer.Text = "Desfazer";
+            this.toolStripButtonDesfazer.Click += new System.EventHandler(this.toolStripButtonDesfazer_Click);
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -110,12 +146,12 @@
             // 
             // Bank
             // 
-            this.Bank.DataPropertyName = "Banco";
+            this.Bank.DataPropertyName = "BankID";
             this.Bank.DataSource = this.entityDataSource1;
             this.Bank.DisplayMember = "Banks.Banco";
             this.Bank.HeaderText = "Banco";
             this.Bank.Name = "Bank";
-            this.Bank.ValueMember = "Banks.Banco";
+            this.Bank.ValueMember = "Banks.ID";
             // 
             // historicoDataGridViewTextBoxColumn
             // 
@@ -181,45 +217,9 @@
             this.ocorrenciasDataGridViewTextBoxColumn.Name = "ocorrenciasDataGridViewTextBoxColumn";
             this.ocorrenciasDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButtonSalvar,
-            this.toolStripButtonDesfazer});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(175, 27);
-            this.toolStrip1.TabIndex = 0;
-            // 
-            // toolStripButtonSalvar
-            // 
-            this.toolStripButtonSalvar.BackColor = System.Drawing.Color.Green;
-            this.toolStripButtonSalvar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButtonSalvar.ForeColor = System.Drawing.Color.White;
-            this.toolStripButtonSalvar.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSalvar.Image")));
-            this.toolStripButtonSalvar.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonSalvar.Name = "toolStripButtonSalvar";
-            this.toolStripButtonSalvar.Size = new System.Drawing.Size(53, 24);
-            this.toolStripButtonSalvar.Text = "Salvar";
-            this.toolStripButtonSalvar.Click += new System.EventHandler(this.toolStripButtonSalvar_Click);
-            // 
-            // toolStripButtonDesfazer
-            // 
-            this.toolStripButtonDesfazer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.toolStripButtonDesfazer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButtonDesfazer.ForeColor = System.Drawing.Color.White;
-            this.toolStripButtonDesfazer.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDesfazer.Image")));
-            this.toolStripButtonDesfazer.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonDesfazer.Name = "toolStripButtonDesfazer";
-            this.toolStripButtonDesfazer.Size = new System.Drawing.Size(71, 24);
-            this.toolStripButtonDesfazer.Text = "Desfazer";
-            this.toolStripButtonDesfazer.Click += new System.EventHandler(this.toolStripButtonDesfazer_Click);
-            // 
             // frmRules
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1097, 563);
             this.Controls.Add(this.toolStripContainer1);

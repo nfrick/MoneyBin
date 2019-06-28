@@ -5,11 +5,27 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="MoneyBinModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblAccounts">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BankID" Type="int" Nullable="false" />
+          <Property Name="Apelido" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Agencia" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="ContaCorrente" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Operacao" Type="nchar" MaxLength="3" />
+          <Property Name="Gerente" Type="nvarchar" MaxLength="40" />
+          <Property Name="Telefone" Type="nvarchar" MaxLength="15" />
+          <Property Name="Celular" Type="nvarchar" MaxLength="15" />
+          <Property Name="EMail" Type="nvarchar" MaxLength="60" />
+        </EntityType>
         <EntityType Name="tblBanks">
           <Key>
-            <PropertyRef Name="Banco" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="Banco" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Banco" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="Extensao" Type="varchar" MaxLength="4" Nullable="false" />
         </EntityType>
         <EntityType Name="tblCalendar">
@@ -45,6 +61,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BankID" Type="int" Nullable="false" />
           <Property Name="Banco" Type="varchar" MaxLength="3" Nullable="false" />
           <Property Name="Historico" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Comparacao" Type="int" Nullable="false" />
@@ -80,10 +97,9 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Balance' does not have a primary k
             
             
             
-            <PropertyRef Name="RuleId" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Banco" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="AccountID" Type="int" />
           <Property Name="Data" Type="date" Nullable="false" />
           <Property Name="Historico" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Documento" Type="nvarchar" MaxLength="50" />
@@ -112,16 +128,30 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Reembolsaveis' does not have a pri
           <Property Name="SubCategoria" Type="nvarchar" MaxLength="30" />
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="vwDataMaxMin">
-          <Key>
-            <PropertyRef Name="Banco" />
-          </Key>
-          <Property Name="Banco" Type="nvarchar" MaxLength="3" Nullable="false" />
-          <Property Name="DataMin" Type="date" />
-          <Property Name="DataMax" Type="date" />
-        </EntityType>
+        <Association Name="FK_tblAccounts_tblBanks">
+          <End Role="tblBanks" Type="Self.tblBanks" Multiplicity="1" />
+          <End Role="tblAccounts" Type="Self.tblAccounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBanks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblAccounts">
+              <PropertyRef Name="BankID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblRules_tblBanks">
+          <End Role="tblBanks" Type="Self.tblBanks" Multiplicity="1" />
+          <End Role="tblRules" Type="Self.tblRules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBanks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblRules">
+              <PropertyRef Name="BankID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="sp_AcertosPendentes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Data" Type="date" Mode="In" />
         </Function>
@@ -130,7 +160,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Parameter Name="ID" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_BalanceItemInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Banco" Type="varchar" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
           <Parameter Name="Data" Type="date" Mode="In" />
           <Parameter Name="Historico" Type="nvarchar" Mode="In" />
           <Parameter Name="Documento" Type="nvarchar" Mode="In" />
@@ -166,6 +196,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Parameter Name="Banco" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="MoneyBinModelStoreContainer">
+          <EntitySet Name="tblAccounts" EntityType="Self.tblAccounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblBanks" EntityType="Self.tblBanks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCalendar" EntityType="Self.tblCalendar" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPayments" EntityType="Self.tblPayments" Schema="dbo" store:Type="Tables" />
@@ -184,7 +215,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <EntitySet Name="vw_Balance" EntityType="Self.vw_Balance" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_Balance].[ID] AS [ID], 
-    [vw_Balance].[Banco] AS [Banco], 
+    [vw_Balance].[AccountID] AS [AccountID], 
     [vw_Balance].[Data] AS [Data], 
     [vw_Balance].[Historico] AS [Historico], 
     [vw_Balance].[Documento] AS [Documento], 
@@ -209,13 +240,14 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
     [vw_Reembolsaveis].[ID] AS [ID]
     FROM [dbo].[vw_Reembolsaveis] AS [vw_Reembolsaveis]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="vwDataMaxMin" EntityType="Self.vwDataMaxMin" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [vwDataMaxMin].[Banco] AS [Banco], 
-    [vwDataMaxMin].[DataMin] AS [DataMin], 
-    [vwDataMaxMin].[DataMax] AS [DataMax]
-    FROM [dbo].[vwDataMaxMin] AS [vwDataMaxMin]</DefiningQuery>
-          </EntitySet>
+          <AssociationSet Name="FK_tblAccounts_tblBanks" Association="Self.FK_tblAccounts_tblBanks">
+            <End Role="tblBanks" EntitySet="tblBanks" />
+            <End Role="tblAccounts" EntitySet="tblAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblRules_tblBanks" Association="Self.FK_tblRules_tblBanks">
+            <End Role="tblBanks" EntitySet="tblBanks" />
+            <End Role="tblRules" EntitySet="tblRules" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -262,7 +294,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Parameter Name="ID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_BalanceItemInsert">
-            <Parameter Name="Banco" Mode="In" Type="String" />
+            <Parameter Name="ContaID" Mode="In" Type="Int32" />
             <Parameter Name="Data" Mode="In" Type="DateTime" />
             <Parameter Name="Historico" Mode="In" Type="String" />
             <Parameter Name="Documento" Mode="In" Type="String" />
@@ -291,15 +323,6 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             <End Role="Bank" EntitySet="Banks" />
             <End Role="tblRule" EntitySet="Rules" />
           </AssociationSet>
-          <EntitySet Name="DataMaxsMins" EntityType="MoneyBinModel.DataMaxMin" />
-          <AssociationSet Name="BankDataMaxMin" Association="MoneyBinModel.BankDataMaxMin">
-            <End Role="Bank" EntitySet="Banks" />
-            <End Role="DataMaxMin" EntitySet="DataMaxsMins" />
-          </AssociationSet>
-          <AssociationSet Name="BankBalanceItem" Association="MoneyBinModel.BankBalanceItem">
-            <End Role="Bank" EntitySet="Banks" />
-            <End Role="BalanceItem" EntitySet="Balance" />
-          </AssociationSet>
           <FunctionImport Name="AcertosPendentes" EntitySet="Balance" ReturnType="Collection(MoneyBinModel.BalanceItem)" >
           <Parameter Name="Data" Mode="In" Type="DateTime" />
           </FunctionImport>
@@ -317,7 +340,29 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Parameter Name="Banco" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_ExportToExtrato">
-            <Parameter Name="AccessDB" Mode="In" Type="String" />
+          <Parameter Name="AccessDB" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Accounts" EntityType="MoneyBinModel.Account" />
+          <AssociationSet Name="FK_tblAccounts_tblBanks" Association="MoneyBinModel.FK_tblAccounts_tblBanks">
+            <End Role="Bank" EntitySet="Banks" />
+            <End Role="tblAccount" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="tblAccountBalanceItem" Association="MoneyBinModel.tblAccountBalanceItem">
+            <End Role="tblAccount" EntitySet="Accounts" />
+            <End Role="BalanceItem" EntitySet="Balance" />
+          </AssociationSet>
+          <FunctionImport Name="sp_BalanceItemInsert1" ReturnType="Collection(Decimal)">
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="Data" Mode="In" Type="DateTime" />
+            <Parameter Name="Historico" Mode="In" Type="String" />
+            <Parameter Name="Documento" Mode="In" Type="String" />
+            <Parameter Name="Valor" Mode="In" Type="Decimal" />
+            <Parameter Name="AfetaSaldo" Mode="In" Type="Boolean" />
+            <Parameter Name="Grupo" Mode="In" Type="String" />
+            <Parameter Name="Categoria" Mode="In" Type="String" />
+            <Parameter Name="SubCategoria" Mode="In" Type="String" />
+            <Parameter Name="Descricao" Mode="In" Type="String" />
+            <Parameter Name="Tipo" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <Association Name="tblPaymenttblCalendar">
@@ -335,10 +380,9 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
         <EntityType Name="BalanceItem">
           <Key>
             <PropertyRef Name="ID" />
-            <PropertyRef Name="RuleId" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Banco" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="AccountID" Type="Int32" Nullable="false" />
           <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Historico" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Documento" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -350,26 +394,27 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Property Name="Descricao" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="Saldo" Type="Decimal" Precision="19" Scale="4" />
-          <NavigationProperty Name="Bank" Relationship="MoneyBinModel.BankBalanceItem" FromRole="BalanceItem" ToRole="Bank" />
           <Property Name="IDAssociado" Type="Int32" />
           <Property Name="Reembolsavel" Type="Boolean" Nullable="false" />
           <Property Name="RuleId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Account" Relationship="MoneyBinModel.tblAccountBalanceItem" FromRole="BalanceItem" ToRole="tblAccount" />
         </EntityType>
         <EntityType Name="Bank">
           <Key>
-            <PropertyRef Name="Banco" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="Banco" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Banco" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="Extensao" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Rules" Relationship="MoneyBinModel.FK_tblRules_tblBanks" FromRole="Bank" ToRole="tblRule" />
-          <NavigationProperty Name="DataMaxMins" Relationship="MoneyBinModel.BankDataMaxMin" FromRole="Bank" ToRole="DataMaxMin" />
-          <NavigationProperty Name="Balance" Relationship="MoneyBinModel.BankBalanceItem" FromRole="Bank" ToRole="BalanceItem" />
+          <NavigationProperty Name="Accounts" Relationship="MoneyBinModel.FK_tblAccounts_tblBanks" FromRole="Bank" ToRole="tblAccount" />
         </EntityType>
         <EntityType Name="Rule">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BankID" Type="Int32" Nullable="false" />
           <Property Name="Banco" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
           <Property Name="Historico" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Comparacao" Type="Int32" Nullable="false" />
@@ -387,43 +432,10 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <End Type="MoneyBinModel.Rule" Role="tblRule" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Bank">
-              <PropertyRef Name="Banco" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="tblRule">
-              <PropertyRef Name="Banco" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="DataMaxMin">
-          <Key>
-            <PropertyRef Name="Banco" />
-          </Key>
-          <Property Name="Banco" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="true" />
-          <Property Name="DataMin" Type="DateTime" Precision="0" Nullable="false" />
-          <Property Name="DataMax" Type="DateTime" Precision="0" Nullable="false" />
-          <NavigationProperty Name="Bank" Relationship="MoneyBinModel.BankDataMaxMin" FromRole="DataMaxMin" ToRole="Bank" />
-        </EntityType>
-        <Association Name="BankDataMaxMin">
-          <End Type="MoneyBinModel.Bank" Role="Bank" Multiplicity="1" />
-          <End Type="MoneyBinModel.DataMaxMin" Role="DataMaxMin" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="Bank">
-              <PropertyRef Name="Banco" />
-            </Principal>
-            <Dependent Role="DataMaxMin">
-              <PropertyRef Name="Banco" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="BankBalanceItem">
-          <End Type="MoneyBinModel.Bank" Role="Bank" Multiplicity="1" />
-          <End Type="MoneyBinModel.BalanceItem" Role="BalanceItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Bank">
-              <PropertyRef Name="Banco" />
-            </Principal>
-            <Dependent Role="BalanceItem">
-              <PropertyRef Name="Banco" />
+              <PropertyRef Name="BankID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -478,6 +490,47 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <Property Type="String" Name="Texto" Nullable="false" MaxLength="200" />
           <Property Type="Int32" Name="Ocorrencias" Nullable="true" />
         </ComplexType>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BankID" Type="Int32" Nullable="false" />
+          <Property Name="Apelido" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Agencia" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ContaCorrente" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Operacao" Type="String" MaxLength="3" FixedLength="true" Unicode="true" />
+          <Property Name="Gerente" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="Telefone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Celular" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="EMail" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Bank" Relationship="MoneyBinModel.FK_tblAccounts_tblBanks" FromRole="tblAccount" ToRole="Bank" />
+          <NavigationProperty Name="Balance" Relationship="MoneyBinModel.tblAccountBalanceItem" FromRole="tblAccount" ToRole="BalanceItem" />
+        </EntityType>
+        <Association Name="FK_tblAccounts_tblBanks">
+          <End Type="MoneyBinModel.Bank" Role="Bank" Multiplicity="1" />
+          <End Type="MoneyBinModel.Account" Role="tblAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblAccount">
+              <PropertyRef Name="BankID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tblAccountBalanceItem">
+          <End Type="MoneyBinModel.Account" Role="tblAccount" Multiplicity="1" />
+          <End Type="MoneyBinModel.BalanceItem" Role="BalanceItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAccount">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BalanceItem">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -513,11 +566,11 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_BalanceItemDelete" FunctionName="MoneyBinModel.Store.sp_BalanceItemDelete" />
-          <FunctionImportMapping FunctionImportName="sp_BalanceItemInsert" FunctionName="MoneyBinModel.Store.sp_BalanceItemInsert" />
           <FunctionImportMapping FunctionImportName="sp_BalanceItemUpdate" FunctionName="MoneyBinModel.Store.sp_BalanceItemUpdate" />
           <EntitySetMapping Name="Balance">
             <EntityTypeMapping TypeName="MoneyBinModel.BalanceItem">
               <MappingFragment StoreEntitySet="vw_Balance">
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
                 <ScalarProperty Name="RuleId" ColumnName="RuleId" />
                 <ScalarProperty Name="Reembolsavel" ColumnName="Reembolsavel" />
                 <ScalarProperty Name="IDAssociado" ColumnName="IDAssociado" />
@@ -532,7 +585,6 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
                 <ScalarProperty Name="Documento" ColumnName="Documento" />
                 <ScalarProperty Name="Historico" ColumnName="Historico" />
                 <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="Banco" ColumnName="Banco" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -553,16 +605,16 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
                 </DeleteFunction>
                 <InsertFunction FunctionName="MoneyBinModel.Store.sp_BalanceItemInsert">
                   <ScalarProperty Name="Tipo" ParameterName="Tipo" />
+                  <ScalarProperty Name="Descricao" ParameterName="Descricao" />
                   <ScalarProperty Name="SubCategoria" ParameterName="SubCategoria" />
                   <ScalarProperty Name="Categoria" ParameterName="Categoria" />
                   <ScalarProperty Name="Grupo" ParameterName="Grupo" />
-                  <ScalarProperty Name="Descricao" ParameterName="Descricao" />
                   <ScalarProperty Name="AfetaSaldo" ParameterName="AfetaSaldo" />
                   <ScalarProperty Name="Valor" ParameterName="Valor" />
                   <ScalarProperty Name="Documento" ParameterName="Documento" />
                   <ScalarProperty Name="Historico" ParameterName="Historico" />
                   <ScalarProperty Name="Data" ParameterName="Data" />
-                  <ScalarProperty Name="Banco" ParameterName="Banco" />
+                  <ScalarProperty Name="AccountID" ParameterName="AccountID" />
                   <ResultBinding Name="ID" ColumnName="NewID" />
                 </InsertFunction>
               </ModificationFunctionMapping>
@@ -571,6 +623,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <EntitySetMapping Name="Banks">
             <EntityTypeMapping TypeName="MoneyBinModel.Bank">
               <MappingFragment StoreEntitySet="tblBanks">
+                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Extensao" ColumnName="Extensao" />
                 <ScalarProperty Name="Banco" ColumnName="Banco" />
               </MappingFragment>
@@ -579,6 +632,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
           <EntitySetMapping Name="Rules">
             <EntityTypeMapping TypeName="MoneyBinModel.Rule">
               <MappingFragment StoreEntitySet="tblRules">
+                <ScalarProperty Name="BankID" ColumnName="BankID" />
                 <ScalarProperty Name="AddToDatabase" ColumnName="AddToDatabase" />
                 <ScalarProperty Name="Ocorrencias" ColumnName="Ocorrencias" />
                 <ScalarProperty Name="Descricao" ColumnName="Descricao" />
@@ -590,15 +644,6 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
                 <ScalarProperty Name="Historico" ColumnName="Historico" />
                 <ScalarProperty Name="Banco" ColumnName="Banco" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DataMaxsMins">
-            <EntityTypeMapping TypeName="MoneyBinModel.DataMaxMin">
-              <MappingFragment StoreEntitySet="vwDataMaxMin">
-                <ScalarProperty Name="DataMax" ColumnName="DataMax" />
-                <ScalarProperty Name="DataMin" ColumnName="DataMin" />
-                <ScalarProperty Name="Banco" ColumnName="Banco" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -648,6 +693,23 @@ warning 6002: The table/view 'MoneyBin.dbo.vwDataMaxMin' does not have a primary
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_ExportToExtrato" FunctionName="MoneyBinModel.Store.sp_ExportToExtrato" />
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="MoneyBinModel.Account">
+              <MappingFragment StoreEntitySet="tblAccounts">
+                <ScalarProperty Name="EMail" ColumnName="EMail" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="Telefone" ColumnName="Telefone" />
+                <ScalarProperty Name="Gerente" ColumnName="Gerente" />
+                <ScalarProperty Name="Operacao" ColumnName="Operacao" />
+                <ScalarProperty Name="ContaCorrente" ColumnName="ContaCorrente" />
+                <ScalarProperty Name="Agencia" ColumnName="Agencia" />
+                <ScalarProperty Name="Apelido" ColumnName="Apelido" />
+                <ScalarProperty Name="BankID" ColumnName="BankID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_BalanceItemInsert1" FunctionName="MoneyBinModel.Store.sp_BalanceItemInsert" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

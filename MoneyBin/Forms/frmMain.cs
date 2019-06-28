@@ -88,5 +88,10 @@ namespace MoneyBin {
             var frm = new frmAssociador { MdiParent = this };
             frm.Show();
         }
+
+        private void toolStripButtonContas_Click(object sender, EventArgs e) {
+            var frm = new frmContas() { MdiParent = this };
+            frm.Show();
+        }
     }
 }

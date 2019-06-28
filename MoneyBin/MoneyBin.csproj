@@ -114,6 +114,12 @@
     <Compile Include="Forms\frmCalendario.Designer.cs">
       <DependentUpon>frmCalendario.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmContas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmContas.designer.cs">
+      <DependentUpon>frmContas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmLeitor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -180,8 +186,12 @@
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Content Include="Money Bin 1.ico" />
     <Content Include="Reports\ReportComDescricao.rdlc" />
+    <None Include="Properties\DataSources\DataLayer.BalanceItem.datasource" />
     <None Include="Resources\Uncle Scrooge-McDuck.gif" />
     <None Include="Resources\rightleft2red.png" />
+    <None Include="Resources\glasses-icon.png" />
+    <None Include="Resources\money-icon.png" />
+    <None Include="Resources\money-wallet-icon.png" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -211,6 +221,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCalendario.resx">
       <DependentUpon>frmCalendario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmContas.resx">
+      <DependentUpon>frmContas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmLeitor.resx">
       <DependentUpon>frmLeitor.cs</DependentUpon>

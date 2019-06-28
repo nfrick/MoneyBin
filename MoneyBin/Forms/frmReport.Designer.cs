@@ -26,6 +26,7 @@
             this.components = new System.ComponentModel.Container();
             Microsoft.Reporting.WinForms.ReportDataSource reportDataSource1 = new Microsoft.Reporting.WinForms.ReportDataSource();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmReport));
+            this.BalanceItemComGrupoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.AnalysisItemAnoMesGrupoCategoriaBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.rptViewer = new Microsoft.Reporting.WinForms.ReportViewer();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
@@ -35,17 +36,20 @@
             this.toolStripButtonByGroup = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabelBanco = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripComboBoxBanco = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripComboBoxConta = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripLabelInicio = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabelTermino = new System.Windows.Forms.ToolStripLabel();
-            this.BalanceItemComGrupoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.BalanceItemComGrupoBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AnalysisItemAnoMesGrupoCategoriaBindingSource)).BeginInit();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.BalanceItemComGrupoBindingSource)).BeginInit();
             this.SuspendLayout();
+            // 
+            // BalanceItemComGrupoBindingSource
+            // 
+            this.BalanceItemComGrupoBindingSource.DataMember = "BalanceItemComGrupo";
             // 
             // rptViewer
             // 
@@ -59,7 +63,7 @@
             this.rptViewer.Name = "rptViewer";
             this.rptViewer.ServerReport.BearerToken = null;
             this.rptViewer.ServerReport.ReportServerUrl = new System.Uri("", System.UriKind.Relative);
-            this.rptViewer.Size = new System.Drawing.Size(1446, 555);
+            this.rptViewer.Size = new System.Drawing.Size(1446, 558);
             this.rptViewer.TabIndex = 0;
             // 
             // toolStripContainer1
@@ -69,7 +73,7 @@
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.rptViewer);
             this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1446, 555);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1446, 558);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.LeftToolStripPanelVisible = false;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
@@ -94,12 +98,12 @@
             this.toolStripButtonByGroup,
             this.toolStripSeparator1,
             this.toolStripLabelBanco,
-            this.toolStripComboBoxBanco,
+            this.toolStripComboBoxConta,
             this.toolStripLabelInicio,
             this.toolStripLabelTermino});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(462, 28);
+            this.toolStrip1.Size = new System.Drawing.Size(421, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButton1
@@ -110,7 +114,7 @@
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(65, 25);
+            this.toolStripButton1.Size = new System.Drawing.Size(52, 22);
             this.toolStripButton1.Tag = "Balance";
             this.toolStripButton1.Text = "Balance";
             this.toolStripButton1.Click += new System.EventHandler(this.ToolStripButtonReport_Click);
@@ -123,7 +127,7 @@
             this.toolStripButtonByMonth.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonByMonth.Image")));
             this.toolStripButtonByMonth.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonByMonth.Name = "toolStripButtonByMonth";
-            this.toolStripButtonByMonth.Size = new System.Drawing.Size(76, 25);
+            this.toolStripButtonByMonth.Size = new System.Drawing.Size(63, 22);
             this.toolStripButtonByMonth.Tag = "ComDescricao";
             this.toolStripButtonByMonth.Text = "By Month";
             this.toolStripButtonByMonth.Click += new System.EventHandler(this.ToolStripButtonReport_Click);
@@ -136,7 +140,7 @@
             this.toolStripButtonByGroup.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonByGroup.Image")));
             this.toolStripButtonByGroup.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonByGroup.Name = "toolStripButtonByGroup";
-            this.toolStripButtonByGroup.Size = new System.Drawing.Size(74, 25);
+            this.toolStripButtonByGroup.Size = new System.Drawing.Size(60, 22);
             this.toolStripButtonByGroup.Tag = "PorGrupo";
             this.toolStripButtonByGroup.Text = "By Group";
             this.toolStripButtonByGroup.Click += new System.EventHandler(this.ToolStripButtonReport_Click);
@@ -144,44 +148,40 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 28);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripLabelBanco
             // 
             this.toolStripLabelBanco.ForeColor = System.Drawing.Color.Black;
             this.toolStripLabelBanco.Name = "toolStripLabelBanco";
-            this.toolStripLabelBanco.Size = new System.Drawing.Size(53, 25);
-            this.toolStripLabelBanco.Text = "Banco:";
+            this.toolStripLabelBanco.Size = new System.Drawing.Size(42, 22);
+            this.toolStripLabelBanco.Text = "Conta:";
             // 
-            // toolStripComboBoxBanco
+            // toolStripComboBoxConta
             // 
-            this.toolStripComboBoxBanco.AutoSize = false;
-            this.toolStripComboBoxBanco.ForeColor = System.Drawing.Color.Black;
-            this.toolStripComboBoxBanco.Name = "toolStripComboBoxBanco";
-            this.toolStripComboBoxBanco.Size = new System.Drawing.Size(60, 28);
-            this.toolStripComboBoxBanco.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxBanco_SelectedIndexChanged);
+            this.toolStripComboBoxConta.AutoSize = false;
+            this.toolStripComboBoxConta.ForeColor = System.Drawing.Color.Black;
+            this.toolStripComboBoxConta.Name = "toolStripComboBoxConta";
+            this.toolStripComboBoxConta.Size = new System.Drawing.Size(60, 23);
+            this.toolStripComboBoxConta.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxConta_SelectedIndexChanged);
             // 
             // toolStripLabelInicio
             // 
             this.toolStripLabelInicio.ForeColor = System.Drawing.Color.Black;
             this.toolStripLabelInicio.Name = "toolStripLabelInicio";
-            this.toolStripLabelInicio.Size = new System.Drawing.Size(48, 25);
+            this.toolStripLabelInicio.Size = new System.Drawing.Size(39, 22);
             this.toolStripLabelInicio.Text = "Início:";
             // 
             // toolStripLabelTermino
             // 
             this.toolStripLabelTermino.ForeColor = System.Drawing.Color.Black;
             this.toolStripLabelTermino.Name = "toolStripLabelTermino";
-            this.toolStripLabelTermino.Size = new System.Drawing.Size(66, 25);
+            this.toolStripLabelTermino.Size = new System.Drawing.Size(54, 22);
             this.toolStripLabelTermino.Text = "Término:";
-            // 
-            // BalanceItemComGrupoBindingSource
-            // 
-            this.BalanceItemComGrupoBindingSource.DataMember = "BalanceItemComGrupo";
             // 
             // frmReport
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1446, 583);
             this.Controls.Add(this.toolStripContainer1);
@@ -191,6 +191,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Relatórios";
             this.Load += new System.EventHandler(this.Form_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.BalanceItemComGrupoBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AnalysisItemAnoMesGrupoCategoriaBindingSource)).EndInit();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
@@ -199,7 +200,6 @@
             this.toolStripContainer1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.BalanceItemComGrupoBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -214,7 +214,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonByMonth;
         private System.Windows.Forms.ToolStripButton toolStripButtonByGroup;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBoxBanco;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBoxConta;
         private System.Windows.Forms.ToolStripLabel toolStripLabelBanco;
         private System.Windows.Forms.ToolStripLabel toolStripLabelInicio;
         private System.Windows.Forms.ToolStripLabel toolStripLabelTermino;

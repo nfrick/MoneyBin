@@ -39,7 +39,7 @@
             this.labelCount = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.checkedListBoxBancos = new System.Windows.Forms.CheckedListBox();
+            this.checkedListBoxContas = new System.Windows.Forms.CheckedListBox();
             this.dtpTermino = new System.Windows.Forms.DateTimePicker();
             this.dtpInicio = new System.Windows.Forms.DateTimePicker();
             this.groupBox1.SuspendLayout();
@@ -183,12 +183,12 @@
             this.groupBoxCriteria.Controls.Add(this.labelCount);
             this.groupBoxCriteria.Controls.Add(this.label2);
             this.groupBoxCriteria.Controls.Add(this.label1);
-            this.groupBoxCriteria.Controls.Add(this.checkedListBoxBancos);
+            this.groupBoxCriteria.Controls.Add(this.checkedListBoxContas);
             this.groupBoxCriteria.Controls.Add(this.dtpTermino);
             this.groupBoxCriteria.Controls.Add(this.dtpInicio);
             this.groupBoxCriteria.Location = new System.Drawing.Point(19, 135);
             this.groupBoxCriteria.Name = "groupBoxCriteria";
-            this.groupBoxCriteria.Size = new System.Drawing.Size(409, 236);
+            this.groupBoxCriteria.Size = new System.Drawing.Size(409, 279);
             this.groupBoxCriteria.TabIndex = 16;
             this.groupBoxCriteria.TabStop = false;
             this.groupBoxCriteria.Text = "Critério";
@@ -201,14 +201,14 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(52, 19);
             this.label3.TabIndex = 7;
-            this.label3.Text = "Bancos";
+            this.label3.Text = "Contas";
             // 
             // checkedListBoxGrupos
             // 
             this.checkedListBoxGrupos.FormattingEnabled = true;
             this.checkedListBoxGrupos.Location = new System.Drawing.Point(212, 29);
             this.checkedListBoxGrupos.Name = "checkedListBoxGrupos";
-            this.checkedListBoxGrupos.Size = new System.Drawing.Size(171, 151);
+            this.checkedListBoxGrupos.Size = new System.Drawing.Size(171, 193);
             this.checkedListBoxGrupos.TabIndex = 6;
             this.checkedListBoxGrupos.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxGrupos_ItemCheck);
             // 
@@ -216,7 +216,7 @@
             // 
             this.labelCount.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelCount.ForeColor = System.Drawing.Color.Black;
-            this.labelCount.Location = new System.Drawing.Point(27, 200);
+            this.labelCount.Location = new System.Drawing.Point(27, 242);
             this.labelCount.Name = "labelCount";
             this.labelCount.Size = new System.Drawing.Size(356, 21);
             this.labelCount.TabIndex = 5;
@@ -227,7 +227,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(24, 161);
+            this.label2.Location = new System.Drawing.Point(24, 202);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(30, 19);
             this.label2.TabIndex = 4;
@@ -237,26 +237,26 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(23, 118);
+            this.label1.Location = new System.Drawing.Point(23, 159);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(26, 19);
             this.label1.TabIndex = 3;
             this.label1.Text = "De";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
-            // checkedListBoxBancos
+            // checkedListBoxContas
             // 
-            this.checkedListBoxBancos.FormattingEnabled = true;
-            this.checkedListBoxBancos.Location = new System.Drawing.Point(91, 29);
-            this.checkedListBoxBancos.Name = "checkedListBoxBancos";
-            this.checkedListBoxBancos.Size = new System.Drawing.Size(87, 67);
-            this.checkedListBoxBancos.TabIndex = 2;
-            this.checkedListBoxBancos.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxBancos_ItemCheck);
+            this.checkedListBoxContas.FormattingEnabled = true;
+            this.checkedListBoxContas.Location = new System.Drawing.Point(60, 50);
+            this.checkedListBoxContas.Name = "checkedListBoxContas";
+            this.checkedListBoxContas.Size = new System.Drawing.Size(118, 88);
+            this.checkedListBoxContas.TabIndex = 2;
+            this.checkedListBoxContas.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxBancos_ItemCheck);
             // 
             // dtpTermino
             // 
             this.dtpTermino.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpTermino.Location = new System.Drawing.Point(60, 155);
+            this.dtpTermino.Location = new System.Drawing.Point(60, 196);
             this.dtpTermino.Name = "dtpTermino";
             this.dtpTermino.Size = new System.Drawing.Size(118, 26);
             this.dtpTermino.TabIndex = 1;
@@ -265,7 +265,7 @@
             // dtpInicio
             // 
             this.dtpInicio.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpInicio.Location = new System.Drawing.Point(60, 112);
+            this.dtpInicio.Location = new System.Drawing.Point(60, 153);
             this.dtpInicio.Name = "dtpInicio";
             this.dtpInicio.Size = new System.Drawing.Size(118, 26);
             this.dtpInicio.TabIndex = 0;
@@ -276,7 +276,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(583, 389);
+            this.ClientSize = new System.Drawing.Size(583, 441);
             this.Controls.Add(this.groupBoxCriteria);
             this.Controls.Add(this.buttonSair);
             this.Controls.Add(this.groupBox1);
@@ -313,7 +313,7 @@
         private System.Windows.Forms.GroupBox groupBoxCriteria;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckedListBox checkedListBoxBancos;
+        private System.Windows.Forms.CheckedListBox checkedListBoxContas;
         private System.Windows.Forms.DateTimePicker dtpTermino;
         private System.Windows.Forms.DateTimePicker dtpInicio;
         private System.Windows.Forms.Label labelCount;

@@ -5,11 +5,15 @@ using System.IO;
 using System.Linq;
 
 namespace DataLayer {
-    public sealed class ExtratoBBMap : ClassMap<BalanceItem> {
-        private static string DataFormato { get; set; } = "dd/MM/yyyy";
+    public abstract class ExtratoMap : ClassMap<BalanceItem> {
+        public static int Conta { get; set; }
+        public static string DataFormato { get; set; } = "dd/MM/yyyy";
+    }
+
+    public sealed class ExtratoBBMap : ExtratoMap {
         //"Data","Dependencia Origem","Histórico","Data do Balancete","Número do documento","Valor",
         public ExtratoBBMap() {
-            Map(m => m.Banco).Index(1).Constant(@"BB");
+            Map(m => m.AccountID).Index(1).Constant(Conta);
             Map(m => m.Data).Name("Data").Index(0)
                 .ConvertUsing(row => DateTime.ParseExact(row.GetField<string>(0),
                 DataFormato, CultureInfo.CurrentUICulture));
@@ -28,7 +32,7 @@ namespace DataLayer {
             var sep = data.FirstOrDefault(c => !char.IsDigit(c));
             var sep1 = sep == '\0' ? string.Empty : "" + sep;
             var formatos = new[] { "dd/MM/yyyy", "MM/dd/yyyy", "yyyy/MM/dd" };
-            for(var i = 0; i < formatos.Length; i++)
+            for (var i = 0; i < formatos.Length; i++)
                 formatos[i] = formatos[i].Replace("/", sep1);
             DataFormato = formatos
                 .FirstOrDefault(format => DateTime.TryParseExact(data, format, CultureInfo.InvariantCulture,
@@ -36,12 +40,10 @@ namespace DataLayer {
         }
     }
 
-    public sealed class ExtratoCEFMap : ClassMap<BalanceItem> {
-        private static string DataFormato { get; set; } = "dd/MM/yyyy";
-
+    public sealed class ExtratoCEFMap : ExtratoMap {
         //"Conta";"Data_Mov";"Nr_Doc";"Historico";"Valor";"Deb_Cred"
         public ExtratoCEFMap() {
-            Map(m => m.Banco).Index(0).Constant("CEF");
+            Map(m => m.AccountID).Index(0).Constant(Conta);
             Map(m => m.Data).Index(1).ConvertUsing(row => DateTime.ParseExact(row.GetField<string>(1),
                 "yyyyMMdd", CultureInfo.InvariantCulture));
             Map(m => m.Documento).Index(2);
@@ -50,7 +52,6 @@ namespace DataLayer {
                 (row.GetField<string>(5) == "D" ? -1 : 1) *
                 decimal.Parse(row.GetField<string>(4), new CultureInfo("en-US")));
         }
-
         public static void DefineFormatoData(string path) {
             // https://stackoverflow.com/questions/32387274/retrieve-list-of-possible-datetime-formats-from-string-value
             var linhas = File.ReadLines(path);

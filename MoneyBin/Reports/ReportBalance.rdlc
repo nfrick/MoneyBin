@@ -68,7 +68,6 @@
                       </Style>
                     </Textbox>
                     <ColSpan>2</ColSpan>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -507,7 +506,7 @@
   <Width>7.17767in</Width>
   <Page>
     <PageHeader>
-      <Height>1.87854cm</Height>
+      <Height>2.10813cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -522,7 +521,7 @@
                   <Value>=First(Fields!Banco.Value, "DataSetBalance")</Value>
                   <Style>
                     <FontFamily>Segoe UI Black</FontFamily>
-                    <FontSize>20pt</FontSize>
+                    <FontSize>16pt</FontSize>
                   </Style>
                 </TextRun>
               </TextRuns>
@@ -531,8 +530,8 @@
           </Paragraphs>
           <rd:DefaultName>Textbox8</rd:DefaultName>
           <Left>0.3175cm</Left>
-          <Height>0.99688cm</Height>
-          <Width>3.06854cm</Width>
+          <Height>0.91751cm</Height>
+          <Width>14.2075cm</Width>
           <Style>
             <Border>
               <Style>None</Style>
@@ -554,7 +553,7 @@
                   <Value>=Format(Min(Fields!Data.Value, "DataSetBalance"), "dd/MM/yyyy") + " - " + Format(Max(Fields!Data.Value, "DataSetBalance"), "dd/MM/yyyy")</Value>
                   <Style>
                     <FontFamily>Segoe UI</FontFamily>
-                    <FontSize>14pt</FontSize>
+                    <FontSize>12pt</FontSize>
                   </Style>
                 </TextRun>
               </TextRuns>
@@ -562,7 +561,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox8</rd:DefaultName>
-          <Top>0.89986cm</Top>
+          <Top>1.30583cm</Top>
           <Left>0.3175cm</Left>
           <Height>0.8023cm</Height>
           <Width>7.92396cm</Width>
@@ -597,7 +596,6 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox14</rd:DefaultName>
-          <Top>0.39688cm</Top>
           <Left>15.49612cm</Left>
           <Height>0.6cm</Height>
           <Width>2.5cm</Width>
@@ -633,7 +631,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox14</rd:DefaultName>
-          <Top>0.89986cm</Top>
+          <Top>0.45536cm</Top>
           <Left>15.49612cm</Left>
           <Height>0.6cm</Height>
           <Width>2.5cm</Width>
@@ -649,7 +647,7 @@
           </Style>
         </Textbox>
         <Line Name="Line1">
-          <Top>1.70127cm</Top>
+          <Top>1.98702cm</Top>
           <Left>0.3175cm</Left>
           <Height>0cm</Height>
           <Width>17.65811cm</Width>
@@ -660,6 +658,40 @@
             </Border>
           </Style>
         </Line>
+        <Textbox Name="Textbox9">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Label>Banco</Label>
+                  <Value>=First(Fields!Conta.Value, "DataSetBalance")</Value>
+                  <Style>
+                    <FontFamily>Segoe UI Black</FontFamily>
+                    <FontSize>14pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox8</rd:DefaultName>
+          <Top>0.66851cm</Top>
+          <Left>0.29633cm</Left>
+          <Height>0.73257cm</Height>
+          <Width>14.2075cm</Width>
+          <ZIndex>5</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
       </ReportItems>
       <Style>
         <Border>
@@ -698,6 +730,18 @@
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
+        <Field Name="Account">
+          <DataField>Account</DataField>
+          <rd:TypeName>DataLayer.Account</rd:TypeName>
+        </Field>
+        <Field Name="AccountID">
+          <DataField>AccountID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="AddToDatabase">
+          <DataField>AddToDatabase</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
         <Field Name="AfetaSaldo">
           <DataField>AfetaSaldo</DataField>
           <rd:TypeName>System.Boolean</rd:TypeName>
@@ -713,6 +757,14 @@
         <Field Name="Centavos">
           <DataField>Centavos</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Conta">
+          <DataField>Conta</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ContaAbrev">
+          <DataField>ContaAbrev</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Data">
           <DataField>Data</DataField>
@@ -730,10 +782,6 @@
           <DataField>Grupo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="GrupoNome">
-          <DataField>GrupoNome</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="Historico">
           <DataField>Historico</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -742,35 +790,51 @@
           <DataField>ID</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="IsNew">
-          <DataField>IsNew</DataField>
+        <Field Name="IDAssociado">
+          <DataField>IDAssociado</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="Identificacao">
+          <DataField>Identificacao</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Reembolsavel">
+          <DataField>Reembolsavel</DataField>
           <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
-        <Field Name="Rule">
-          <DataField>Rule</DataField>
+        <Field Name="RuleId">
+          <DataField>RuleId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Saldo">
           <DataField>Saldo</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="SubCategoria">
           <DataField>SubCategoria</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Updated">
-          <DataField>Updated</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
+        <Field Name="Tipo">
+          <DataField>Tipo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ToCSV">
+          <DataField>ToCSV</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Valor">
           <DataField>Valor</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="ValorParaSaldo">
+          <DataField>ValorParaSaldo</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>DataClasses</rd:DataSetName>
-        <rd:TableName>BalanceItemComGrupo</rd:TableName>
-        <rd:ObjectDataSourceType>DataClasses.BalanceItemComGrupo, DataClasses, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:DataSetName>DataLayer</rd:DataSetName>
+        <rd:TableName>BalanceItem</rd:TableName>
+        <rd:ObjectDataSourceType>DataLayer.BalanceItem, DataLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>

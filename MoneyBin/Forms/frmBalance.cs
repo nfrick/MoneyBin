@@ -27,24 +27,30 @@ namespace MoneyBin.Forms {
             }
 
             GridStyles.FormatGrid(dgvBalance);
-            GridStyles.FormatColumns(dgvBalance, GridStyles.StyleDate, 90, 2);
-            GridStyles.FormatColumns(dgvBalance, 6, 7, GridStyles.StyleCurrency, 80);
-            dgvBalance.Columns[3].Width = 400;
-            dgvBalance.Columns[5].Width = 50;
-            dgvBalance.Columns[12].Width = 50;
+            GridStyles.FormatColumns(dgvBalance, GridStyles.StyleDate, 90, 1);
+            GridStyles.FormatColumns(dgvBalance, 5, 6, GridStyles.StyleCurrency, 80);
+            //dgvBalance.Columns[2].Width = 400;
+            dgvBalance.Columns[4].Width = 50;
+            dgvBalance.Columns[8].Width = 120;
+            dgvBalance.Columns[9].Width = 180;
+            dgvBalance.Columns[10].Width = 180;
+            dgvBalance.Columns[11].Width = 50;
 
             this.Width = 150 + dgvBalance.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
 
-            toolStripComboBoxBanco.ComboBox.Items.AddRange(_ctx.Balance.Select(b => b.Banco).Distinct().OrderBy(b => b).ToArray());
-            toolStripComboBoxBanco.ComboBox.SelectedIndex = 0;
+            toolStripComboBoxBanco.ComboBox.Items.AddRange(_ctx.Accounts.Select(a => a.Apelido).ToArray());
             dgvBalance.DataSource = BalanceBindingSource;
 
+            this.toolStripComboBoxBanco.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxBanco_SelectedIndexChanged);
             toolStripComboBoxBanco.ComboBox.SelectedIndex = 0;
         }
 
         private void frmBalance_FormClosing(object sender, FormClosingEventArgs e) {
             dgvBalance.EndEdit();
-            if (!_ctx.ChangeTracker.HasChanges()) return;
+            if (!_ctx.ChangeTracker.HasChanges()) {
+                return;
+            }
+
             switch (FormUtils.PerguntaSeSalva(_ctx.ChangeTracker, Text)) {
                 case DialogResult.Yes:
                     _ctx.SaveChanges();
@@ -58,30 +64,35 @@ namespace MoneyBin.Forms {
 
         #region TOOLBAR
         private void toolStripComboBoxBanco_SelectedIndexChanged(object sender, EventArgs e) {
-            BalanceBindingSource.DataSource = _ctx.Balance
-                .Where(b => b.Banco == (string)toolStripComboBoxBanco.SelectedItem)
-                .OrderByDescending(b => b.Data).ThenByDescending(b => b.ID).ToList();
+            var conta = (string)toolStripComboBoxBanco.SelectedItem;
+            var dados = _ctx.Balance.Where(b => b.Account.Apelido == conta);
+            BalanceBindingSource.DataSource = dados.OrderByDescending(b => b.Data).ThenByDescending(b => b.ID).ToList();
 
             toolStripComboBoxGrupo.ComboBox.Items.Clear();
             toolStripComboBoxGrupo.ComboBox.Items.Add("Todos");
 
-            var grupos = _ctx.Balance.Select(b => b.Grupo).Where(g => g != null).Distinct();
-            if (grupos.Any())
+            var grupos = dados.Select(b => b.Grupo).Where(g => g != null).Distinct();
+            if (grupos.Any()) {
                 toolStripComboBoxGrupo.ComboBox.Items
                     .AddRange(grupos.OrderBy(b => b).ToArray());
+            }
+
             toolStripComboBoxGrupo.ComboBox.SelectedIndex = 0;
         }
 
         private void toolStripComboBoxGrupo_SelectedIndexChanged(object sender, EventArgs e) {
-            if (toolStripComboBoxGrupo.SelectedIndex == 0)
-                BalanceBindingSource.DataSource = _ctx.Balance.Local
-                    .Where(b => b.Banco == (string)toolStripComboBoxBanco.SelectedItem)
+            var conta = (string)toolStripComboBoxBanco.SelectedItem;
+            if (toolStripComboBoxGrupo.SelectedIndex == 0) {
+                BalanceBindingSource.DataSource = _ctx.Balance
+                    .Where(b => b.Account.Apelido == conta)
                     .OrderByDescending(b => b.Data).ThenByDescending(b => b.ID).ToList();
-            else
-                BalanceBindingSource.DataSource = _ctx.Balance.Local
-                    .Where(b => b.Banco == (string)toolStripComboBoxBanco.SelectedItem
+            }
+            else {
+                BalanceBindingSource.DataSource = _ctx.Balance
+                    .Where(b => b.Account.Apelido == conta
                                 && b.Grupo == (string)toolStripComboBoxGrupo.SelectedItem)
                     .OrderByDescending(b => b.Data).ThenByDescending(b => b.ID).ToList();
+            }
         }
 
         private void toolStripButtonSalvar_Click(object sender, EventArgs e) {
@@ -90,12 +101,10 @@ namespace MoneyBin.Forms {
             toolStripButtonSalvar.Visible = false;
         }
 
-        private void toolStripTextBoxProcurar_KeyPress(object sender, KeyPressEventArgs e) {
-
-        }
         private void toolStripTextBoxProcurar_KeyDown(object sender, KeyEventArgs e) {
-            if (e.KeyCode == Keys.Enter && !string.IsNullOrEmpty(toolStripTextBoxProcurar.Text))
+            if (e.KeyCode == Keys.Enter && !string.IsNullOrEmpty(toolStripTextBoxProcurar.Text)) {
                 Procurar();
+            }
         }
 
         private void toolStripButtonProcurar_Click(object sender, EventArgs e) {
@@ -112,11 +121,16 @@ namespace MoneyBin.Forms {
                 var Row = dgvBalance.Rows[++row];
                 foreach (var col in columns) {
                     found = Row.Cells[col].FormattedValue.ToString().ToLower().Contains(target);
-                    if (!found) continue;
+                    if (!found) {
+                        continue;
+                    }
+
                     dgvBalance.CurrentCell = dgvBalance.Rows[row].Cells[3];
                     break;
                 }
-                if (found) return;
+                if (found) {
+                    return;
+                }
             } while (row < dgvBalance.RowCount - 1);
             MessageBox.Show($"'{target}' não encontrado", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -151,15 +165,18 @@ namespace MoneyBin.Forms {
         }
 
         private void dgvBalance_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if ((e.ColumnIndex != 6 && e.ColumnIndex != 7) || (decimal)e.Value > 0) return;
+            if ((e.ColumnIndex != 5 && e.ColumnIndex != 6) || (decimal)e.Value > 0) {
+                return;
+            }
+
             e.CellStyle.ForeColor = (decimal)e.Value == 0 ? Color.Gray : Color.DarkOrange;
         }
 
         private void dgvBalance_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex == -1 || dgvBalance.Columns[e.ColumnIndex].Name !=
-                "afetaSaldoDataGridViewCheckBoxColumn") return;
-
-            ((List<BalanceItem>)BalanceBindingSource.DataSource).CalcularSaldos(e.RowIndex);
+                "afetaSaldoDataGridViewCheckBoxColumn") {
+                return;
+            } ((List<BalanceItem>)BalanceBindingSource.DataSource).CalcularSaldos(e.RowIndex);
             dgvBalance.Refresh();
         }
 

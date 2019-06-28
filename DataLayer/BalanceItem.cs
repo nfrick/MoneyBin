@@ -15,7 +15,7 @@ namespace DataLayer
     public partial class BalanceItem
     {
         public int ID { get; set; }
-        public string Banco { get; set; }
+        public int AccountID { get; set; }
         public System.DateTime Data { get; set; }
         public string Historico { get; set; }
         public string Documento { get; set; }
@@ -31,6 +31,6 @@ namespace DataLayer
         public bool Reembolsavel { get; set; }
         public int RuleId { get; set; }
     
-        public virtual Bank Bank { get; set; }
+        public virtual Account Account { get; set; }
     }
 }

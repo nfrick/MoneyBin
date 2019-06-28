@@ -48,12 +48,12 @@ namespace DataLayer {
     }
 
     public class Extrato {
-        private static readonly MoneyBinEntities Ctx = new MoneyBinEntities();
-        private readonly Bank _banco;
+        private static readonly MoneyBinEntities _ctx = new MoneyBinEntities();
+        private readonly Account _conta;
         private readonly bool _getAll;
         private List<BalanceItem> _entries;
 
-        public List<BalanceItem> Entries => _getAll ? _entries : _entries.Where(i => i.Data.CompareTo(_banco.DataMaxMins.DataMax) >= 0).ToList();
+        public List<BalanceItem> Entries => _getAll ? _entries : _entries.Where(i => i.Data.CompareTo(_conta.DataMax) >= 0).ToList();
         public bool HasEntries => _entries != null && _entries.Any();
 
         /// <summary>
@@ -62,10 +62,22 @@ namespace DataLayer {
         /// <param name="filepath">Path of the import file</param>
         public Extrato(string filepath, bool getAll) {
             var extension = Path.GetExtension(filepath).ToLower();
-            _banco = Ctx.Banks.FirstOrDefault(b => extension.EndsWith(b.Extensao));
-            if (_banco == null)
-                return;
-            _getAll = _banco.DataMaxMins == null || getAll;
+            var contas = _ctx.Accounts.Where(c => extension.EndsWith(c.Bank.Extensao));
+
+            switch (contas.Count()) {
+                case 0: return;
+                case 1:
+                    _conta = contas.First();
+                    break;
+                default:
+                    var conta = "";
+                    if (PromptDialog.InputCombo("Conta", "Selecione a conta:",
+                            contas.Select(c => c.Apelido).ToArray(), ref conta) == DialogResult.Cancel) return;
+                    _conta = contas.First(c => c.Apelido == conta);
+                    break;
+            }
+
+            _getAll = _conta.HasData || getAll;
 
             if (extension.Equals(".xls")) {
                 ExtratoFromXML(filepath);
@@ -83,12 +95,12 @@ namespace DataLayer {
             var minData2 = _entries.Min(p => p.Data).AddDays(-45);
             var maxData = _entries.Max(p => p.Data);
 
-            var existing = _banco.Balance
+            var existing = _conta.Balance
                 .Where(bi => bi.Data >= minData && bi.Data <= maxData)
                 .ToList();
 
 
-            var rules = _banco.Rules.OrderByDescending(r => r.Ocorrencias).ToList();
+            var rules = _conta.Bank.Rules.OrderByDescending(r => r.Ocorrencias).ToList();
             var rulesSaldo = rules.Where(r => r.Grupo == "Saldo").ToList();
             _entries[0].Saldo = _entries[0].ValorParaSaldo;
             var saldo = _entries[0].FindMatchingRule(rulesSaldo) ? _entries[0].Saldo : 0.0m;
@@ -103,7 +115,7 @@ namespace DataLayer {
             }
 
             var grupos = new[] { "Rio", "Araras" };
-            var aCompensar = _banco.Balance.Where(bi => grupos.Contains(bi.Grupo) &&
+            var aCompensar = _conta.Balance.Where(bi => grupos.Contains(bi.Grupo) &&
                                                              bi.Data <= minData2 &&
                                                              bi.Data >= maxData).ToList();
 
@@ -126,13 +138,15 @@ namespace DataLayer {
             using (TextReader reader = new StreamReader(filepath, Encoding.Default)) {
                 var csv = new CsvReader(reader);
                 csv.Configuration.HasHeaderRecord = true;
-                if (_banco.Banco == "BB") {
+                if (_conta.Bank.Banco == "Banco do Brasil") {
+                    ExtratoBBMap.Conta = _conta.ID;
                     ExtratoBBMap.DefineFormatoData(filepath);
                     csv.Configuration.Delimiter = ",";
                     csv.Configuration.RegisterClassMap<ExtratoBBMap>();
                     csv.Configuration.HeaderValidated = null;
                 }
                 else {
+                    ExtratoCEFMap.Conta = _conta.ID;
                     ExtratoCEFMap.DefineFormatoData(filepath);
                     csv.Configuration.Delimiter = ";";
                     csv.Configuration.RegisterClassMap<ExtratoCEFMap>();
@@ -167,7 +181,7 @@ namespace DataLayer {
             var rows = xTableNode.SelectNodes("tr");
             for (var i = 1; i < rows.Count; i++) {
                 var xTDNode = rows[i].SelectNodes("td")[0];
-                _entries.Add(new BalanceItem(xTDNode, _banco.Banco));
+                _entries.Add(new BalanceItem(xTDNode, _conta.ID));
             }
         }
     }

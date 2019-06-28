@@ -17,6 +17,14 @@
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
+        <Field Name="Account">
+          <DataField>Account</DataField>
+          <rd:TypeName>DataLayer.Account</rd:TypeName>
+        </Field>
+        <Field Name="AccountID">
+          <DataField>AccountID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
         <Field Name="AddToDatabase">
           <DataField>AddToDatabase</DataField>
           <rd:TypeName>System.Boolean</rd:TypeName>
@@ -29,10 +37,6 @@
           <DataField>Banco</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Bank">
-          <DataField>Bank</DataField>
-          <rd:TypeName>DataLayer.Bank</rd:TypeName>
-        </Field>
         <Field Name="Categoria">
           <DataField>Categoria</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -40,6 +44,14 @@
         <Field Name="Centavos">
           <DataField>Centavos</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Conta">
+          <DataField>Conta</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ContaAbrev">
+          <DataField>ContaAbrev</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Data">
           <DataField>Data</DataField>
@@ -65,20 +77,20 @@
           <DataField>ID</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="NovaCategoria">
-          <DataField>NovaCategoria</DataField>
+        <Field Name="IDAssociado">
+          <DataField>IDAssociado</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="Identificacao">
+          <DataField>Identificacao</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="NovaSubCategoria">
-          <DataField>NovaSubCategoria</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="Reembolsavel">
+          <DataField>Reembolsavel</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
-        <Field Name="NovoGrupo">
-          <DataField>NovoGrupo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Rule">
-          <DataField>Rule</DataField>
+        <Field Name="RuleId">
+          <DataField>RuleId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Saldo">
@@ -87,6 +99,14 @@
         </Field>
         <Field Name="SubCategoria">
           <DataField>SubCategoria</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Tipo">
+          <DataField>Tipo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ToCSV">
+          <DataField>ToCSV</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Valor">
@@ -100,8 +120,8 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>DataLayer</rd:DataSetName>
-        <rd:TableName>BalanceItemComSaldo</rd:TableName>
-        <rd:ObjectDataSourceType>DataLayer.BalanceItemComSaldo, DataLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:TableName>BalanceItem</rd:TableName>
+        <rd:ObjectDataSourceType>DataLayer.BalanceItem, DataLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>
@@ -334,14 +354,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Banco">
+                        <Textbox Name="ContaAbrev">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Banco.Value</Value>
+                                  <Value>=Fields!ContaAbrev.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                   </Style>
@@ -350,7 +370,7 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Banco</rd:DefaultName>
+                          <rd:DefaultName>ContaAbrev</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -397,7 +417,6 @@
                           </Style>
                         </Textbox>
                         <ColSpan>2</ColSpan>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -519,7 +538,7 @@
       <Width>7.04434in</Width>
       <Page>
         <PageHeader>
-          <Height>1.8415cm</Height>
+          <Height>2.19707cm</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -531,10 +550,10 @@
                   <TextRuns>
                     <TextRun>
                       <Label>Banco</Label>
-                      <Value>="BALANCE"</Value>
+                      <Value>=First(Fields!Banco.Value, "DataSetPorGrupo")</Value>
                       <Style>
                         <FontFamily>Segoe UI Black</FontFamily>
-                        <FontSize>20pt</FontSize>
+                        <FontSize>16pt</FontSize>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -542,9 +561,10 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox8</rd:DefaultName>
-              <Top>0.06967cm</Top>
-              <Height>0.99688cm</Height>
-              <Width>3.95754cm</Width>
+              <Top>0.08894cm</Top>
+              <Left>0.11759cm</Left>
+              <Height>0.91751cm</Height>
+              <Width>14.2075cm</Width>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -566,7 +586,7 @@
                       <Value>=Format(Min(Fields!Data.Value, "DataSetPorGrupo"), "dd/MM/yyyy") + " - " + Format(Max(Fields!Data.Value, "DataSetPorGrupo"), "dd/MM/yyyy")</Value>
                       <Style>
                         <FontFamily>Segoe UI</FontFamily>
-                        <FontSize>14pt</FontSize>
+                        <FontSize>12pt</FontSize>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -574,7 +594,8 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox8</rd:DefaultName>
-              <Top>0.96953cm</Top>
+              <Top>1.39477cm</Top>
+              <Left>0.11759cm</Left>
               <Height>0.8023cm</Height>
               <Width>7.92396cm</Width>
               <ZIndex>1</ZIndex>
@@ -588,17 +609,6 @@
                 <PaddingBottom>2pt</PaddingBottom>
               </Style>
             </Textbox>
-            <Line Name="Line1">
-              <Top>1.77094cm</Top>
-              <Height>0cm</Height>
-              <Width>17.65811cm</Width>
-              <ZIndex>2</ZIndex>
-              <Style>
-                <Border>
-                  <Style>Solid</Style>
-                </Border>
-              </Style>
-            </Line>
             <Textbox Name="Textbox14">
               <CanGrow>true</CanGrow>
               <KeepTogether>true</KeepTogether>
@@ -619,11 +629,11 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox14</rd:DefaultName>
-              <Top>0.46655cm</Top>
-              <Left>15.17862cm</Left>
+              <Top>0.08894cm</Top>
+              <Left>15.29621cm</Left>
               <Height>0.6cm</Height>
               <Width>2.5cm</Width>
-              <ZIndex>3</ZIndex>
+              <ZIndex>2</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -655,11 +665,57 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox14</rd:DefaultName>
-              <Top>0.96953cm</Top>
-              <Left>15.17862cm</Left>
+              <Top>0.5443cm</Top>
+              <Left>15.29621cm</Left>
               <Height>0.6cm</Height>
               <Width>2.5cm</Width>
+              <ZIndex>3</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Line Name="Line1">
+              <Top>2.07596cm</Top>
+              <Left>0.11759cm</Left>
+              <Height>0cm</Height>
+              <Width>17.65811cm</Width>
               <ZIndex>4</ZIndex>
+              <Style>
+                <Border>
+                  <Style>Solid</Style>
+                </Border>
+              </Style>
+            </Line>
+            <Textbox Name="Textbox9">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Label>Banco</Label>
+                      <Value>=First(Fields!Conta.Value, "DataSetPorGrupo")</Value>
+                      <Style>
+                        <FontFamily>Segoe UI Black</FontFamily>
+                        <FontSize>14pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox8</rd:DefaultName>
+              <Top>0.75745cm</Top>
+              <Left>0.09642cm</Left>
+              <Height>0.73257cm</Height>
+              <Width>14.2075cm</Width>
+              <ZIndex>5</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>

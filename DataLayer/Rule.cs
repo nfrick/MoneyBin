@@ -15,6 +15,7 @@ namespace DataLayer
     public partial class Rule
     {
         public int ID { get; set; }
+        public int BankID { get; set; }
         public string Banco { get; set; }
         public string Historico { get; set; }
         public int Comparacao { get; set; }

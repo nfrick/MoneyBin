@@ -19,9 +19,9 @@ namespace MoneyBin {
             toolStrip1.Items.Insert(7, CreateDatePicker(_inicio));
             toolStrip1.Items.Add(CreateDatePicker(_termino));
 
-            toolStripComboBoxBanco.ComboBox.DataSource = _ctx.DataMaxsMins.OrderBy(b => b.Banco).ToList();
-            toolStripComboBoxBanco.ComboBox.DisplayMember = "Banco";
-            toolStripComboBoxBanco.ComboBox.ValueMember = "Banco";
+            toolStripComboBoxConta.ComboBox.DataSource = _ctx.Accounts.OrderBy(b => b.Apelido).ToList();
+            toolStripComboBoxConta.ComboBox.DisplayMember = "Apelido";
+            toolStripComboBoxConta.ComboBox.ValueMember = "Apelido";
         }
 
         private ToolStripControlHost CreateDatePicker(DateTimePicker dtp) {
@@ -44,7 +44,7 @@ namespace MoneyBin {
             var rep = (string)((ToolStripButton)sender).Tag;
             reportEngine.ReportPath = string.Format(_rptPath, rep);
 
-            var Banco = (DataMaxMin)toolStripComboBoxBanco.SelectedItem;
+            var account = (Account)toolStripComboBoxConta.SelectedItem;
 
             if (rep == "PorGrupo") {
                 reportEngine.DataSources.Add(new ReportDataSource($@"DataSet{rep}",
@@ -53,14 +53,14 @@ namespace MoneyBin {
             else {
                 reportEngine.DataSources.Add(new ReportDataSource($@"DataSet{rep}",
                     _ctx.Balance
-                        .Where(b => b.Banco == Banco.Banco && b.Data >= _inicio.Value &&
+                        .Where(b => b.AccountID == account.ID && b.Data >= _inicio.Value &&
                                     b.Data <= _termino.Value).ToList()));
             }
             rptViewer.RefreshReport();
         }
 
-        private void toolStripComboBoxBanco_SelectedIndexChanged(object sender, EventArgs e) {
-            var Dates = (DataMaxMin)toolStripComboBoxBanco.SelectedItem;
+        private void toolStripComboBoxConta_SelectedIndexChanged(object sender, EventArgs e) {
+            var Dates = (Account)toolStripComboBoxConta.SelectedItem;
             if (Dates.DataMax.Year == 1900) {
                 _inicio.Value = _termino.Value = DateTime.Today;
                 _inicio.Enabled = _termino.Enabled = false;

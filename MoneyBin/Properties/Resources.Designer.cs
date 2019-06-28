@@ -103,16 +103,6 @@ namespace MoneyBin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap document_yellow_icon1 {
-            get {
-                object obj = ResourceManager.GetObject("document-yellow-icon1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap export_icon {
             get {
                 object obj = ResourceManager.GetObject("export-icon", resourceCulture);
@@ -146,6 +136,36 @@ namespace MoneyBin.Properties {
         internal static System.Drawing.Bitmap floppy_disk_icon {
             get {
                 object obj = ResourceManager.GetObject("floppy_disk_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap glasses_icon {
+            get {
+                object obj = ResourceManager.GetObject("glasses_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap money_icon {
+            get {
+                object obj = ResourceManager.GetObject("money_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap money_wallet_icon {
+            get {
+                object obj = ResourceManager.GetObject("money_wallet_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

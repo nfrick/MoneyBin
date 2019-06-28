@@ -12,22 +12,27 @@ namespace DataLayer
     using System;
     using System.Collections.Generic;
     
-    public partial class Bank
+    public partial class Account
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Bank()
+        public Account()
         {
-            this.Rules = new HashSet<Rule>();
-            this.Accounts = new HashSet<Account>();
+            this.Balance = new HashSet<BalanceItem>();
         }
     
         public int ID { get; set; }
-        public string Banco { get; set; }
-        public string Extensao { get; set; }
+        public int BankID { get; set; }
+        public string Apelido { get; set; }
+        public string Agencia { get; set; }
+        public string ContaCorrente { get; set; }
+        public string Operacao { get; set; }
+        public string Gerente { get; set; }
+        public string Telefone { get; set; }
+        public string Celular { get; set; }
+        public string EMail { get; set; }
     
+        public virtual Bank Bank { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Rule> Rules { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Account> Accounts { get; set; }
+        public virtual ICollection<BalanceItem> Balance { get; set; }
     }
 }

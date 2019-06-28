@@ -14,8 +14,8 @@ namespace MoneyBin {
     public partial class frmExport : Form {
         public List<BalanceItem> Items { get; set; }
         public List<BalanceItem> SelectedItems { get; set; }
-        public List<DataMaxMin> Banks { get; set; }
-        public List<DataMaxMin> SelectedBanks { get; set; }
+        public List<Account> Accounts { get; set; }
+        public List<Account> SelectedAccounts { get; set; }
 
         private List<string> _gruposChecked;
         private Func<bool> _exporter;
@@ -30,12 +30,13 @@ namespace MoneyBin {
         private void frmExport_Load(object sender, EventArgs e) {
             using (var ctx = new MoneyBinEntities()) {
                 Items = ctx.Balance.ToList();
-                Banks = ctx.DataMaxsMins.OrderBy(b => b.Banco).ToList();
+                Accounts = ctx.Accounts.OrderBy(a => a.Apelido).ToList();
                 dtpAcertoInicio.Value = ctx.UltimoAcerto().FirstOrDefault() ?? DateTime.Now;
-            }
-            foreach (var b in Banks) {
-                var i = checkedListBoxBancos.Items.Add(b.Banco);
-                checkedListBoxBancos.SetItemChecked(i, true);
+
+                foreach (var a in Accounts) {
+                    var i = checkedListBoxContas.Items.Add(a.Apelido);
+                    checkedListBoxContas.SetItemChecked(i, true);
+                }
             }
 
             _saveAs = $@"{_myDocsFolder}\Money Bin Export.csv";
@@ -43,8 +44,8 @@ namespace MoneyBin {
         }
 
         private void checkedListBoxBancos_ItemCheck(object sender, ItemCheckEventArgs e) {
-            var bancosChecked = checkedListBoxBancos.CheckedItems.Cast<string>().ToList();
-            var curItem = checkedListBoxBancos.Items[e.Index].ToString();
+            var bancosChecked = checkedListBoxContas.CheckedItems.Cast<string>().ToList();
+            var curItem = checkedListBoxContas.Items[e.Index].ToString();
             if (e.NewValue == CheckState.Checked) {
                 bancosChecked.Add(curItem);
             }
@@ -52,26 +53,26 @@ namespace MoneyBin {
                 bancosChecked.Remove(curItem);
             }
 
-            SelectedBanks = Banks.Where(b => bancosChecked.Contains(b.Banco)).ToList();
-            buttonExport.Enabled = SelectedBanks.Any();
+            SelectedAccounts = Accounts.Where(b => bancosChecked.Contains(b.Apelido)).ToList();
+            buttonExport.Enabled = SelectedAccounts.Any();
             dtpInicio.Enabled = dtpTermino.Enabled =
                 checkedListBoxGrupos.Enabled = buttonExport.Enabled;
             if (!buttonExport.Enabled) {
                 SelecionaParaExportar();
                 return;
             }
-            dtpInicio.MinDate = dtpTermino.MinDate = SelectedBanks.Min(b => b.DataMin);
-            dtpInicio.MaxDate = dtpTermino.MaxDate = SelectedBanks.Max(b => b.DataMax);
+            dtpInicio.MinDate = dtpTermino.MinDate = SelectedAccounts.Min(b => b.DataMin);
+            dtpInicio.MaxDate = dtpTermino.MaxDate = SelectedAccounts.Max(b => b.DataMax);
             dtpInicio.Value = dtpInicio.MinDate;
             dtpTermino.Value = dtpTermino.MaxDate;
             SelecionaParaExportar();
         }
 
         private void AtualizaGrupos() {
-            var bancos = SelectedBanks.Select(b => b.Banco).ToArray();
+            var contas = SelectedAccounts.Select(a => a.ID).ToArray();
             checkedListBoxGrupos.Items.Clear();
             checkedListBoxGrupos.Items.AddRange(Items
-                .Where(b => bancos.Contains(b.Banco) &&
+                .Where(b => contas.Contains(b.AccountID) &&
                             b.Data >= dtpInicio.Value && b.Data <= dtpTermino.Value)
                 .GroupBy(b => b.Grupo)
                 .Select(g => $"{g.Key} ({g.Count()})")
@@ -88,9 +89,9 @@ namespace MoneyBin {
         }
 
         private void SelecionaParaExportar() {
-            var bancos = SelectedBanks.Select(b => b.Banco).ToArray();
+            var contas = SelectedAccounts.Select(a => a.ID).ToArray();
             SelectedItems = Items
-                .Where(b => bancos.Contains(b.Banco) &&
+                .Where(b => contas.Contains(b.AccountID) &&
                 b.Data >= dtpInicio.Value && b.Data <= dtpTermino.Value &&
                 _gruposChecked.Contains(b.Grupo)).ToList();
             labelCount.Text = $"Registros a serem exportados: {SelectedItems.Count}";
@@ -177,11 +178,11 @@ namespace MoneyBin {
                     progressDialog.Maximum = SelectedItems.Count;
                     progressDialog.UpdateProgress("Exportando \u2026");
                     var sw = new StreamWriter(_saveAs, false, Encoding.Default);
-                    sw.WriteLine(BalanceItem.CSVHeader());
+                    sw.WriteLine(BalanceItem.CSVHeader);
 
                     foreach (var item in SelectedItems) {
                         progressDialog.UpdateProgress();
-                        sw.WriteLine(item.ToCSV());
+                        sw.WriteLine(item.ToCSV);
                     }
                     sw.Flush();
                     sw.Close();
@@ -228,7 +229,8 @@ namespace MoneyBin {
             ws.View.ShowGridLines = false;
 
             var col = 1;
-            ws.Cells[1, col++].Value = "Banco";
+            ws.Cells[1, col++].Value = "Conta";
+            ws.Cells[1, col++].Value = "Conta ID";
             ws.Cells[1, col++].Value = "Data";
             ws.Cells[1, col++].Value = "Histórico";
             ws.Cells[1, col++].Value = "Documento";
@@ -243,7 +245,8 @@ namespace MoneyBin {
             var row = 2;
             foreach (var item in mItems) {
                 col = 1;
-                ws.Cells[row, col++].Value = item.Banco;
+                ws.Cells[row, col++].Value = item.Account.Apelido;
+                ws.Cells[row, col++].Value = item.AccountID;
                 ws.Cells[row, col++].Value = item.Data;
                 ws.Cells[row, col++].Value = item.Historico;
                 ws.Cells[row, col++].Value = item.Documento;
@@ -258,10 +261,10 @@ namespace MoneyBin {
 
             row--;
             col--;
-            ws.Cells[$"B2:B{row}"].Style.Numberformat.Format = "dd-MM-yyyy";
-            ws.Cells[$"D2:D{row}"].Style.Numberformat.Format = "@";
-            ws.Cells[$"E2:E{row}"].Style.Numberformat.Format = "#,##0.00";
-            ws.Cells[$"G2:G{row}"].Style.Numberformat.Format = "#,##0.00";
+            ws.Cells[$"C2:C{row}"].Style.Numberformat.Format = "dd-MM-yyyy";
+            ws.Cells[$"E2:E{row}"].Style.Numberformat.Format = "@";
+            ws.Cells[$"F2:F{row}"].Style.Numberformat.Format = "#,##0.00";
+            ws.Cells[$"H2:H{row}"].Style.Numberformat.Format = "#,##0.00";
             ws.Cells.AutoFitColumns(0);
 
             var range = ws.Cells[1, 1, row, col];
@@ -325,7 +328,10 @@ namespace MoneyBin {
         }
 
         private void label1_Click(object sender, EventArgs e) {
-            if (_lastExportDate.Year == 1) return;
+            if (_lastExportDate.Year == 1) {
+                return;
+            }
+
             dtpInicio.Value = (dtpInicio.Value == dtpInicio.MinDate) ?
                 _lastExportDate : dtpInicio.MinDate;
         }

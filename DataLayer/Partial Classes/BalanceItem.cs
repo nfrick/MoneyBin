@@ -17,6 +17,10 @@ namespace DataLayer {
         public int Centavos => (int)(Valor % 1 * 100);
         //public int Rule { get; set; }
 
+        public string Conta => $"{Account.Apelido} ag. {Account.Agencia} cc {Account.ContaCorrente}";
+        public string ContaAbrev => Account.Apelido;
+        public string Banco => Account.Bank.Banco;
+
         public override string ToString() {
             return $"{Data:d}  {Historico}  {Valor:C2}";
         }
@@ -48,14 +52,14 @@ namespace DataLayer {
             return this.Data.Equals(other.Data) &&
                    this.Valor.Equals(other.Valor) &&
                    this.Historico.Equals(other.Historico) &&
-                   this.Banco.Equals(other.Banco) &&
+                   this.AccountID.Equals(other.AccountID) &&
                    (other.Documento == null ? (this.Documento == null || this.Documento.Equals("")) : this.Documento.Equals(other.Documento));
         }
 
         public bool Similar(BalanceItem other) {
             if (other == null)
                 return false;
-            return this.Banco.Equals(other.Banco) &&
+            return this.AccountID.Equals(other.AccountID) &&
                    this.Data.Equals(other.Data) &&
                    this.Valor.Equals(other.Valor) &&
                    (other.Documento == null ?
@@ -107,7 +111,7 @@ namespace DataLayer {
         }
 
         public bool IsSaldo(IEnumerable<Rule> rules) {
-            var ruleSaldo = Bank.Rules.FirstOrDefault(r => r.Grupo == "S");
+            var ruleSaldo = Account.Bank.Rules.FirstOrDefault(r => r.Grupo == "S");
             return (ruleSaldo != null) && Matches(ruleSaldo);
         }
 
@@ -128,8 +132,8 @@ namespace DataLayer {
         /// </summary>
         /// <param name="xTRNode">XML node</param>
         /// <param name="banco">Bank code</param>
-        public BalanceItem(XmlNode xTDNode, string banco) {
-            Banco = banco;
+        public BalanceItem(XmlNode xTDNode, int conta) {
+            AccountID = conta;
             AfetaSaldo = true;
             Grupo = "";
             Categoria = "";
@@ -187,21 +191,17 @@ namespace DataLayer {
         #endregion
 
         #region Exporters
-        public static string CSVHeader() {
-            return
-                "\"ID\",\"Banco\",\"Data\",\"Historico\",\"Documento\",\"Valor\",\"AfetaSaldo\",\"Grupo\",\"Categoria\",\"SubCategoria\",\"Descricao\"";
-        }
+        public static string CSVHeader =>
+                "\"ID\",\"Conta\",,\"ContaID\"\"Data\",\"Historico\",\"Documento\",\"Valor\",\"AfetaSaldo\",\"Grupo\",\"Categoria\",\"SubCategoria\",\"Descricao\"";
 
-        public string ToCSV() {
-            return
-                $"\"{ID}\",\"{Banco}\",\"{Data:MM/dd/yyyy}\",\"{Historico}\",\"{Documento}\",\"{Valor.ToString("0.00", CultureUS)}\",\"{AfetaSaldo}\",\"{Grupo}\",\"{Categoria}\",\"{SubCategoria}\",\"{Descricao}\"";
-        }
-
-
+        public string ToCSV =>
+                $"\"{ID}\",,\"{Account.Apelido}\"\"{AccountID}\",\"{Data:MM/dd/yyyy}\",\"{Historico}\",\"{Documento}\",\"{Valor.ToString("0.00", CultureUS)}\",\"{AfetaSaldo}\",\"{Grupo}\",\"{Categoria}\",\"{SubCategoria}\",\"{Descricao}\"";
+       
         public XElement toXML() {
             return new XElement("BalanceItem",
                 new XAttribute("ID", ID),
-                new XElement("Banco", Banco),
+                new XElement("Conta", Account.Apelido),
+                new XElement("ContaID", AccountID),
                 new XElement("Data", Data.ToString("MM/dd/yyyy")),
                 new XElement("Historico", Historico),
                 new XElement("Documento", Documento),
