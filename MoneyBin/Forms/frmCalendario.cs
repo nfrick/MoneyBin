@@ -281,7 +281,7 @@ namespace MoneyBin.Forms {
                                             ":\n\n" + text + "\n\nConfirma?",
                                 "Confirmar Pagamento", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
                             DialogResult.No) {
-                    return;
+                    continue;
                 }
 
                 item.Paid = true;
