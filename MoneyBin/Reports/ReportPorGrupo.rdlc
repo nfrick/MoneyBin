@@ -101,10 +101,6 @@
           <DataField>SubCategoria</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Tipo">
-          <DataField>Tipo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="ToCSV">
           <DataField>ToCSV</DataField>
           <rd:TypeName>System.String</rd:TypeName>

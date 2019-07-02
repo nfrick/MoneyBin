@@ -25,7 +25,6 @@ namespace DataLayer
         public string Categoria { get; set; }
         public string SubCategoria { get; set; }
         public string Descricao { get; set; }
-        public string Tipo { get; set; }
         public Nullable<decimal> Saldo { get; set; }
         public Nullable<int> IDAssociado { get; set; }
         public bool Reembolsavel { get; set; }

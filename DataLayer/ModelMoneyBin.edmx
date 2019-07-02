@@ -97,9 +97,10 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Balance' does not have a primary k
             
             
             
+            
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="AccountID" Type="int" />
+          <Property Name="AccountID" Type="int" Nullable="false" />
           <Property Name="Data" Type="date" Nullable="false" />
           <Property Name="Historico" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Documento" Type="nvarchar" MaxLength="50" />
@@ -109,7 +110,6 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Balance' does not have a primary k
           <Property Name="Categoria" Type="nvarchar" MaxLength="20" />
           <Property Name="SubCategoria" Type="nvarchar" MaxLength="30" />
           <Property Name="Descricao" Type="nvarchar" MaxLength="200" />
-          <Property Name="Tipo" Type="nchar" MaxLength="1" />
           <Property Name="IDAssociado" Type="int" />
           <Property Name="RuleId" Type="int" Nullable="false" />
           <Property Name="Reembolsavel" Type="bit" />
@@ -170,7 +170,6 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Reembolsaveis' does not have a pri
           <Parameter Name="Categoria" Type="nvarchar" Mode="In" />
           <Parameter Name="SubCategoria" Type="nvarchar" Mode="In" />
           <Parameter Name="Descricao" Type="nvarchar" Mode="In" />
-          <Parameter Name="Tipo" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="sp_BalanceItemUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
@@ -180,7 +179,6 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Reembolsaveis' does not have a pri
           <Parameter Name="SubCategoria" Type="nvarchar" Mode="In" />
           <Parameter Name="Descricao" Type="nvarchar" Mode="In" />
           <Parameter Name="IDAssociado" Type="int" Mode="In" />
-          <Parameter Name="Tipo" Type="nchar" Mode="In" />
         </Function>
         <Function Name="sp_CalendarNextPayments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Days" Type="int" Mode="In" />
@@ -225,7 +223,6 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Reembolsaveis' does not have a pri
     [vw_Balance].[Categoria] AS [Categoria], 
     [vw_Balance].[SubCategoria] AS [SubCategoria], 
     [vw_Balance].[Descricao] AS [Descricao], 
-    [vw_Balance].[Tipo] AS [Tipo], 
     [vw_Balance].[IDAssociado] AS [IDAssociado], 
     [vw_Balance].[RuleId] AS [RuleId], 
     [vw_Balance].[Reembolsavel] AS [Reembolsavel], 
@@ -314,7 +311,6 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Reembolsaveis' does not have a pri
             <Parameter Name="SubCategoria" Mode="In" Type="String" />
             <Parameter Name="Descricao" Mode="In" Type="String" />
             <Parameter Name="IDAssociado" Mode="In" Type="Int32" />
-            <Parameter Name="Tipo" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="Balance" EntityType="MoneyBinModel.BalanceItem" />
           <EntitySet Name="Banks" EntityType="MoneyBinModel.Bank" />
@@ -362,7 +358,6 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Reembolsaveis' does not have a pri
             <Parameter Name="Categoria" Mode="In" Type="String" />
             <Parameter Name="SubCategoria" Mode="In" Type="String" />
             <Parameter Name="Descricao" Mode="In" Type="String" />
-            <Parameter Name="Tipo" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <Association Name="tblPaymenttblCalendar">
@@ -392,7 +387,6 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Reembolsaveis' does not have a pri
           <Property Name="Categoria" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="SubCategoria" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="Descricao" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="Saldo" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="IDAssociado" Type="Int32" />
           <Property Name="Reembolsavel" Type="Boolean" Nullable="false" />
@@ -495,7 +489,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Reembolsaveis' does not have a pri
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BankID" Type="Int32" Nullable="false" />
+          <Property Name="BankID" Type="Int32" Nullable="false" DefaultValue="1" />
           <Property Name="Apelido" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="Agencia" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="ContaCorrente" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
@@ -574,7 +568,6 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Reembolsaveis' does not have a pri
                 <ScalarProperty Name="RuleId" ColumnName="RuleId" />
                 <ScalarProperty Name="Reembolsavel" ColumnName="Reembolsavel" />
                 <ScalarProperty Name="IDAssociado" ColumnName="IDAssociado" />
-                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
                 <ScalarProperty Name="Saldo" ColumnName="Saldo" />
                 <ScalarProperty Name="Descricao" ColumnName="Descricao" />
                 <ScalarProperty Name="SubCategoria" ColumnName="SubCategoria" />
@@ -592,7 +585,6 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Reembolsaveis' does not have a pri
               <ModificationFunctionMapping>
                 <UpdateFunction FunctionName="MoneyBinModel.Store.sp_BalanceItemUpdate">
                   <ScalarProperty Name="IDAssociado" ParameterName="IDAssociado" Version="Current" />
-                  <ScalarProperty Name="Tipo" ParameterName="Tipo" Version="Current" />
                   <ScalarProperty Name="SubCategoria" ParameterName="SubCategoria" Version="Current" />
                   <ScalarProperty Name="Categoria" ParameterName="Categoria" Version="Current" />
                   <ScalarProperty Name="Grupo" ParameterName="Grupo" Version="Current" />
@@ -604,7 +596,6 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Reembolsaveis' does not have a pri
                   <ScalarProperty Name="ID" ParameterName="ID" />
                 </DeleteFunction>
                 <InsertFunction FunctionName="MoneyBinModel.Store.sp_BalanceItemInsert">
-                  <ScalarProperty Name="Tipo" ParameterName="Tipo" />
                   <ScalarProperty Name="Descricao" ParameterName="Descricao" />
                   <ScalarProperty Name="SubCategoria" ParameterName="SubCategoria" />
                   <ScalarProperty Name="Categoria" ParameterName="Categoria" />

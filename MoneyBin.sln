@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyBinAlarm", "MoneyBinAl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalanceComInvestimentos", "BalanceComInvestimentos\BalanceComInvestimentos.csproj", "{D93E1495-90D9-4C12-A94B-E184E08021D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Categorizer", "Categorizer\Categorizer.csproj", "{74C70C9F-BC61-4C2A-9FBC-5CD3D0C10481}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{CB5E47AC-09E2-4706-B3C6-D2E2F048A605}"
 EndProject
 Global
@@ -37,10 +35,6 @@ Global
 		{D93E1495-90D9-4C12-A94B-E184E08021D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D93E1495-90D9-4C12-A94B-E184E08021D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D93E1495-90D9-4C12-A94B-E184E08021D0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{74C70C9F-BC61-4C2A-9FBC-5CD3D0C10481}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74C70C9F-BC61-4C2A-9FBC-5CD3D0C10481}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74C70C9F-BC61-4C2A-9FBC-5CD3D0C10481}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74C70C9F-BC61-4C2A-9FBC-5CD3D0C10481}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CB5E47AC-09E2-4706-B3C6-D2E2F048A605}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CB5E47AC-09E2-4706-B3C6-D2E2F048A605}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB5E47AC-09E2-4706-B3C6-D2E2F048A605}.Release|Any CPU.ActiveCfg = Release|Any CPU

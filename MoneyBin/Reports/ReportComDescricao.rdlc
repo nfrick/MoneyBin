@@ -58,7 +58,6 @@
                       </Style>
                     </Textbox>
                     <ColSpan>3</ColSpan>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -650,7 +649,6 @@
           </Paragraphs>
           <rd:DefaultName>Textbox8</rd:DefaultName>
           <Top>0.67542cm</Top>
-          <Left>0cm</Left>
           <Height>0.73257cm</Height>
           <Width>14.2075cm</Width>
           <ZIndex>5</ZIndex>
@@ -779,10 +777,6 @@
         </Field>
         <Field Name="SubCategoria">
           <DataField>SubCategoria</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Tipo">
-          <DataField>Tipo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ToCSV">

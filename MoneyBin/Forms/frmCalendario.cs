@@ -208,37 +208,35 @@ namespace MoneyBin.Forms {
 
         private bool ProcurarAgendamento(CalendarItem item) {
             var folder = Properties.Settings.Default.PaymentsFolder;
-            const string header = "Conformar Agendamento";
+            const string header = "Confirmar Agendamento";
             var mes = (MesPicklist)toolStripComboBoxMes.SelectedItem;
             var itemFolder = $@"{folder}{item.Payment}";
             if (Directory.Exists(itemFolder)) {
                 var files = Directory.GetFiles(itemFolder, $@"{mes.YearMonth}*.pdf");
                 if (files.Length == 0) {
                     //if (item.Date <= DateTime.Today) {
-                    item.Scheduled = MessageBox.Show(item.Description +
-                                    ":\n\n\tComprovante de agendamento não encontrado.\n\nConfirma?",
-                        header, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
+                    var resp = MessageBox.Show(item.Description +
+                                ":\n\n\tComprovante de agendamento não encontrado.\n\nConfirma?",
+                        header, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                    item.Scheduled = resp == DialogResult.Yes;
+                    return resp != DialogResult.Cancel;
                     //}
                 }
                 else {
                     var frm = new frmComprovantePDF(item.Description, folder, files);
-                    switch (frm.ShowDialog()) {
-                        case DialogResult.No: return true;
-                        case DialogResult.Cancel: return false;
-                        default:
-                            item.Scheduled = true;
-                            item.ScheduleDate = frm.Comprovante.Agendamento;
-                            item.PaymentDate = frm.Comprovante.Pagamento;
-                            item.Amount = frm.Comprovante.Valor;
-                            break;
+                    var resp = frm.ShowDialog();
+                    if (resp == DialogResult.Yes) {
+                        item.Scheduled = true;
+                        item.ScheduleDate = frm.Comprovante.Agendamento;
+                        item.PaymentDate = frm.Comprovante.Pagamento;
+                        item.Amount = frm.Comprovante.Valor;
                     }
+                    return resp != DialogResult.Cancel;
                 }
             }
-            else {
-                if (MessageBox.Show($"Folder para '{item.Payment}' não existe. Cria?", header, MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question) == DialogResult.Yes) {
-                    Directory.CreateDirectory(itemFolder);
-                }
+            if (MessageBox.Show($"Folder para '{item.Payment}' não existe. Cria?", header, MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) == DialogResult.Yes) {
+                Directory.CreateDirectory(itemFolder);
             }
             return true;
         }

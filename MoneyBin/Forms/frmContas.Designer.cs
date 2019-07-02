@@ -25,6 +25,11 @@
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmContas));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvContas = new System.Windows.Forms.DataGridView();
             this.entityDataSource1 = new EFWinforms.EntityDataSource(this.components);
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
@@ -177,12 +182,16 @@
             // Operacao
             // 
             this.Operacao.DataPropertyName = "Operacao";
+            dataGridViewCellStyle1.NullValue = "-";
+            this.Operacao.DefaultCellStyle = dataGridViewCellStyle1;
             this.Operacao.HeaderText = "Operação";
             this.Operacao.Name = "Operacao";
             // 
             // Gerente
             // 
             this.Gerente.DataPropertyName = "Gerente";
+            dataGridViewCellStyle2.NullValue = "-";
+            this.Gerente.DefaultCellStyle = dataGridViewCellStyle2;
             this.Gerente.HeaderText = "Gerente";
             this.Gerente.Name = "Gerente";
             this.Gerente.Width = 200;
@@ -190,18 +199,24 @@
             // Telefone
             // 
             this.Telefone.DataPropertyName = "Telefone";
+            dataGridViewCellStyle3.NullValue = "-";
+            this.Telefone.DefaultCellStyle = dataGridViewCellStyle3;
             this.Telefone.HeaderText = "Telefone";
             this.Telefone.Name = "Telefone";
             // 
             // Celular
             // 
             this.Celular.DataPropertyName = "Celular";
+            dataGridViewCellStyle4.NullValue = "-";
+            this.Celular.DefaultCellStyle = dataGridViewCellStyle4;
             this.Celular.HeaderText = "Celular";
             this.Celular.Name = "Celular";
             // 
             // EMail
             // 
             this.EMail.DataPropertyName = "EMail";
+            dataGridViewCellStyle5.NullValue = "-";
+            this.EMail.DefaultCellStyle = dataGridViewCellStyle5;
             this.EMail.HeaderText = "E-Mail";
             this.EMail.Name = "EMail";
             this.EMail.Width = 300;
