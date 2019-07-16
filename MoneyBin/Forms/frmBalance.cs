@@ -125,7 +125,7 @@ namespace MoneyBin.Forms {
                         continue;
                     }
 
-                    dgvBalance.CurrentCell = dgvBalance.Rows[row].Cells[3];
+                    dgvBalance.CurrentCell = Row.Cells[col];
                     break;
                 }
                 if (found) {
