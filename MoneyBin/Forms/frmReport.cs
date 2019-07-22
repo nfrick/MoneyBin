@@ -19,7 +19,7 @@ namespace MoneyBin {
             toolStrip1.Items.Insert(7, CreateDatePicker(_inicio));
             toolStrip1.Items.Add(CreateDatePicker(_termino));
 
-            toolStripComboBoxConta.ComboBox.DataSource = _ctx.Accounts.OrderBy(b => b.Apelido).ToList();
+            toolStripComboBoxConta.ComboBox.DataSource = _ctx.Accounts.Where(a=>a.Balance.Any()).OrderBy(b => b.Apelido).ToList();
             toolStripComboBoxConta.ComboBox.DisplayMember = "Apelido";
             toolStripComboBoxConta.ComboBox.ValueMember = "Apelido";
         }

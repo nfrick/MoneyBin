@@ -30,7 +30,7 @@ namespace MoneyBin {
         private void frmExport_Load(object sender, EventArgs e) {
             using (var ctx = new MoneyBinEntities()) {
                 Items = ctx.Balance.ToList();
-                Accounts = ctx.Accounts.OrderBy(a => a.Apelido).ToList();
+                Accounts = ctx.Accounts.Where(a => a.Balance.Any()).OrderBy(a => a.Apelido).ToList();
                 dtpAcertoInicio.Value = ctx.UltimoAcerto().FirstOrDefault() ?? DateTime.Now;
 
                 foreach (var a in Accounts) {

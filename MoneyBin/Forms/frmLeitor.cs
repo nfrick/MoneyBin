@@ -98,7 +98,7 @@ namespace MoneyBin.Forms {
         private void LerArquivo() {
             dgvBalance.DataSource = null;
             _BalanceItems = _BalanceItems.Concat(BalanceFileReader.Read())
-                .Distinct().OrderByDescending(b => b.Data).ToList();
+                .Distinct().OrderByDescending(b => b.Data).ThenByDescending(b => b.Valor).ToList();
             dgvBalance.DataSource = _BalanceItems;
             AtualizarBotoes();
         }
