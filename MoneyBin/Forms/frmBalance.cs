@@ -38,10 +38,10 @@ namespace MoneyBin.Forms {
 
             this.Width = 150 + dgvBalance.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
 
-            toolStripComboBoxBanco.ComboBox.Items.AddRange(_ctx.Accounts.Select(a => a.Apelido).ToArray());
+            toolStripComboBoxBanco.ComboBox.Items.AddRange(_ctx.Accounts.Select(a => a.Apelido).OrderBy(a=>a).ToArray());
             dgvBalance.DataSource = BalanceBindingSource;
 
-            this.toolStripComboBoxBanco.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxBanco_SelectedIndexChanged);
+            this.toolStripComboBoxBanco.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxConta_SelectedIndexChanged);
             toolStripComboBoxBanco.ComboBox.SelectedIndex = 0;
         }
 
@@ -63,7 +63,7 @@ namespace MoneyBin.Forms {
         #endregion FORM
 
         #region TOOLBAR
-        private void toolStripComboBoxBanco_SelectedIndexChanged(object sender, EventArgs e) {
+        private void toolStripComboBoxConta_SelectedIndexChanged(object sender, EventArgs e) {
             var conta = (string)toolStripComboBoxBanco.SelectedItem;
             var dados = _ctx.Balance.Where(b => b.Account.Apelido == conta);
             BalanceBindingSource.DataSource = dados.OrderByDescending(b => b.Data).ThenByDescending(b => b.ID).ToList();
@@ -78,6 +78,7 @@ namespace MoneyBin.Forms {
             }
 
             toolStripComboBoxGrupo.ComboBox.SelectedIndex = 0;
+            SelectFirstRow();
         }
 
         private void toolStripComboBoxGrupo_SelectedIndexChanged(object sender, EventArgs e) {
@@ -102,9 +103,19 @@ namespace MoneyBin.Forms {
         }
 
         private void toolStripTextBoxProcurar_KeyDown(object sender, KeyEventArgs e) {
-            if (e.KeyCode == Keys.Enter && !string.IsNullOrEmpty(toolStripTextBoxProcurar.Text)) {
-                Procurar();
-            }
+            if (e.KeyCode != Keys.Enter || string.IsNullOrEmpty(toolStripTextBoxProcurar.Text)) return;
+            SelectFirstRow();
+            Procurar();
+        }
+
+        private void toolStripTextBoxProcurar_Validated(object sender, EventArgs e) {
+            SelectFirstRow();
+        }
+
+        private void SelectFirstRow() {
+            dgvBalance.ClearSelection();
+            dgvBalance.CurrentCell = dgvBalance.Rows[0].Cells[0];
+            dgvBalance.Rows[0].Selected = true;
         }
 
         private void toolStripButtonProcurar_Click(object sender, EventArgs e) {

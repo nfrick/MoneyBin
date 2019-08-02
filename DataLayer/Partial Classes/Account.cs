@@ -6,5 +6,7 @@ namespace DataLayer {
         public DateTime DataMin => Balance.Min(b => b.Data);
         public DateTime DataMax => Balance.Max(b => b.Data);
         public bool HasData => Balance.Any();
+
+        public string ApelidoFull => $"{Bank.Sigla} - {Apelido}";
     }
 }

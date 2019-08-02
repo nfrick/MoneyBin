@@ -11,14 +11,14 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BankID" Type="int" Nullable="false" />
-          <Property Name="Apelido" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="Agencia" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="ContaCorrente" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="Operacao" Type="nchar" MaxLength="3" />
-          <Property Name="Gerente" Type="nvarchar" MaxLength="40" />
-          <Property Name="Telefone" Type="nvarchar" MaxLength="15" />
-          <Property Name="Celular" Type="nvarchar" MaxLength="15" />
-          <Property Name="EMail" Type="nvarchar" MaxLength="60" />
+          <Property Name="Apelido" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Agencia" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ContaCorrente" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Operacao" Type="varchar" MaxLength="50" />
+          <Property Name="Gerente" Type="varchar" MaxLength="50" />
+          <Property Name="Telefone" Type="varchar" MaxLength="50" />
+          <Property Name="Celular" Type="varchar" MaxLength="50" />
+          <Property Name="EMail" Type="varchar" MaxLength="60" />
         </EntityType>
         <EntityType Name="tblBanks">
           <Key>
@@ -26,6 +26,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Banco" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Sigla" Type="varchar" MaxLength="3" />
           <Property Name="Extensao" Type="varchar" MaxLength="4" Nullable="false" />
         </EntityType>
         <EntityType Name="tblCalendar">
@@ -399,6 +400,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Reembolsaveis' does not have a pri
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="Banco" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Sigla" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
           <Property Name="Extensao" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Rules" Relationship="MoneyBinModel.FK_tblRules_tblBanks" FromRole="Bank" ToRole="tblRule" />
           <NavigationProperty Name="Accounts" Relationship="MoneyBinModel.FK_tblAccounts_tblBanks" FromRole="Bank" ToRole="tblAccount" />
@@ -490,14 +492,14 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Reembolsaveis' does not have a pri
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BankID" Type="Int32" Nullable="false" DefaultValue="1" />
-          <Property Name="Apelido" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Agencia" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="ContaCorrente" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Operacao" Type="String" MaxLength="3" FixedLength="true" Unicode="true" />
-          <Property Name="Gerente" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
-          <Property Name="Telefone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="Celular" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="EMail" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Apelido" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Agencia" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ContaCorrente" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Operacao" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Gerente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telefone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Celular" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EMail" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Bank" Relationship="MoneyBinModel.FK_tblAccounts_tblBanks" FromRole="tblAccount" ToRole="Bank" />
           <NavigationProperty Name="Balance" Relationship="MoneyBinModel.tblAccountBalanceItem" FromRole="tblAccount" ToRole="BalanceItem" />
         </EntityType>
@@ -614,6 +616,7 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Reembolsaveis' does not have a pri
           <EntitySetMapping Name="Banks">
             <EntityTypeMapping TypeName="MoneyBinModel.Bank">
               <MappingFragment StoreEntitySet="tblBanks">
+                <ScalarProperty Name="Sigla" ColumnName="Sigla" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Extensao" ColumnName="Extensao" />
                 <ScalarProperty Name="Banco" ColumnName="Banco" />

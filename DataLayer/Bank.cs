@@ -23,6 +23,7 @@ namespace DataLayer
     
         public int ID { get; set; }
         public string Banco { get; set; }
+        public string Sigla { get; set; }
         public string Extensao { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

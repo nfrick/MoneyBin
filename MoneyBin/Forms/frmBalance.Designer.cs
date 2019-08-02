@@ -221,21 +221,21 @@
             this.toolStripSeparator1});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(620, 26);
+            this.toolStrip1.Size = new System.Drawing.Size(664, 26);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripLabel1
             // 
             this.toolStripLabel1.ForeColor = System.Drawing.Color.Black;
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(43, 23);
-            this.toolStripLabel1.Text = "Banco:";
+            this.toolStripLabel1.Size = new System.Drawing.Size(42, 23);
+            this.toolStripLabel1.Text = "Conta:";
             // 
             // toolStripComboBoxBanco
             // 
             this.toolStripComboBoxBanco.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.toolStripComboBoxBanco.Name = "toolStripComboBoxBanco";
-            this.toolStripComboBoxBanco.Size = new System.Drawing.Size(75, 26);
+            this.toolStripComboBoxBanco.Size = new System.Drawing.Size(120, 26);
             // 
             // toolStripLabel2
             // 
@@ -293,6 +293,7 @@
             this.toolStripTextBoxProcurar.Name = "toolStripTextBoxProcurar";
             this.toolStripTextBoxProcurar.Size = new System.Drawing.Size(100, 26);
             this.toolStripTextBoxProcurar.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBoxProcurar_KeyDown);
+            this.toolStripTextBoxProcurar.Validated += new System.EventHandler(this.toolStripTextBoxProcurar_Validated);
             // 
             // toolStripLabelProcurar
             // 
