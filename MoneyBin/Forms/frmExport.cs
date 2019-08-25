@@ -230,7 +230,12 @@ namespace MoneyBin {
             }
 
             var pck = new ExcelPackage(new FileInfo(_saveAs));
-            var ws = pck.Workbook.Worksheets.Add("Balance");
+            var ws = pck.Workbook.Worksheets.FirstOrDefault(s => s.Name == "Balance");
+            if (ws != null) {
+                pck.Workbook.Worksheets.Delete("Balance");
+            }
+
+            ws = pck.Workbook.Worksheets.Add("Balance");
             ws.View.ShowGridLines = false;
 
             var col = 1;

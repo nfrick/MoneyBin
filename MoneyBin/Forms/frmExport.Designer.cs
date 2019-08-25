@@ -34,6 +34,7 @@
             this.radioButtonCSV = new System.Windows.Forms.RadioButton();
             this.buttonSair = new System.Windows.Forms.Button();
             this.groupBoxCriteria = new System.Windows.Forms.GroupBox();
+            this.checkBoxAfetaSaldo = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.checkedListBoxGrupos = new System.Windows.Forms.CheckedListBox();
             this.labelCount = new System.Windows.Forms.Label();
@@ -42,7 +43,6 @@
             this.checkedListBoxContas = new System.Windows.Forms.CheckedListBox();
             this.dtpTermino = new System.Windows.Forms.DateTimePicker();
             this.dtpInicio = new System.Windows.Forms.DateTimePicker();
-            this.checkBoxAfetaSaldo = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBoxCriteria.SuspendLayout();
             this.SuspendLayout();
@@ -195,6 +195,18 @@
             this.groupBoxCriteria.TabStop = false;
             this.groupBoxCriteria.Text = "Critério";
             // 
+            // checkBoxAfetaSaldo
+            // 
+            this.checkBoxAfetaSaldo.AutoSize = true;
+            this.checkBoxAfetaSaldo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxAfetaSaldo.ForeColor = System.Drawing.Color.Black;
+            this.checkBoxAfetaSaldo.Location = new System.Drawing.Point(28, 264);
+            this.checkBoxAfetaSaldo.Name = "checkBoxAfetaSaldo";
+            this.checkBoxAfetaSaldo.Size = new System.Drawing.Size(94, 21);
+            this.checkBoxAfetaSaldo.TabIndex = 8;
+            this.checkBoxAfetaSaldo.Text = "Afeta Saldo";
+            this.checkBoxAfetaSaldo.UseVisualStyleBackColor = true;
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -273,17 +285,6 @@
             this.dtpInicio.Size = new System.Drawing.Size(118, 26);
             this.dtpInicio.TabIndex = 0;
             this.dtpInicio.ValueChanged += new System.EventHandler(this.dtpickers_ValueChanged);
-            // 
-            // checkBoxAfetaSaldo
-            // 
-            this.checkBoxAfetaSaldo.AutoSize = true;
-            this.checkBoxAfetaSaldo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxAfetaSaldo.Location = new System.Drawing.Point(28, 264);
-            this.checkBoxAfetaSaldo.Name = "checkBoxAfetaSaldo";
-            this.checkBoxAfetaSaldo.Size = new System.Drawing.Size(94, 21);
-            this.checkBoxAfetaSaldo.TabIndex = 8;
-            this.checkBoxAfetaSaldo.Text = "Afeta Saldo";
-            this.checkBoxAfetaSaldo.UseVisualStyleBackColor = true;
             // 
             // frmExport
             // 
