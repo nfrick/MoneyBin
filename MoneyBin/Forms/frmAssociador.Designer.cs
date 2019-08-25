@@ -1,4 +1,6 @@
-﻿namespace MoneyBin.Forms {
+﻿using SuperGrid;
+
+namespace MoneyBin.Forms {
     partial class frmAssociador {
         /// <summary>
         /// Required designer variable.
@@ -24,9 +26,9 @@
         /// </summary>
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            this.dgvPagamentos = new System.Windows.Forms.DataGridView();
+            this.dgvPagamentos = new SuperDGV();
             this.bindingSourcePagamentos = new System.Windows.Forms.BindingSource(this.components);
-            this.dgvReembolsos = new System.Windows.Forms.DataGridView();
+            this.dgvReembolsos = new SuperDGV();
             this.bindingSourceReembolsos = new System.Windows.Forms.BindingSource(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.labelPagamentos = new System.Windows.Forms.Label();
@@ -447,8 +449,8 @@
         #endregion
 
         private System.Windows.Forms.BindingSource bindingSourcePagamentos;
-        private System.Windows.Forms.DataGridView dgvPagamentos;
-        private System.Windows.Forms.DataGridView dgvReembolsos;
+        private SuperDGV dgvPagamentos;
+        private SuperDGV dgvReembolsos;
         private System.Windows.Forms.BindingSource bindingSourceReembolsos;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label labelPagamentos;

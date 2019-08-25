@@ -1,6 +1,7 @@
 ﻿using CustomControls;
 using DataLayer;
 using GridAndChartStyleLibrary;
+using SuperGrid;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -64,7 +65,7 @@ namespace MoneyBin {
             toolStripButtonSave.Visible = false;
         }
 
-        private void SetupChart(Chart chrt, string title, string subTitle) {
+        private static void SetupChart(Chart chrt, string title, string subTitle) {
             var font = new Font("Segoe UI", 8);
             var fontTitle = new Font("Segoe UI", 12);
             chrt.Palette = ChartColorPalette.Bright;
@@ -76,11 +77,12 @@ namespace MoneyBin {
             chrt.ChartAreas[0].AxisY.LabelStyle.Font = font;
         }
 
-        private void SetupDGV(DataGridView dgv) {
-            GridStyles.FormatGrid(dgv);
+        private static void SetupDGV(SuperDGV dgv) {
+            dgv.SetFont(12);
             dgv.EnableHeadersVisualStyles = false;
             dgv.RowHeadersVisible = false;
 
+            var padding = new Padding(0, 0, 5, 0);
             var remainderWidth = dgv.Width;
             foreach (DataGridViewColumn col in dgv.Columns) {
                 col.HeaderCell.Value = col.HeaderText.Trim();
@@ -88,31 +90,31 @@ namespace MoneyBin {
                 col.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                 switch (col.HeaderText) {
                     case "Ano":
-                        GridStyles.FormatColumn(col, GridStyles.StyleInteger, 50);
+                        SuperDGV.FormatColumn(col, dgv.StyleInteger, 50);
                         break;
                     case "Mes":
-                        GridStyles.FormatColumn(col, GridStyles.StyleInteger, 50);
-                        col.DefaultCellStyle.Padding = new Padding(0, 0, 5, 0);
+                        SuperDGV.FormatColumn(col, dgv.StyleInteger, 50);
+                        col.DefaultCellStyle.Padding = padding;
                         break;
                     case "Grupo":
-                        GridStyles.FormatColumn(col, GridStyles.StyleBase, 70);
+                        SuperDGV.FormatColumn(col, dgv.StyleBase, 90);
                         col.Visible = true;
                         break;
                     case "Categoria":
-                        GridStyles.FormatColumn(col, GridStyles.StyleBase, 100);
+                        SuperDGV.FormatColumn(col, dgv.StyleBase, 100);
                         col.Visible = true;
                         break;
                     case "Positivo":
-                        GridStyles.FormatColumn(col, GridStyles.StyleCurrency, remainderWidth / 3);
-                        col.DefaultCellStyle.Padding = new Padding(0, 0, 5, 0);
+                        SuperDGV.FormatColumn(col, dgv.StyleCurrency, remainderWidth / 3);
+                        col.DefaultCellStyle.Padding = padding;
                         break;
                     case "Negativo":
-                        GridStyles.FormatColumn(col, GridStyles.StyleCurrency, remainderWidth / 2);
-                        col.DefaultCellStyle.Padding = new Padding(0, 0, 5, 0);
+                        SuperDGV.FormatColumn(col, dgv.StyleCurrency, remainderWidth / 2);
+                        col.DefaultCellStyle.Padding = padding;
                         break;
                     case "Total":
-                        GridStyles.FormatColumn(col, GridStyles.StyleCurrency, remainderWidth);
-                        col.DefaultCellStyle.Padding = new Padding(0, 0, 5, 0);
+                        SuperDGV.FormatColumn(col, dgv.StyleCurrency, remainderWidth);
+                        col.DefaultCellStyle.Padding = padding;
                         col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                         break;
                     default:
@@ -180,7 +182,9 @@ namespace MoneyBin {
 
             // ANO-MES-GRUPO-CATEGORIA (1-1)
             if (_isSingleCategory || _isSingleMonth)  // Redundante com Ano-Grupo-Categoria ou Ano-Mes-Grupo
+{
                 dgvAnoMesGrupoCategoria.Visible = false;
+            }
             else {
                 dgvAnoMesGrupoCategoria.Visible = true;
                 _sourceAnoMesGrupoCategoria = new BindingSource {
@@ -213,23 +217,26 @@ namespace MoneyBin {
 
             if (_MustInitializeDGV) {
                 _MustInitializeDGV = false;
-                foreach (Control ctrl in tableLayoutPanelTables.Controls)
-                    if (ctrl.GetType().Name.Equals("DataGridView"))
-                        SetupDGV((DataGridView)ctrl);
+                foreach (Control ctrl in tableLayoutPanelTables.Controls) {
+                    if (ctrl.GetType().Name.Equals("SuperDGV")) {
+                        SetupDGV((SuperDGV)ctrl);
+                    }
+                }
             }
 
             // SET CHARTS
-            foreach (Control ctrl in tableLayoutPanelCharts.Controls)
+            foreach (Control ctrl in tableLayoutPanelCharts.Controls) {
                 if (ctrl.GetType().Name.Equals("Chart")) {
                     ctrl.Visible = true;
                     ((Chart)ctrl).Series.Clear();
                     ((Chart)ctrl).Legends.Clear();
                     var legenda = new Legend { LegendItemOrder = LegendItemOrder.SameAsSeriesOrder };
                     ((Chart)ctrl).Legends.Add(legenda);
-                    ((Chart) ctrl).ChartAreas[0].AxisY.MajorGrid.LineColor =
+                    ((Chart)ctrl).ChartAreas[0].AxisY.MajorGrid.LineColor =
                         ((Chart)ctrl).ChartAreas[0].AxisX.MajorGrid.LineColor = Color.DarkGray;
-                    ((Chart) ctrl).ChartAreas[0].AxisY.LabelStyle.Format = "N0";
+                    ((Chart)ctrl).ChartAreas[0].AxisY.LabelStyle.Format = "N0";
                 }
+            }
 
             #region ANO-GRUPO
             if (_isSingleGroup) {
@@ -323,16 +330,20 @@ namespace MoneyBin {
             }
             #endregion ANO-MES-GRUPO
 
-            foreach (Control ctrl in tableLayoutPanelCharts.Controls)
+            foreach (Control ctrl in tableLayoutPanelCharts.Controls) {
                 if (ctrl.GetType().Name.Equals("Chart")) {
                     var chart = (Chart)ctrl;
                     chart.Visible = chart.Series.Any(s => s.Points.Any(p => p.YValues.Any(y => y > 0.0)));
                 }
+            }
         }
 
         private Series GetSeries(Chart chart, string serieName, SeriesChartType type) {
             var serie = chart.Series.FindByName(serieName);
-            if (serie != null) return serie;
+            if (serie != null) {
+                return serie;
+            }
+
             serie = chart.Series.Add(serieName);
             serie.ChartType = type;
             return serie;
@@ -347,10 +358,14 @@ namespace MoneyBin {
         private void DrawPieChart(IEnumerable<PieItem> items, ChartPeriod period) {
             GetCharts(period, out Chart chartPos, out Chart chartNeg);
             foreach (var item in items.OrderByDescending(c => c.Legenda)) {
-                if (item.Positivo != 0)
+                if (item.Positivo != 0) {
                     PieChartAdd(chartPos, item.Legenda, item.Positivo);
+                }
 
-                if (item.Negativo == 0) continue;
+                if (item.Negativo == 0) {
+                    continue;
+                }
+
                 PieChartAdd(chartNeg, item.Legenda, item.Negativo);
             }
         }

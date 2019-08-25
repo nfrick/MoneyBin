@@ -91,11 +91,16 @@ namespace MoneyBin {
         private void SelecionaParaExportar() {
             var contas = SelectedAccounts.Select(a => a.ID).ToArray();
             SelectedItems = Items
-                .Where(b => contas.Contains(b.AccountID) &&
+                .Where(b => IncluiAfetaSaldo(b) &&
+                contas.Contains(b.AccountID) &&
                 b.Data >= dtpInicio.Value && b.Data <= dtpTermino.Value &&
                 _gruposChecked.Contains(b.Grupo)).ToList();
             labelCount.Text = $"Registros a serem exportados: {SelectedItems.Count}";
             buttonExport.Enabled = SelectedItems.Any();
+        }
+
+        private bool IncluiAfetaSaldo(BalanceItem b) {
+            return !checkBoxAfetaSaldo.Checked || b.AfetaSaldo;
         }
 
         private void radioButtons_CheckedChanged(object sender, EventArgs e) {

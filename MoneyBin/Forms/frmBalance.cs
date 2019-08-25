@@ -15,17 +15,10 @@ namespace MoneyBin.Forms {
         #region FORM
         public frmBalance() {
             InitializeComponent();
+            _ctx = new MoneyBinEntities();
         }
 
         private void frmBalance_Load(object sender, EventArgs e) {
-            _ctx = new MoneyBinEntities();
-            if (!_ctx.Balance.Any()) {
-                MessageBox.Show(@"Não há registros a serem mostrados.", this.Text,
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.BeginInvoke(new MethodInvoker(this.Close));
-                return;
-            }
-
             GridStyles.FormatGrid(dgvBalance);
             GridStyles.FormatColumns(dgvBalance, GridStyles.StyleDate, 90, 1);
             GridStyles.FormatColumns(dgvBalance, 5, 6, GridStyles.StyleCurrency, 80);
@@ -38,11 +31,13 @@ namespace MoneyBin.Forms {
 
             this.Width = 150 + dgvBalance.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
 
-            toolStripComboBoxBanco.ComboBox.Items.AddRange(_ctx.Accounts.Select(a => a.Apelido).OrderBy(a=>a).ToArray());
+            toolStripComboBoxConta.ComboBox.Items
+                .AddRange(_ctx.Accounts.Where(a=>a.Balance.Any())
+                .Select(a => a.Apelido).OrderBy(a=>a).ToArray());
             dgvBalance.DataSource = BalanceBindingSource;
 
-            this.toolStripComboBoxBanco.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxConta_SelectedIndexChanged);
-            toolStripComboBoxBanco.ComboBox.SelectedIndex = 0;
+            this.toolStripComboBoxConta.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxConta_SelectedIndexChanged);
+            toolStripComboBoxConta.ComboBox.SelectedIndex = 0;
         }
 
         private void frmBalance_FormClosing(object sender, FormClosingEventArgs e) {
@@ -64,7 +59,7 @@ namespace MoneyBin.Forms {
 
         #region TOOLBAR
         private void toolStripComboBoxConta_SelectedIndexChanged(object sender, EventArgs e) {
-            var conta = (string)toolStripComboBoxBanco.SelectedItem;
+            var conta = (string)toolStripComboBoxConta.SelectedItem;
             var dados = _ctx.Balance.Where(b => b.Account.Apelido == conta);
             BalanceBindingSource.DataSource = dados.OrderByDescending(b => b.Data).ThenByDescending(b => b.ID).ToList();
 
@@ -82,7 +77,7 @@ namespace MoneyBin.Forms {
         }
 
         private void toolStripComboBoxGrupo_SelectedIndexChanged(object sender, EventArgs e) {
-            var conta = (string)toolStripComboBoxBanco.SelectedItem;
+            var conta = (string)toolStripComboBoxConta.SelectedItem;
             if (toolStripComboBoxGrupo.SelectedIndex == 0) {
                 BalanceBindingSource.DataSource = _ctx.Balance
                     .Where(b => b.Account.Apelido == conta)

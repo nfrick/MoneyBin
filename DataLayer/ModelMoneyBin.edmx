@@ -463,7 +463,6 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Reembolsaveis' does not have a pri
           <Property Name="Categoria" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Sinal" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Valor" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="Tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
         </EntityType>
         <ComplexType Name="NextPayment">
           <Property Type="DateTime" Name="Date" Nullable="true" />
@@ -646,7 +645,6 @@ warning 6002: The table/view 'MoneyBin.dbo.vw_Reembolsaveis' does not have a pri
           <EntitySetMapping Name="Analise">
             <EntityTypeMapping TypeName="MoneyBinModel.AnaliseItem">
               <MappingFragment StoreEntitySet="vw_Analise">
-                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
                 <ScalarProperty Name="Categoria" ColumnName="Categoria" />
                 <ScalarProperty Name="Grupo" ColumnName="Grupo" />
                 <ScalarProperty Name="Valor" ColumnName="Valor" />

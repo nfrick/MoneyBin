@@ -18,17 +18,17 @@ namespace MoneyBin.Forms {
         }
 
         private void frmAssociador_Load(object sender, EventArgs e) {
-            GridStyles.FormatGrid(dgvPagamentos);
+            dgvPagamentos.SetFont(10);
             dgvPagamentos.Columns[1].Width = 30;
-            GridStyles.FormatColumns(dgvPagamentos, GridStyles.StyleDate, 90, 2);
-            GridStyles.FormatColumns(dgvPagamentos, GridStyles.StyleCurrency, 80, 3);
+            dgvPagamentos.FormatColumn("Data", dgvPagamentos.StyleDateLong, 90);
+            dgvPagamentos.FormatColumn("Valor", dgvPagamentos.StyleCurrency, 80);
             dgvPagamentos.Columns[4].Width = 60;
             dgvPagamentos.Columns[5].Width = 80;
             dgvPagamentos.Columns[6].Width = 100;
             dgvPagamentos.Columns[7].Width = 200;
             dgvPagamentos.Columns[8].Width = 50;
             dgvPagamentos.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            CloneGrid(dgvPagamentos, dgvReembolsos);
+            dgvReembolsos.CopyFormatFrom(dgvPagamentos);
 
             // Setting selected index forces loading dgvPagamentos
             dateTimePickerInicio.Value = DateTime.Today.AddDays(-60 - DateTime.Today.Day);
@@ -86,20 +86,6 @@ namespace MoneyBin.Forms {
                 bindingSourceReembolsos.DataSource = _ctx.Balance
                     .Where(b => b.ID == pagamento.IDAssociado).ToList();
             }
-        }
-
-        public static void CloneGrid(DataGridView dgvMaster, DataGridView dgvClone) {
-            GridStyles.FormatGrid(dgvClone);
-            var colCount = Math.Min(dgvMaster.ColumnCount, dgvClone.ColumnCount);
-            for (var col = 0; col < colCount; col++) {
-                dgvClone.Columns[col].DefaultCellStyle = dgvMaster.Columns[col].DefaultCellStyle;
-                dgvClone.Columns[col].Width = dgvMaster.Columns[col].Width;
-                dgvClone.Columns[col].AutoSizeMode = dgvMaster.Columns[col].AutoSizeMode;
-                dgvClone.Columns[col].Visible = dgvMaster.Columns[col].Visible;
-            }
-            dgvClone.BackgroundColor = dgvMaster.BackgroundColor;
-            dgvClone.RowHeadersWidth = dgvMaster.RowHeadersWidth;
-            dgvClone.GridColor = dgvMaster.GridColor;
         }
 
         private void dgvReembolsos_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {

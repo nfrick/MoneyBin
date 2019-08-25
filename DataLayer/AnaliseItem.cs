@@ -20,6 +20,5 @@ namespace DataLayer
         public string Categoria { get; set; }
         public Nullable<decimal> Sinal { get; set; }
         public decimal Valor { get; set; }
-        public string Tipo { get; set; }
     }
 }

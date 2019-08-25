@@ -1,4 +1,6 @@
-﻿namespace MoneyBin {
+﻿using SuperGrid;
+
+namespace MoneyBin {
     partial class frmAnalysis {
         /// <summary>
         /// Required designer variable.
@@ -35,10 +37,10 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageTables = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelTables = new System.Windows.Forms.TableLayoutPanel();
-            this.dgvAnoGrupo = new System.Windows.Forms.DataGridView();
-            this.dgvAnoMesGrupo = new System.Windows.Forms.DataGridView();
-            this.dgvGrupoMesAno = new System.Windows.Forms.DataGridView();
-            this.dgvAnoMesGrupoCategoria = new System.Windows.Forms.DataGridView();
+            this.dgvAnoGrupo = new SuperDGV();
+            this.dgvAnoMesGrupo = new SuperDGV();
+            this.dgvGrupoMesAno = new SuperDGV();
+            this.dgvAnoMesGrupoCategoria = new SuperDGV();
             this.tabPageCharts = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelCharts = new System.Windows.Forms.TableLayoutPanel();
             this.chartAnoNegative = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -379,10 +381,10 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageTables;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelTables;
-        private System.Windows.Forms.DataGridView dgvAnoGrupo;
-        private System.Windows.Forms.DataGridView dgvAnoMesGrupo;
-        private System.Windows.Forms.DataGridView dgvGrupoMesAno;
-        private System.Windows.Forms.DataGridView dgvAnoMesGrupoCategoria;
+        private SuperDGV dgvAnoGrupo;
+        private SuperDGV dgvAnoMesGrupo;
+        private SuperDGV dgvGrupoMesAno;
+        private SuperDGV dgvAnoMesGrupoCategoria;
         private System.Windows.Forms.TabPage tabPageCharts;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelCharts;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartAnoMesPositive;

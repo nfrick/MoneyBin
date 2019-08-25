@@ -42,6 +42,7 @@
             this.checkedListBoxContas = new System.Windows.Forms.CheckedListBox();
             this.dtpTermino = new System.Windows.Forms.DateTimePicker();
             this.dtpInicio = new System.Windows.Forms.DateTimePicker();
+            this.checkBoxAfetaSaldo = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBoxCriteria.SuspendLayout();
             this.SuspendLayout();
@@ -178,6 +179,7 @@
             // 
             // groupBoxCriteria
             // 
+            this.groupBoxCriteria.Controls.Add(this.checkBoxAfetaSaldo);
             this.groupBoxCriteria.Controls.Add(this.label3);
             this.groupBoxCriteria.Controls.Add(this.checkedListBoxGrupos);
             this.groupBoxCriteria.Controls.Add(this.labelCount);
@@ -188,7 +190,7 @@
             this.groupBoxCriteria.Controls.Add(this.dtpInicio);
             this.groupBoxCriteria.Location = new System.Drawing.Point(19, 135);
             this.groupBoxCriteria.Name = "groupBoxCriteria";
-            this.groupBoxCriteria.Size = new System.Drawing.Size(409, 279);
+            this.groupBoxCriteria.Size = new System.Drawing.Size(409, 345);
             this.groupBoxCriteria.TabIndex = 16;
             this.groupBoxCriteria.TabStop = false;
             this.groupBoxCriteria.Text = "Critério";
@@ -208,17 +210,18 @@
             this.checkedListBoxGrupos.FormattingEnabled = true;
             this.checkedListBoxGrupos.Location = new System.Drawing.Point(212, 29);
             this.checkedListBoxGrupos.Name = "checkedListBoxGrupos";
-            this.checkedListBoxGrupos.Size = new System.Drawing.Size(171, 193);
+            this.checkedListBoxGrupos.Size = new System.Drawing.Size(171, 256);
             this.checkedListBoxGrupos.TabIndex = 6;
             this.checkedListBoxGrupos.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxGrupos_ItemCheck);
             // 
             // labelCount
             // 
+            this.labelCount.BackColor = System.Drawing.Color.Black;
             this.labelCount.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCount.ForeColor = System.Drawing.Color.Black;
-            this.labelCount.Location = new System.Drawing.Point(27, 242);
+            this.labelCount.ForeColor = System.Drawing.Color.Gainsboro;
+            this.labelCount.Location = new System.Drawing.Point(24, 304);
             this.labelCount.Name = "labelCount";
-            this.labelCount.Size = new System.Drawing.Size(356, 21);
+            this.labelCount.Size = new System.Drawing.Size(356, 29);
             this.labelCount.TabIndex = 5;
             this.labelCount.Text = "count";
             this.labelCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -227,7 +230,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(24, 202);
+            this.label2.Location = new System.Drawing.Point(24, 238);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(30, 19);
             this.label2.TabIndex = 4;
@@ -237,7 +240,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(23, 159);
+            this.label1.Location = new System.Drawing.Point(23, 206);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(26, 19);
             this.label1.TabIndex = 3;
@@ -249,14 +252,14 @@
             this.checkedListBoxContas.FormattingEnabled = true;
             this.checkedListBoxContas.Location = new System.Drawing.Point(60, 50);
             this.checkedListBoxContas.Name = "checkedListBoxContas";
-            this.checkedListBoxContas.Size = new System.Drawing.Size(118, 88);
+            this.checkedListBoxContas.Size = new System.Drawing.Size(118, 130);
             this.checkedListBoxContas.TabIndex = 2;
             this.checkedListBoxContas.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxBancos_ItemCheck);
             // 
             // dtpTermino
             // 
             this.dtpTermino.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpTermino.Location = new System.Drawing.Point(60, 196);
+            this.dtpTermino.Location = new System.Drawing.Point(60, 232);
             this.dtpTermino.Name = "dtpTermino";
             this.dtpTermino.Size = new System.Drawing.Size(118, 26);
             this.dtpTermino.TabIndex = 1;
@@ -265,18 +268,29 @@
             // dtpInicio
             // 
             this.dtpInicio.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpInicio.Location = new System.Drawing.Point(60, 153);
+            this.dtpInicio.Location = new System.Drawing.Point(60, 200);
             this.dtpInicio.Name = "dtpInicio";
             this.dtpInicio.Size = new System.Drawing.Size(118, 26);
             this.dtpInicio.TabIndex = 0;
             this.dtpInicio.ValueChanged += new System.EventHandler(this.dtpickers_ValueChanged);
+            // 
+            // checkBoxAfetaSaldo
+            // 
+            this.checkBoxAfetaSaldo.AutoSize = true;
+            this.checkBoxAfetaSaldo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxAfetaSaldo.Location = new System.Drawing.Point(28, 264);
+            this.checkBoxAfetaSaldo.Name = "checkBoxAfetaSaldo";
+            this.checkBoxAfetaSaldo.Size = new System.Drawing.Size(94, 21);
+            this.checkBoxAfetaSaldo.TabIndex = 8;
+            this.checkBoxAfetaSaldo.Text = "Afeta Saldo";
+            this.checkBoxAfetaSaldo.UseVisualStyleBackColor = true;
             // 
             // frmExport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(583, 441);
+            this.ClientSize = new System.Drawing.Size(583, 492);
             this.Controls.Add(this.groupBoxCriteria);
             this.Controls.Add(this.buttonSair);
             this.Controls.Add(this.groupBox1);
@@ -319,5 +333,6 @@
         private System.Windows.Forms.Label labelCount;
         private System.Windows.Forms.CheckedListBox checkedListBoxGrupos;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox checkBoxAfetaSaldo;
     }
 }
