@@ -206,6 +206,7 @@
             this.checkBoxAfetaSaldo.TabIndex = 8;
             this.checkBoxAfetaSaldo.Text = "Afeta Saldo";
             this.checkBoxAfetaSaldo.UseVisualStyleBackColor = true;
+            this.checkBoxAfetaSaldo.CheckedChanged += new System.EventHandler(this.checkBoxAfetaSaldo_CheckedChanged);
             // 
             // label3
             // 

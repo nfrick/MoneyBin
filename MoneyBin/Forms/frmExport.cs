@@ -100,7 +100,7 @@ namespace MoneyBin {
         }
 
         private bool IncluiAfetaSaldo(BalanceItem b) {
-            return !checkBoxAfetaSaldo.Checked || b.AfetaSaldo;
+            return b.AfetaSaldo || !checkBoxAfetaSaldo.Checked;
         }
 
         private void radioButtons_CheckedChanged(object sender, EventArgs e) {
@@ -349,6 +349,10 @@ namespace MoneyBin {
         private void frmExport_FormClosing(object sender, FormClosingEventArgs e) {
             Properties.Settings.Default.LastExport = dtpTermino.Value;
             Properties.Settings.Default.Save();
+        }
+
+        private void checkBoxAfetaSaldo_CheckedChanged(object sender, EventArgs e) {
+            SelecionaParaExportar();
         }
     }
 }
